@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Trawl Controller" width="6" length="1" id_counter="77" id_counter_node="11" sym0="12288" sym1="12288" sym2="10240" sym3="10240" sym4="10241" sym5="9218" sym6="9228" sym7="9232" sym8="8720" sym9="8735" sym10="4616" sym11="2320" sym12="1312" sym13="832" sym14="384" sym15="384">
+	<nodes>
+		<n id="6" component_id="39">
+			<node label="Length of Upper Winch" mode="1" type="1"/>
+		</n>
+		<n id="7" component_id="42">
+			<node label="Winch Retract">
+				<position x="3"/>
+			</node>
+		</n>
+		<n id="8" component_id="44">
+			<node label="Winch Extend">
+				<position x="4"/>
+			</node>
+		</n>
+		<n id="9" component_id="46">
+			<node label="Trawl Mode" mode="1">
+				<position x="2"/>
+			</node>
+		</n>
+		<n id="10" component_id="49">
+			<node label="Length of Lower Winch" mode="1" type="1" description="The input signal to be processed.">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="11" component_id="57">
+			<node label="Length of Lower Winch to Pulley" mode="1" type="1">
+				<position x="5"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="18">
+				<object id="47">
+					<pos x="-0.25" y="3.25"/>
+					<in1 component_id="49"/>
+					<in2 component_id="77"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="54">
+					<pos x="1" y="3.25"/>
+					<in1 component_id="47"/>
+					<in2 component_id="46"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="55">
+					<pos x="1" y="2"/>
+					<in1 component_id="73"/>
+					<in2 component_id="46"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="58">
+					<pos x="4.75" y="2"/>
+					<in1 component_id="55"/>
+					<in2 component_id="59"/>
+				</object>
+			</c>
+			<c type="18">
+				<object id="59">
+					<pos x="3.5" y="1.75"/>
+					<in1 component_id="57"/>
+					<in2 component_id="76"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="61">
+					<pos x="4.75" y="3.25"/>
+					<in1 component_id="54"/>
+					<in2 component_id="62"/>
+				</object>
+			</c>
+			<c type="18">
+				<object id="62">
+					<pos x="3.5" y="3"/>
+					<in1 component_id="57"/>
+					<in2 component_id="76"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="64" l="Length of Lower Winch">
+					<pos x="1" y="4.25"/>
+					<in1 component_id="77"/>
+				</object>
+			</c>
+			<c type="17">
+				<object id="73">
+					<pos x="-0.25" y="2"/>
+					<in1 component_id="49"/>
+					<in2 component_id="74"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="74" e="x+2">
+					<pos x="-1.5" y="2"/>
+					<in1 component_id="77"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="75" n="Height of Full Extend Net, m">
+					<pos x="-1.5" y="4"/>
+					<v text="75" value="75"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="76" n="Length Limiter for Lower Winch (To keep too much cable from hanging around), m">
+					<pos x="2.25" y="2.25"/>
+					<v text="24" value="24"/>
+				</object>
+			</c>
+			<c type="10">
+				<object id="77" e="sqrt((y^2)+(x^2))" p1="340282346638528859811704183484516925440" p2="340282346638528859811704183484516925440" p3="340282346638528859811704183484516925440">
+					<pos x="-0.25" y="4"/>
+					<in1 component_id="39"/>
+					<in2 component_id="75"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="2">
+				<object id="39">
+					<pos x="-1.5" y="4.5"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="42">
+					<pos x="6" y="2.25"/>
+					<in1 component_id="58"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="44">
+					<pos x="6" y="3.5"/>
+					<in1 component_id="61"/>
+				</object>
+			</c>
+			<c>
+				<object id="46">
+					<pos x="-0.25" y="2.75"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="49">
+					<pos x="-1.5" y="3.5"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="57">
+					<pos x="2.25" y="2.75"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="47">
+				<pos x="-0.25" y="3.25"/>
+				<in1 component_id="49"/>
+				<in2 component_id="77"/>
+			</c0>
+			<c1 id="54">
+				<pos x="1" y="3.25"/>
+				<in1 component_id="47"/>
+				<in2 component_id="46"/>
+			</c1>
+			<c2 id="55">
+				<pos x="1" y="2"/>
+				<in1 component_id="73"/>
+				<in2 component_id="46"/>
+			</c2>
+			<c3 id="58">
+				<pos x="4.75" y="2"/>
+				<in1 component_id="55"/>
+				<in2 component_id="59"/>
+			</c3>
+			<c4 id="59">
+				<pos x="3.5" y="1.75"/>
+				<in1 component_id="57"/>
+				<in2 component_id="76"/>
+			</c4>
+			<c5 id="61">
+				<pos x="4.75" y="3.25"/>
+				<in1 component_id="54"/>
+				<in2 component_id="62"/>
+			</c5>
+			<c6 id="62">
+				<pos x="3.5" y="3"/>
+				<in1 component_id="57"/>
+				<in2 component_id="76"/>
+			</c6>
+			<c7 id="64" l="Length of Lower Winch">
+				<pos x="1" y="4.25"/>
+				<in1 component_id="77"/>
+			</c7>
+			<c8 id="73">
+				<pos x="-0.25" y="2"/>
+				<in1 component_id="49"/>
+				<in2 component_id="74"/>
+			</c8>
+			<c9 id="74" e="x+2">
+				<pos x="-1.5" y="2"/>
+				<in1 component_id="77"/>
+			</c9>
+			<c10 id="75" n="Height of Full Extend Net, m">
+				<pos x="-1.5" y="4"/>
+				<v text="75" value="75"/>
+			</c10>
+			<c11 id="76" n="Length Limiter for Lower Winch (To keep too much cable from hanging around), m">
+				<pos x="2.25" y="2.25"/>
+				<v text="24" value="24"/>
+			</c11>
+			<c12 id="77" e="sqrt((y^2)+(x^2))" p1="340282346638528859811704183484516925440" p2="340282346638528859811704183484516925440" p3="340282346638528859811704183484516925440">
+				<pos x="-0.25" y="4"/>
+				<in1 component_id="39"/>
+				<in2 component_id="75"/>
+			</c12>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="39">
+				<pos x="-1.5" y="4.5"/>
+			</c0>
+			<c1 id="42">
+				<pos x="6" y="2.25"/>
+				<in1 component_id="58"/>
+			</c1>
+			<c2 id="44">
+				<pos x="6" y="3.5"/>
+				<in1 component_id="61"/>
+			</c2>
+			<c3 id="46">
+				<pos x="-0.25" y="2.75"/>
+			</c3>
+			<c4 id="49">
+				<pos x="-1.5" y="3.5"/>
+			</c4>
+			<c5 id="57">
+				<pos x="2.25" y="2.75"/>
+			</c5>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Electropneumatic Brake Module for PBv4" width="5" length="1" id_counter="49" id_counter_node="10" sym2="65535" sym4="28" sym5="20" sym6="28" sym7="8" sym8="8" sym9="1365" sym10="1353" sym11="1314" sym12="1180" sym13="577" sym14="318" sym15="128">
+	<nodes>
+		<n id="6" component_id="40">
+			<node label="To RX &amp; Controller" type="5">
+				<position x="3"/>
+			</node>
+		</n>
+		<n id="7" component_id="39">
+			<node label="Train Brake Position" mode="1" type="1">
+				<position x="2"/>
+			</node>
+		</n>
+		<n id="8" component_id="42">
+			<node label="Toggle Electropneumatic Brake" mode="1"/>
+		</n>
+		<n id="9" component_id="48">
+			<node label="From Seat" mode="1" type="5">
+				<position x="4"/>
+			</node>
+		</n>
+		<n id="10" component_id="49">
+			<node label="EBR" mode="1">
+				<position x="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="40">
+				<object id="41" count="1" offset="15">
+					<pos x="-1.25" y="2.5"/>
+					<inc component_id="45"/>
+					<in1 component_id="43"/>
+				</object>
+			</c>
+			<c type="22">
+				<object id="43">
+					<pos x="-3.75" y="2"/>
+					<in1 component_id="39"/>
+					<in2 component_id="44"/>
+					<in3 component_id="42"/>
+				</object>
+			</c>
+			<c type="15">
+				<object id="44">
+					<pos x="-6.25" y="2.25"/>
+					<n text="-1" value="-1"/>
+				</object>
+			</c>
+			<c type="41">
+				<object id="45" count="2" offset="15">
+					<pos x="-1.25" y="1.75"/>
+					<inc component_id="48"/>
+					<in1 component_id="42"/>
+					<in2 component_id="49"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="2">
+				<object id="39">
+					<pos x="-5" y="2.5"/>
+				</object>
+			</c>
+			<c type="5">
+				<object id="40">
+					<pos y="2.75"/>
+					<in1 component_id="41"/>
+				</object>
+			</c>
+			<c>
+				<object id="42">
+					<pos x="-5" y="1.75"/>
+				</object>
+			</c>
+			<c type="4">
+				<object id="48">
+					<pos x="-2.5" y="2.25"/>
+				</object>
+			</c>
+			<c>
+				<object id="49">
+					<pos x="-2.5" y="1.75"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="41" count="1" offset="15">
+				<pos x="-1.25" y="2.5"/>
+				<inc component_id="45"/>
+				<in1 component_id="43"/>
+			</c0>
+			<c1 id="43">
+				<pos x="-3.75" y="2"/>
+				<in1 component_id="39"/>
+				<in2 component_id="44"/>
+				<in3 component_id="42"/>
+			</c1>
+			<c2 id="44">
+				<pos x="-6.25" y="2.25"/>
+				<n text="-1" value="-1"/>
+			</c2>
+			<c3 id="45" count="2" offset="15">
+				<pos x="-1.25" y="1.75"/>
+				<inc component_id="48"/>
+				<in1 component_id="42"/>
+				<in2 component_id="49"/>
+			</c3>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="39">
+				<pos x="-5" y="2.5"/>
+			</c0>
+			<c1 id="40">
+				<pos y="2.75"/>
+				<in1 component_id="41"/>
+			</c1>
+			<c2 id="42">
+				<pos x="-5" y="1.75"/>
+			</c2>
+			<c3 id="48">
+				<pos x="-2.5" y="2.25"/>
+			</c3>
+			<c4 id="49">
+				<pos x="-2.5" y="1.75"/>
+			</c4>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

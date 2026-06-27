@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="PID v2" description="No description set." width="2" length="2" id_counter="33" id_counter_node="5" sym2="7812" sym3="8836" sym4="8836" sym5="8836" sym6="8836" sym7="8836" sym8="8836" sym9="8732" sym10="8868" sym11="8740" sym12="8740" sym13="7708" sym15="320">
+	<nodes>
+		<n id="1" component_id="8">
+			<node label="Setpoint" mode="1" type="1" description="The input signal to be processed."/>
+		</n>
+		<n id="3" component_id="9">
+			<node label="Process variable" mode="1" type="1" description="The input signal to be processed.">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="4" component_id="10">
+			<node label="Output" type="1" description="The input signal to be processed.">
+				<position z="1"/>
+			</node>
+		</n>
+		<n id="5" component_id="19">
+			<node label="On/Off switch" mode="1" description="The input signal to be processed.">
+				<position x="1" z="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="39">
+				<object id="14">
+					<pos x="-0.5" y="-3"/>
+					<in1 component_id="8"/>
+					<in2 component_id="9"/>
+					<in3 component_id="15"/>
+					<in4 component_id="16"/>
+					<in5 component_id="17"/>
+					<in6 component_id="23"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="15" n="Proportional gain">
+					<pos x="-2" y="-1.75"/>
+					<v text="5" value="5"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="16" n="Integral gain">
+					<pos x="-2" y="-2.25"/>
+					<v text="0.02" value="0.02"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="17" n="Derivative gain">
+					<pos x="-2" y="-2.75"/>
+					<v text="15" value="15"/>
+				</object>
+			</c>
+			<c type="20">
+				<object id="18" name="Active" v="2">
+					<pos x="-4.5" y="-2.75"/>
+					<items>
+						<i l="Constant">
+							<v text="2" value="2"/>
+						</i>
+						<i l="On Signal">
+							<v text="0"/>
+						</i>
+					</items>
+				</object>
+			</c>
+			<c type="15">
+				<object id="21">
+					<pos x="-4.5" y="-3.5"/>
+					<n text="1" value="1"/>
+				</object>
+			</c>
+			<c type="17">
+				<object id="22">
+					<pos x="-3.25" y="-3.25"/>
+					<in1 component_id="18"/>
+					<in2 component_id="21"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="23">
+					<pos x="-2" y="-3.5"/>
+					<in1 component_id="22"/>
+					<in2 component_id="19"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="2">
+				<object id="8">
+					<pos x="-2" y="-0.75"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="9">
+					<pos x="-2" y="-1.25"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="10">
+					<pos x="0.75" y="-1.75"/>
+					<in1 component_id="14"/>
+				</object>
+			</c>
+			<c>
+				<object id="19">
+					<pos x="-3.25" y="-3.75"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="14">
+				<pos x="-0.5" y="-3"/>
+				<in1 component_id="8"/>
+				<in2 component_id="9"/>
+				<in3 component_id="15"/>
+				<in4 component_id="16"/>
+				<in5 component_id="17"/>
+				<in6 component_id="23"/>
+			</c0>
+			<c1 id="15" n="Proportional gain">
+				<pos x="-2" y="-1.75"/>
+				<v text="5" value="5"/>
+			</c1>
+			<c2 id="16" n="Integral gain">
+				<pos x="-2" y="-2.25"/>
+				<v text="0.02" value="0.02"/>
+			</c2>
+			<c3 id="17" n="Derivative gain">
+				<pos x="-2" y="-2.75"/>
+				<v text="15" value="15"/>
+			</c3>
+			<c4 id="18" name="Active" v="2">
+				<pos x="-4.5" y="-2.75"/>
+				<items>
+					<i l="Constant">
+						<v text="2" value="2"/>
+					</i>
+					<i l="On Signal">
+						<v text="0"/>
+					</i>
+				</items>
+			</c4>
+			<c5 id="21">
+				<pos x="-4.5" y="-3.5"/>
+				<n text="1" value="1"/>
+			</c5>
+			<c6 id="22">
+				<pos x="-3.25" y="-3.25"/>
+				<in1 component_id="18"/>
+				<in2 component_id="21"/>
+			</c6>
+			<c7 id="23">
+				<pos x="-2" y="-3.5"/>
+				<in1 component_id="22"/>
+				<in2 component_id="19"/>
+			</c7>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="8">
+				<pos x="-2" y="-0.75"/>
+			</c0>
+			<c1 id="9">
+				<pos x="-2" y="-1.25"/>
+			</c1>
+			<c2 id="10">
+				<pos x="0.75" y="-1.75"/>
+				<in1 component_id="14"/>
+			</c2>
+			<c3 id="19">
+				<pos x="-3.25" y="-3.75"/>
+			</c3>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

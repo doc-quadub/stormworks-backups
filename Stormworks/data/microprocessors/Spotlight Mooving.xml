@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Spotlight Mooving" width="1" length="1" id_counter="12" id_counter_node="2" sym2="896" sym3="768" sym4="640" sym5="66" sym6="38" sym7="10" sym8="38" sym9="66" sym10="640" sym11="768" sym12="896">
+	<nodes>
+		<n id="2" component_id="9">
+			<node label="Spotlight" type="5"/>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="34">
+				<object id="10" n="X:">
+					<pos x="0.25" y="-0.25"/>
+					<v text="-1" value="-1"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="11" n="Y:">
+					<pos x="0.25" y="-0.5"/>
+					<v text="-0.1" value="-0.1"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="12" count="2">
+					<pos x="1.5" y="-0.5"/>
+					<in1 component_id="10"/>
+					<in2 component_id="11"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="5">
+				<object id="9">
+					<pos x="2.75"/>
+					<in1 component_id="12"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="10" n="X:">
+				<pos x="0.25" y="-0.25"/>
+				<v text="-1" value="-1"/>
+			</c0>
+			<c1 id="11" n="Y:">
+				<pos x="0.25" y="-0.5"/>
+				<v text="-0.1" value="-0.1"/>
+			</c1>
+			<c2 id="12" count="2">
+				<pos x="1.5" y="-0.5"/>
+				<in1 component_id="10"/>
+				<in2 component_id="11"/>
+			</c2>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="9">
+				<pos x="2.75"/>
+				<in1 component_id="12"/>
+			</c0>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

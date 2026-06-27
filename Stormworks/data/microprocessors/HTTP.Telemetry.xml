@@ -1,0 +1,696 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="HTTP Telemetry" description="No description set." width="2" length="1" id_counter="121" id_counter_node="2" sym6="9290" sym7="9290" sym8="58446" sym9="42058" sym10="61162">
+	<nodes>
+		<n id="1" component_id="2">
+			<node label="Data" mode="1" type="5" description="The input signal to be processed."/>
+		</n>
+		<n id="2" component_id="3">
+			<node label="Send" mode="1" description="The input signal to be processed.">
+				<position x="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="56">
+				<object id="6" script='gn, gb, sn, sb, pn, pb, pt = input.getNumber, input.getBool, output.setNumber, output.setBool, property.getNumber, property.getBool, property.getText
+pi, pi2, sin, cos, sqrt, atan, abs = math.pi, math.pi * 2, math.sin, math.cos, math.sqrt, math.atan, math.abs
+
+frequency = math.max(0, math.floor(60 / (pn(&apos;Data collect frequency&apos;) or 1) + 0.5) - 1)
+port = 8080
+labelName = &apos;Channel&apos;
+
+pendingRequestsMax = 4
+pendingRequests = 0
+new = false
+
+tickCounter = 0
+data = {}
+frameId = 1
+
+function readLabels()
+    local frame = {}
+    table.insert(frame, frameId)
+    frameId = frameId + 1
+    for i = 1, 32, 1 do
+        local label = pt(labelName .. &apos; &apos; .. i) or &apos;&apos;
+        if label ~= &apos;&apos; then
+            label = label:gsub(&apos; &apos;, &apos;_&apos;)
+            label = &apos;"&apos; .. label .. &apos;"&apos;
+            table.insert(frame, label)
+        end
+    end
+    return frame
+end
+
+function readFrame()
+    local frame = {}
+    table.insert(frame, frameId)
+    frameId = frameId + 1
+    for i = 1, 32, 1 do
+        if (pt(labelName .. &apos; &apos; .. i) or &apos;&apos;) ~= &apos;&apos; then
+            table.insert(frame, gn(i))
+        end
+    end
+    return frame
+end
+
+function sendData()
+    if #data &lt; 1 then
+        return
+    end
+    if pendingRequests &lt; pendingRequestsMax then
+        pendingRequests = pendingRequests + 1
+        local req = &apos;/write?frames=[&apos;
+        while #req &lt; 1500 and #data &gt; 0 do
+            local frame = data[1]
+            local json = &apos;{"frameID":&apos; .. frame[1] .. &apos;,&apos;
+            for i = 2, #frame do
+                json = json .. &apos;"p&apos; .. (i - 1) .. &apos;":&apos; .. frame[i] .. &apos;,&apos;
+            end
+            json = string.sub(json, 1, #json - 1)
+            json = json .. &apos;},&apos;
+            req = req .. json
+            table.remove(data, 1)
+        end
+        req = string.sub(req, 1, #req - 1)
+        req = req .. &apos;]&apos;
+        async.httpGet(port, req)
+    end
+end
+
+function newFile()
+    if pendingRequests &lt; pendingRequestsMax then
+        pendingRequests = pendingRequests + 1
+        local req = &apos;/new&apos;
+        async.httpGet(port, req)
+        return true
+    end
+    return false
+end
+
+function onTick()
+    if gb(1) then
+        if #data + pendingRequests == 0 then
+            if not new then
+                if newFile() then
+                    new = true
+                    table.insert(data, readLabels())
+                end
+            end
+        end
+        if tickCounter &gt;= frequency then
+            tickCounter = 0
+            table.insert(data, readFrame())
+        else
+            tickCounter = tickCounter + 1
+        end
+    else
+        labelSend = false
+        new = false
+        frameId = 1
+    end
+    sendData()
+
+    sn(1, #data + pendingRequests)
+end
+
+function httpReply(port, request_body, response_body)
+    pendingRequests = math.max(pendingRequests - 1, 0)
+end
+'>
+					<pos x="4.5" y="-0.75"/>
+					<in1 component_id="81"/>
+				</object>
+			</c>
+			<c type="20">
+				<object id="43" name="Data collect frequency">
+					<pos x="4.5" y="-1.75"/>
+					<items>
+						<i l="60 hz">
+							<v text="60" value="60"/>
+						</i>
+						<i l="30 hz">
+							<v text="30" value="30"/>
+						</i>
+						<i l="20 hz">
+							<v text="20" value="20"/>
+						</i>
+						<i l="15 hz">
+							<v text="15" value="15"/>
+						</i>
+						<i l="12 hz">
+							<v text="12" value="12"/>
+						</i>
+						<i l="10 hz">
+							<v text="10" value="10"/>
+						</i>
+						<i l="6 hz">
+							<v text="6" value="6"/>
+						</i>
+						<i l="4 hz">
+							<v text="4" value="4"/>
+						</i>
+						<i l="3 hz">
+							<v text="3" value="3"/>
+						</i>
+						<i l="2 hz">
+							<v text="2" value="2"/>
+						</i>
+						<i l="1 hz">
+							<v text="1" value="1"/>
+						</i>
+						<i l="05 hz">
+							<v text="0.5" value="0.5"/>
+						</i>
+						<i l="01 hz">
+							<v text="0.1" value="0.1"/>
+						</i>
+					</items>
+				</object>
+			</c>
+			<c type="31">
+				<object id="77">
+					<pos x="7" y="-0.5"/>
+					<in1 component_id="6"/>
+				</object>
+			</c>
+			<c type="17">
+				<object id="80">
+					<pos x="7" y="-1.5"/>
+					<in1 component_id="77"/>
+				</object>
+			</c>
+			<c type="41">
+				<object id="81" count="1">
+					<pos x="3" y="-0.75"/>
+					<inc component_id="2"/>
+					<in1 component_id="3"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="82">
+					<pos x="7" y="-2.25"/>
+					<in1 component_id="80"/>
+					<in2 component_id="3"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="83" n="Channel 1" v="Insert name">
+					<pos x="1.5" y="-3.25"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="84" n="Channel 2">
+					<pos x="1.5" y="-3.75"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="85" n="Channel 3">
+					<pos x="1.5" y="-4.25"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="86" n="Channel 4">
+					<pos x="1.5" y="-4.75"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="87" n="Channel 5">
+					<pos x="1.5" y="-5.25"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="88" n="Channel 6">
+					<pos x="1.5" y="-5.75"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="89" n="Channel 7">
+					<pos x="1.5" y="-6.25"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="90" n="Channel 8">
+					<pos x="1.5" y="-6.75"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="91" n="Channel 9">
+					<pos x="3" y="-3.25"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="92" n="Channel 10">
+					<pos x="3" y="-3.75"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="93" n="Channel 11">
+					<pos x="3" y="-4.25"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="94" n="Channel 12">
+					<pos x="3" y="-4.75"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="95" n="Channel 13">
+					<pos x="3" y="-5.25"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="96" n="Channel 14">
+					<pos x="3" y="-5.75"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="97" n="Channel 15">
+					<pos x="3" y="-6.25"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="98" n="Channel 16">
+					<pos x="3" y="-6.75"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="99" n="Channel 17">
+					<pos x="4.5" y="-3.25"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="100" n="Channel 18">
+					<pos x="4.5" y="-3.75"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="101" n="Channel 19">
+					<pos x="4.5" y="-4.25"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="102" n="Channel 20">
+					<pos x="4.5" y="-4.75"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="103" n="Channel 21">
+					<pos x="4.5" y="-5.25"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="104" n="Channel 22">
+					<pos x="4.5" y="-5.75"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="105" n="Channel 23">
+					<pos x="4.5" y="-6.25"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="106" n="Channel 24">
+					<pos x="4.5" y="-6.75"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="107" n="Channel 25">
+					<pos x="6" y="-3.25"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="108" n="Channel 26">
+					<pos x="6" y="-3.75"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="109" n="Channel 27">
+					<pos x="6" y="-4.25"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="110" n="Channel 28">
+					<pos x="6" y="-4.75"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="111" n="Channel 29">
+					<pos x="6" y="-5.25"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="112" n="Channel 30">
+					<pos x="6" y="-5.75"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="113" n="Channel 31">
+					<pos x="6" y="-6.25"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="114" n="Channel 32">
+					<pos x="6" y="-6.75"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="116" l="Collect frequency">
+					<pos x="4.5" y="-2.5"/>
+					<in1 component_id="43"/>
+				</object>
+			</c>
+			<c type="44">
+				<object id="117" l="Read" on="on" off="off">
+					<pos x="3" y="-1.75"/>
+					<in1 component_id="3"/>
+				</object>
+			</c>
+			<c type="44">
+				<object id="118" l="Send" on="on" off="off">
+					<pos x="8.5" y="-2"/>
+					<in1 component_id="82"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="119" l="Querry">
+					<pos x="8.5" y="-0.75"/>
+					<in1 component_id="77"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="4">
+				<object id="2">
+					<pos x="1.5" y="-0.5"/>
+				</object>
+			</c>
+			<c>
+				<object id="3">
+					<pos x="1.5" y="-2.25"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="6" script='gn, gb, sn, sb, pn, pb, pt = input.getNumber, input.getBool, output.setNumber, output.setBool, property.getNumber, property.getBool, property.getText
+pi, pi2, sin, cos, sqrt, atan, abs = math.pi, math.pi * 2, math.sin, math.cos, math.sqrt, math.atan, math.abs
+
+frequency = math.max(0, math.floor(60 / (pn(&apos;Data collect frequency&apos;) or 1) + 0.5) - 1)
+port = 8080
+labelName = &apos;Channel&apos;
+
+pendingRequestsMax = 4
+pendingRequests = 0
+new = false
+
+tickCounter = 0
+data = {}
+frameId = 1
+
+function readLabels()
+    local frame = {}
+    table.insert(frame, frameId)
+    frameId = frameId + 1
+    for i = 1, 32, 1 do
+        local label = pt(labelName .. &apos; &apos; .. i) or &apos;&apos;
+        if label ~= &apos;&apos; then
+            label = label:gsub(&apos; &apos;, &apos;_&apos;)
+            label = &apos;"&apos; .. label .. &apos;"&apos;
+            table.insert(frame, label)
+        end
+    end
+    return frame
+end
+
+function readFrame()
+    local frame = {}
+    table.insert(frame, frameId)
+    frameId = frameId + 1
+    for i = 1, 32, 1 do
+        if (pt(labelName .. &apos; &apos; .. i) or &apos;&apos;) ~= &apos;&apos; then
+            table.insert(frame, gn(i))
+        end
+    end
+    return frame
+end
+
+function sendData()
+    if #data &lt; 1 then
+        return
+    end
+    if pendingRequests &lt; pendingRequestsMax then
+        pendingRequests = pendingRequests + 1
+        local req = &apos;/write?frames=[&apos;
+        while #req &lt; 1500 and #data &gt; 0 do
+            local frame = data[1]
+            local json = &apos;{"frameID":&apos; .. frame[1] .. &apos;,&apos;
+            for i = 2, #frame do
+                json = json .. &apos;"p&apos; .. (i - 1) .. &apos;":&apos; .. frame[i] .. &apos;,&apos;
+            end
+            json = string.sub(json, 1, #json - 1)
+            json = json .. &apos;},&apos;
+            req = req .. json
+            table.remove(data, 1)
+        end
+        req = string.sub(req, 1, #req - 1)
+        req = req .. &apos;]&apos;
+        async.httpGet(port, req)
+    end
+end
+
+function newFile()
+    if pendingRequests &lt; pendingRequestsMax then
+        pendingRequests = pendingRequests + 1
+        local req = &apos;/new&apos;
+        async.httpGet(port, req)
+        return true
+    end
+    return false
+end
+
+function onTick()
+    if gb(1) then
+        if #data + pendingRequests == 0 then
+            if not new then
+                if newFile() then
+                    new = true
+                    table.insert(data, readLabels())
+                end
+            end
+        end
+        if tickCounter &gt;= frequency then
+            tickCounter = 0
+            table.insert(data, readFrame())
+        else
+            tickCounter = tickCounter + 1
+        end
+    else
+        labelSend = false
+        new = false
+        frameId = 1
+    end
+    sendData()
+
+    sn(1, #data + pendingRequests)
+end
+
+function httpReply(port, request_body, response_body)
+    pendingRequests = math.max(pendingRequests - 1, 0)
+end
+'>
+				<pos x="4.5" y="-0.75"/>
+				<in1 component_id="81"/>
+			</c0>
+			<c1 id="43" name="Data collect frequency">
+				<pos x="4.5" y="-1.75"/>
+				<items>
+					<i l="60 hz">
+						<v text="60" value="60"/>
+					</i>
+					<i l="30 hz">
+						<v text="30" value="30"/>
+					</i>
+					<i l="20 hz">
+						<v text="20" value="20"/>
+					</i>
+					<i l="15 hz">
+						<v text="15" value="15"/>
+					</i>
+					<i l="12 hz">
+						<v text="12" value="12"/>
+					</i>
+					<i l="10 hz">
+						<v text="10" value="10"/>
+					</i>
+					<i l="6 hz">
+						<v text="6" value="6"/>
+					</i>
+					<i l="4 hz">
+						<v text="4" value="4"/>
+					</i>
+					<i l="3 hz">
+						<v text="3" value="3"/>
+					</i>
+					<i l="2 hz">
+						<v text="2" value="2"/>
+					</i>
+					<i l="1 hz">
+						<v text="1" value="1"/>
+					</i>
+					<i l="05 hz">
+						<v text="0.5" value="0.5"/>
+					</i>
+					<i l="01 hz">
+						<v text="0.1" value="0.1"/>
+					</i>
+				</items>
+			</c1>
+			<c2 id="77">
+				<pos x="7" y="-0.5"/>
+				<in1 component_id="6"/>
+			</c2>
+			<c3 id="80">
+				<pos x="7" y="-1.5"/>
+				<in1 component_id="77"/>
+			</c3>
+			<c4 id="81" count="1">
+				<pos x="3" y="-0.75"/>
+				<inc component_id="2"/>
+				<in1 component_id="3"/>
+			</c4>
+			<c5 id="82">
+				<pos x="7" y="-2.25"/>
+				<in1 component_id="80"/>
+				<in2 component_id="3"/>
+			</c5>
+			<c6 id="83" n="Channel 1" v="Insert name">
+				<pos x="1.5" y="-3.25"/>
+			</c6>
+			<c7 id="84" n="Channel 2">
+				<pos x="1.5" y="-3.75"/>
+			</c7>
+			<c8 id="85" n="Channel 3">
+				<pos x="1.5" y="-4.25"/>
+			</c8>
+			<c9 id="86" n="Channel 4">
+				<pos x="1.5" y="-4.75"/>
+			</c9>
+			<c10 id="87" n="Channel 5">
+				<pos x="1.5" y="-5.25"/>
+			</c10>
+			<c11 id="88" n="Channel 6">
+				<pos x="1.5" y="-5.75"/>
+			</c11>
+			<c12 id="89" n="Channel 7">
+				<pos x="1.5" y="-6.25"/>
+			</c12>
+			<c13 id="90" n="Channel 8">
+				<pos x="1.5" y="-6.75"/>
+			</c13>
+			<c14 id="91" n="Channel 9">
+				<pos x="3" y="-3.25"/>
+			</c14>
+			<c15 id="92" n="Channel 10">
+				<pos x="3" y="-3.75"/>
+			</c15>
+			<c16 id="93" n="Channel 11">
+				<pos x="3" y="-4.25"/>
+			</c16>
+			<c17 id="94" n="Channel 12">
+				<pos x="3" y="-4.75"/>
+			</c17>
+			<c18 id="95" n="Channel 13">
+				<pos x="3" y="-5.25"/>
+			</c18>
+			<c19 id="96" n="Channel 14">
+				<pos x="3" y="-5.75"/>
+			</c19>
+			<c20 id="97" n="Channel 15">
+				<pos x="3" y="-6.25"/>
+			</c20>
+			<c21 id="98" n="Channel 16">
+				<pos x="3" y="-6.75"/>
+			</c21>
+			<c22 id="99" n="Channel 17">
+				<pos x="4.5" y="-3.25"/>
+			</c22>
+			<c23 id="100" n="Channel 18">
+				<pos x="4.5" y="-3.75"/>
+			</c23>
+			<c24 id="101" n="Channel 19">
+				<pos x="4.5" y="-4.25"/>
+			</c24>
+			<c25 id="102" n="Channel 20">
+				<pos x="4.5" y="-4.75"/>
+			</c25>
+			<c26 id="103" n="Channel 21">
+				<pos x="4.5" y="-5.25"/>
+			</c26>
+			<c27 id="104" n="Channel 22">
+				<pos x="4.5" y="-5.75"/>
+			</c27>
+			<c28 id="105" n="Channel 23">
+				<pos x="4.5" y="-6.25"/>
+			</c28>
+			<c29 id="106" n="Channel 24">
+				<pos x="4.5" y="-6.75"/>
+			</c29>
+			<c30 id="107" n="Channel 25">
+				<pos x="6" y="-3.25"/>
+			</c30>
+			<c31 id="108" n="Channel 26">
+				<pos x="6" y="-3.75"/>
+			</c31>
+			<c32 id="109" n="Channel 27">
+				<pos x="6" y="-4.25"/>
+			</c32>
+			<c33 id="110" n="Channel 28">
+				<pos x="6" y="-4.75"/>
+			</c33>
+			<c34 id="111" n="Channel 29">
+				<pos x="6" y="-5.25"/>
+			</c34>
+			<c35 id="112" n="Channel 30">
+				<pos x="6" y="-5.75"/>
+			</c35>
+			<c36 id="113" n="Channel 31">
+				<pos x="6" y="-6.25"/>
+			</c36>
+			<c37 id="114" n="Channel 32">
+				<pos x="6" y="-6.75"/>
+			</c37>
+			<c38 id="116" l="Collect frequency">
+				<pos x="4.5" y="-2.5"/>
+				<in1 component_id="43"/>
+			</c38>
+			<c39 id="117" l="Read" on="on" off="off">
+				<pos x="3" y="-1.75"/>
+				<in1 component_id="3"/>
+			</c39>
+			<c40 id="118" l="Send" on="on" off="off">
+				<pos x="8.5" y="-2"/>
+				<in1 component_id="82"/>
+			</c40>
+			<c41 id="119" l="Querry">
+				<pos x="8.5" y="-0.75"/>
+				<in1 component_id="77"/>
+			</c41>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="2">
+				<pos x="1.5" y="-0.5"/>
+			</c0>
+			<c1 id="3">
+				<pos x="1.5" y="-2.25"/>
+			</c1>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

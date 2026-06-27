@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="OR x4" width="5" length="1" id_counter="20" id_counter_node="7" sym4="240" sym5="791" sym6="1168" sym7="1168" sym8="59632" sym9="1200" sym10="1207" sym11="784" sym12="240">
+	<nodes>
+		<n id="3" component_id="19">
+			<node label="Output"/>
+		</n>
+		<n id="4" component_id="20">
+			<node label="A" mode="1">
+				<position x="4"/>
+			</node>
+		</n>
+		<n id="5" component_id="13">
+			<node label="B" mode="1">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="6" component_id="17">
+			<node label="C" mode="1">
+				<position x="3"/>
+			</node>
+		</n>
+		<n id="7" component_id="18">
+			<node label="D" mode="1">
+				<position x="2"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="46">
+				<object id="16" e="x|y|z|w">
+					<pos x="1" y="0.25"/>
+					<in1 component_id="20"/>
+					<in2 component_id="13"/>
+					<in3 component_id="17"/>
+					<in4 component_id="18"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c>
+				<object id="13">
+					<pos x="-0.25" y="0.75"/>
+				</object>
+			</c>
+			<c>
+				<object id="17">
+					<pos x="-0.25" y="0.5"/>
+				</object>
+			</c>
+			<c>
+				<object id="18">
+					<pos x="-0.25" y="0.25"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="19">
+					<pos x="2.25" y="1"/>
+					<in1 component_id="16"/>
+				</object>
+			</c>
+			<c>
+				<object id="20">
+					<pos x="-0.25" y="1"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="16" e="x|y|z|w">
+				<pos x="1" y="0.25"/>
+				<in1 component_id="20"/>
+				<in2 component_id="13"/>
+				<in3 component_id="17"/>
+				<in4 component_id="18"/>
+			</c0>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="13">
+				<pos x="-0.25" y="0.75"/>
+			</c0>
+			<c1 id="17">
+				<pos x="-0.25" y="0.5"/>
+			</c1>
+			<c2 id="18">
+				<pos x="-0.25" y="0.25"/>
+			</c2>
+			<c3 id="19">
+				<pos x="2.25" y="1"/>
+				<in1 component_id="16"/>
+			</c3>
+			<c4 id="20">
+				<pos x="-0.25" y="1"/>
+			</c4>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

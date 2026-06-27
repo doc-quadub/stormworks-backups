@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="EC Consumption Calculator" width="5" length="1" id_counter="79" id_counter_node="14" sym2="1984" sym3="2080" sym4="4112" sym5="8200" sym6="8200" sym7="8456" sym8="8712" sym9="9224" sym10="4112" sym11="2080" sym12="1984">
+	<nodes>
+		<n id="7" component_id="39">
+			<node label="RPS" mode="1" type="1"/>
+		</n>
+		<n id="8" component_id="41">
+			<node label="Traction Position" mode="1" type="1">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="9" component_id="43">
+			<node label="Regenerative Brake Generator Rate" mode="1" type="1" description="NOT Rheostatic Brake! The rheostatic brake burns rather than returns electricity!">
+				<position x="2"/>
+			</node>
+		</n>
+		<n id="11" component_id="45">
+			<node label="Is movement allowed?" mode="1" description="To prevent an increase in electricity consumption when an electric locomotive moves by inertia without traction.">
+				<position x="3"/>
+			</node>
+		</n>
+		<n id="14" component_id="79">
+			<node label="kWh Output" type="1">
+				<position x="4"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="56">
+				<object id="46" script='patternCons,totalConsumption,consumptionRate = 65,0,0
+function onTick()
+    RPS = input.getNumber(1)
+    tractionPos = input.getNumber(2)
+    regenerativeBrakeRate = input.getNumber(3)
+	movementIsAllowed = input.getBool(1)
+	motorCount = property.getNumber("Number of Motors")
+    gearRatio = property.getNumber("Gear Ratio")
+	
+	if movementIsAllowed and tractionPos &gt; 0 then
+		consumptionRate = (patternCons * math.abs(RPS) * gearRatio * motorCount) - regenerativeBrakeRate
+		totalConsumption = totalConsumption + consumptionRate / 60
+	end
+
+    sWattPerSecond = consumptionRate
+    kilosWattPerHour = totalConsumption / 3600000
+	
+    output.setNumber(1, totalConsumption)
+    output.setNumber(2, sWattPerSecond)
+    output.setNumber(3, kilosWattPerHour)
+end'>
+					<pos y="0.5"/>
+					<in1 component_id="56"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="48" n="Number of Motors">
+					<pos y="-0.5"/>
+					<v text="8" value="8"/>
+				</object>
+			</c>
+			<c type="20">
+				<object id="50" name="Gear Ratio" i="7">
+					<items>
+						<i l="3 to 1">
+							<v text="3.00" value="3"/>
+						</i>
+						<i l="5 to 2">
+							<v text="2.50" value="2.5"/>
+						</i>
+						<i l="2 to 1">
+							<v text="2.00" value="2"/>
+						</i>
+						<i l="9 to 5">
+							<v text="1.80" value="1.8"/>
+						</i>
+						<i l="3 to 2">
+							<v text="1.50" value="1.5"/>
+						</i>
+						<i l="6 to 5">
+							<v text="1.20" value="1.2"/>
+						</i>
+						<i l="1 to 1">
+							<v text="1.00" value="1"/>
+						</i>
+						<i l="5 to 6">
+							<v text="0.83" value="0.83"/>
+						</i>
+						<i l="2 to 3">
+							<v text="0.66" value="0.66"/>
+						</i>
+						<i l="5 to 9">
+							<v text="0.55" value="0.55"/>
+						</i>
+						<i l="1 to 2">
+							<v text="0.50" value="0.5"/>
+						</i>
+						<i l="2 to 5">
+							<v text="0.40" value="0.4"/>
+						</i>
+						<i l="1 to 3">
+							<v text="0.33" value="0.33"/>
+						</i>
+					</items>
+				</object>
+			</c>
+			<c type="43">
+				<object id="52" l="Total Consumtion">
+					<pos x="2.5" y="0.5"/>
+					<in1 component_id="62"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="53" i="1">
+					<pos x="1.25"/>
+					<in1 component_id="46"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="54" i="2">
+					<pos x="1.25" y="-0.75"/>
+					<in1 component_id="46"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="55" l="W/s">
+					<pos x="2.5" y="-0.25"/>
+					<in1 component_id="53"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="56" count="3">
+					<pos x="-1.25"/>
+					<inc component_id="57"/>
+					<in1 component_id="39"/>
+					<in2 component_id="41"/>
+					<in3 component_id="43"/>
+				</object>
+			</c>
+			<c type="41">
+				<object id="57" count="1">
+					<pos x="-5" y="0.5"/>
+					<in1 component_id="45"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="61" l="kW/hr">
+					<pos x="2.5" y="-1"/>
+					<in1 component_id="54"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="62">
+					<pos x="1.25" y="0.75"/>
+					<in1 component_id="46"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="2">
+				<object id="39">
+					<pos x="-2.5" y="0.5"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="41">
+					<pos x="-3.75" y="0.25"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="43">
+					<pos x="-2.5"/>
+				</object>
+			</c>
+			<c>
+				<object id="45">
+					<pos x="-6.25" y="0.5"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="79">
+					<pos x="2.5" y="-1.5"/>
+					<in1 component_id="54"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="46" script='patternCons,totalConsumption,consumptionRate = 65,0,0
+function onTick()
+    RPS = input.getNumber(1)
+    tractionPos = input.getNumber(2)
+    regenerativeBrakeRate = input.getNumber(3)
+	movementIsAllowed = input.getBool(1)
+	motorCount = property.getNumber("Number of Motors")
+    gearRatio = property.getNumber("Gear Ratio")
+	
+	if movementIsAllowed and tractionPos &gt; 0 then
+		consumptionRate = (patternCons * math.abs(RPS) * gearRatio * motorCount) - regenerativeBrakeRate
+		totalConsumption = totalConsumption + consumptionRate / 60
+	end
+
+    sWattPerSecond = consumptionRate
+    kilosWattPerHour = totalConsumption / 3600000
+	
+    output.setNumber(1, totalConsumption)
+    output.setNumber(2, sWattPerSecond)
+    output.setNumber(3, kilosWattPerHour)
+end'>
+				<pos y="0.5"/>
+				<in1 component_id="56"/>
+			</c0>
+			<c1 id="48" n="Number of Motors">
+				<pos y="-0.5"/>
+				<v text="8" value="8"/>
+			</c1>
+			<c2 id="50" name="Gear Ratio" i="7">
+				<items>
+					<i l="3 to 1">
+						<v text="3.00" value="3"/>
+					</i>
+					<i l="5 to 2">
+						<v text="2.50" value="2.5"/>
+					</i>
+					<i l="2 to 1">
+						<v text="2.00" value="2"/>
+					</i>
+					<i l="9 to 5">
+						<v text="1.80" value="1.8"/>
+					</i>
+					<i l="3 to 2">
+						<v text="1.50" value="1.5"/>
+					</i>
+					<i l="6 to 5">
+						<v text="1.20" value="1.2"/>
+					</i>
+					<i l="1 to 1">
+						<v text="1.00" value="1"/>
+					</i>
+					<i l="5 to 6">
+						<v text="0.83" value="0.83"/>
+					</i>
+					<i l="2 to 3">
+						<v text="0.66" value="0.66"/>
+					</i>
+					<i l="5 to 9">
+						<v text="0.55" value="0.55"/>
+					</i>
+					<i l="1 to 2">
+						<v text="0.50" value="0.5"/>
+					</i>
+					<i l="2 to 5">
+						<v text="0.40" value="0.4"/>
+					</i>
+					<i l="1 to 3">
+						<v text="0.33" value="0.33"/>
+					</i>
+				</items>
+			</c2>
+			<c3 id="52" l="Total Consumtion">
+				<pos x="2.5" y="0.5"/>
+				<in1 component_id="62"/>
+			</c3>
+			<c4 id="53" i="1">
+				<pos x="1.25"/>
+				<in1 component_id="46"/>
+			</c4>
+			<c5 id="54" i="2">
+				<pos x="1.25" y="-0.75"/>
+				<in1 component_id="46"/>
+			</c5>
+			<c6 id="55" l="W/s">
+				<pos x="2.5" y="-0.25"/>
+				<in1 component_id="53"/>
+			</c6>
+			<c7 id="56" count="3">
+				<pos x="-1.25"/>
+				<inc component_id="57"/>
+				<in1 component_id="39"/>
+				<in2 component_id="41"/>
+				<in3 component_id="43"/>
+			</c7>
+			<c8 id="57" count="1">
+				<pos x="-5" y="0.5"/>
+				<in1 component_id="45"/>
+			</c8>
+			<c9 id="61" l="kW/hr">
+				<pos x="2.5" y="-1"/>
+				<in1 component_id="54"/>
+			</c9>
+			<c10 id="62">
+				<pos x="1.25" y="0.75"/>
+				<in1 component_id="46"/>
+			</c10>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="39">
+				<pos x="-2.5" y="0.5"/>
+			</c0>
+			<c1 id="41">
+				<pos x="-3.75" y="0.25"/>
+			</c1>
+			<c2 id="43">
+				<pos x="-2.5"/>
+			</c2>
+			<c3 id="45">
+				<pos x="-6.25" y="0.5"/>
+			</c3>
+			<c4 id="79">
+				<pos x="2.5" y="-1.5"/>
+				<in1 component_id="54"/>
+			</c4>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

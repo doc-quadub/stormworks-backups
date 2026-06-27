@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="f(x)" description="No description set." width="2" length="1" id_counter="11" id_counter_node="3" sym1="546" sym2="1042" sym3="1362" sym4="1362" sym5="1175" sym6="1362" sym7="1362" sym8="1047" sym9="554" sym10="10" sym11="10" sym12="10" sym13="10" sym14="4">
+	<nodes>
+		<n id="1" component_id="3">
+			<node label="X" mode="1" type="1" description="The input signal to be processed."/>
+		</n>
+		<n id="2" component_id="7">
+			<node label="Input" type="1" description="The input signal to be processed.">
+				<position x="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="45">
+				<object id="11">
+					<pos x="-1" y="0.25"/>
+					<in1 component_id="3"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="2">
+				<object id="3">
+					<pos x="-2.25" y="0.25"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="7">
+					<pos x="0.25" y="0.25"/>
+					<in1 component_id="11"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="11">
+				<pos x="-1" y="0.25"/>
+				<in1 component_id="3"/>
+			</c0>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="3">
+				<pos x="-2.25" y="0.25"/>
+			</c0>
+			<c1 id="7">
+				<pos x="0.25" y="0.25"/>
+				<in1 component_id="11"/>
+			</c1>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

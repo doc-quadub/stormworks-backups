@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Pneumatic Brake V5 Wagon" width="4" length="2" id_counter="81" id_counter_node="14" sym1="65535" sym2="448" sym3="552" sym4="1044" sym5="1172" sym6="1044" sym7="61987" sym8="4547" sym9="65535" sym11="21412" sym12="43530" sym13="43914" sym14="43146" sym15="43914">
+	<nodes>
+		<n id="6" component_id="46">
+			<node label="[Valve 6]" type="1" description="Between BL and ST"/>
+		</n>
+		<n id="7" component_id="47">
+			<node label="[Valve 7]" type="1" description="Bwtween ST and BC">
+				<position x="2"/>
+			</node>
+		</n>
+		<n id="8" component_id="48">
+			<node label="[Valve 8]" type="1" description="Between BC and Atmosphere">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="10" component_id="50">
+			<node label="Brake Force" type="1" description="To Railway Wheels">
+				<position x="3" z="1"/>
+			</node>
+		</n>
+		<n id="11" component_id="54">
+			<node label="BC Pressure" mode="1" type="1" description="Brake Cylinder Pressure">
+				<position z="1"/>
+			</node>
+		</n>
+		<n id="12" component_id="55">
+			<node label="ST Pressure" mode="1" type="1" description="Supply Tank Pressure">
+				<position x="1" z="1"/>
+			</node>
+		</n>
+		<n id="13" component_id="56">
+			<node label="BL Pressure" mode="1" type="1" description="Brake Line Pressure">
+				<position x="2" z="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="56">
+				<object id="57" script='-- Consumption Rate Function
+local TPU = 30
+local function Consumption()
+    local buf, sum, prev = {}, 0, nil
+    return function(v)
+        if not prev then
+            prev = v
+            return 0
+        end
+        local d = prev - v
+        prev = v
+        if #buf == TPU then
+            sum = sum - buf[1]
+            table.remove(buf, 1)
+        end
+        buf[#buf + 1] = d
+        sum = sum + d
+        return sum / #buf * 60
+    end
+end
+local consBLCalc = Consumption()
+
+local v = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+
+function onTick()
+	chargingPressST = property.getNumber("Supply Tank Charging Pressure")
+	chargingPressBC = property.getNumber("Brake Cylinder Charging Pressure")
+	airDistrSens = property.getNumber("Air Distributor Sensitivity (atm/s)")
+	brakeForceMult = property.getNumber("Brake Force Multiplier")
+
+	prBL = input.getNumber(3)
+	prST = input.getNumber(4)
+	prBC = input.getNumber(5)
+	
+	consBL = consBLCalc(prBL)
+	
+-- Air Destributor
+	if prBL &gt; prST and prST &lt; chargingPressST then
+		v[6] = 1
+		v[7] = 0
+		v[8] = 0.5
+	elseif prST &gt;= chargingPressST and consBL &lt; airDistrSens then
+		v[6] = 0
+		v[7] = 0
+		v[8] = 0
+	elseif consBL &gt; airDistrSens then
+		v[6] = 0
+		v[7] = math.max(0, ((prST * 1.07) - prBL) / 7)
+		v[8] = 0
+	else
+		v[6] = 0
+		v[7] = 0
+		v[8] = 0
+	end
+	
+	brakeForce = (prBC / chargingPressBC) * brakeForceMult
+	
+	output.setNumber(1, brakeForce)
+	output.setNumber(2, v[10])
+	output.setNumber(3, v[8])
+	output.setNumber(4, v[7])
+	output.setNumber(5, v[6])
+end'>
+					<pos x="3.75" y="0.25"/>
+					<in1 component_id="62"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="58" n="Supply Tank Charging Pressure">
+					<pos x="3.75" y="-0.25"/>
+					<v text="5.1" value="5.1"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="59" n="Brake Cylinder Charging Pressure">
+					<pos x="3.75" y="-0.75"/>
+					<v text="4" value="4"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="60" n="Air Distributor Sensitivity (atm/s)">
+					<pos x="3.75" y="-1.25"/>
+					<v text="0.025" value="0.025"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="61" n="Brake Force Multiplier">
+					<pos x="3.75" y="-1.75"/>
+					<v text="1" value="1"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="62" count="3" offset="2">
+					<pos x="2.5" y="-0.25"/>
+					<in1 component_id="76"/>
+					<in2 component_id="77"/>
+					<in3 component_id="78"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="63">
+					<pos x="5" y="0.5"/>
+					<in1 component_id="57"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="64" i="1">
+					<pos x="5"/>
+					<in1 component_id="57"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="65" i="2">
+					<pos x="5" y="-0.5"/>
+					<in1 component_id="57"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="66" i="3">
+					<pos x="5" y="-1"/>
+					<in1 component_id="57"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="67" i="4">
+					<pos x="5" y="-1.5"/>
+					<in1 component_id="57"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="68" l="Brake Force">
+					<pos x="7.5"/>
+					<in1 component_id="63"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="69" l="Valve 10">
+					<pos x="7.5" y="-0.5"/>
+					<in1 component_id="64"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="70" l="Valve 8">
+					<pos x="7.5" y="-1"/>
+					<in1 component_id="65"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="71" l="Valve 7">
+					<pos x="7.5" y="-1.5"/>
+					<in1 component_id="66"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="72" l="Valve 6">
+					<pos x="7.5" y="-2"/>
+					<in1 component_id="67"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="73" l="prBC">
+					<pos x="2.5" y="1.25"/>
+					<in1 component_id="78"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="74" l="prST">
+					<pos x="2.5" y="1.75"/>
+					<in1 component_id="77"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="75" l="prBL">
+					<pos x="2.5" y="2.25"/>
+					<in1 component_id="76"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="76" e="clamp((x*0.9678)-1, 0, 15)">
+					<pos y="0.25"/>
+					<in1 component_id="56"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="77" e="clamp((x*0.9678)-1, 0, 15)">
+					<pos x="1.25"/>
+					<in1 component_id="55"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="78" e="clamp((x*0.9678)-1, 0, 15)">
+					<pos y="-0.25"/>
+					<in1 component_id="54"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="3">
+				<object id="46">
+					<pos x="6.25" y="-1.5"/>
+					<in1 component_id="67"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="47">
+					<pos x="6.25" y="-1"/>
+					<in1 component_id="66"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="48">
+					<pos x="6.25" y="-0.5"/>
+					<in1 component_id="65"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="50">
+					<pos x="6.25" y="0.5"/>
+					<in1 component_id="63"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="54">
+					<pos x="-2.5" y="-0.25"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="55">
+					<pos x="-1.25"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="56">
+					<pos x="-2.5" y="0.25"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="57" script='-- Consumption Rate Function
+local TPU = 30
+local function Consumption()
+    local buf, sum, prev = {}, 0, nil
+    return function(v)
+        if not prev then
+            prev = v
+            return 0
+        end
+        local d = prev - v
+        prev = v
+        if #buf == TPU then
+            sum = sum - buf[1]
+            table.remove(buf, 1)
+        end
+        buf[#buf + 1] = d
+        sum = sum + d
+        return sum / #buf * 60
+    end
+end
+local consBLCalc = Consumption()
+
+local v = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+
+function onTick()
+	chargingPressST = property.getNumber("Supply Tank Charging Pressure")
+	chargingPressBC = property.getNumber("Brake Cylinder Charging Pressure")
+	airDistrSens = property.getNumber("Air Distributor Sensitivity (atm/s)")
+	brakeForceMult = property.getNumber("Brake Force Multiplier")
+
+	prBL = input.getNumber(3)
+	prST = input.getNumber(4)
+	prBC = input.getNumber(5)
+	
+	consBL = consBLCalc(prBL)
+	
+-- Air Destributor
+	if prBL &gt; prST and prST &lt; chargingPressST then
+		v[6] = 1
+		v[7] = 0
+		v[8] = 0.5
+	elseif prST &gt;= chargingPressST and consBL &lt; airDistrSens then
+		v[6] = 0
+		v[7] = 0
+		v[8] = 0
+	elseif consBL &gt; airDistrSens then
+		v[6] = 0
+		v[7] = math.max(0, ((prST * 1.07) - prBL) / 7)
+		v[8] = 0
+	else
+		v[6] = 0
+		v[7] = 0
+		v[8] = 0
+	end
+	
+	brakeForce = (prBC / chargingPressBC) * brakeForceMult
+	
+	output.setNumber(1, brakeForce)
+	output.setNumber(2, v[10])
+	output.setNumber(3, v[8])
+	output.setNumber(4, v[7])
+	output.setNumber(5, v[6])
+end'>
+				<pos x="3.75" y="0.25"/>
+				<in1 component_id="62"/>
+			</c0>
+			<c1 id="58" n="Supply Tank Charging Pressure">
+				<pos x="3.75" y="-0.25"/>
+				<v text="5.1" value="5.1"/>
+			</c1>
+			<c2 id="59" n="Brake Cylinder Charging Pressure">
+				<pos x="3.75" y="-0.75"/>
+				<v text="4" value="4"/>
+			</c2>
+			<c3 id="60" n="Air Distributor Sensitivity (atm/s)">
+				<pos x="3.75" y="-1.25"/>
+				<v text="0.025" value="0.025"/>
+			</c3>
+			<c4 id="61" n="Brake Force Multiplier">
+				<pos x="3.75" y="-1.75"/>
+				<v text="1" value="1"/>
+			</c4>
+			<c5 id="62" count="3" offset="2">
+				<pos x="2.5" y="-0.25"/>
+				<in1 component_id="76"/>
+				<in2 component_id="77"/>
+				<in3 component_id="78"/>
+			</c5>
+			<c6 id="63">
+				<pos x="5" y="0.5"/>
+				<in1 component_id="57"/>
+			</c6>
+			<c7 id="64" i="1">
+				<pos x="5"/>
+				<in1 component_id="57"/>
+			</c7>
+			<c8 id="65" i="2">
+				<pos x="5" y="-0.5"/>
+				<in1 component_id="57"/>
+			</c8>
+			<c9 id="66" i="3">
+				<pos x="5" y="-1"/>
+				<in1 component_id="57"/>
+			</c9>
+			<c10 id="67" i="4">
+				<pos x="5" y="-1.5"/>
+				<in1 component_id="57"/>
+			</c10>
+			<c11 id="68" l="Brake Force">
+				<pos x="7.5"/>
+				<in1 component_id="63"/>
+			</c11>
+			<c12 id="69" l="Valve 10">
+				<pos x="7.5" y="-0.5"/>
+				<in1 component_id="64"/>
+			</c12>
+			<c13 id="70" l="Valve 8">
+				<pos x="7.5" y="-1"/>
+				<in1 component_id="65"/>
+			</c13>
+			<c14 id="71" l="Valve 7">
+				<pos x="7.5" y="-1.5"/>
+				<in1 component_id="66"/>
+			</c14>
+			<c15 id="72" l="Valve 6">
+				<pos x="7.5" y="-2"/>
+				<in1 component_id="67"/>
+			</c15>
+			<c16 id="73" l="prBC">
+				<pos x="2.5" y="1.25"/>
+				<in1 component_id="78"/>
+			</c16>
+			<c17 id="74" l="prST">
+				<pos x="2.5" y="1.75"/>
+				<in1 component_id="77"/>
+			</c17>
+			<c18 id="75" l="prBL">
+				<pos x="2.5" y="2.25"/>
+				<in1 component_id="76"/>
+			</c18>
+			<c19 id="76" e="clamp((x*0.9678)-1, 0, 15)">
+				<pos y="0.25"/>
+				<in1 component_id="56"/>
+			</c19>
+			<c20 id="77" e="clamp((x*0.9678)-1, 0, 15)">
+				<pos x="1.25"/>
+				<in1 component_id="55"/>
+			</c20>
+			<c21 id="78" e="clamp((x*0.9678)-1, 0, 15)">
+				<pos y="-0.25"/>
+				<in1 component_id="54"/>
+			</c21>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="46">
+				<pos x="6.25" y="-1.5"/>
+				<in1 component_id="67"/>
+			</c0>
+			<c1 id="47">
+				<pos x="6.25" y="-1"/>
+				<in1 component_id="66"/>
+			</c1>
+			<c2 id="48">
+				<pos x="6.25" y="-0.5"/>
+				<in1 component_id="65"/>
+			</c2>
+			<c3 id="50">
+				<pos x="6.25" y="0.5"/>
+				<in1 component_id="63"/>
+			</c3>
+			<c4 id="54">
+				<pos x="-2.5" y="-0.25"/>
+			</c4>
+			<c5 id="55">
+				<pos x="-1.25"/>
+			</c5>
+			<c6 id="56">
+				<pos x="-2.5" y="0.25"/>
+			</c6>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

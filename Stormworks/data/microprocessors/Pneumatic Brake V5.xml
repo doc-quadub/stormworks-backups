@@ -1,0 +1,1774 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Pneumatic Brake V5 Locomotive" width="6" length="3" id_counter="184" id_counter_node="26" sym1="65535" sym2="448" sym3="552" sym4="1044" sym5="1172" sym6="1044" sym7="61987" sym8="4547" sym9="65535" sym11="3728" sym12="2088" sym13="3624" sym14="552" sym15="3624">
+	<nodes>
+		<n id="6" component_id="36">
+			<node label="Toggle Pneumatic Brake System" mode="1" description="Start compressor = start all system!">
+				<position x="1" z="2"/>
+			</node>
+		</n>
+		<n id="7" component_id="44">
+			<node label="To Compressor">
+				<position z="2"/>
+			</node>
+		</n>
+		<n id="8" component_id="45">
+			<node label="Pressure in System" mode="1" type="5" description="1=MT, 2=ET, 3=BL, 4=ST, 5=BC">
+				<position x="1" z="1"/>
+			</node>
+		</n>
+		<n id="9" component_id="48">
+			<node label="Input from Seat" mode="1" type="5" description="1 = Axis AD, 2 = Axis WS | All Sens. = 100%">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="10" component_id="58">
+			<node label="[Valvle 1]" type="1" description="KM395 | Between MT and BL">
+				<position x="2"/>
+			</node>
+		</n>
+		<n id="11" component_id="57">
+			<node label="[Valvle 2]" type="1" description="KM395 | Between MT and ET">
+				<position x="3"/>
+			</node>
+		</n>
+		<n id="12" component_id="56">
+			<node label="[Valvle 3]" type="1" description="KM395 | Between ET and BL">
+				<position x="4"/>
+			</node>
+		</n>
+		<n id="13" component_id="55">
+			<node label="[Valvle 4]" type="1" description="KM395 | Between ET and Atmosphere">
+				<position x="5"/>
+			</node>
+		</n>
+		<n id="14" component_id="54">
+			<node label="[Valvle 5]" type="1" description="KM395 | Between BL and Atmosphere">
+				<position x="2" z="1"/>
+			</node>
+		</n>
+		<n id="15" component_id="144">
+			<node label="[Valvle 6]" type="1" description="AD | Between BL and ST">
+				<position x="3" z="1"/>
+			</node>
+		</n>
+		<n id="16" component_id="145">
+			<node label="[Valvle 7]" type="1" description="AD | Between ST and BC">
+				<position x="4" z="1"/>
+			</node>
+		</n>
+		<n id="17" component_id="146">
+			<node label="[Valvle 8]" type="1" description="AD | Between BC and Atmosphere">
+				<position x="5" z="1"/>
+			</node>
+		</n>
+		<n id="18" component_id="147">
+			<node label="[Valvle 9]" type="1" description="KBT254 | Between MT and BC">
+				<position x="2" z="2"/>
+			</node>
+		</n>
+		<n id="19" component_id="154">
+			<node label="Brake Force" type="1" description="To Railway Wheels">
+				<position x="5" z="2"/>
+			</node>
+		</n>
+		<n id="20" component_id="165">
+			<node label="Train Brake Pivot" type="1" description="To Pivot for Train Brake Handle"/>
+		</n>
+		<n id="21" component_id="166">
+			<node label="Independent Brake Pivot" type="1" description="To Pivot for Indep. Brake Handle">
+				<position z="1"/>
+			</node>
+		</n>
+		<n id="24" component_id="172">
+			<node label="Outer system input" mode="1" type="5">
+				<position x="3" z="2"/>
+			</node>
+		</n>
+		<n id="25" component_id="176">
+			<node label="System output" type="5">
+				<position x="4" z="2"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="56">
+				<object id="59" script='-- Up/Down Counter
+local trainCounter = {value = 4, prev = 0}
+local indepCounter = {value = 2, prev = 0}
+local function stepCounter(state, dir, step, minVal, maxVal)
+	if dir ~= state.prev then
+		state.value = math.max(
+		minVal,
+		math.min(maxVal, state.value + dir * step)
+		)
+	end
+	state.prev = dir
+	return state.value
+end
+
+-- Consumption Rate Function
+local TPU = 30
+local function Consumption()
+    local buf, sum, prev = {}, 0, nil
+    return function(v)
+        if not prev then
+            prev = v
+            return 0
+        end
+        local d = prev - v
+        prev = v
+        if #buf == TPU then
+            sum = sum - buf[1]
+            table.remove(buf, 1)
+        end
+        buf[#buf + 1] = d
+        sum = sum + d
+        return sum / #buf * 60
+    end
+end
+
+local consBLCalc = Consumption()
+local consETCalc = Consumption()
+
+-- Pressure Stabilizator Function
+local function pressureStab(isActive, currentValve, targetPressure, currentRate)
+    if not isActive then return 0 end
+    local err = targetPressure - currentRate
+    if math.abs(err) &lt; 0.001 then
+        return currentValve
+    end
+    currentValve = currentValve + err * 0.02
+    return math.max(0, math.min(1, currentValve))
+end
+
+local v = {0,0,0,0,0,0,0,0,0} -- Valve 1..9
+local z1, z2, consBL, consET, brakeForce, timer = 0, 0, 0, 0, 0, 0
+local compressor = false
+local detectEmergencyBrake = false
+
+function onTick()
+	chargingPressMT = property.getNumber("Main Tank Charging Pressure")
+	chargingPressET = property.getNumber("Equalizing Tank Charging Pressure")
+	chargingOverpressET = property.getNumber("Equalizing Tank Charging Overpressure")
+	chargingPressST = property.getNumber("Supply Tank Charging Pressure")
+	chargingPressBC = property.getNumber("Brake Cylinder Charging Pressure")
+	airDistrSens = property.getNumber("Air Distributor Sensitivity (atm/s)")
+	brakeForceMult = property.getNumber("Brake Force Multiplier")
+
+	prMT = input.getNumber(1)
+	prET = input.getNumber(2)
+	prBL = input.getNumber(3)
+	prST = input.getNumber(4)
+	prBC = input.getNumber(5)
+	seatAD = input.getNumber(6)
+	seatWS = input.getNumber(7)
+	
+	toggleCompressor = input.getBool(1)
+	emergencyBrakeRequest = input.getBool(2)
+	
+	consBL = consBLCalc(prBL)
+	consET = consETCalc(prET)
+	
+	if consBL &gt; 0.45 then
+		timer = math.max(0, math.min(60, timer + 1))
+		if timer &gt;= 45 then
+			detectEmergencyBrake = true
+		end
+	else
+		timer = 0
+		detectEmergencyBrake = false
+	end
+	
+	trainBrakePos = stepCounter(trainCounter, -seatWS, 1, 1, 7)
+	indepBrakePos = stepCounter(indepCounter, -seatAD, 1, 1, 6)
+	
+	
+	if not toggleCompressor then
+    	compressor = false
+	elseif prMT &gt;= chargingPressMT then
+    	compressor = false
+	elseif prMT &lt;= chargingPressMT * 0.95 then
+    	compressor = true
+	end
+	
+	-- Train Brake
+	if not (emergencyBrakeRequest or detectEmergencyBrake) then
+		-- I - Release and Charging
+		if trainBrakePos == 1 then
+			if z1 == 0 then
+				if prBL &lt; chargingOverpressET * 1.05 then
+					v[1] =  0.8
+				else
+					v[1] = 0
+				end
+				
+				v[5] = 0
+				
+				if (prBL &gt;= chargingOverpressET * 1.05) and (prET &gt;= chargingOverpressET) then
+					z1 = 1
+				end
+			elseif z1 == 1 then
+				v[1] = 0
+				v[5] = pressureStab(true, v[5], 0.01, consBL)
+				if prBL &lt;= chargingOverpressET then
+					z1 = 2
+				end
+			else
+				v[1] = 0
+				v[5] = 0
+			end
+			
+			if z2 == 0 then
+				v[2] = 0.25
+				v[4] = 0
+				if prET &gt;= chargingOverpressET then
+					z2 = 1
+				end
+			elseif z2 == 1 then
+				v[2] = 0
+				v[4] = pressureStab(true, v[4], 0.01, consET)
+				if prET &lt;= chargingOverpressET then
+					z2 = 2
+				end
+			else
+				v[2] = 0
+				v[4] = 0
+			end
+
+			v[3] = 0
+			
+			trainPivotPos = 0.2
+
+		-- II - Train Drive and Elimination of Overpressure
+		elseif trainBrakePos == 2 then
+			if prBL &gt; chargingPressET + 0.15 then
+				v[4] = pressureStab(true, v[4], 0.003, consBL)
+				v[2] = 0
+			elseif (prBL &gt; chargingPressET - 0.05) and (prBL &lt; chargingPressET + 0.15) then
+				v[4] = 0
+				v[2] = 0
+			elseif prBL &lt; chargingPressET - 0.05 then
+				v[4] = 0
+				v[2] = 0.3
+			end
+			
+			v[1] = 0
+			v[3] = math.max(0, math.min(1, v[3] + 0.001))
+			v[5] = 0
+			
+			trainPivotPos = 0.1
+			
+			z1, z2 = 0, 0
+			
+		-- III - Overlap without feeding
+		elseif trainBrakePos == 3 then
+			v[1] = 0
+			v[2] = 0 
+			v[3] = 0 
+			v[4] = 0
+			v[5] = 0
+			
+			trainPivotPos = 0
+			
+			z1, z2 = 0, 0
+			
+		-- IV - Overlap with feeding
+		elseif trainBrakePos == 4 then
+			v[2] = 0 
+			v[3] = 0 
+			v[4] = 0
+			
+			if prBL &gt; prET then
+				v[1] = 0
+				v[5] = pressureStab(true, v[5], 0.01, consBL)
+			elseif prBL &lt; prET then
+				v[1] = 0.075
+				v[5] = 0
+			end
+			
+			trainPivotPos = -0.15
+			
+		-- Va - Low-speed Service Braking
+		elseif trainBrakePos == 5 then
+			v[1] = 0
+			v[2] = 0 
+			v[3] = 0 
+			
+			if prBL &lt; prET then
+				v[4] = pressureStab(true, v[4], 0.04, consET)
+			end
+			
+			v[5] = pressureStab(true, v[5], 0.04, math.max(0, math.min(1, consBL)))
+			
+			trainPivotPos = -0.35
+			
+		-- V - Service Braking
+		elseif trainBrakePos == 6 then
+			v[1] = 0
+			v[2] = 0 
+			v[3] = 0 
+			
+			if prBL &lt; prET then
+				v[4] = pressureStab(true, v[4], 0.15, consET)
+			end
+			
+			v[5] = pressureStab(true, v[5], 0.15,  math.max(0, math.min(1, consBL)))
+			
+			trainPivotPos = -0.45
+			
+		-- VI - Emergency Brake
+		elseif trainBrakePos == 7 then
+			v[1] = 0
+			v[2] = 0 
+			v[3] = 0 
+			
+			if prBL &lt; prET then
+				v[4] = 0.6
+			end
+			
+			v[5] = 0.6
+			
+			trainPivotPos = -0.7
+		end
+	else
+		v[1] = 0
+		v[2] = 0 
+		v[3] = 0 
+		v[4] = 0.6
+		v[5] = 0.6
+		
+		trainBrakePos = 7
+		trainCounter.value = 7
+		trainPivotPos = -0.7
+	end
+	
+	-- Air Destributor
+	if prBL &gt; prST and prST &lt; chargingPressST then
+		v[6] = 1
+		v[7] = 0
+		v[8] = 0.5
+	elseif prST &gt;= chargingPressST and consBL &lt; airDistrSens then
+		v[6] = 0
+		v[7] = 0
+		v[8] = 0
+	elseif consBL &gt; airDistrSens then
+		v[6] = 0
+		v[7] = math.max(0, ((prST * 1.07) - prBL) / 7)
+		v[8] = 0
+	else
+		v[6] = 0
+		v[7] = 0
+		v[8] = 0
+	end
+	
+	-- Independent Brake
+	if indepBrakePos == 1 and seatAD ~= 1 then
+		indepBrakePos = 2
+		indepCounter.value = 2
+	end
+	
+	-- I - Release
+	if indepBrakePos == 1 then
+		v[9] = 0
+		v[8] = 0.5
+		
+		indepPivotPos = 0.2
+		
+	-- II - Train Drive 
+	elseif indepBrakePos == 2 then
+		v[9] = 0
+
+		indepPivotPos = 0
+		
+	-- III - First Brake Position
+	elseif indepBrakePos == 3 then
+		if prBC &lt; 1.15 then
+			v[9] = 0.2
+			v[8] = 0
+		elseif prBC &lt;= 1.15 * 1.1 then
+			v[9] = 0
+			v[8] = 0
+		else
+			v[9] = 0
+			v[8] = 0.25
+		end
+
+		indepPivotPos = -0.2
+		
+	-- IV - Second Brake Position
+	elseif indepBrakePos == 4 then
+		if prBC &lt; 1.85 then
+			v[9] = 0.2
+			v[8] = 0
+		elseif prBC &lt;= 1.85 * 1.1 then
+			v[9] = 0
+			v[8] = 0
+		else
+			v[9] = 0
+			v[8] = 0.25
+		end
+
+		indepPivotPos = -0.3
+		
+	-- V - Third Brake Position
+	elseif indepBrakePos == 5 then
+		if prBC &lt; 2.85 then
+			v[9] = 0.2
+			v[8] = 0
+		elseif prBC &lt;= 2.85 * 1.1 then
+			v[9] = 0
+			v[8] = 0
+		else
+			v[9] = 0
+			v[8] = 0.25
+		end
+
+		indepPivotPos = -0.4
+		
+	-- VI - Fourth Brake Position
+	elseif indepBrakePos == 6 then
+		if prBC &lt; 3.9 then
+			v[9] = 0.2
+			v[8] = 0
+		elseif prBC &lt;= 3.9 * 1.1 then
+			v[9] = 0
+			v[8] = 0
+		else
+			v[9] = 0
+			v[8] = 0.25
+		end
+		
+		indepPivotPos = -0.5
+	end
+	
+	brakeForce = (prBC / chargingPressBC) * brakeForceMult
+
+	output.setNumber(1, trainBrakePos)
+	output.setNumber(2, indepBrakePos)
+	output.setNumber(3, v[1])
+	output.setNumber(4, v[2])
+	output.setNumber(5, v[3])
+	output.setNumber(6, v[4])
+	output.setNumber(7, v[5])
+	output.setNumber(8, v[6])
+	output.setNumber(9, v[7])
+	output.setNumber(10, v[8])
+	output.setNumber(11, v[9])
+	output.setNumber(12, brakeForce)
+	output.setNumber(13, trainPivotPos)
+	output.setNumber(14, indepPivotPos)
+	output.setNumber(15, trainBrakePos)
+	output.setNumber(16, indepBrakePos)
+	output.setNumber(31, consET)
+	output.setNumber(32, consBL)
+	
+	output.setBool(32, compressor)
+end
+	
+function onDraw()
+	screen.setColor(0, 255, 0)
+	screen.drawText(0, 0, consBL)
+end'>
+					<pos x="8.25"/>
+					<in1 component_id="60"/>
+				</object>
+			</c>
+			<c type="41">
+				<object id="60" count="3">
+					<pos x="7" y="-0.5"/>
+					<inc component_id="61"/>
+					<in1 component_id="36"/>
+					<in2 component_id="177"/>
+					<in3 component_id="178"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="61" count="7">
+					<pos x="3.25" y="-1.5"/>
+					<in1 component_id="123"/>
+					<in2 component_id="124"/>
+					<in3 component_id="125"/>
+					<in4 component_id="126"/>
+					<in5 component_id="127"/>
+					<in6 component_id="128"/>
+					<in7 component_id="130"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="64" i="4">
+					<pos x="2" y="1.25"/>
+					<in1 component_id="45"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="65" i="3">
+					<pos x="2" y="1.75"/>
+					<in1 component_id="45"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="66" i="2">
+					<pos x="2" y="2.25"/>
+					<in1 component_id="45"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="67" i="1">
+					<pos x="2" y="2.75"/>
+					<in1 component_id="45"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="68">
+					<pos x="2" y="3.25"/>
+					<in1 component_id="45"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="69" l="MT">
+					<pos x="3.25" y="3"/>
+					<in1 component_id="68"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="70" l="ET">
+					<pos x="3.25" y="2.5"/>
+					<in1 component_id="67"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="71" l="BL">
+					<pos x="3.25" y="2"/>
+					<in1 component_id="66"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="72" l="ST">
+					<pos x="3.25" y="1.5"/>
+					<in1 component_id="65"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="73" l="BC">
+					<pos x="3.25" y="1"/>
+					<in1 component_id="64"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="74" i="10">
+					<pos x="2" y="4.25"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="75" i="9">
+					<pos x="2" y="4.75"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="76" i="8">
+					<pos x="2" y="5.25"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="77" i="7">
+					<pos x="2" y="5.75"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="78" i="6">
+					<pos x="2" y="6.25"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="79" i="5">
+					<pos x="2" y="6.75"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="80" i="4">
+					<pos x="2" y="7.25"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="81" i="3">
+					<pos x="2" y="7.75"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="82" i="2">
+					<pos x="2" y="8.25"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="83" i="1">
+					<pos x="2" y="8.75"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="84">
+					<pos x="2" y="9.25"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="92" l="Train Brake Position">
+					<pos x="3.25" y="9"/>
+					<in1 component_id="84"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="93" l="Indep Brake Position">
+					<pos x="3.25" y="8.5"/>
+					<in1 component_id="83"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="94" l="[Valve 1]">
+					<pos x="3.25" y="8"/>
+					<in1 component_id="82"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="95" l="[Valve 2]">
+					<pos x="3.25" y="7.5"/>
+					<in1 component_id="81"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="96" l="[Valve 3]">
+					<pos x="3.25" y="7"/>
+					<in1 component_id="80"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="97" l="[Valve 4]">
+					<pos x="3.25" y="6.5"/>
+					<in1 component_id="79"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="98" l="[Valve 5]">
+					<pos x="3.25" y="6"/>
+					<in1 component_id="78"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="99" l="[Valve 6]">
+					<pos x="3.25" y="5.5"/>
+					<in1 component_id="77"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="100" l="[Valve 7]">
+					<pos x="3.25" y="5"/>
+					<in1 component_id="76"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="101" l="[Valve 8]">
+					<pos x="3.25" y="4.5"/>
+					<in1 component_id="75"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="102" l="[Valve 9]">
+					<pos x="3.25" y="4"/>
+					<in1 component_id="74"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="103" i="10">
+					<pos x="9.75" y="-1.75"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="104" i="9">
+					<pos x="9.75" y="-1.25"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="105" i="8">
+					<pos x="9.75" y="-0.75"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="106" i="7">
+					<pos x="9.75" y="-0.25"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="107" i="6">
+					<pos x="9.75" y="0.25"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="108" i="5">
+					<pos x="9.75" y="0.75"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="109" i="4">
+					<pos x="9.75" y="1.25"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="110" i="3">
+					<pos x="9.75" y="1.75"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="111" i="2">
+					<pos x="9.75" y="2.25"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="112" i="31">
+					<pos x="9.75" y="-2.5"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="113" n="Main Tank Charging Pressure">
+					<pos x="8.25" y="-0.5"/>
+					<v text="8.8" value="8.8"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="114" n="Equalizing Tank Charging Pressure">
+					<pos x="8.25" y="-1"/>
+					<v text="5.2" value="5.2"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="115" n="Equalizing Tank Charging Overpressure">
+					<pos x="8.25" y="-1.5"/>
+					<v text="6.2" value="6.2"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="123">
+					<pos x="2"/>
+					<in1 component_id="45"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="124" i="1">
+					<pos x="2" y="-0.25"/>
+					<in1 component_id="45"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="125" i="2">
+					<pos x="2" y="-0.5"/>
+					<in1 component_id="45"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="126" i="3">
+					<pos x="2" y="-0.75"/>
+					<in1 component_id="45"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="127" i="4">
+					<pos x="2" y="-1"/>
+					<in1 component_id="45"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="128">
+					<pos x="2" y="-1.25"/>
+					<in1 component_id="48"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="130" i="1">
+					<pos x="2" y="-1.5"/>
+					<in1 component_id="48"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="131" l="Cons. ET">
+					<pos x="3.25" y="10"/>
+					<in1 component_id="132"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="132" i="30">
+					<pos x="2" y="10.25"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="133" l="Cons. BL">
+					<pos x="3.25" y="10.75"/>
+					<in1 component_id="134"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="134" i="31">
+					<pos x="2" y="11"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="148" n="Supply Tank Charging Pressure">
+					<pos x="8.25" y="-2"/>
+					<v text="5.1" value="5.1"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="149" n="Brake Cylinder Charging Pressure">
+					<pos x="8.25" y="-2.5"/>
+					<v text="4" value="4"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="151" n="Air Distributor Sensitivity (atm/s)">
+					<pos x="8.25" y="-3"/>
+					<v text="0.025" value="0.025"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="155" i="11">
+					<pos x="9.75" y="-3.25"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="156" n="Brake Force Multiplier">
+					<pos x="8.25" y="-3.5"/>
+					<v text="1" value="1"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="157" l="BRAKE FORCE">
+					<pos x="12.25" y="-4"/>
+					<in1 component_id="155"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="167" i="12">
+					<pos x="9.75" y="-4"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="168" i="13">
+					<pos x="9.75" y="-4.75"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="177">
+					<pos x="5.75" y="-0.5"/>
+					<in1 component_id="172"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="178" i="1">
+					<pos x="5.75" y="-1"/>
+					<in1 component_id="172"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="179" i="14">
+					<pos x="8.5" y="-5.75"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="180" i="15">
+					<pos x="7.25" y="-6"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="181" count="2">
+					<pos x="9.75" y="-6"/>
+					<in1 component_id="179"/>
+					<in2 component_id="180"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c>
+				<object id="36">
+					<pos x="5.75"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="44">
+					<pos x="11" y="-2.5"/>
+					<in1 component_id="112"/>
+				</object>
+			</c>
+			<c type="4">
+				<object id="45">
+					<pos x="0.75" y="0.25"/>
+				</object>
+			</c>
+			<c type="4">
+				<object id="48">
+					<pos x="0.75"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="54">
+					<pos x="11" y="0.25"/>
+					<in1 component_id="107"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="55">
+					<pos x="11" y="0.75"/>
+					<in1 component_id="108"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="56">
+					<pos x="11" y="1.25"/>
+					<in1 component_id="109"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="57">
+					<pos x="11" y="1.75"/>
+					<in1 component_id="110"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="58">
+					<pos x="11" y="2.25"/>
+					<in1 component_id="111"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="144">
+					<pos x="11" y="-0.25"/>
+					<in1 component_id="106"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="145">
+					<pos x="11" y="-0.75"/>
+					<in1 component_id="105"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="146">
+					<pos x="11" y="-1.25"/>
+					<in1 component_id="104"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="147">
+					<pos x="11" y="-1.75"/>
+					<in1 component_id="103"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="154">
+					<pos x="11" y="-3.25"/>
+					<in1 component_id="155"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="165">
+					<pos x="11" y="-4"/>
+					<in1 component_id="167"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="166">
+					<pos x="11" y="-4.75"/>
+					<in1 component_id="168"/>
+				</object>
+			</c>
+			<c type="4">
+				<object id="172">
+					<pos x="4.5" y="-0.5"/>
+				</object>
+			</c>
+			<c type="5">
+				<object id="176">
+					<pos x="11" y="-5.5"/>
+					<in1 component_id="181"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="59" script='-- Up/Down Counter
+local trainCounter = {value = 4, prev = 0}
+local indepCounter = {value = 2, prev = 0}
+local function stepCounter(state, dir, step, minVal, maxVal)
+	if dir ~= state.prev then
+		state.value = math.max(
+		minVal,
+		math.min(maxVal, state.value + dir * step)
+		)
+	end
+	state.prev = dir
+	return state.value
+end
+
+-- Consumption Rate Function
+local TPU = 30
+local function Consumption()
+    local buf, sum, prev = {}, 0, nil
+    return function(v)
+        if not prev then
+            prev = v
+            return 0
+        end
+        local d = prev - v
+        prev = v
+        if #buf == TPU then
+            sum = sum - buf[1]
+            table.remove(buf, 1)
+        end
+        buf[#buf + 1] = d
+        sum = sum + d
+        return sum / #buf * 60
+    end
+end
+
+local consBLCalc = Consumption()
+local consETCalc = Consumption()
+
+-- Pressure Stabilizator Function
+local function pressureStab(isActive, currentValve, targetPressure, currentRate)
+    if not isActive then return 0 end
+    local err = targetPressure - currentRate
+    if math.abs(err) &lt; 0.001 then
+        return currentValve
+    end
+    currentValve = currentValve + err * 0.02
+    return math.max(0, math.min(1, currentValve))
+end
+
+local v = {0,0,0,0,0,0,0,0,0} -- Valve 1..9
+local z1, z2, consBL, consET, brakeForce, timer = 0, 0, 0, 0, 0, 0
+local compressor = false
+local detectEmergencyBrake = false
+
+function onTick()
+	chargingPressMT = property.getNumber("Main Tank Charging Pressure")
+	chargingPressET = property.getNumber("Equalizing Tank Charging Pressure")
+	chargingOverpressET = property.getNumber("Equalizing Tank Charging Overpressure")
+	chargingPressST = property.getNumber("Supply Tank Charging Pressure")
+	chargingPressBC = property.getNumber("Brake Cylinder Charging Pressure")
+	airDistrSens = property.getNumber("Air Distributor Sensitivity (atm/s)")
+	brakeForceMult = property.getNumber("Brake Force Multiplier")
+
+	prMT = input.getNumber(1)
+	prET = input.getNumber(2)
+	prBL = input.getNumber(3)
+	prST = input.getNumber(4)
+	prBC = input.getNumber(5)
+	seatAD = input.getNumber(6)
+	seatWS = input.getNumber(7)
+	
+	toggleCompressor = input.getBool(1)
+	emergencyBrakeRequest = input.getBool(2)
+	
+	consBL = consBLCalc(prBL)
+	consET = consETCalc(prET)
+	
+	if consBL &gt; 0.45 then
+		timer = math.max(0, math.min(60, timer + 1))
+		if timer &gt;= 45 then
+			detectEmergencyBrake = true
+		end
+	else
+		timer = 0
+		detectEmergencyBrake = false
+	end
+	
+	trainBrakePos = stepCounter(trainCounter, -seatWS, 1, 1, 7)
+	indepBrakePos = stepCounter(indepCounter, -seatAD, 1, 1, 6)
+	
+	
+	if not toggleCompressor then
+    	compressor = false
+	elseif prMT &gt;= chargingPressMT then
+    	compressor = false
+	elseif prMT &lt;= chargingPressMT * 0.95 then
+    	compressor = true
+	end
+	
+	-- Train Brake
+	if not (emergencyBrakeRequest or detectEmergencyBrake) then
+		-- I - Release and Charging
+		if trainBrakePos == 1 then
+			if z1 == 0 then
+				if prBL &lt; chargingOverpressET * 1.05 then
+					v[1] =  0.8
+				else
+					v[1] = 0
+				end
+				
+				v[5] = 0
+				
+				if (prBL &gt;= chargingOverpressET * 1.05) and (prET &gt;= chargingOverpressET) then
+					z1 = 1
+				end
+			elseif z1 == 1 then
+				v[1] = 0
+				v[5] = pressureStab(true, v[5], 0.01, consBL)
+				if prBL &lt;= chargingOverpressET then
+					z1 = 2
+				end
+			else
+				v[1] = 0
+				v[5] = 0
+			end
+			
+			if z2 == 0 then
+				v[2] = 0.25
+				v[4] = 0
+				if prET &gt;= chargingOverpressET then
+					z2 = 1
+				end
+			elseif z2 == 1 then
+				v[2] = 0
+				v[4] = pressureStab(true, v[4], 0.01, consET)
+				if prET &lt;= chargingOverpressET then
+					z2 = 2
+				end
+			else
+				v[2] = 0
+				v[4] = 0
+			end
+
+			v[3] = 0
+			
+			trainPivotPos = 0.2
+
+		-- II - Train Drive and Elimination of Overpressure
+		elseif trainBrakePos == 2 then
+			if prBL &gt; chargingPressET + 0.15 then
+				v[4] = pressureStab(true, v[4], 0.003, consBL)
+				v[2] = 0
+			elseif (prBL &gt; chargingPressET - 0.05) and (prBL &lt; chargingPressET + 0.15) then
+				v[4] = 0
+				v[2] = 0
+			elseif prBL &lt; chargingPressET - 0.05 then
+				v[4] = 0
+				v[2] = 0.3
+			end
+			
+			v[1] = 0
+			v[3] = math.max(0, math.min(1, v[3] + 0.001))
+			v[5] = 0
+			
+			trainPivotPos = 0.1
+			
+			z1, z2 = 0, 0
+			
+		-- III - Overlap without feeding
+		elseif trainBrakePos == 3 then
+			v[1] = 0
+			v[2] = 0 
+			v[3] = 0 
+			v[4] = 0
+			v[5] = 0
+			
+			trainPivotPos = 0
+			
+			z1, z2 = 0, 0
+			
+		-- IV - Overlap with feeding
+		elseif trainBrakePos == 4 then
+			v[2] = 0 
+			v[3] = 0 
+			v[4] = 0
+			
+			if prBL &gt; prET then
+				v[1] = 0
+				v[5] = pressureStab(true, v[5], 0.01, consBL)
+			elseif prBL &lt; prET then
+				v[1] = 0.075
+				v[5] = 0
+			end
+			
+			trainPivotPos = -0.15
+			
+		-- Va - Low-speed Service Braking
+		elseif trainBrakePos == 5 then
+			v[1] = 0
+			v[2] = 0 
+			v[3] = 0 
+			
+			if prBL &lt; prET then
+				v[4] = pressureStab(true, v[4], 0.04, consET)
+			end
+			
+			v[5] = pressureStab(true, v[5], 0.04, math.max(0, math.min(1, consBL)))
+			
+			trainPivotPos = -0.35
+			
+		-- V - Service Braking
+		elseif trainBrakePos == 6 then
+			v[1] = 0
+			v[2] = 0 
+			v[3] = 0 
+			
+			if prBL &lt; prET then
+				v[4] = pressureStab(true, v[4], 0.15, consET)
+			end
+			
+			v[5] = pressureStab(true, v[5], 0.15,  math.max(0, math.min(1, consBL)))
+			
+			trainPivotPos = -0.45
+			
+		-- VI - Emergency Brake
+		elseif trainBrakePos == 7 then
+			v[1] = 0
+			v[2] = 0 
+			v[3] = 0 
+			
+			if prBL &lt; prET then
+				v[4] = 0.6
+			end
+			
+			v[5] = 0.6
+			
+			trainPivotPos = -0.7
+		end
+	else
+		v[1] = 0
+		v[2] = 0 
+		v[3] = 0 
+		v[4] = 0.6
+		v[5] = 0.6
+		
+		trainBrakePos = 7
+		trainCounter.value = 7
+		trainPivotPos = -0.7
+	end
+	
+	-- Air Destributor
+	if prBL &gt; prST and prST &lt; chargingPressST then
+		v[6] = 1
+		v[7] = 0
+		v[8] = 0.5
+	elseif prST &gt;= chargingPressST and consBL &lt; airDistrSens then
+		v[6] = 0
+		v[7] = 0
+		v[8] = 0
+	elseif consBL &gt; airDistrSens then
+		v[6] = 0
+		v[7] = math.max(0, ((prST * 1.07) - prBL) / 7)
+		v[8] = 0
+	else
+		v[6] = 0
+		v[7] = 0
+		v[8] = 0
+	end
+	
+	-- Independent Brake
+	if indepBrakePos == 1 and seatAD ~= 1 then
+		indepBrakePos = 2
+		indepCounter.value = 2
+	end
+	
+	-- I - Release
+	if indepBrakePos == 1 then
+		v[9] = 0
+		v[8] = 0.5
+		
+		indepPivotPos = 0.2
+		
+	-- II - Train Drive 
+	elseif indepBrakePos == 2 then
+		v[9] = 0
+
+		indepPivotPos = 0
+		
+	-- III - First Brake Position
+	elseif indepBrakePos == 3 then
+		if prBC &lt; 1.15 then
+			v[9] = 0.2
+			v[8] = 0
+		elseif prBC &lt;= 1.15 * 1.1 then
+			v[9] = 0
+			v[8] = 0
+		else
+			v[9] = 0
+			v[8] = 0.25
+		end
+
+		indepPivotPos = -0.2
+		
+	-- IV - Second Brake Position
+	elseif indepBrakePos == 4 then
+		if prBC &lt; 1.85 then
+			v[9] = 0.2
+			v[8] = 0
+		elseif prBC &lt;= 1.85 * 1.1 then
+			v[9] = 0
+			v[8] = 0
+		else
+			v[9] = 0
+			v[8] = 0.25
+		end
+
+		indepPivotPos = -0.3
+		
+	-- V - Third Brake Position
+	elseif indepBrakePos == 5 then
+		if prBC &lt; 2.85 then
+			v[9] = 0.2
+			v[8] = 0
+		elseif prBC &lt;= 2.85 * 1.1 then
+			v[9] = 0
+			v[8] = 0
+		else
+			v[9] = 0
+			v[8] = 0.25
+		end
+
+		indepPivotPos = -0.4
+		
+	-- VI - Fourth Brake Position
+	elseif indepBrakePos == 6 then
+		if prBC &lt; 3.9 then
+			v[9] = 0.2
+			v[8] = 0
+		elseif prBC &lt;= 3.9 * 1.1 then
+			v[9] = 0
+			v[8] = 0
+		else
+			v[9] = 0
+			v[8] = 0.25
+		end
+		
+		indepPivotPos = -0.5
+	end
+	
+	brakeForce = (prBC / chargingPressBC) * brakeForceMult
+
+	output.setNumber(1, trainBrakePos)
+	output.setNumber(2, indepBrakePos)
+	output.setNumber(3, v[1])
+	output.setNumber(4, v[2])
+	output.setNumber(5, v[3])
+	output.setNumber(6, v[4])
+	output.setNumber(7, v[5])
+	output.setNumber(8, v[6])
+	output.setNumber(9, v[7])
+	output.setNumber(10, v[8])
+	output.setNumber(11, v[9])
+	output.setNumber(12, brakeForce)
+	output.setNumber(13, trainPivotPos)
+	output.setNumber(14, indepPivotPos)
+	output.setNumber(15, trainBrakePos)
+	output.setNumber(16, indepBrakePos)
+	output.setNumber(31, consET)
+	output.setNumber(32, consBL)
+	
+	output.setBool(32, compressor)
+end
+	
+function onDraw()
+	screen.setColor(0, 255, 0)
+	screen.drawText(0, 0, consBL)
+end'>
+				<pos x="8.25"/>
+				<in1 component_id="60"/>
+			</c0>
+			<c1 id="60" count="3">
+				<pos x="7" y="-0.5"/>
+				<inc component_id="61"/>
+				<in1 component_id="36"/>
+				<in2 component_id="177"/>
+				<in3 component_id="178"/>
+			</c1>
+			<c2 id="61" count="7">
+				<pos x="3.25" y="-1.5"/>
+				<in1 component_id="123"/>
+				<in2 component_id="124"/>
+				<in3 component_id="125"/>
+				<in4 component_id="126"/>
+				<in5 component_id="127"/>
+				<in6 component_id="128"/>
+				<in7 component_id="130"/>
+			</c2>
+			<c3 id="64" i="4">
+				<pos x="2" y="1.25"/>
+				<in1 component_id="45"/>
+			</c3>
+			<c4 id="65" i="3">
+				<pos x="2" y="1.75"/>
+				<in1 component_id="45"/>
+			</c4>
+			<c5 id="66" i="2">
+				<pos x="2" y="2.25"/>
+				<in1 component_id="45"/>
+			</c5>
+			<c6 id="67" i="1">
+				<pos x="2" y="2.75"/>
+				<in1 component_id="45"/>
+			</c6>
+			<c7 id="68">
+				<pos x="2" y="3.25"/>
+				<in1 component_id="45"/>
+			</c7>
+			<c8 id="69" l="MT">
+				<pos x="3.25" y="3"/>
+				<in1 component_id="68"/>
+			</c8>
+			<c9 id="70" l="ET">
+				<pos x="3.25" y="2.5"/>
+				<in1 component_id="67"/>
+			</c9>
+			<c10 id="71" l="BL">
+				<pos x="3.25" y="2"/>
+				<in1 component_id="66"/>
+			</c10>
+			<c11 id="72" l="ST">
+				<pos x="3.25" y="1.5"/>
+				<in1 component_id="65"/>
+			</c11>
+			<c12 id="73" l="BC">
+				<pos x="3.25" y="1"/>
+				<in1 component_id="64"/>
+			</c12>
+			<c13 id="74" i="10">
+				<pos x="2" y="4.25"/>
+				<in1 component_id="59"/>
+			</c13>
+			<c14 id="75" i="9">
+				<pos x="2" y="4.75"/>
+				<in1 component_id="59"/>
+			</c14>
+			<c15 id="76" i="8">
+				<pos x="2" y="5.25"/>
+				<in1 component_id="59"/>
+			</c15>
+			<c16 id="77" i="7">
+				<pos x="2" y="5.75"/>
+				<in1 component_id="59"/>
+			</c16>
+			<c17 id="78" i="6">
+				<pos x="2" y="6.25"/>
+				<in1 component_id="59"/>
+			</c17>
+			<c18 id="79" i="5">
+				<pos x="2" y="6.75"/>
+				<in1 component_id="59"/>
+			</c18>
+			<c19 id="80" i="4">
+				<pos x="2" y="7.25"/>
+				<in1 component_id="59"/>
+			</c19>
+			<c20 id="81" i="3">
+				<pos x="2" y="7.75"/>
+				<in1 component_id="59"/>
+			</c20>
+			<c21 id="82" i="2">
+				<pos x="2" y="8.25"/>
+				<in1 component_id="59"/>
+			</c21>
+			<c22 id="83" i="1">
+				<pos x="2" y="8.75"/>
+				<in1 component_id="59"/>
+			</c22>
+			<c23 id="84">
+				<pos x="2" y="9.25"/>
+				<in1 component_id="59"/>
+			</c23>
+			<c24 id="92" l="Train Brake Position">
+				<pos x="3.25" y="9"/>
+				<in1 component_id="84"/>
+			</c24>
+			<c25 id="93" l="Indep Brake Position">
+				<pos x="3.25" y="8.5"/>
+				<in1 component_id="83"/>
+			</c25>
+			<c26 id="94" l="[Valve 1]">
+				<pos x="3.25" y="8"/>
+				<in1 component_id="82"/>
+			</c26>
+			<c27 id="95" l="[Valve 2]">
+				<pos x="3.25" y="7.5"/>
+				<in1 component_id="81"/>
+			</c27>
+			<c28 id="96" l="[Valve 3]">
+				<pos x="3.25" y="7"/>
+				<in1 component_id="80"/>
+			</c28>
+			<c29 id="97" l="[Valve 4]">
+				<pos x="3.25" y="6.5"/>
+				<in1 component_id="79"/>
+			</c29>
+			<c30 id="98" l="[Valve 5]">
+				<pos x="3.25" y="6"/>
+				<in1 component_id="78"/>
+			</c30>
+			<c31 id="99" l="[Valve 6]">
+				<pos x="3.25" y="5.5"/>
+				<in1 component_id="77"/>
+			</c31>
+			<c32 id="100" l="[Valve 7]">
+				<pos x="3.25" y="5"/>
+				<in1 component_id="76"/>
+			</c32>
+			<c33 id="101" l="[Valve 8]">
+				<pos x="3.25" y="4.5"/>
+				<in1 component_id="75"/>
+			</c33>
+			<c34 id="102" l="[Valve 9]">
+				<pos x="3.25" y="4"/>
+				<in1 component_id="74"/>
+			</c34>
+			<c35 id="103" i="10">
+				<pos x="9.75" y="-1.75"/>
+				<in1 component_id="59"/>
+			</c35>
+			<c36 id="104" i="9">
+				<pos x="9.75" y="-1.25"/>
+				<in1 component_id="59"/>
+			</c36>
+			<c37 id="105" i="8">
+				<pos x="9.75" y="-0.75"/>
+				<in1 component_id="59"/>
+			</c37>
+			<c38 id="106" i="7">
+				<pos x="9.75" y="-0.25"/>
+				<in1 component_id="59"/>
+			</c38>
+			<c39 id="107" i="6">
+				<pos x="9.75" y="0.25"/>
+				<in1 component_id="59"/>
+			</c39>
+			<c40 id="108" i="5">
+				<pos x="9.75" y="0.75"/>
+				<in1 component_id="59"/>
+			</c40>
+			<c41 id="109" i="4">
+				<pos x="9.75" y="1.25"/>
+				<in1 component_id="59"/>
+			</c41>
+			<c42 id="110" i="3">
+				<pos x="9.75" y="1.75"/>
+				<in1 component_id="59"/>
+			</c42>
+			<c43 id="111" i="2">
+				<pos x="9.75" y="2.25"/>
+				<in1 component_id="59"/>
+			</c43>
+			<c44 id="112" i="31">
+				<pos x="9.75" y="-2.5"/>
+				<in1 component_id="59"/>
+			</c44>
+			<c45 id="113" n="Main Tank Charging Pressure">
+				<pos x="8.25" y="-0.5"/>
+				<v text="8.8" value="8.8"/>
+			</c45>
+			<c46 id="114" n="Equalizing Tank Charging Pressure">
+				<pos x="8.25" y="-1"/>
+				<v text="5.2" value="5.2"/>
+			</c46>
+			<c47 id="115" n="Equalizing Tank Charging Overpressure">
+				<pos x="8.25" y="-1.5"/>
+				<v text="6.2" value="6.2"/>
+			</c47>
+			<c48 id="123">
+				<pos x="2"/>
+				<in1 component_id="45"/>
+			</c48>
+			<c49 id="124" i="1">
+				<pos x="2" y="-0.25"/>
+				<in1 component_id="45"/>
+			</c49>
+			<c50 id="125" i="2">
+				<pos x="2" y="-0.5"/>
+				<in1 component_id="45"/>
+			</c50>
+			<c51 id="126" i="3">
+				<pos x="2" y="-0.75"/>
+				<in1 component_id="45"/>
+			</c51>
+			<c52 id="127" i="4">
+				<pos x="2" y="-1"/>
+				<in1 component_id="45"/>
+			</c52>
+			<c53 id="128">
+				<pos x="2" y="-1.25"/>
+				<in1 component_id="48"/>
+			</c53>
+			<c54 id="130" i="1">
+				<pos x="2" y="-1.5"/>
+				<in1 component_id="48"/>
+			</c54>
+			<c55 id="131" l="Cons. ET">
+				<pos x="3.25" y="10"/>
+				<in1 component_id="132"/>
+			</c55>
+			<c56 id="132" i="30">
+				<pos x="2" y="10.25"/>
+				<in1 component_id="59"/>
+			</c56>
+			<c57 id="133" l="Cons. BL">
+				<pos x="3.25" y="10.75"/>
+				<in1 component_id="134"/>
+			</c57>
+			<c58 id="134" i="31">
+				<pos x="2" y="11"/>
+				<in1 component_id="59"/>
+			</c58>
+			<c59 id="148" n="Supply Tank Charging Pressure">
+				<pos x="8.25" y="-2"/>
+				<v text="5.1" value="5.1"/>
+			</c59>
+			<c60 id="149" n="Brake Cylinder Charging Pressure">
+				<pos x="8.25" y="-2.5"/>
+				<v text="4" value="4"/>
+			</c60>
+			<c61 id="151" n="Air Distributor Sensitivity (atm/s)">
+				<pos x="8.25" y="-3"/>
+				<v text="0.025" value="0.025"/>
+			</c61>
+			<c62 id="155" i="11">
+				<pos x="9.75" y="-3.25"/>
+				<in1 component_id="59"/>
+			</c62>
+			<c63 id="156" n="Brake Force Multiplier">
+				<pos x="8.25" y="-3.5"/>
+				<v text="1" value="1"/>
+			</c63>
+			<c64 id="157" l="BRAKE FORCE">
+				<pos x="12.25" y="-4"/>
+				<in1 component_id="155"/>
+			</c64>
+			<c65 id="167" i="12">
+				<pos x="9.75" y="-4"/>
+				<in1 component_id="59"/>
+			</c65>
+			<c66 id="168" i="13">
+				<pos x="9.75" y="-4.75"/>
+				<in1 component_id="59"/>
+			</c66>
+			<c67 id="177">
+				<pos x="5.75" y="-0.5"/>
+				<in1 component_id="172"/>
+			</c67>
+			<c68 id="178" i="1">
+				<pos x="5.75" y="-1"/>
+				<in1 component_id="172"/>
+			</c68>
+			<c69 id="179" i="14">
+				<pos x="8.5" y="-5.75"/>
+				<in1 component_id="59"/>
+			</c69>
+			<c70 id="180" i="15">
+				<pos x="7.25" y="-6"/>
+				<in1 component_id="59"/>
+			</c70>
+			<c71 id="181" count="2">
+				<pos x="9.75" y="-6"/>
+				<in1 component_id="179"/>
+				<in2 component_id="180"/>
+			</c71>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="36">
+				<pos x="5.75"/>
+			</c0>
+			<c1 id="44">
+				<pos x="11" y="-2.5"/>
+				<in1 component_id="112"/>
+			</c1>
+			<c2 id="45">
+				<pos x="0.75" y="0.25"/>
+			</c2>
+			<c3 id="48">
+				<pos x="0.75"/>
+			</c3>
+			<c4 id="54">
+				<pos x="11" y="0.25"/>
+				<in1 component_id="107"/>
+			</c4>
+			<c5 id="55">
+				<pos x="11" y="0.75"/>
+				<in1 component_id="108"/>
+			</c5>
+			<c6 id="56">
+				<pos x="11" y="1.25"/>
+				<in1 component_id="109"/>
+			</c6>
+			<c7 id="57">
+				<pos x="11" y="1.75"/>
+				<in1 component_id="110"/>
+			</c7>
+			<c8 id="58">
+				<pos x="11" y="2.25"/>
+				<in1 component_id="111"/>
+			</c8>
+			<c9 id="144">
+				<pos x="11" y="-0.25"/>
+				<in1 component_id="106"/>
+			</c9>
+			<c10 id="145">
+				<pos x="11" y="-0.75"/>
+				<in1 component_id="105"/>
+			</c10>
+			<c11 id="146">
+				<pos x="11" y="-1.25"/>
+				<in1 component_id="104"/>
+			</c11>
+			<c12 id="147">
+				<pos x="11" y="-1.75"/>
+				<in1 component_id="103"/>
+			</c12>
+			<c13 id="154">
+				<pos x="11" y="-3.25"/>
+				<in1 component_id="155"/>
+			</c13>
+			<c14 id="165">
+				<pos x="11" y="-4"/>
+				<in1 component_id="167"/>
+			</c14>
+			<c15 id="166">
+				<pos x="11" y="-4.75"/>
+				<in1 component_id="168"/>
+			</c15>
+			<c16 id="172">
+				<pos x="4.5" y="-0.5"/>
+			</c16>
+			<c17 id="176">
+				<pos x="11" y="-5.5"/>
+				<in1 component_id="181"/>
+			</c17>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

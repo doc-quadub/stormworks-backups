@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Timer" description="No description set." width="1" length="2" id_counter="5" id_counter_node="2" sym1="1984" sym2="6448" sym3="9288" sym4="20500" sym5="16388" sym6="40970" sym7="32770" sym8="49414" sym9="33282" sym10="41994" sym11="18436" sym12="20500" sym13="9288" sym14="6448" sym15="1984">
+	<nodes>
+		<n id="1" component_id="1">
+			<node label="Input" mode="1"/>
+		</n>
+		<n id="2" component_id="3">
+			<node label="Output">
+				<position z="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data type="850616789">
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="49">
+				<object id="4">
+					<in1 component_id="1"/>
+					<in2 component_id="5"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="5" n="Duration">
+					<pos x="-1.25"/>
+					<v text="0"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c>
+				<object id="1">
+					<pos x="-1.25" y="0.25"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="3">
+					<pos x="1.25" y="0.25"/>
+					<in1 component_id="4"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="4">
+				<in1 component_id="1"/>
+				<in2 component_id="5"/>
+			</c0>
+			<c1 id="5" n="Duration">
+				<pos x="-1.25"/>
+				<v text="0"/>
+			</c1>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="1">
+				<pos x="-1.25" y="0.25"/>
+			</c0>
+			<c1 id="3">
+				<pos x="1.25" y="0.25"/>
+				<in1 component_id="4"/>
+			</c1>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

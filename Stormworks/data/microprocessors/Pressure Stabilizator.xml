@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Pressure Stabilizator" width="3" length="1" id_counter="68" id_counter_node="9" sym0="254" sym1="387" sym2="256" sym3="63807" sym4="5488" sym5="7504" sym6="5488" sym7="7504" sym8="5488" sym9="7504" sym10="5488" sym11="7504" sym12="5488" sym13="7504" sym14="63807" sym15="256">
+	<nodes>
+		<n id="6" component_id="42">
+			<node label="Input" mode="1" type="1"/>
+		</n>
+		<n id="7" component_id="46">
+			<node label="Output" type="1">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="8" component_id="47">
+			<node label="Toggle" mode="1">
+				<position x="2"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="56">
+				<object id="58" script='local TPU = 1
+local active = false
+local valve, target, rate = 0, 0, 0
+local buf, sum, prev = {}, 0
+local v = {0} 
+
+local function Consumption(v)
+    if not prev then prev = v return end
+    local d = prev - v
+    prev = v
+    if #buf == TPU then
+        sum = sum - buf[1]
+        table.remove(buf, 1)
+    end
+    buf[#buf + 1] = d
+    sum = sum + d
+    return sum / #buf * 60
+end
+
+local function pressureStab(active, valve, target, rate)
+    if not active then return 0 end
+    local err = target - rate
+    if math.abs(err) &lt; 0.001 then
+        return valve
+    end
+    valve = valve + err * 0.02
+    return math.max(0, math.min(1, valve))
+end
+
+function onTick()
+	n = input.getBool(1)
+	pressure = input.getNumber(1)
+	m = property.getNumber("Rate")
+    cons = Consumption(pressure)
+	
+	v[1] = pressureStab(n, v[1], m, cons)
+	output.setNumber(1, v[1])
+	output.setNumber(32, cons)
+end
+'>
+					<pos y="6.75"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="59" count="1">
+					<pos x="-1.25" y="6.75"/>
+					<inc component_id="60"/>
+					<in1 component_id="42"/>
+				</object>
+			</c>
+			<c type="41">
+				<object id="60" count="1">
+					<pos x="-1.25" y="6.25"/>
+					<in1 component_id="47"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="61">
+					<pos x="1.25" y="6.25"/>
+					<in1 component_id="58"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="64" n="Rate">
+					<pos y="6.25"/>
+					<v text="0.2" value="0.2"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="65" l="Leak Rate">
+					<pos x="1.25" y="7.75"/>
+					<in1 component_id="66"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="66" i="31">
+					<pos y="8"/>
+					<in1 component_id="58"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="2">
+				<object id="42">
+					<pos x="-2.5" y="6.75"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="46">
+					<pos x="1.25" y="7"/>
+					<in1 component_id="61"/>
+				</object>
+			</c>
+			<c>
+				<object id="47">
+					<pos x="-2.5" y="6.25"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="58" script='local TPU = 1
+local active = false
+local valve, target, rate = 0, 0, 0
+local buf, sum, prev = {}, 0
+local v = {0} 
+
+local function Consumption(v)
+    if not prev then prev = v return end
+    local d = prev - v
+    prev = v
+    if #buf == TPU then
+        sum = sum - buf[1]
+        table.remove(buf, 1)
+    end
+    buf[#buf + 1] = d
+    sum = sum + d
+    return sum / #buf * 60
+end
+
+local function pressureStab(active, valve, target, rate)
+    if not active then return 0 end
+    local err = target - rate
+    if math.abs(err) &lt; 0.001 then
+        return valve
+    end
+    valve = valve + err * 0.02
+    return math.max(0, math.min(1, valve))
+end
+
+function onTick()
+	n = input.getBool(1)
+	pressure = input.getNumber(1)
+	m = property.getNumber("Rate")
+    cons = Consumption(pressure)
+	
+	v[1] = pressureStab(n, v[1], m, cons)
+	output.setNumber(1, v[1])
+	output.setNumber(32, cons)
+end
+'>
+				<pos y="6.75"/>
+				<in1 component_id="59"/>
+			</c0>
+			<c1 id="59" count="1">
+				<pos x="-1.25" y="6.75"/>
+				<inc component_id="60"/>
+				<in1 component_id="42"/>
+			</c1>
+			<c2 id="60" count="1">
+				<pos x="-1.25" y="6.25"/>
+				<in1 component_id="47"/>
+			</c2>
+			<c3 id="61">
+				<pos x="1.25" y="6.25"/>
+				<in1 component_id="58"/>
+			</c3>
+			<c4 id="64" n="Rate">
+				<pos y="6.25"/>
+				<v text="0.2" value="0.2"/>
+			</c4>
+			<c5 id="65" l="Leak Rate">
+				<pos x="1.25" y="7.75"/>
+				<in1 component_id="66"/>
+			</c5>
+			<c6 id="66" i="31">
+				<pos y="8"/>
+				<in1 component_id="58"/>
+			</c6>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="42">
+				<pos x="-2.5" y="6.75"/>
+			</c0>
+			<c1 id="46">
+				<pos x="1.25" y="7"/>
+				<in1 component_id="61"/>
+			</c1>
+			<c2 id="47">
+				<pos x="-2.5" y="6.25"/>
+			</c2>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

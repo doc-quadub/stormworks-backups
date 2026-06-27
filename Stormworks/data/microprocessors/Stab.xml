@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Simple Stabilization" width="2" length="2" id_counter="15" id_counter_node="4" sym2="1984" sym3="32" sym4="30736" sym5="6152" sym6="10248" sym7="10248" sym8="8200" sym9="8200" sym10="4112" sym11="2080" sym12="1984">
+	<nodes>
+		<n id="1" component_id="8">
+			<node label="TSL" mode="1" type="1"/>
+		</n>
+		<n id="2" component_id="7">
+			<node label="TSF" mode="1" type="1">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="3" component_id="9">
+			<node label="Left Rudder" type="1">
+				<position x="1" z="1"/>
+			</node>
+		</n>
+		<n id="4" component_id="10">
+			<node label="Right Rudder" type="1">
+				<position z="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="45">
+				<object id="11" e="x*(-4)">
+					<pos x="-1.75" y="0.5"/>
+					<in1 component_id="8"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="12" e="x*(-4)">
+					<pos x="-1.75"/>
+					<in1 component_id="7"/>
+				</object>
+			</c>
+			<c type="6">
+				<object id="13">
+					<pos x="-0.25" y="0.75"/>
+					<in1 component_id="11"/>
+					<in2 component_id="15"/>
+				</object>
+			</c>
+			<c type="6">
+				<object id="14">
+					<pos x="-0.25"/>
+					<in1 component_id="11"/>
+					<in2 component_id="12"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="15" e="-x">
+					<pos x="-0.25" y="-0.5"/>
+					<in1 component_id="12"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="2">
+				<object id="7">
+					<pos x="-3"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="8">
+					<pos x="-3" y="0.5"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="9">
+					<pos x="1" y="1"/>
+					<in1 component_id="13"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="10">
+					<pos x="1" y="0.25"/>
+					<in1 component_id="14"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="11" e="x*(-4)">
+				<pos x="-1.75" y="0.5"/>
+				<in1 component_id="8"/>
+			</c0>
+			<c1 id="12" e="x*(-4)">
+				<pos x="-1.75"/>
+				<in1 component_id="7"/>
+			</c1>
+			<c2 id="13">
+				<pos x="-0.25" y="0.75"/>
+				<in1 component_id="11"/>
+				<in2 component_id="15"/>
+			</c2>
+			<c3 id="14">
+				<pos x="-0.25"/>
+				<in1 component_id="11"/>
+				<in2 component_id="12"/>
+			</c3>
+			<c4 id="15" e="-x">
+				<pos x="-0.25" y="-0.5"/>
+				<in1 component_id="12"/>
+			</c4>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="7">
+				<pos x="-3"/>
+			</c0>
+			<c1 id="8">
+				<pos x="-3" y="0.5"/>
+			</c1>
+			<c2 id="9">
+				<pos x="1" y="1"/>
+				<in1 component_id="13"/>
+			</c2>
+			<c3 id="10">
+				<pos x="1" y="0.25"/>
+				<in1 component_id="14"/>
+			</c3>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

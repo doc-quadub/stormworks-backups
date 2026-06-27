@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Less Then" width="2" length="2" id_counter="25" id_counter_node="5" sym0="16384" sym1="32256" sym2="16896" sym3="512" sym4="512" sym5="3072" sym6="769" sym7="223" sym8="769" sym9="3072" sym10="512" sym11="512" sym12="16896" sym13="32256" sym14="16384">
+	<nodes>
+		<n id="1" component_id="24">
+			<node label="Input"/>
+		</n>
+		<n id="4" component_id="22">
+			<node label="A" mode="1" type="1">
+				<position z="1"/>
+			</node>
+		</n>
+		<n id="5" component_id="21">
+			<node label="B" mode="1" type="1">
+				<position x="1" z="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="18">
+				<object id="25">
+					<pos x="-1" y="0.5"/>
+					<in1 component_id="22"/>
+					<in2 component_id="21"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="2">
+				<object id="21">
+					<pos x="-2.25" y="0.5"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="22">
+					<pos x="-2.25" y="0.75"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="24">
+					<pos x="0.25" y="0.75"/>
+					<in1 component_id="25"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="25">
+				<pos x="-1" y="0.5"/>
+				<in1 component_id="22"/>
+				<in2 component_id="21"/>
+			</c0>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="21">
+				<pos x="-2.25" y="0.5"/>
+			</c0>
+			<c1 id="22">
+				<pos x="-2.25" y="0.75"/>
+			</c1>
+			<c2 id="24">
+				<pos x="0.25" y="0.75"/>
+				<in1 component_id="25"/>
+			</c2>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

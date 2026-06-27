@@ -1,0 +1,1086 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Train traction Control with EDT" width="6" length="2" id_counter="131" id_counter_node="21" sym1="65535" sym2="224" sym3="496" sym4="16608" sym5="57408" sym6="16448" sym7="16416" sym8="8224" sym9="8208" sym10="4112" sym11="3080" sym12="924" sym13="8">
+	<nodes>
+		<n id="6" component_id="52">
+			<node label="Reverser Handle from A Cabin" mode="1" type="5"/>
+		</n>
+		<n id="9" component_id="44">
+			<node label="Throttle to Motor Out" type="1">
+				<position x="4"/>
+			</node>
+		</n>
+		<n id="10" component_id="45">
+			<node label="Electrodynamic Brake Toggle from A Cabin" mode="1">
+				<position x="2" z="1"/>
+			</node>
+		</n>
+		<n id="11" component_id="48">
+			<node label="To Clutch" type="1">
+				<position x="3"/>
+			</node>
+		</n>
+		<n id="12" component_id="50">
+			<node label="Seat" mode="1" type="5">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="15" component_id="55">
+			<node label="Reverser Handle from B Cabin" mode="1" type="5">
+				<position z="1"/>
+			</node>
+		</n>
+		<n id="16" component_id="58">
+			<node label="To Reverser Handle" type="5">
+				<position x="1" z="1"/>
+			</node>
+		</n>
+		<n id="17" component_id="59">
+			<node label="Electrodynamic Brake Toggle from B Cabin" mode="1">
+				<position x="2"/>
+			</node>
+		</n>
+		<n id="18" component_id="61">
+			<node label="From Other System" mode="1" type="5">
+				<position x="5" z="1"/>
+			</node>
+		</n>
+		<n id="19" component_id="64">
+			<node label="Reverser Handle Relay A">
+				<position x="3" z="1"/>
+			</node>
+		</n>
+		<n id="20" component_id="101">
+			<node label="Throttle to Motor In" mode="1" type="1">
+				<position x="5"/>
+			</node>
+		</n>
+		<n id="21" component_id="106">
+			<node label="Reverser Handle Relay B">
+				<position x="4" z="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="56">
+				<object id="62" script='local reverserCounter = {value = 0, prev = 0}
+local throttleCounter = {value = 0, prev = 0}
+local function boolStepCounter(state, forward, backward, step, minVal, maxVal)
+    local dir = 0
+    if forward and not backward then
+        dir = 1
+    elseif backward and not forward then
+        dir = -1
+    end
+    
+    if dir ~= state.prev then
+        state.value = math.max(
+            minVal,
+            math.min(maxVal, state.value + dir * step)
+        )
+    end
+    state.prev = dir
+    return state.value
+end
+
+function parse(a)
+	for i = 1, math.min(#a, 7) do
+		output.setBool(i + 24, a[i])
+	end
+end
+
+a = {false, false, false, false, false, false, false}
+
+A_reverserToggle, B_reverserToggle, AtoggleEDT, BtoggleEDT, reverserHandleRelayA, reverserHandleRelayB, prev_plus_state, prev_minus_state = false, false, false, false, false, false, false, false
+throttle, reverserHandlePos, clutch, directThrottle, current_position, prev_seat_state, traction = 0, 0, 0, 0, 0, 0, 0
+reverserHandleIndex = 0 -- 2 - Electrodynamic Brake Mode | 1 - Forward | 0 - Neutral | -1 - Backward | -2 - Error | -3 - Off
+
+function onTick()
+	A_reverserForward = input.getBool(1)
+	A_reverserBackward = input.getBool(2)
+	A_reverserToggle = input.getBool(3)
+	B_reverserForward = input.getBool(4)
+	B_reverserBackward = input.getBool(5)
+	B_reverserToggle = input.getBool(6)
+	
+	AtoggleEDT = input.getBool(7)
+	BtoggleEDT = input.getBool(8)
+	toggleEDT = property.getBool("Electrodynamic Brake is ON?")
+	seatBtnOne = input.getBool(9)
+	seatBtnTwo = input.getBool(10)
+	
+	--serviceBrakeReq = input.getBool(11)
+	emergencyBrakeReq = input.getBool(12)
+	
+	position_count = property.getNumber("Position Count")
+	min_traction = property.getNumber("Minimum Traction")
+	max_traction = property.getNumber("Maximum Traction")
+	control_axis = property.getNumber("Control Axis")
+	incrementMode = property.getBool("Control Mode")
+	inc_traction = property.getNumber("Traction Increment")
+	
+    local from_seat = 0
+    local from_seatPlus = false
+    local from_seatMinus = false
+    
+    if control_axis == 1 then
+        from_seat = input.getNumber(1)
+    elseif control_axis == 2 then
+        from_seat = input.getNumber(2)
+    elseif control_axis == 3 then
+        from_seat = input.getNumber(3)
+    elseif control_axis == 4 then
+        from_seat = input.getNumber(4)
+    elseif control_axis == 5 then
+        from_seatPlus = input.getBool(9)
+        from_seatMinus = input.getBool(10)
+    end
+
+    if control_axis &gt;= 1 and control_axis &lt;= 4 then
+        if from_seat &gt; 0 and prev_seat_state &lt;= 0 then
+            current_position = current_position + 1
+        elseif from_seat &lt; 0 and prev_seat_state &gt;= 0 then
+            current_position = current_position - 1
+        end
+        prev_seat_state = from_seat
+    end
+
+    if control_axis == 5 then
+        if from_seatPlus and not prev_plus_state then
+            current_position = current_position + 1
+        end
+        if from_seatMinus and not prev_minus_state then
+            current_position = current_position - 1
+        end
+        prev_plus_state = from_seatPlus
+        prev_minus_state = from_seatMinus
+    end
+
+    current_position = math.max(0, math.min(current_position, position_count))
+    if emergencyBrakeReq == true then
+        traction = 0
+        prev_seat_state = 0
+        prev_plus_state = false
+        prev_minus_state = false
+        current_position = 0
+    else
+        if current_position == 0 then
+            traction = 0
+        elseif position_count &lt;= 1 then
+            traction = min_traction
+        else
+            if incrementMode then
+                traction = min_traction + (current_position - 1) * inc_traction
+                traction = math.min(traction, max_traction)
+            else
+                local t = (current_position - 1) / (position_count - 1)
+                traction = min_traction + t * (max_traction - min_traction)
+            end
+        end
+    end
+    throttle = traction
+
+    if throttle ~= 0 then
+        A_reverserForward = false
+        A_reverserBackward = false
+        B_reverserForward = false
+        B_reverserBackward = false
+    end
+    
+    if not (A_reverserToggle and B_reverserToggle) then
+        if A_reverserToggle then
+            reverserHandlePos = boolStepCounter(reverserCounter, A_reverserForward, A_reverserBackward, 1, -1, 2)
+            
+            if reverserHandlePos == 2 then
+                directThrottle = throttle * 0
+                reverserHandleIndex = 2
+                
+            elseif reverserHandlePos == 1 then
+                directThrottle = throttle
+                reverserHandleIndex = 1
+                
+            elseif reverserHandlePos == 0 then
+                directThrottle = throttle * 0
+                reverserHandleIndex = 0
+                
+            elseif reverserHandlePos == -1 then
+                directThrottle = -throttle
+                reverserHandleIndex = -1
+
+            end
+            
+            reverserHandleRelayA = true
+            reverserHandleRelayB = false
+        elseif B_reverserToggle then
+            reverserHandlePos = boolStepCounter(reverserCounter, B_reverserForward, B_reverserBackward, 1, -1, 2)
+            
+            if reverserHandlePos == 2 then
+                directThrottle = throttle * 0
+                reverserHandleIndex = 2
+                
+            elseif reverserHandlePos == 1 then
+                directThrottle = -throttle
+                reverserHandleIndex = 1
+                
+            elseif reverserHandlePos == 0 then
+                directThrottle = throttle * 0
+                reverserHandleIndex = 0
+                
+            elseif reverserHandlePos == -1 then
+                directThrottle = throttle
+                reverserHandleIndex = -1
+                
+            end
+            
+            reverserHandleRelayA = false
+            reverserHandleRelayB = true
+        else
+            directThrottle = 0
+            reverserHandleIndex = -3
+            reverserCounter.value = 0
+            reverserCounter.prev = 0
+            reverserHandlePos = 0
+            
+            reverserHandleRelayA = true
+            reverserHandleRelayB = true
+        end
+        
+    elseif (A_reverserToggle and B_reverserToggle) then
+        reverserHandleIndex = -2
+        directThrottle = 0
+        reverserCounter.value = 0
+        reverserCounter.prev = 0
+        reverserHandlePos = 0
+        
+        reverserHandleRelayA = true
+        reverserHandleRelayB = true
+    end
+
+    if toggleEDT then
+  	  if (AtoggleEDT or BtoggleEDT) and reverserHandleIndex == 2 then
+      	  if current_position == 0 then
+          	  clutch = 0
+      	  elseif current_position == 1 then
+          	  clutch = 0.35
+       	 elseif current_position == 2 then
+           	 clutch = 0.6
+       	 elseif current_position == 3 then
+           	 clutch = 0.85
+        	elseif current_position &gt;= 4 then
+            	clutch = 1.0
+        	end
+    	else
+        	clutch = 0
+    	end
+	end
+
+    if reverserHandleIndex == 2 then
+        a = {true, false, false, true, true, true, true}
+        parse(a)
+    elseif reverserHandleIndex == 1 then
+        a = {true, false, false, false, true, true, true}
+        parse(a)
+    elseif reverserHandleIndex == 0 then
+        a = {true, true, true, true, true, true, false}
+        parse(a)
+    elseif reverserHandleIndex == -1 then
+        a = {false, false, true, true, true, true, true}
+        parse(a)
+    elseif reverserHandleIndex == -2 then
+        a = {false, false, false, false, false, false, true}
+        parse(a)
+    elseif reverserHandleIndex == -3 then
+        a = {false, false, false, false, false, false, false}
+        parse(a)
+    end
+
+    output.setNumber(1, reverserHandlePos)
+    output.setNumber(2, reverserHandleIndex)
+    output.setNumber(3, directThrottle)
+    output.setNumber(4, clutch)
+    output.setNumber(5, throttle)
+    output.setNumber(6, current_position)
+    output.setBool(8, reverserHandleRelayA)
+    output.setBool(9, reverserHandleRelayB)
+end'>
+					<pos x="2" y="8"/>
+					<in1 component_id="66"/>
+				</object>
+			</c>
+			<c type="41">
+				<object id="66" count="12">
+					<pos x="0.75" y="5.25"/>
+					<inc component_id="102"/>
+					<in1 component_id="79"/>
+					<in2 component_id="80"/>
+					<in3 component_id="81"/>
+					<in4 component_id="82"/>
+					<in5 component_id="83"/>
+					<in6 component_id="84"/>
+					<in7 component_id="45"/>
+					<in8 component_id="59"/>
+					<in9 component_id="85"/>
+					<in10 component_id="86"/>
+					<in11/>
+					<in12/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="77" l="Reverser Handle Pos">
+					<pos x="5.75" y="8"/>
+					<in1 component_id="78"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="78">
+					<pos x="3.25" y="8.25"/>
+					<in1 component_id="62"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="79">
+					<pos x="-0.5" y="8"/>
+					<in1 component_id="52"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="80" i="1">
+					<pos x="-1.75" y="7.75"/>
+					<in1 component_id="52"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="81" i="2">
+					<pos x="-0.5" y="7.5"/>
+					<in1 component_id="52"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="82">
+					<pos x="-1.75" y="7.25"/>
+					<in1 component_id="55"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="83" i="1">
+					<pos x="-0.5" y="7"/>
+					<in1 component_id="55"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="84" i="2">
+					<pos x="-1.75" y="6.75"/>
+					<in1 component_id="55"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="85">
+					<pos x="-0.5" y="6"/>
+					<in1 component_id="50"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="86" i="1">
+					<pos x="-1.75" y="5.75"/>
+					<in1 component_id="50"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="87" i="1">
+					<pos x="3.25" y="7.75"/>
+					<in1 component_id="62"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="88" i="2">
+					<pos x="3.25" y="7.25"/>
+					<in1 component_id="62"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="89" i="3">
+					<pos x="3.25" y="6.75"/>
+					<in1 component_id="62"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="90" l="Reverser Handle Index">
+					<pos x="5.75" y="7.5"/>
+					<in1 component_id="87"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="91" l="Throttle">
+					<pos x="5.75" y="6.75"/>
+					<in1 component_id="88"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="92" l="Clutch">
+					<pos x="5.75" y="6.25"/>
+					<in1 component_id="89"/>
+				</object>
+			</c>
+			<c type="33">
+				<object id="99" n="Electrodynamic Brake is ON?" on="Yes" off="No" v="true">
+					<pos x="0.75" y="4.5"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="102" count="1">
+					<pos x="-4.25" y="8"/>
+					<in1 component_id="101"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="107" i="7">
+					<pos x="3.25" y="6.25"/>
+					<in1 component_id="62"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="108" i="8">
+					<pos x="3.25" y="5.75"/>
+					<in1 component_id="62"/>
+				</object>
+			</c>
+			<c type="44">
+				<object id="109" l="Reverser Handle Relay A" on="Yes" off="No">
+					<pos x="5.75" y="6"/>
+					<in1 component_id="107"/>
+				</object>
+			</c>
+			<c type="44">
+				<object id="110" l="Reverser Handle Relay A" on="Yes" off="No">
+					<pos x="5.75" y="5.5"/>
+					<in1 component_id="108"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="116" n="Position Count">
+					<pos x="0.75" y="3.25"/>
+					<v text="8" value="8"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="117" n="Minimum Traction">
+					<pos x="0.75" y="2.75"/>
+					<v text="0.01" value="0.01"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="118" n="Maximum Traction">
+					<pos x="0.75" y="2.25"/>
+					<v text="0.5" value="0.5"/>
+				</object>
+			</c>
+			<c type="20">
+				<object id="122" name="Control Axis" i="4">
+					<pos x="0.75" y="1.75"/>
+					<items>
+						<i l="A and D">
+							<v text="1" value="1"/>
+						</i>
+						<i l="W and S">
+							<v text="2" value="2"/>
+						</i>
+						<i l="Left and Right">
+							<v text="3" value="3"/>
+						</i>
+						<i l="Up and Down">
+							<v text="4" value="4"/>
+						</i>
+						<i l="Button 1 and Button 2">
+							<v text="5" value="5"/>
+						</i>
+					</items>
+				</object>
+			</c>
+			<c type="33">
+				<object id="123" n="Control Mode" on="Increment" off="Linear">
+					<pos x="0.75" y="1.25"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="124" n="Traction Increment">
+					<pos x="0.75" y="0.75"/>
+					<v text="0.0625" value="0.0625"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="125" l="Position Count">
+					<pos x="2" y="3"/>
+					<in1 component_id="116"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="126" l="Minimum Traction">
+					<pos x="3.25" y="2.5"/>
+					<in1 component_id="117"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="127" l="Maximum Traction">
+					<pos x="2" y="2"/>
+					<in1 component_id="118"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="128" l="Control Axis">
+					<pos x="3.25" y="1.5"/>
+					<in1 component_id="122"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="129" l="Traction Increment">
+					<pos x="3.25" y="0.5"/>
+					<in1 component_id="124"/>
+				</object>
+			</c>
+			<c type="44">
+				<object id="130" l="Control Mode" on="Increment" off="Linear">
+					<pos x="2" y="1.25"/>
+					<in1 component_id="123"/>
+				</object>
+			</c>
+			<c type="44">
+				<object id="131" l="Electrodynamic Brake is ON?" on="Yes" off="No">
+					<pos x="2" y="4.5"/>
+					<in1 component_id="99"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="3">
+				<object id="44">
+					<pos x="4.5" y="7.25"/>
+					<in1 component_id="88"/>
+				</object>
+			</c>
+			<c>
+				<object id="45">
+					<pos x="-0.5" y="6.5"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="48">
+					<pos x="4.5" y="6.75"/>
+					<in1 component_id="89"/>
+				</object>
+			</c>
+			<c type="4">
+				<object id="50">
+					<pos x="-3" y="6"/>
+				</object>
+			</c>
+			<c type="4">
+				<object id="52">
+					<pos x="-3" y="8"/>
+				</object>
+			</c>
+			<c type="4">
+				<object id="55">
+					<pos x="-3" y="7.25"/>
+				</object>
+			</c>
+			<c type="5">
+				<object id="58">
+					<pos x="3.25" y="5.25"/>
+					<in1 component_id="62"/>
+				</object>
+			</c>
+			<c>
+				<object id="59">
+					<pos x="-1.75" y="6.25"/>
+				</object>
+			</c>
+			<c type="4">
+				<object id="61">
+					<pos x="0.75" y="4"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="64">
+					<pos x="4.5" y="6.25"/>
+					<in1 component_id="107"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="101">
+					<pos x="-5.5" y="8"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="106">
+					<pos x="4.5" y="5.75"/>
+					<in1 component_id="108"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="62" script='local reverserCounter = {value = 0, prev = 0}
+local throttleCounter = {value = 0, prev = 0}
+local function boolStepCounter(state, forward, backward, step, minVal, maxVal)
+    local dir = 0
+    if forward and not backward then
+        dir = 1
+    elseif backward and not forward then
+        dir = -1
+    end
+    
+    if dir ~= state.prev then
+        state.value = math.max(
+            minVal,
+            math.min(maxVal, state.value + dir * step)
+        )
+    end
+    state.prev = dir
+    return state.value
+end
+
+function parse(a)
+	for i = 1, math.min(#a, 7) do
+		output.setBool(i + 24, a[i])
+	end
+end
+
+a = {false, false, false, false, false, false, false}
+
+A_reverserToggle, B_reverserToggle, AtoggleEDT, BtoggleEDT, reverserHandleRelayA, reverserHandleRelayB, prev_plus_state, prev_minus_state = false, false, false, false, false, false, false, false
+throttle, reverserHandlePos, clutch, directThrottle, current_position, prev_seat_state, traction = 0, 0, 0, 0, 0, 0, 0
+reverserHandleIndex = 0 -- 2 - Electrodynamic Brake Mode | 1 - Forward | 0 - Neutral | -1 - Backward | -2 - Error | -3 - Off
+
+function onTick()
+	A_reverserForward = input.getBool(1)
+	A_reverserBackward = input.getBool(2)
+	A_reverserToggle = input.getBool(3)
+	B_reverserForward = input.getBool(4)
+	B_reverserBackward = input.getBool(5)
+	B_reverserToggle = input.getBool(6)
+	
+	AtoggleEDT = input.getBool(7)
+	BtoggleEDT = input.getBool(8)
+	toggleEDT = property.getBool("Electrodynamic Brake is ON?")
+	seatBtnOne = input.getBool(9)
+	seatBtnTwo = input.getBool(10)
+	
+	--serviceBrakeReq = input.getBool(11)
+	emergencyBrakeReq = input.getBool(12)
+	
+	position_count = property.getNumber("Position Count")
+	min_traction = property.getNumber("Minimum Traction")
+	max_traction = property.getNumber("Maximum Traction")
+	control_axis = property.getNumber("Control Axis")
+	incrementMode = property.getBool("Control Mode")
+	inc_traction = property.getNumber("Traction Increment")
+	
+    local from_seat = 0
+    local from_seatPlus = false
+    local from_seatMinus = false
+    
+    if control_axis == 1 then
+        from_seat = input.getNumber(1)
+    elseif control_axis == 2 then
+        from_seat = input.getNumber(2)
+    elseif control_axis == 3 then
+        from_seat = input.getNumber(3)
+    elseif control_axis == 4 then
+        from_seat = input.getNumber(4)
+    elseif control_axis == 5 then
+        from_seatPlus = input.getBool(9)
+        from_seatMinus = input.getBool(10)
+    end
+
+    if control_axis &gt;= 1 and control_axis &lt;= 4 then
+        if from_seat &gt; 0 and prev_seat_state &lt;= 0 then
+            current_position = current_position + 1
+        elseif from_seat &lt; 0 and prev_seat_state &gt;= 0 then
+            current_position = current_position - 1
+        end
+        prev_seat_state = from_seat
+    end
+
+    if control_axis == 5 then
+        if from_seatPlus and not prev_plus_state then
+            current_position = current_position + 1
+        end
+        if from_seatMinus and not prev_minus_state then
+            current_position = current_position - 1
+        end
+        prev_plus_state = from_seatPlus
+        prev_minus_state = from_seatMinus
+    end
+
+    current_position = math.max(0, math.min(current_position, position_count))
+    if emergencyBrakeReq == true then
+        traction = 0
+        prev_seat_state = 0
+        prev_plus_state = false
+        prev_minus_state = false
+        current_position = 0
+    else
+        if current_position == 0 then
+            traction = 0
+        elseif position_count &lt;= 1 then
+            traction = min_traction
+        else
+            if incrementMode then
+                traction = min_traction + (current_position - 1) * inc_traction
+                traction = math.min(traction, max_traction)
+            else
+                local t = (current_position - 1) / (position_count - 1)
+                traction = min_traction + t * (max_traction - min_traction)
+            end
+        end
+    end
+    throttle = traction
+
+    if throttle ~= 0 then
+        A_reverserForward = false
+        A_reverserBackward = false
+        B_reverserForward = false
+        B_reverserBackward = false
+    end
+    
+    if not (A_reverserToggle and B_reverserToggle) then
+        if A_reverserToggle then
+            reverserHandlePos = boolStepCounter(reverserCounter, A_reverserForward, A_reverserBackward, 1, -1, 2)
+            
+            if reverserHandlePos == 2 then
+                directThrottle = throttle * 0
+                reverserHandleIndex = 2
+                
+            elseif reverserHandlePos == 1 then
+                directThrottle = throttle
+                reverserHandleIndex = 1
+                
+            elseif reverserHandlePos == 0 then
+                directThrottle = throttle * 0
+                reverserHandleIndex = 0
+                
+            elseif reverserHandlePos == -1 then
+                directThrottle = -throttle
+                reverserHandleIndex = -1
+
+            end
+            
+            reverserHandleRelayA = true
+            reverserHandleRelayB = false
+        elseif B_reverserToggle then
+            reverserHandlePos = boolStepCounter(reverserCounter, B_reverserForward, B_reverserBackward, 1, -1, 2)
+            
+            if reverserHandlePos == 2 then
+                directThrottle = throttle * 0
+                reverserHandleIndex = 2
+                
+            elseif reverserHandlePos == 1 then
+                directThrottle = -throttle
+                reverserHandleIndex = 1
+                
+            elseif reverserHandlePos == 0 then
+                directThrottle = throttle * 0
+                reverserHandleIndex = 0
+                
+            elseif reverserHandlePos == -1 then
+                directThrottle = throttle
+                reverserHandleIndex = -1
+                
+            end
+            
+            reverserHandleRelayA = false
+            reverserHandleRelayB = true
+        else
+            directThrottle = 0
+            reverserHandleIndex = -3
+            reverserCounter.value = 0
+            reverserCounter.prev = 0
+            reverserHandlePos = 0
+            
+            reverserHandleRelayA = true
+            reverserHandleRelayB = true
+        end
+        
+    elseif (A_reverserToggle and B_reverserToggle) then
+        reverserHandleIndex = -2
+        directThrottle = 0
+        reverserCounter.value = 0
+        reverserCounter.prev = 0
+        reverserHandlePos = 0
+        
+        reverserHandleRelayA = true
+        reverserHandleRelayB = true
+    end
+
+    if toggleEDT then
+  	  if (AtoggleEDT or BtoggleEDT) and reverserHandleIndex == 2 then
+      	  if current_position == 0 then
+          	  clutch = 0
+      	  elseif current_position == 1 then
+          	  clutch = 0.35
+       	 elseif current_position == 2 then
+           	 clutch = 0.6
+       	 elseif current_position == 3 then
+           	 clutch = 0.85
+        	elseif current_position &gt;= 4 then
+            	clutch = 1.0
+        	end
+    	else
+        	clutch = 0
+    	end
+	end
+
+    if reverserHandleIndex == 2 then
+        a = {true, false, false, true, true, true, true}
+        parse(a)
+    elseif reverserHandleIndex == 1 then
+        a = {true, false, false, false, true, true, true}
+        parse(a)
+    elseif reverserHandleIndex == 0 then
+        a = {true, true, true, true, true, true, false}
+        parse(a)
+    elseif reverserHandleIndex == -1 then
+        a = {false, false, true, true, true, true, true}
+        parse(a)
+    elseif reverserHandleIndex == -2 then
+        a = {false, false, false, false, false, false, true}
+        parse(a)
+    elseif reverserHandleIndex == -3 then
+        a = {false, false, false, false, false, false, false}
+        parse(a)
+    end
+
+    output.setNumber(1, reverserHandlePos)
+    output.setNumber(2, reverserHandleIndex)
+    output.setNumber(3, directThrottle)
+    output.setNumber(4, clutch)
+    output.setNumber(5, throttle)
+    output.setNumber(6, current_position)
+    output.setBool(8, reverserHandleRelayA)
+    output.setBool(9, reverserHandleRelayB)
+end'>
+				<pos x="2" y="8"/>
+				<in1 component_id="66"/>
+			</c0>
+			<c1 id="66" count="12">
+				<pos x="0.75" y="5.25"/>
+				<inc component_id="102"/>
+				<in1 component_id="79"/>
+				<in2 component_id="80"/>
+				<in3 component_id="81"/>
+				<in4 component_id="82"/>
+				<in5 component_id="83"/>
+				<in6 component_id="84"/>
+				<in7 component_id="45"/>
+				<in8 component_id="59"/>
+				<in9 component_id="85"/>
+				<in10 component_id="86"/>
+				<in11/>
+				<in12/>
+			</c1>
+			<c2 id="77" l="Reverser Handle Pos">
+				<pos x="5.75" y="8"/>
+				<in1 component_id="78"/>
+			</c2>
+			<c3 id="78">
+				<pos x="3.25" y="8.25"/>
+				<in1 component_id="62"/>
+			</c3>
+			<c4 id="79">
+				<pos x="-0.5" y="8"/>
+				<in1 component_id="52"/>
+			</c4>
+			<c5 id="80" i="1">
+				<pos x="-1.75" y="7.75"/>
+				<in1 component_id="52"/>
+			</c5>
+			<c6 id="81" i="2">
+				<pos x="-0.5" y="7.5"/>
+				<in1 component_id="52"/>
+			</c6>
+			<c7 id="82">
+				<pos x="-1.75" y="7.25"/>
+				<in1 component_id="55"/>
+			</c7>
+			<c8 id="83" i="1">
+				<pos x="-0.5" y="7"/>
+				<in1 component_id="55"/>
+			</c8>
+			<c9 id="84" i="2">
+				<pos x="-1.75" y="6.75"/>
+				<in1 component_id="55"/>
+			</c9>
+			<c10 id="85">
+				<pos x="-0.5" y="6"/>
+				<in1 component_id="50"/>
+			</c10>
+			<c11 id="86" i="1">
+				<pos x="-1.75" y="5.75"/>
+				<in1 component_id="50"/>
+			</c11>
+			<c12 id="87" i="1">
+				<pos x="3.25" y="7.75"/>
+				<in1 component_id="62"/>
+			</c12>
+			<c13 id="88" i="2">
+				<pos x="3.25" y="7.25"/>
+				<in1 component_id="62"/>
+			</c13>
+			<c14 id="89" i="3">
+				<pos x="3.25" y="6.75"/>
+				<in1 component_id="62"/>
+			</c14>
+			<c15 id="90" l="Reverser Handle Index">
+				<pos x="5.75" y="7.5"/>
+				<in1 component_id="87"/>
+			</c15>
+			<c16 id="91" l="Throttle">
+				<pos x="5.75" y="6.75"/>
+				<in1 component_id="88"/>
+			</c16>
+			<c17 id="92" l="Clutch">
+				<pos x="5.75" y="6.25"/>
+				<in1 component_id="89"/>
+			</c17>
+			<c18 id="99" n="Electrodynamic Brake is ON?" on="Yes" off="No" v="true">
+				<pos x="0.75" y="4.5"/>
+			</c18>
+			<c19 id="102" count="1">
+				<pos x="-4.25" y="8"/>
+				<in1 component_id="101"/>
+			</c19>
+			<c20 id="107" i="7">
+				<pos x="3.25" y="6.25"/>
+				<in1 component_id="62"/>
+			</c20>
+			<c21 id="108" i="8">
+				<pos x="3.25" y="5.75"/>
+				<in1 component_id="62"/>
+			</c21>
+			<c22 id="109" l="Reverser Handle Relay A" on="Yes" off="No">
+				<pos x="5.75" y="6"/>
+				<in1 component_id="107"/>
+			</c22>
+			<c23 id="110" l="Reverser Handle Relay A" on="Yes" off="No">
+				<pos x="5.75" y="5.5"/>
+				<in1 component_id="108"/>
+			</c23>
+			<c24 id="116" n="Position Count">
+				<pos x="0.75" y="3.25"/>
+				<v text="8" value="8"/>
+			</c24>
+			<c25 id="117" n="Minimum Traction">
+				<pos x="0.75" y="2.75"/>
+				<v text="0.01" value="0.01"/>
+			</c25>
+			<c26 id="118" n="Maximum Traction">
+				<pos x="0.75" y="2.25"/>
+				<v text="0.5" value="0.5"/>
+			</c26>
+			<c27 id="122" name="Control Axis" i="4">
+				<pos x="0.75" y="1.75"/>
+				<items>
+					<i l="A and D">
+						<v text="1" value="1"/>
+					</i>
+					<i l="W and S">
+						<v text="2" value="2"/>
+					</i>
+					<i l="Left and Right">
+						<v text="3" value="3"/>
+					</i>
+					<i l="Up and Down">
+						<v text="4" value="4"/>
+					</i>
+					<i l="Button 1 and Button 2">
+						<v text="5" value="5"/>
+					</i>
+				</items>
+			</c27>
+			<c28 id="123" n="Control Mode" on="Increment" off="Linear">
+				<pos x="0.75" y="1.25"/>
+			</c28>
+			<c29 id="124" n="Traction Increment">
+				<pos x="0.75" y="0.75"/>
+				<v text="0.0625" value="0.0625"/>
+			</c29>
+			<c30 id="125" l="Position Count">
+				<pos x="2" y="3"/>
+				<in1 component_id="116"/>
+			</c30>
+			<c31 id="126" l="Minimum Traction">
+				<pos x="3.25" y="2.5"/>
+				<in1 component_id="117"/>
+			</c31>
+			<c32 id="127" l="Maximum Traction">
+				<pos x="2" y="2"/>
+				<in1 component_id="118"/>
+			</c32>
+			<c33 id="128" l="Control Axis">
+				<pos x="3.25" y="1.5"/>
+				<in1 component_id="122"/>
+			</c33>
+			<c34 id="129" l="Traction Increment">
+				<pos x="3.25" y="0.5"/>
+				<in1 component_id="124"/>
+			</c34>
+			<c35 id="130" l="Control Mode" on="Increment" off="Linear">
+				<pos x="2" y="1.25"/>
+				<in1 component_id="123"/>
+			</c35>
+			<c36 id="131" l="Electrodynamic Brake is ON?" on="Yes" off="No">
+				<pos x="2" y="4.5"/>
+				<in1 component_id="99"/>
+			</c36>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="44">
+				<pos x="4.5" y="7.25"/>
+				<in1 component_id="88"/>
+			</c0>
+			<c1 id="45">
+				<pos x="-0.5" y="6.5"/>
+			</c1>
+			<c2 id="48">
+				<pos x="4.5" y="6.75"/>
+				<in1 component_id="89"/>
+			</c2>
+			<c3 id="50">
+				<pos x="-3" y="6"/>
+			</c3>
+			<c4 id="52">
+				<pos x="-3" y="8"/>
+			</c4>
+			<c5 id="55">
+				<pos x="-3" y="7.25"/>
+			</c5>
+			<c6 id="58">
+				<pos x="3.25" y="5.25"/>
+				<in1 component_id="62"/>
+			</c6>
+			<c7 id="59">
+				<pos x="-1.75" y="6.25"/>
+			</c7>
+			<c8 id="61">
+				<pos x="0.75" y="4"/>
+			</c8>
+			<c9 id="64">
+				<pos x="4.5" y="6.25"/>
+				<in1 component_id="107"/>
+			</c9>
+			<c10 id="101">
+				<pos x="-5.5" y="8"/>
+			</c10>
+			<c11 id="106">
+				<pos x="4.5" y="5.75"/>
+				<in1 component_id="108"/>
+			</c11>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

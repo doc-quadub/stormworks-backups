@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="1-Tick Push Signall" description="No description set." width="2" length="1" id_counter="6" id_counter_node="2" sym0="65535" sym1="32769" sym2="32769" sym3="32769" sym4="36865" sym5="43009" sym6="43009" sym7="50207" sym8="50209" sym9="50241" sym10="33345" sym11="33409" sym12="33153" sym13="32897" sym14="32769" sym15="65535">
+	<nodes>
+		<n id="1" component_id="3">
+			<node label="Output"/>
+		</n>
+		<n id="2" component_id="6">
+			<node label="Input" mode="1">
+				<position x="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="48">
+				<object id="4" m="2">
+					<pos x="-1" y="-0.25"/>
+					<in1 component_id="5"/>
+				</object>
+			</c>
+			<c type="28">
+				<object id="5">
+					<pos x="-2.25" y="-0.25"/>
+					<in1 component_id="6"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="1">
+				<object id="3">
+					<pos x="0.25" y="-0.25"/>
+					<in1 component_id="4"/>
+				</object>
+			</c>
+			<c>
+				<object id="6">
+					<pos x="-3.5" y="-0.25"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="4" m="2">
+				<pos x="-1" y="-0.25"/>
+				<in1 component_id="5"/>
+			</c0>
+			<c1 id="5">
+				<pos x="-2.25" y="-0.25"/>
+				<in1 component_id="6"/>
+			</c1>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="3">
+				<pos x="0.25" y="-0.25"/>
+				<in1 component_id="4"/>
+			</c0>
+			<c1 id="6">
+				<pos x="-3.5" y="-0.25"/>
+			</c1>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

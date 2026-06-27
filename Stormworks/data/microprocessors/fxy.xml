@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="f(x,y)" description="No description set." width="1" length="3" id_counter="10" id_counter_node="3" sym1="16482" sym2="33810" sym3="38226" sym4="37202" sym5="37015" sym6="43346" sym7="43346" sym8="32791" sym9="16490" sym10="10" sym11="10" sym12="10" sym13="10" sym14="4">
+	<nodes>
+		<n id="1" component_id="3">
+			<node label="X" mode="1" type="1"/>
+		</n>
+		<n id="2" component_id="7">
+			<node label="Output" type="1">
+				<position z="2"/>
+			</node>
+		</n>
+		<n id="3" component_id="10">
+			<node label="Y" mode="1" type="1">
+				<position z="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="10">
+				<object id="8" e="x/y" p1="340282346638528859811704183484516925440" p2="340282346638528859811704183484516925440" p3="340282346638528859811704183484516925440">
+					<pos x="-1" y="-0.25"/>
+					<in1 component_id="3"/>
+					<in2 component_id="10"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="2">
+				<object id="3">
+					<pos x="-2.25" y="0.25"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="7">
+					<pos x="0.25" y="0.25"/>
+					<in1 component_id="8"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="10">
+					<pos x="-2.25"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="8" e="x/y" p1="340282346638528859811704183484516925440" p2="340282346638528859811704183484516925440" p3="340282346638528859811704183484516925440">
+				<pos x="-1" y="-0.25"/>
+				<in1 component_id="3"/>
+				<in2 component_id="10"/>
+			</c0>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="3">
+				<pos x="-2.25" y="0.25"/>
+			</c0>
+			<c1 id="7">
+				<pos x="0.25" y="0.25"/>
+				<in1 component_id="8"/>
+			</c1>
+			<c2 id="10">
+				<pos x="-2.25"/>
+			</c2>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

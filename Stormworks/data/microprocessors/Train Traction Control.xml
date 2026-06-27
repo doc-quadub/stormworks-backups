@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Train Traction Control" width="4" length="2" id_counter="131" id_counter_node="12" sym0="49155" sym1="32897" sym2="8644" sym3="128" sym4="14400" sym5="12320" sym6="10256" sym7="1098" sym8="903" sym9="15" sym10="6" sym13="8196" sym14="32769" sym15="49155">
+	<nodes>
+		<n id="6" component_id="40">
+			<node label="Seat" mode="1" type="5"/>
+		</n>
+		<n id="7" component_id="41">
+			<node label="Thrust" type="1">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="8" component_id="100">
+			<node label="Emergency Brake Request" mode="1">
+				<position z="1"/>
+			</node>
+		</n>
+		<n id="9" component_id="103">
+			<node label="Train Brake Position" mode="1" type="1">
+				<position x="1" z="1"/>
+			</node>
+		</n>
+		<n id="10" component_id="110">
+			<node label="Reversible Handle" mode="1" type="5">
+				<position x="2" z="1"/>
+			</node>
+		</n>
+		<n id="11" component_id="112">
+			<node label="Reversible Handle from A" mode="1" type="5">
+				<position x="2"/>
+			</node>
+		</n>
+		<n id="12" component_id="131">
+			<node label="Thrust Position" type="1">
+				<position x="3"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="56">
+				<object id="61" script='position_count = property.getNumber("Position Count")
+min_traction = property.getNumber("Minimum Traction")
+max_traction = property.getNumber("Maximum Traction")
+control_axis = property.getNumber("Control Axis")
+incrementMode = property.getBool("Control Mode")
+inc_traction = property.getNumber("Traction Increment")
+
+current_position = 0
+prev_seat_state = 0
+prev_plus_state = false
+prev_minus_state = false
+
+function onTick()
+	local from_seat = 0
+	local from_seatPlus = false
+	local from_seatMinus = false
+	
+	EBR = input.getBool(3)
+
+	if control_axis == 1 then
+		from_seat = input.getNumber(1)
+	elseif control_axis == 2 then
+		from_seat = input.getNumber(2)
+	elseif control_axis == 3 then
+	    from_seat = input.getNumber(3)
+	elseif control_axis == 4 then
+	    from_seat = input.getNumber(4)
+	elseif control_axis == 5 then
+		from_seatPlus = input.getBool(1)
+		from_seatMinus = input.getBool(2)
+	end
+	
+    if control_axis &gt;= 1 and control_axis &lt;= 4 then
+        if from_seat &gt; 0 and prev_seat_state &lt;= 0 then
+            current_position = current_position + 1
+        elseif from_seat &lt; 0 and prev_seat_state &gt;= 0 then
+            current_position = current_position - 1
+        end
+        prev_seat_state = from_seat
+    end
+
+    if control_axis == 5 then
+        if from_seatPlus and not prev_plus_state then
+            current_position = current_position + 1
+        end
+        if from_seatMinus and not prev_minus_state then
+            current_position = current_position - 1
+        end
+        prev_plus_state = from_seatPlus
+        prev_minus_state = from_seatMinus
+    end
+
+    current_position = math.max(0, math.min(current_position, position_count))
+	
+	if EBR == true then
+		traction = 0
+		prev_seat_state = 0
+		prev_plus_state = false
+		prev_minus_state = false
+		current_position = 0
+	else
+    	if current_position == 0 then
+        	traction = 0
+    	elseif position_count &lt;= 1 then
+        	traction = min_traction
+    	else
+            if incrementMode then
+                traction = min_traction + (current_position - 1) * inc_traction
+                traction = math.min(traction, max_traction)
+            else
+                local t = (current_position - 1) / (position_count - 1)
+                traction = min_traction + t * (max_traction - min_traction)
+            end
+    	end
+	end
+
+    output.setNumber(1, traction)
+    output.setNumber(2, current_position)
+end'>
+					<pos x="-7.25" y="1"/>
+					<in1 component_id="101"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="81">
+					<pos x="-7.25" y="2.25"/>
+					<in1 component_id="61"/>
+				</object>
+			</c>
+			<c type="20">
+				<object id="63" name="Control Axis" i="4">
+					<pos x="-7.25" y="4.75"/>
+					<items>
+						<i l="A and D">
+							<v text="1" value="1"/>
+						</i>
+						<i l="W and S">
+							<v text="2" value="2"/>
+						</i>
+						<i l="Left and Right">
+							<v text="3" value="3"/>
+						</i>
+						<i l="Up and Down">
+							<v text="4" value="4"/>
+						</i>
+						<i l="Button 1 and Button 2">
+							<v text="5" value="5"/>
+						</i>
+					</items>
+				</object>
+			</c>
+			<c type="34">
+				<object id="67" n="Position Count">
+					<pos x="-7.25" y="4.25"/>
+					<v text="15" value="15"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="85" n="Minimum Traction">
+					<pos x="-7.25" y="3.75"/>
+					<v text="0.015" value="0.015"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="86" n="Maximum Traction">
+					<pos x="-7.25" y="3.25"/>
+					<v text="0.7" value="0.7"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="91" l="Control Axis">
+					<pos x="-6" y="4.5"/>
+					<in1 component_id="63"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="92" l="Position Count">
+					<pos x="-5.75" y="4"/>
+					<in1 component_id="67"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="93" l="Minimus Traction">
+					<pos x="-6" y="3.5"/>
+					<in1 component_id="85"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="94" l="Maximum Traction">
+					<pos x="-5.75" y="3"/>
+					<in1 component_id="86"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="97" l="Current Position">
+					<pos x="-6" y="2.5"/>
+					<in1 component_id="99"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="98" l="Current Traction">
+					<pos x="-5.75" y="2"/>
+					<in1 component_id="81"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="99" i="1">
+					<pos x="-7.25" y="2.75"/>
+					<in1 component_id="61"/>
+				</object>
+			</c>
+			<c type="41">
+				<object id="101" count="1" offset="2">
+					<pos x="-8.5" y="1"/>
+					<inc component_id="40"/>
+					<in1 component_id="104"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="104">
+					<pos x="-9.75" y="0.75"/>
+					<in1 component_id="100"/>
+					<in2 component_id="105"/>
+				</object>
+			</c>
+			<c type="42">
+				<object id="105">
+					<pos x="-11" y="0.5"/>
+					<in1 component_id="103"/>
+					<in2 component_id="106"/>
+					<e text="0.0001" value="0.0001"/>
+				</object>
+			</c>
+			<c type="15">
+				<object id="106">
+					<pos x="-12.25" y="0.5"/>
+					<n text="7" value="7"/>
+				</object>
+			</c>
+			<c type="44">
+				<object id="107" l="Emergency Braking!" on="BRAKE! BRAKE! BRAKE!" off="Nothing" m="1">
+					<pos x="-8.5" y="0.5"/>
+					<in1 component_id="104"/>
+				</object>
+			</c>
+			<c type="22">
+				<object id="113">
+					<pos x="-0.75" y="1.25"/>
+					<in1 component_id="81"/>
+					<in3 component_id="118"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="114" i="1">
+					<pos x="-4.5" y="0.5"/>
+					<in1 component_id="110"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="115">
+					<pos x="-4.5" y="1.75"/>
+					<in1 component_id="110"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="116" i="8">
+					<pos x="-4.5" y="1.25"/>
+					<in1 component_id="112"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="117" i="7">
+					<pos x="-4.5"/>
+					<in1 component_id="112"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="118">
+					<pos x="-3.25" y="1.5"/>
+					<in1 component_id="115"/>
+					<in2 component_id="116"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="119">
+					<pos x="-3.25"/>
+					<in1 component_id="114"/>
+					<in2 component_id="117"/>
+				</object>
+			</c>
+			<c type="22">
+				<object id="120">
+					<pos x="-0.75"/>
+					<in1 component_id="122"/>
+					<in2 component_id="113"/>
+					<in3 component_id="119"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="122" e="-x">
+					<pos x="-2" y="0.5"/>
+					<in1 component_id="81"/>
+				</object>
+			</c>
+			<c type="33">
+				<object id="124" n="Control Mode" on="Increment" off="Linear" v="true">
+					<pos x="-7.25"/>
+				</object>
+			</c>
+			<c type="44">
+				<object id="126" l="Mode" on="Linear" off="Increment">
+					<pos x="-6"/>
+					<in1 component_id="124"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="127" l="Current Traction">
+					<pos x="-6" y="-0.75"/>
+					<in1 component_id="128"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="128" n="Traction Increment">
+					<pos x="-7.25" y="-0.5"/>
+					<v text="0.015" value="0.015"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="4">
+				<object id="40">
+					<pos x="-9.75" y="1.25"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="41">
+					<pos x="0.5" y="0.5"/>
+					<in1 component_id="120"/>
+				</object>
+			</c>
+			<c>
+				<object id="100">
+					<pos x="-11" y="1"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="103">
+					<pos x="-12.25" y="0.75"/>
+				</object>
+			</c>
+			<c type="4">
+				<object id="110">
+					<pos x="-5.75" y="1.25"/>
+				</object>
+			</c>
+			<c type="4">
+				<object id="112">
+					<pos x="-5.75" y="0.5"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="131">
+					<pos x="0.5" y="1.25"/>
+					<in1 component_id="99"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="61" script='position_count = property.getNumber("Position Count")
+min_traction = property.getNumber("Minimum Traction")
+max_traction = property.getNumber("Maximum Traction")
+control_axis = property.getNumber("Control Axis")
+incrementMode = property.getBool("Control Mode")
+inc_traction = property.getNumber("Traction Increment")
+
+current_position = 0
+prev_seat_state = 0
+prev_plus_state = false
+prev_minus_state = false
+
+function onTick()
+	local from_seat = 0
+	local from_seatPlus = false
+	local from_seatMinus = false
+	
+	EBR = input.getBool(3)
+
+	if control_axis == 1 then
+		from_seat = input.getNumber(1)
+	elseif control_axis == 2 then
+		from_seat = input.getNumber(2)
+	elseif control_axis == 3 then
+	    from_seat = input.getNumber(3)
+	elseif control_axis == 4 then
+	    from_seat = input.getNumber(4)
+	elseif control_axis == 5 then
+		from_seatPlus = input.getBool(1)
+		from_seatMinus = input.getBool(2)
+	end
+	
+    if control_axis &gt;= 1 and control_axis &lt;= 4 then
+        if from_seat &gt; 0 and prev_seat_state &lt;= 0 then
+            current_position = current_position + 1
+        elseif from_seat &lt; 0 and prev_seat_state &gt;= 0 then
+            current_position = current_position - 1
+        end
+        prev_seat_state = from_seat
+    end
+
+    if control_axis == 5 then
+        if from_seatPlus and not prev_plus_state then
+            current_position = current_position + 1
+        end
+        if from_seatMinus and not prev_minus_state then
+            current_position = current_position - 1
+        end
+        prev_plus_state = from_seatPlus
+        prev_minus_state = from_seatMinus
+    end
+
+    current_position = math.max(0, math.min(current_position, position_count))
+	
+	if EBR == true then
+		traction = 0
+		prev_seat_state = 0
+		prev_plus_state = false
+		prev_minus_state = false
+		current_position = 0
+	else
+    	if current_position == 0 then
+        	traction = 0
+    	elseif position_count &lt;= 1 then
+        	traction = min_traction
+    	else
+            if incrementMode then
+                traction = min_traction + (current_position - 1) * inc_traction
+                traction = math.min(traction, max_traction)
+            else
+                local t = (current_position - 1) / (position_count - 1)
+                traction = min_traction + t * (max_traction - min_traction)
+            end
+    	end
+	end
+
+    output.setNumber(1, traction)
+    output.setNumber(2, current_position)
+end'>
+				<pos x="-7.25" y="1"/>
+				<in1 component_id="101"/>
+			</c0>
+			<c1 id="81">
+				<pos x="-7.25" y="2.25"/>
+				<in1 component_id="61"/>
+			</c1>
+			<c2 id="63" name="Control Axis" i="4">
+				<pos x="-7.25" y="4.75"/>
+				<items>
+					<i l="A and D">
+						<v text="1" value="1"/>
+					</i>
+					<i l="W and S">
+						<v text="2" value="2"/>
+					</i>
+					<i l="Left and Right">
+						<v text="3" value="3"/>
+					</i>
+					<i l="Up and Down">
+						<v text="4" value="4"/>
+					</i>
+					<i l="Button 1 and Button 2">
+						<v text="5" value="5"/>
+					</i>
+				</items>
+			</c2>
+			<c3 id="67" n="Position Count">
+				<pos x="-7.25" y="4.25"/>
+				<v text="15" value="15"/>
+			</c3>
+			<c4 id="85" n="Minimum Traction">
+				<pos x="-7.25" y="3.75"/>
+				<v text="0.015" value="0.015"/>
+			</c4>
+			<c5 id="86" n="Maximum Traction">
+				<pos x="-7.25" y="3.25"/>
+				<v text="0.7" value="0.7"/>
+			</c5>
+			<c6 id="91" l="Control Axis">
+				<pos x="-6" y="4.5"/>
+				<in1 component_id="63"/>
+			</c6>
+			<c7 id="92" l="Position Count">
+				<pos x="-5.75" y="4"/>
+				<in1 component_id="67"/>
+			</c7>
+			<c8 id="93" l="Minimus Traction">
+				<pos x="-6" y="3.5"/>
+				<in1 component_id="85"/>
+			</c8>
+			<c9 id="94" l="Maximum Traction">
+				<pos x="-5.75" y="3"/>
+				<in1 component_id="86"/>
+			</c9>
+			<c10 id="97" l="Current Position">
+				<pos x="-6" y="2.5"/>
+				<in1 component_id="99"/>
+			</c10>
+			<c11 id="98" l="Current Traction">
+				<pos x="-5.75" y="2"/>
+				<in1 component_id="81"/>
+			</c11>
+			<c12 id="99" i="1">
+				<pos x="-7.25" y="2.75"/>
+				<in1 component_id="61"/>
+			</c12>
+			<c13 id="101" count="1" offset="2">
+				<pos x="-8.5" y="1"/>
+				<inc component_id="40"/>
+				<in1 component_id="104"/>
+			</c13>
+			<c14 id="104">
+				<pos x="-9.75" y="0.75"/>
+				<in1 component_id="100"/>
+				<in2 component_id="105"/>
+			</c14>
+			<c15 id="105">
+				<pos x="-11" y="0.5"/>
+				<in1 component_id="103"/>
+				<in2 component_id="106"/>
+				<e text="0.0001" value="0.0001"/>
+			</c15>
+			<c16 id="106">
+				<pos x="-12.25" y="0.5"/>
+				<n text="7" value="7"/>
+			</c16>
+			<c17 id="107" l="Emergency Braking!" on="BRAKE! BRAKE! BRAKE!" off="Nothing" m="1">
+				<pos x="-8.5" y="0.5"/>
+				<in1 component_id="104"/>
+			</c17>
+			<c18 id="113">
+				<pos x="-0.75" y="1.25"/>
+				<in1 component_id="81"/>
+				<in3 component_id="118"/>
+			</c18>
+			<c19 id="114" i="1">
+				<pos x="-4.5" y="0.5"/>
+				<in1 component_id="110"/>
+			</c19>
+			<c20 id="115">
+				<pos x="-4.5" y="1.75"/>
+				<in1 component_id="110"/>
+			</c20>
+			<c21 id="116" i="8">
+				<pos x="-4.5" y="1.25"/>
+				<in1 component_id="112"/>
+			</c21>
+			<c22 id="117" i="7">
+				<pos x="-4.5"/>
+				<in1 component_id="112"/>
+			</c22>
+			<c23 id="118">
+				<pos x="-3.25" y="1.5"/>
+				<in1 component_id="115"/>
+				<in2 component_id="116"/>
+			</c23>
+			<c24 id="119">
+				<pos x="-3.25"/>
+				<in1 component_id="114"/>
+				<in2 component_id="117"/>
+			</c24>
+			<c25 id="120">
+				<pos x="-0.75"/>
+				<in1 component_id="122"/>
+				<in2 component_id="113"/>
+				<in3 component_id="119"/>
+			</c25>
+			<c26 id="122" e="-x">
+				<pos x="-2" y="0.5"/>
+				<in1 component_id="81"/>
+			</c26>
+			<c27 id="124" n="Control Mode" on="Increment" off="Linear" v="true">
+				<pos x="-7.25"/>
+			</c27>
+			<c28 id="126" l="Mode" on="Linear" off="Increment">
+				<pos x="-6"/>
+				<in1 component_id="124"/>
+			</c28>
+			<c29 id="127" l="Current Traction">
+				<pos x="-6" y="-0.75"/>
+				<in1 component_id="128"/>
+			</c29>
+			<c30 id="128" n="Traction Increment">
+				<pos x="-7.25" y="-0.5"/>
+				<v text="0.015" value="0.015"/>
+			</c30>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="40">
+				<pos x="-9.75" y="1.25"/>
+			</c0>
+			<c1 id="41">
+				<pos x="0.5" y="0.5"/>
+				<in1 component_id="120"/>
+			</c1>
+			<c2 id="100">
+				<pos x="-11" y="1"/>
+			</c2>
+			<c3 id="103">
+				<pos x="-12.25" y="0.75"/>
+			</c3>
+			<c4 id="110">
+				<pos x="-5.75" y="1.25"/>
+			</c4>
+			<c5 id="112">
+				<pos x="-5.75" y="0.5"/>
+			</c5>
+			<c6 id="131">
+				<pos x="0.5" y="1.25"/>
+				<in1 component_id="99"/>
+			</c6>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

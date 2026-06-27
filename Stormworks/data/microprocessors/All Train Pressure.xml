@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="All Train Pressure" width="6" length="1" id_counter="30" id_counter_node="7" sym5="992" sym6="1168" sym7="2600" sym8="5140" sym9="4100" sym10="6284" sym11="4356" sym12="5140" sym13="2600" sym14="1168" sym15="992">
+	<nodes>
+		<n id="2" component_id="9">
+			<node label="Pressure Composite Output" type="5"/>
+		</n>
+		<n id="3" component_id="15">
+			<node label="Main Tank" mode="1" type="1">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="4" component_id="16">
+			<node label="Equalizing Tank" mode="1" type="1">
+				<position x="2"/>
+			</node>
+		</n>
+		<n id="5" component_id="17">
+			<node label="Brake Line" mode="1" type="1">
+				<position x="3"/>
+			</node>
+		</n>
+		<n id="6" component_id="18">
+			<node label="Supply Tank" mode="1" type="1">
+				<position x="4"/>
+			</node>
+		</n>
+		<n id="7" component_id="19">
+			<node label="Brake Cylinder" mode="1" type="1">
+				<position x="5"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="40">
+				<object id="20" count="5">
+					<pos x="-1.25" y="1.5"/>
+					<in1 component_id="25"/>
+					<in2 component_id="27"/>
+					<in3 component_id="28"/>
+					<in4 component_id="29"/>
+					<in5 component_id="30"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="25" e="clamp((x*0.9678)-1, 0, 15)">
+					<pos x="-2.5" y="2.5"/>
+					<in1 component_id="15"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="27" e="clamp((x*0.9678)-1, 0, 15)">
+					<pos x="-2.5" y="2.25"/>
+					<in1 component_id="16"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="28" e="clamp((x*0.9678)-1, 0, 15)">
+					<pos x="-2.5" y="2"/>
+					<in1 component_id="17"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="29" e="clamp((x*0.9678)-1, 0, 15)">
+					<pos x="-2.5" y="1.75"/>
+					<in1 component_id="18"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="30" e="clamp((x*0.9678)-1, 0, 15)">
+					<pos x="-2.5" y="1.5"/>
+					<in1 component_id="19"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="5">
+				<object id="9">
+					<pos y="2.75"/>
+					<in1 component_id="20"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="15">
+					<pos x="-3.75" y="2.5"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="16">
+					<pos x="-3.75" y="2.25"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="17">
+					<pos x="-3.75" y="2"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="18">
+					<pos x="-3.75" y="1.75"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="19">
+					<pos x="-3.75" y="1.5"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="20" count="5">
+				<pos x="-1.25" y="1.5"/>
+				<in1 component_id="25"/>
+				<in2 component_id="27"/>
+				<in3 component_id="28"/>
+				<in4 component_id="29"/>
+				<in5 component_id="30"/>
+			</c0>
+			<c1 id="25" e="clamp((x*0.9678)-1, 0, 15)">
+				<pos x="-2.5" y="2.5"/>
+				<in1 component_id="15"/>
+			</c1>
+			<c2 id="27" e="clamp((x*0.9678)-1, 0, 15)">
+				<pos x="-2.5" y="2.25"/>
+				<in1 component_id="16"/>
+			</c2>
+			<c3 id="28" e="clamp((x*0.9678)-1, 0, 15)">
+				<pos x="-2.5" y="2"/>
+				<in1 component_id="17"/>
+			</c3>
+			<c4 id="29" e="clamp((x*0.9678)-1, 0, 15)">
+				<pos x="-2.5" y="1.75"/>
+				<in1 component_id="18"/>
+			</c4>
+			<c5 id="30" e="clamp((x*0.9678)-1, 0, 15)">
+				<pos x="-2.5" y="1.5"/>
+				<in1 component_id="19"/>
+			</c5>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="9">
+				<pos y="2.75"/>
+				<in1 component_id="20"/>
+			</c0>
+			<c1 id="15">
+				<pos x="-3.75" y="2.5"/>
+			</c1>
+			<c2 id="16">
+				<pos x="-3.75" y="2.25"/>
+			</c2>
+			<c3 id="17">
+				<pos x="-3.75" y="2"/>
+			</c3>
+			<c4 id="18">
+				<pos x="-3.75" y="1.75"/>
+			</c4>
+			<c5 id="19">
+				<pos x="-3.75" y="1.5"/>
+			</c5>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

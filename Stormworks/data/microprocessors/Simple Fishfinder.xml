@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Simple Fishfinder" width="1" length="2" id_counter="58" id_counter_node="15" sym3="32" sym4="32" sym5="8304" sym6="5000" sym7="3076" sym8="5112" sym9="12480" sym10="24704" sym11="128">
+	<nodes>
+		<n id="1" component_id="4">
+			<node label="Input" mode="1" type="5"/>
+		</n>
+		<n id="15" component_id="50">
+			<node label="Output" type="5">
+				<position z="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data type="1032457145">
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="29">
+				<object id="51">
+					<pos x="-1.25" y="0.5"/>
+					<in1 component_id="4"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="52">
+					<pos x="-1.25"/>
+					<in1 component_id="4"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="53" i="1">
+					<pos x="-1.25" y="-0.5"/>
+					<in1 component_id="4"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="54" i="2">
+					<pos x="-1.25" y="-1"/>
+					<in1 component_id="4"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="55" count="1" offset="3">
+					<pos y="-1"/>
+					<in1 component_id="54"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="56" count="1" offset="2">
+					<pos y="-0.5"/>
+					<inc component_id="55"/>
+					<in1 component_id="53"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="57" count="1" offset="1">
+					<inc component_id="56"/>
+					<in1 component_id="52"/>
+				</object>
+			</c>
+			<c type="41">
+				<object id="58" count="1">
+					<pos y="0.5"/>
+					<inc component_id="57"/>
+					<in1 component_id="51"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="4">
+				<object id="4">
+					<pos x="-2.5" y="-0.25"/>
+				</object>
+			</c>
+			<c type="5">
+				<object id="50">
+					<pos x="1.25" y="0.75"/>
+					<in1 component_id="58"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="51">
+				<pos x="-1.25" y="0.5"/>
+				<in1 component_id="4"/>
+			</c0>
+			<c1 id="52">
+				<pos x="-1.25"/>
+				<in1 component_id="4"/>
+			</c1>
+			<c2 id="53" i="1">
+				<pos x="-1.25" y="-0.5"/>
+				<in1 component_id="4"/>
+			</c2>
+			<c3 id="54" i="2">
+				<pos x="-1.25" y="-1"/>
+				<in1 component_id="4"/>
+			</c3>
+			<c4 id="55" count="1" offset="3">
+				<pos y="-1"/>
+				<in1 component_id="54"/>
+			</c4>
+			<c5 id="56" count="1" offset="2">
+				<pos y="-0.5"/>
+				<inc component_id="55"/>
+				<in1 component_id="53"/>
+			</c5>
+			<c6 id="57" count="1" offset="1">
+				<inc component_id="56"/>
+				<in1 component_id="52"/>
+			</c6>
+			<c7 id="58" count="1">
+				<pos y="0.5"/>
+				<inc component_id="57"/>
+				<in1 component_id="51"/>
+			</c7>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="4">
+				<pos x="-2.5" y="-0.25"/>
+			</c0>
+			<c1 id="50">
+				<pos x="1.25" y="0.75"/>
+				<in1 component_id="58"/>
+			</c1>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

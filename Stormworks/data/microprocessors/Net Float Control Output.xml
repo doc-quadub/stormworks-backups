@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Net Float Control Output" width="4" length="1" id_counter="43" id_counter_node="11" sym0="32767" sym1="21845" sym2="32767" sym3="21845" sym4="32767" sym5="21845" sym6="32319" sym7="21525" sym8="32319" sym9="21845" sym10="32767" sym11="21845" sym12="32767" sym13="21845" sym14="32767">
+	<nodes>
+		<n id="8" component_id="37">
+			<node label="Composite" mode="1" type="5"/>
+		</n>
+		<n id="9" component_id="40">
+			<node label="Retract">
+				<position x="3"/>
+			</node>
+		</n>
+		<n id="10" component_id="39">
+			<node label="Extend">
+				<position x="2"/>
+			</node>
+		</n>
+		<n id="11" component_id="38">
+			<node label="Release">
+				<position x="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data type="1701011814">
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="29">
+				<object id="41">
+					<pos x="0.5" y="-0.75"/>
+					<in1 component_id="37"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="42" i="1">
+					<pos x="0.5" y="-0.25"/>
+					<in1 component_id="37"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="43" i="2">
+					<pos x="0.5" y="0.25"/>
+					<in1 component_id="37"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="4">
+				<object id="37">
+					<pos x="-0.75" y="-0.25"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="38">
+					<pos x="1.75" y="0.25"/>
+					<in1 component_id="43"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="39">
+					<pos x="1.75" y="-0.25"/>
+					<in1 component_id="42"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="40">
+					<pos x="1.75" y="-0.75"/>
+					<in1 component_id="41"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="41">
+				<pos x="0.5" y="-0.75"/>
+				<in1 component_id="37"/>
+			</c0>
+			<c1 id="42" i="1">
+				<pos x="0.5" y="-0.25"/>
+				<in1 component_id="37"/>
+			</c1>
+			<c2 id="43" i="2">
+				<pos x="0.5" y="0.25"/>
+				<in1 component_id="37"/>
+			</c2>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="37">
+				<pos x="-0.75" y="-0.25"/>
+			</c0>
+			<c1 id="38">
+				<pos x="1.75" y="0.25"/>
+				<in1 component_id="43"/>
+			</c1>
+			<c2 id="39">
+				<pos x="1.75" y="-0.25"/>
+				<in1 component_id="42"/>
+			</c2>
+			<c3 id="40">
+				<pos x="1.75" y="-0.75"/>
+				<in1 component_id="41"/>
+			</c3>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

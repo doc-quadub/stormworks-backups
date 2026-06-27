@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Greater Then Small" width="2" length="1" id_counter="25" id_counter_node="5" sym0="16408" sym1="32288" sym2="16920" sym3="516" sym4="536" sym5="384" sym6="1540" sym7="6268" sym8="1540" sym9="384" sym10="536" sym11="544" sym12="16920" sym13="32260" sym14="16408">
+	<nodes>
+		<n id="1" component_id="24">
+			<node label="Input"/>
+		</n>
+		<n id="4" component_id="22">
+			<node label="A" mode="1" type="1">
+				<position x="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="17">
+				<object id="23">
+					<pos x="-1" y="0.5"/>
+					<in1 component_id="22"/>
+					<in2 component_id="25"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="25" n="Greater then..">
+					<pos x="-2.25" y="0.5"/>
+					<v text="0"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="2">
+				<object id="22">
+					<pos x="-2.25" y="0.75"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="24">
+					<pos x="0.25" y="0.75"/>
+					<in1 component_id="23"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="23">
+				<pos x="-1" y="0.5"/>
+				<in1 component_id="22"/>
+				<in2 component_id="25"/>
+			</c0>
+			<c1 id="25" n="Greater then..">
+				<pos x="-2.25" y="0.5"/>
+				<v text="0"/>
+			</c1>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="22">
+				<pos x="-2.25" y="0.75"/>
+			</c0>
+			<c1 id="24">
+				<pos x="0.25" y="0.75"/>
+				<in1 component_id="23"/>
+			</c1>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

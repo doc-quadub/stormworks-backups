@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Blinker" description="No description set." width="2" length="1" id_counter="28" id_counter_node="7" sym4="64" sym5="192" sym6="320" sym7="576" sym8="29790" sym9="576" sym10="320" sym11="192" sym12="64">
+	<nodes>
+		<n id="6" component_id="20">
+			<node label="Input" mode="1"/>
+		</n>
+		<n id="7" component_id="22">
+			<node label="Output">
+				<position x="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data type="1701011814">
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="51">
+				<object id="23" t="5">
+					<pos x="-0.75" y="-0.5"/>
+					<in1 component_id="20" v="true"/>
+					<in2 component_id="27" v="5"/>
+					<in3 component_id="24"/>
+					<out1 v="true"/>
+				</object>
+			</c>
+			<c type="49">
+				<object id="24" t="0.766667">
+					<pos x="-0.75" y="-1.25"/>
+					<in1 component_id="23" v="true"/>
+					<in2 component_id="28" v="1"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="27" n="Duration To On">
+					<pos x="-2" y="-0.25"/>
+					<v text="0"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="28" n="Duration To Off">
+					<pos x="-2" y="-1.25"/>
+					<v text="0"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c>
+				<object id="20">
+					<pos x="-2"/>
+					<in1 v="true"/>
+					<out1 v="true"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="22">
+					<pos x="0.5"/>
+					<in1 component_id="23" v="true"/>
+					<out1 v="true"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="23" t="5">
+				<pos x="-0.75" y="-0.5"/>
+				<in1 component_id="20" v="true"/>
+				<in2 component_id="27" v="5"/>
+				<in3 component_id="24"/>
+				<out1 v="true"/>
+			</c0>
+			<c1 id="24" t="0.766667">
+				<pos x="-0.75" y="-1.25"/>
+				<in1 component_id="23" v="true"/>
+				<in2 component_id="28" v="1"/>
+			</c1>
+			<c2 id="27" n="Duration To On">
+				<pos x="-2" y="-0.25"/>
+				<v text="0"/>
+			</c2>
+			<c3 id="28" n="Duration To Off">
+				<pos x="-2" y="-1.25"/>
+				<v text="0"/>
+			</c3>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="20">
+				<pos x="-2"/>
+				<in1 v="true"/>
+				<out1 v="true"/>
+			</c0>
+			<c1 id="22">
+				<pos x="0.5"/>
+				<in1 component_id="23" v="true"/>
+				<out1 v="true"/>
+			</c1>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Clamp" description="No description set." width="2" length="1" id_counter="11" id_counter_node="2" sym1="31806" sym2="16386" sym3="16386" sym4="16386" sym5="16386" sym6="16386" sym7="16386" sym8="16386" sym9="16386" sym10="16386" sym11="16386" sym12="16386" sym13="16386" sym14="31806">
+	<nodes>
+		<n id="1" component_id="3">
+			<node label="Input" mode="1" type="1"/>
+		</n>
+		<n id="2" component_id="5">
+			<node label="Output" type="1">
+				<position x="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="10">
+				<object id="8" e="clamp(x,y,z)" p1="340282346638528859811704183484516925440" p2="340282346638528859811704183484516925440" p3="340282346638528859811704183484516925440">
+					<pos x="0.75" y="-0.5"/>
+					<in1 component_id="3"/>
+					<in2 component_id="10"/>
+					<in3 component_id="11"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="10" n="Min">
+					<pos x="-1.75" y="-0.25"/>
+					<v text="0"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="11" n="Max">
+					<pos x="-0.5" y="-0.5"/>
+					<v text="0"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="2">
+				<object id="3">
+					<pos x="-0.5"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="5">
+					<pos x="2"/>
+					<in1 component_id="8"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="8" e="clamp(x,y,z)" p1="340282346638528859811704183484516925440" p2="340282346638528859811704183484516925440" p3="340282346638528859811704183484516925440">
+				<pos x="0.75" y="-0.5"/>
+				<in1 component_id="3"/>
+				<in2 component_id="10"/>
+				<in3 component_id="11"/>
+			</c0>
+			<c1 id="10" n="Min">
+				<pos x="-1.75" y="-0.25"/>
+				<v text="0"/>
+			</c1>
+			<c2 id="11" n="Max">
+				<pos x="-0.5" y="-0.5"/>
+				<v text="0"/>
+			</c2>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="3">
+				<pos x="-0.5"/>
+			</c0>
+			<c1 id="5">
+				<pos x="2"/>
+				<in1 component_id="8"/>
+			</c1>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

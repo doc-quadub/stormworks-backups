@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Composite Switch Box" width="2" length="2" id_counter="30" id_counter_node="7" sym1="32256" sym2="512" sym3="512" sym4="512" sym5="8192" sym6="22276" sym7="5500" sym8="22276" sym9="8192" sym10="512" sym11="512" sym12="512" sym13="32256">
+	<nodes>
+		<n id="1" component_id="12">
+			<node label="Input" mode="1"/>
+		</n>
+		<n id="2" component_id="29">
+			<node label="Output" type="5">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="6" component_id="27">
+			<node label="B" mode="1" type="5">
+				<position x="1" z="1"/>
+			</node>
+		</n>
+		<n id="7" component_id="28">
+			<node label="A" mode="1" type="5">
+				<position z="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="53">
+				<object id="30">
+					<pos x="-1" y="0.25"/>
+					<in1 component_id="28"/>
+					<in2 component_id="27"/>
+					<in3 component_id="12"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c>
+				<object id="12">
+					<pos x="-2.25" y="0.25"/>
+				</object>
+			</c>
+			<c type="4">
+				<object id="27">
+					<pos x="-2.25" y="0.5"/>
+				</object>
+			</c>
+			<c type="4">
+				<object id="28">
+					<pos x="-2.25" y="0.75"/>
+				</object>
+			</c>
+			<c type="5">
+				<object id="29">
+					<pos x="0.25" y="0.75"/>
+					<in1 component_id="30"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="30">
+				<pos x="-1" y="0.25"/>
+				<in1 component_id="28"/>
+				<in2 component_id="27"/>
+				<in3 component_id="12"/>
+			</c0>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="12">
+				<pos x="-2.25" y="0.25"/>
+			</c0>
+			<c1 id="27">
+				<pos x="-2.25" y="0.5"/>
+			</c1>
+			<c2 id="28">
+				<pos x="-2.25" y="0.75"/>
+			</c2>
+			<c3 id="29">
+				<pos x="0.25" y="0.75"/>
+				<in1 component_id="30"/>
+			</c3>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

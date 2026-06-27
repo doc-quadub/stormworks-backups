@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Subtract" width="3" length="1" id_counter="28" id_counter_node="9" sym7="8176">
+	<nodes>
+		<n id="1" component_id="10">
+			<node label="A" mode="1" type="1">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="2" component_id="19">
+			<node label="Output" type="1">
+				<position x="2"/>
+			</node>
+		</n>
+		<n id="9" component_id="18">
+			<node label="B" mode="1" type="1"/>
+		</n>
+	</nodes>
+	<group>
+		<data type="1049481524">
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="7">
+				<object id="28">
+					<pos x="0.5" y="1.75"/>
+					<in1 component_id="10"/>
+					<in2 component_id="18"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="2">
+				<object id="10">
+					<pos x="-0.75" y="2"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="18">
+					<pos x="-0.75" y="1.75"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="19">
+					<pos x="1.75" y="2"/>
+					<in1 component_id="28"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="28">
+				<pos x="0.5" y="1.75"/>
+				<in1 component_id="10"/>
+				<in2 component_id="18"/>
+			</c0>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="10">
+				<pos x="-0.75" y="2"/>
+			</c0>
+			<c1 id="18">
+				<pos x="-0.75" y="1.75"/>
+			</c1>
+			<c2 id="19">
+				<pos x="1.75" y="2"/>
+				<in1 component_id="28"/>
+			</c2>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

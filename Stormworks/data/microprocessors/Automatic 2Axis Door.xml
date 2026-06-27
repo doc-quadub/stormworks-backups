@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Automatic 2-Axis Door" width="2" length="2" id_counter="62" id_counter_node="9" sym2="61470" sym3="36882" sym4="36882" sym5="36882" sym6="37394" sym7="38866" sym8="61982" sym9="61470" sym10="61470" sym11="36882" sym12="61470">
+	<nodes>
+		<n id="6" component_id="41">
+			<node label="Slider Out/In" type="1"/>
+		</n>
+		<n id="7" component_id="39">
+			<node label="Slider Open/Close" type="1">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="8" component_id="45">
+			<node label="Hardpoint">
+				<position z="1"/>
+			</node>
+		</n>
+		<n id="9" component_id="46">
+			<node label="Signal to Open" mode="1">
+				<position x="1" z="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="56">
+				<object id="47" script="local timer = 60
+local ticks = 0
+local doorSwitch = 1
+local hardpoint = false
+function onTick()
+	doorSwitch = input.getBool(1)
+	
+	if doorSwitch == true then
+		doorSwitch = 1
+		if ticks &lt;= timer then
+			ticks = ticks + 1
+		end
+		
+		slidersInOut = 1
+		
+		if ticks &gt;= timer then
+			slidersOpenClose = 1
+		end
+		
+		hardpoint = true -- Hardpoint Release = True
+	end
+	
+	if doorSwitch == false then
+		doorSwitch = 0
+		if ticks &gt; 0 then 
+			ticks = ticks - 1
+		end
+		
+		slidersOpenClose = -1
+		
+		if ticks &lt;= 0 then
+			slidersInOut = -1
+		end
+		hardpoint = false -- Hardpoint Release = False
+	end
+	
+	output.setNumber(1, slidersInOut)
+	output.setNumber(2, slidersOpenClose)
+	output.setBool(1, hardpoint)
+	
+	output.setNumber(3, ticks)
+	output.setBool(2, doorSwitch)
+end
+">
+					<pos x="-1.25" y="-0.25"/>
+					<in1 component_id="48"/>
+				</object>
+			</c>
+			<c type="41">
+				<object id="48" count="1">
+					<pos x="-2.5" y="-0.25"/>
+					<in1 component_id="61"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="49">
+					<in1 component_id="47"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="50">
+					<pos y="-0.5"/>
+					<in1 component_id="47"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="51" i="1">
+					<pos y="-1"/>
+					<in1 component_id="47"/>
+				</object>
+			</c>
+			<c type="50">
+				<object id="59">
+					<pos x="-5" y="-1"/>
+					<in1 component_id="60"/>
+					<in2 component_id="62"/>
+				</object>
+			</c>
+			<c type="16">
+				<object id="60">
+					<pos x="-6.25" y="-0.75"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="61">
+					<pos x="-3.75" y="-0.5"/>
+					<in1 component_id="46"/>
+					<in2 component_id="59"/>
+				</object>
+			</c>
+			<c type="15">
+				<object id="62">
+					<pos x="-6.25" y="-1"/>
+					<n text="1" value="1"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="3">
+				<object id="39">
+					<pos x="1.25" y="-1"/>
+					<in1 component_id="51"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="41">
+					<pos x="1.25" y="-0.5"/>
+					<in1 component_id="50"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="45">
+					<pos x="1.25"/>
+					<in1 component_id="49"/>
+				</object>
+			</c>
+			<c>
+				<object id="46">
+					<pos x="-5" y="-0.25"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="47" script="local timer = 60
+local ticks = 0
+local doorSwitch = 1
+local hardpoint = false
+function onTick()
+	doorSwitch = input.getBool(1)
+	
+	if doorSwitch == true then
+		doorSwitch = 1
+		if ticks &lt;= timer then
+			ticks = ticks + 1
+		end
+		
+		slidersInOut = 1
+		
+		if ticks &gt;= timer then
+			slidersOpenClose = 1
+		end
+		
+		hardpoint = true -- Hardpoint Release = True
+	end
+	
+	if doorSwitch == false then
+		doorSwitch = 0
+		if ticks &gt; 0 then 
+			ticks = ticks - 1
+		end
+		
+		slidersOpenClose = -1
+		
+		if ticks &lt;= 0 then
+			slidersInOut = -1
+		end
+		hardpoint = false -- Hardpoint Release = False
+	end
+	
+	output.setNumber(1, slidersInOut)
+	output.setNumber(2, slidersOpenClose)
+	output.setBool(1, hardpoint)
+	
+	output.setNumber(3, ticks)
+	output.setBool(2, doorSwitch)
+end
+">
+				<pos x="-1.25" y="-0.25"/>
+				<in1 component_id="48"/>
+			</c0>
+			<c1 id="48" count="1">
+				<pos x="-2.5" y="-0.25"/>
+				<in1 component_id="61"/>
+			</c1>
+			<c2 id="49">
+				<in1 component_id="47"/>
+			</c2>
+			<c3 id="50">
+				<pos y="-0.5"/>
+				<in1 component_id="47"/>
+			</c3>
+			<c4 id="51" i="1">
+				<pos y="-1"/>
+				<in1 component_id="47"/>
+			</c4>
+			<c5 id="59">
+				<pos x="-5" y="-1"/>
+				<in1 component_id="60"/>
+				<in2 component_id="62"/>
+			</c5>
+			<c6 id="60">
+				<pos x="-6.25" y="-0.75"/>
+			</c6>
+			<c7 id="61">
+				<pos x="-3.75" y="-0.5"/>
+				<in1 component_id="46"/>
+				<in2 component_id="59"/>
+			</c7>
+			<c8 id="62">
+				<pos x="-6.25" y="-1"/>
+				<n text="1" value="1"/>
+			</c8>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="39">
+				<pos x="1.25" y="-1"/>
+				<in1 component_id="51"/>
+			</c0>
+			<c1 id="41">
+				<pos x="1.25" y="-0.5"/>
+				<in1 component_id="50"/>
+			</c1>
+			<c2 id="45">
+				<pos x="1.25"/>
+				<in1 component_id="49"/>
+			</c2>
+			<c3 id="46">
+				<pos x="-5" y="-0.25"/>
+			</c3>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

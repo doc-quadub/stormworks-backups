@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Modulo" width="2" length="2" id_counter="8" id_counter_node="3" sym1="3120" sym2="4704" sym3="4704" sym4="4800" sym5="3264" sym6="384" sym7="384" sym8="816" sym9="840" sym10="1608" sym11="1608" sym12="3120">
+	<nodes>
+		<n id="1" component_id="7">
+			<node label="A" mode="1" type="1"/>
+		</n>
+		<n id="2" component_id="6">
+			<node label="B" mode="1" type="1">
+				<position x="1" z="1"/>
+			</node>
+		</n>
+		<n id="3" component_id="5">
+			<node label="Output" type="1">
+				<position z="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data type="841818624">
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="38">
+				<object id="8">
+					<pos x="-1.25"/>
+					<in1 component_id="7"/>
+					<in2 component_id="6"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="3">
+				<object id="5">
+					<pos y="0.25"/>
+					<in1 component_id="8"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="6">
+					<pos x="-2.5"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="7">
+					<pos x="-2.5" y="0.25"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="8">
+				<pos x="-1.25"/>
+				<in1 component_id="7"/>
+				<in2 component_id="6"/>
+			</c0>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="5">
+				<pos y="0.25"/>
+				<in1 component_id="8"/>
+			</c0>
+			<c1 id="6">
+				<pos x="-2.5"/>
+			</c1>
+			<c2 id="7">
+				<pos x="-2.5" y="0.25"/>
+			</c2>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="NOT" width="2" length="1" id_counter="6" id_counter_node="2" sym6="21002" sym7="30702" sym8="21002" sym9="8196" sym11="28672">
+	<nodes>
+		<n id="1" component_id="1">
+			<node label="Input" mode="1"/>
+		</n>
+		<n id="2" component_id="5">
+			<node label="Output">
+				<position x="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c>
+				<object id="6">
+					<pos x="0.25"/>
+					<in1 component_id="1"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c>
+				<object id="1">
+					<pos x="-1"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="5">
+					<pos x="1.5"/>
+					<in1 component_id="6"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="6">
+				<pos x="0.25"/>
+				<in1 component_id="1"/>
+			</c0>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="1">
+				<pos x="-1"/>
+			</c0>
+			<c1 id="5">
+				<pos x="1.5"/>
+				<in1 component_id="6"/>
+			</c1>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

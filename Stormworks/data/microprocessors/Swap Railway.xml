@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Swap Railway" width="3" length="1" id_counter="45" id_counter_node="8" sym0="128" sym1="128" sym2="128" sym3="128" sym4="128" sym5="192" sym6="192" sym7="160" sym8="144" sym9="143" sym10="128" sym11="128" sym12="128" sym13="128" sym14="128" sym15="128">
+	<nodes>
+		<n id="6" component_id="36">
+			<node label="Swap Railway" mode="1"/>
+		</n>
+		<n id="7" component_id="40">
+			<node label="to RX" type="5">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="8" component_id="43">
+			<node label="Freq" type="1">
+				<position x="2"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="15">
+				<object id="44">
+					<pos x="2" y="5.25"/>
+					<n text="440" value="440"/>
+				</object>
+			</c>
+			<c type="41">
+				<object id="45" count="1">
+					<pos x="2" y="4.5"/>
+					<in1 component_id="36"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c>
+				<object id="36">
+					<pos x="0.75" y="4.5"/>
+				</object>
+			</c>
+			<c type="5">
+				<object id="40">
+					<pos x="3.25" y="4.75"/>
+					<in1 component_id="45"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="43">
+					<pos x="3.25" y="5.25"/>
+					<in1 component_id="44"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="44">
+				<pos x="2" y="5.25"/>
+				<n text="440" value="440"/>
+			</c0>
+			<c1 id="45" count="1">
+				<pos x="2" y="4.5"/>
+				<in1 component_id="36"/>
+			</c1>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="36">
+				<pos x="0.75" y="4.5"/>
+			</c0>
+			<c1 id="40">
+				<pos x="3.25" y="4.75"/>
+				<in1 component_id="45"/>
+			</c1>
+			<c2 id="43">
+				<pos x="3.25" y="5.25"/>
+				<in1 component_id="44"/>
+			</c2>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

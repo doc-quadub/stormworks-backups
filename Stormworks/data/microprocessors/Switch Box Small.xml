@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Switch Box" width="2" length="1" id_counter="22" id_counter_node="5" sym0="12" sym1="32272" sym2="520" sym3="516" sym4="536" sym6="1796" sym7="1404" sym8="1796" sym10="524" sym11="528" sym12="520" sym13="32260" sym14="24">
+	<nodes>
+		<n id="1" component_id="12">
+			<node label="Input" mode="1"/>
+		</n>
+		<n id="2" component_id="7">
+			<node label="Output" type="1">
+				<position x="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="22">
+				<object id="13">
+					<pos x="-1" y="0.25"/>
+					<in1 component_id="22"/>
+					<in2 component_id="21"/>
+					<in3 component_id="12"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="21" n="OFF">
+					<pos x="-3.25" y="0.5"/>
+					<v text="0"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="22" n="ON">
+					<pos x="-2.25" y="0.75"/>
+					<v text="0"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="3">
+				<object id="7">
+					<pos x="0.25" y="0.75"/>
+					<in1 component_id="13"/>
+				</object>
+			</c>
+			<c>
+				<object id="12">
+					<pos x="-2.25" y="0.25"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="13">
+				<pos x="-1" y="0.25"/>
+				<in1 component_id="22"/>
+				<in2 component_id="21"/>
+				<in3 component_id="12"/>
+			</c0>
+			<c1 id="21" n="OFF">
+				<pos x="-3.25" y="0.5"/>
+				<v text="0"/>
+			</c1>
+			<c2 id="22" n="ON">
+				<pos x="-2.25" y="0.75"/>
+				<v text="0"/>
+			</c2>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="7">
+				<pos x="0.25" y="0.75"/>
+				<in1 component_id="13"/>
+			</c0>
+			<c1 id="12">
+				<pos x="-2.25" y="0.25"/>
+			</c1>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

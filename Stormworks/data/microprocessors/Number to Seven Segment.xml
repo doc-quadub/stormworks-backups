@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Number to Seven Segment" width="2" length="1" id_counter="128" id_counter_node="5" sym3="448" sym4="544" sym5="544" sym6="544" sym7="448" sym8="544" sym9="544" sym10="544" sym11="448">
+	<nodes>
+		<n id="2" component_id="128">
+			<node label="Input" mode="1" type="1"/>
+		</n>
+		<n id="3" component_id="11">
+			<node label="Output" type="5">
+				<position x="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="40">
+				<object id="124" count="1">
+					<pos x="-4" y="-3.25"/>
+					<inc component_id="125"/>
+					<in1 component_id="126"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="125" count="1" offset="7">
+					<pos x="-4" y="-3.75"/>
+					<in1 component_id="127"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="126" e="floor(x/10)">
+					<pos x="-5.25" y="-3.25"/>
+					<in1 component_id="128"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="127" e="x%10">
+					<pos x="-5.25" y="-3.75"/>
+					<in1 component_id="128"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="5">
+				<object id="11">
+					<pos x="-2.75" y="-3"/>
+					<in1 component_id="124"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="128">
+					<pos x="-6.5" y="-3.25"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="124" count="1">
+				<pos x="-4" y="-3.25"/>
+				<inc component_id="125"/>
+				<in1 component_id="126"/>
+			</c0>
+			<c1 id="125" count="1" offset="7">
+				<pos x="-4" y="-3.75"/>
+				<in1 component_id="127"/>
+			</c1>
+			<c2 id="126" e="floor(x/10)">
+				<pos x="-5.25" y="-3.25"/>
+				<in1 component_id="128"/>
+			</c2>
+			<c3 id="127" e="x%10">
+				<pos x="-5.25" y="-3.75"/>
+				<in1 component_id="128"/>
+			</c3>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="11">
+				<pos x="-2.75" y="-3"/>
+				<in1 component_id="124"/>
+			</c0>
+			<c1 id="128">
+				<pos x="-6.5" y="-3.25"/>
+			</c1>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

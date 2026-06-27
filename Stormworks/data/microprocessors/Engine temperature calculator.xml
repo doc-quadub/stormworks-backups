@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Engine temperature calculator" width="2" length="2" id_counter="58" id_counter_node="7" sym0="1072" sym1="552" sym2="560" sym3="1824" sym4="544" sym6="8184" sym8="560" sym9="552" sym10="560" sym11="544" sym12="16928" sym13="44928" sym14="16384">
+	<nodes>
+		<n id="1" component_id="2">
+			<node label="Temp" mode="1" type="1"/>
+		</n>
+		<n id="5" component_id="48">
+			<node label="Com out" type="5" description="1: deg/time, 2: temp limit, 3: current temp">
+				<position z="1"/>
+			</node>
+		</n>
+		<n id="6" component_id="53">
+			<node label="deg/time" type="1" description="Temperature change velocity (derivative)">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="7" component_id="56">
+			<node label="Temp limit" type="1" description="Temperature limit at infinite time">
+				<position x="1" z="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data type="-3160941">
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="56">
+				<object id="39" script='gN=input.getNumber
+gPN=property.getNumber
+sN=output.setNumber
+
+MeasInt=gPN("Measurement interval")
+TimeMult=gPN("Time multiplier")
+emaDepth=gPN("EMA depth")
+
+cntr=MeasInt*60
+
+temp,oldT,oldT1=0,0,0
+tPerSec=0
+limT=0
+limCntr=4
+
+function onTick()
+	
+	if cntr&gt;0 then cntr=cntr-1 end
+	if cntr==0 then
+		cntr=MeasInt*60
+		t=gN(1)
+		if emaDepth&gt;1 then
+			temp=SetEMA(tEMA,t)
+		else
+			temp=t
+		end
+		if oldT==0 then oldT=temp end
+		dT=temp-oldT
+		tPerSec=dT/MeasInt
+		
+		if limCntr&gt;0 then limCntr=limCntr-1 end
+		if limCntr==0 then
+			denum=oldT1+temp-2*oldT
+			if math.abs(denum)&lt;0.00000001 then
+				limT=0
+			else
+				lT=(oldT1*temp-oldT*oldT)/denum
+				if lT&gt;0 then
+					if emaDepth&gt;1 then
+						limT=SetEMA(limEMA,lT)
+					else
+						limT=lT
+					end
+				end
+			end
+		end
+		oldT1=oldT
+		oldT=temp
+	end	
+	
+	sN(1,tPerSec*TimeMult)
+	sN(2,limT)
+end
+
+function NewEMA(depth) return {val=0,d=depth} end
+function SetEMA(ema,val) ema.val=(ema.val*(ema.d-1)+val)/ema.d return ema.val end
+
+tEMA=NewEMA(emaDepth)
+limEMA=NewEMA(emaDepth)'>
+					<pos x="-0.75" y="-0.75"/>
+					<in1 component_id="42">
+						<v 01="29.098656"/>
+					</in1>
+					<out1>
+						<v 01="9.605972" 02="123.007469"/>
+					</out1>
+				</object>
+			</c>
+			<c type="40">
+				<object id="42" count="1">
+					<pos x="-2.25" y="-0.75"/>
+					<in1 component_id="2" v="29.101299"/>
+					<out1>
+						<v 01="29.101299"/>
+					</out1>
+				</object>
+			</c>
+			<c type="34">
+				<object id="43" n="Measurement interval">
+					<pos x="-3.75" y="-2.25"/>
+					<out1 v="1"/>
+					<v text="1" value="1"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="44" n="Time multiplier">
+					<pos x="-3.75" y="-2.75"/>
+					<out1 v="60"/>
+					<v text="60" value="60"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="45" n="EMA depth">
+					<pos x="-3.75" y="-3.25"/>
+					<out1 v="5"/>
+					<v text="5" value="5"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="49" count="1" offset="2">
+					<pos x="0.75" y="-1.5"/>
+					<inc component_id="39">
+						<v 01="9.605972" 02="123.007469"/>
+					</inc>
+					<in1 component_id="2" v="29.101299"/>
+					<out1>
+						<v 01="9.605972" 02="123.007469" 03="29.101299"/>
+					</out1>
+				</object>
+			</c>
+			<c type="31">
+				<object id="57">
+					<pos x="2.25" y="-2"/>
+					<in1 component_id="49">
+						<v 01="9.605972" 02="123.007469" 03="29.098656"/>
+					</in1>
+					<out1 v="9.605972"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="58" i="1">
+					<pos x="2.25" y="-2.5"/>
+					<in1 component_id="49">
+						<v 01="9.605972" 02="123.007469" 03="29.098656"/>
+					</in1>
+					<out1 v="123.007469"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="2">
+				<object id="2">
+					<pos x="-3.75" y="-0.75"/>
+					<in1 v="29.101299"/>
+					<out1 v="29.101299"/>
+				</object>
+			</c>
+			<c type="5">
+				<object id="48">
+					<pos x="3.75" y="-1.25"/>
+					<in1 component_id="49">
+						<v 01="9.605972" 02="123.007469" 03="29.101299"/>
+					</in1>
+					<out1>
+						<v 01="9.605972" 02="123.007469" 03="29.101299"/>
+					</out1>
+				</object>
+			</c>
+			<c type="3">
+				<object id="53">
+					<pos x="3.75" y="-2"/>
+					<in1 component_id="57" v="9.605972"/>
+					<out1 v="9.605972"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="56">
+					<pos x="3.75" y="-2.5"/>
+					<in1 component_id="58" v="123.007469"/>
+					<out1 v="123.007469"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="39" script='gN=input.getNumber
+gPN=property.getNumber
+sN=output.setNumber
+
+MeasInt=gPN("Measurement interval")
+TimeMult=gPN("Time multiplier")
+emaDepth=gPN("EMA depth")
+
+cntr=MeasInt*60
+
+temp,oldT,oldT1=0,0,0
+tPerSec=0
+limT=0
+limCntr=4
+
+function onTick()
+	
+	if cntr&gt;0 then cntr=cntr-1 end
+	if cntr==0 then
+		cntr=MeasInt*60
+		t=gN(1)
+		if emaDepth&gt;1 then
+			temp=SetEMA(tEMA,t)
+		else
+			temp=t
+		end
+		if oldT==0 then oldT=temp end
+		dT=temp-oldT
+		tPerSec=dT/MeasInt
+		
+		if limCntr&gt;0 then limCntr=limCntr-1 end
+		if limCntr==0 then
+			denum=oldT1+temp-2*oldT
+			if math.abs(denum)&lt;0.00000001 then
+				limT=0
+			else
+				lT=(oldT1*temp-oldT*oldT)/denum
+				if lT&gt;0 then
+					if emaDepth&gt;1 then
+						limT=SetEMA(limEMA,lT)
+					else
+						limT=lT
+					end
+				end
+			end
+		end
+		oldT1=oldT
+		oldT=temp
+	end	
+	
+	sN(1,tPerSec*TimeMult)
+	sN(2,limT)
+end
+
+function NewEMA(depth) return {val=0,d=depth} end
+function SetEMA(ema,val) ema.val=(ema.val*(ema.d-1)+val)/ema.d return ema.val end
+
+tEMA=NewEMA(emaDepth)
+limEMA=NewEMA(emaDepth)'>
+				<pos x="-0.75" y="-0.75"/>
+				<in1 component_id="42">
+					<v 01="29.098656"/>
+				</in1>
+				<out1>
+					<v 01="9.605972" 02="123.007469"/>
+				</out1>
+			</c0>
+			<c1 id="42" count="1">
+				<pos x="-2.25" y="-0.75"/>
+				<in1 component_id="2" v="29.101299"/>
+				<out1>
+					<v 01="29.101299"/>
+				</out1>
+			</c1>
+			<c2 id="43" n="Measurement interval">
+				<pos x="-3.75" y="-2.25"/>
+				<out1 v="1"/>
+				<v text="1" value="1"/>
+			</c2>
+			<c3 id="44" n="Time multiplier">
+				<pos x="-3.75" y="-2.75"/>
+				<out1 v="60"/>
+				<v text="60" value="60"/>
+			</c3>
+			<c4 id="45" n="EMA depth">
+				<pos x="-3.75" y="-3.25"/>
+				<out1 v="5"/>
+				<v text="5" value="5"/>
+			</c4>
+			<c5 id="49" count="1" offset="2">
+				<pos x="0.75" y="-1.5"/>
+				<inc component_id="39">
+					<v 01="9.605972" 02="123.007469"/>
+				</inc>
+				<in1 component_id="2" v="29.101299"/>
+				<out1>
+					<v 01="9.605972" 02="123.007469" 03="29.101299"/>
+				</out1>
+			</c5>
+			<c6 id="57">
+				<pos x="2.25" y="-2"/>
+				<in1 component_id="49">
+					<v 01="9.605972" 02="123.007469" 03="29.098656"/>
+				</in1>
+				<out1 v="9.605972"/>
+			</c6>
+			<c7 id="58" i="1">
+				<pos x="2.25" y="-2.5"/>
+				<in1 component_id="49">
+					<v 01="9.605972" 02="123.007469" 03="29.098656"/>
+				</in1>
+				<out1 v="123.007469"/>
+			</c7>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="2">
+				<pos x="-3.75" y="-0.75"/>
+				<in1 v="29.101299"/>
+				<out1 v="29.101299"/>
+			</c0>
+			<c1 id="48">
+				<pos x="3.75" y="-1.25"/>
+				<in1 component_id="49">
+					<v 01="9.605972" 02="123.007469" 03="29.101299"/>
+				</in1>
+				<out1>
+					<v 01="9.605972" 02="123.007469" 03="29.101299"/>
+				</out1>
+			</c1>
+			<c2 id="53">
+				<pos x="3.75" y="-2"/>
+				<in1 component_id="57" v="9.605972"/>
+				<out1 v="9.605972"/>
+			</c2>
+			<c3 id="56">
+				<pos x="3.75" y="-2.5"/>
+				<in1 component_id="58" v="123.007469"/>
+				<out1 v="123.007469"/>
+			</c3>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

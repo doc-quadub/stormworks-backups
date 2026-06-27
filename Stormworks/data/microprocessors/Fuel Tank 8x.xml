@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Fuel Tank 8x" width="5" length="2" id_counter="26" id_counter_node="9" sym0="448" sym1="992" sym2="2032" sym3="2032" sym4="4088" sym5="4088" sym6="2032" sym7="1776" sym8="736" sym9="9186" sym10="8642" sym11="8642" sym12="8326" sym13="8322" sym14="63630">
+	<nodes>
+		<n id="1" component_id="10">
+			<node label="Tank 1" mode="1" type="1"/>
+		</n>
+		<n id="2" component_id="19">
+			<node label="Output" type="1">
+				<position x="4"/>
+			</node>
+		</n>
+		<n id="3" component_id="12">
+			<node label="Tank 7" mode="1" type="1">
+				<position x="3"/>
+			</node>
+		</n>
+		<n id="4" component_id="13">
+			<node label="Tank 6" mode="1" type="1">
+				<position x="2" z="1"/>
+			</node>
+		</n>
+		<n id="5" component_id="14">
+			<node label="Tank 5" mode="1" type="1">
+				<position x="2"/>
+			</node>
+		</n>
+		<n id="6" component_id="15">
+			<node label="Tank 8" mode="1" type="1">
+				<position x="3" z="1"/>
+			</node>
+		</n>
+		<n id="7" component_id="16">
+			<node label="Tank 4" mode="1" type="1">
+				<position x="1" z="1"/>
+			</node>
+		</n>
+		<n id="8" component_id="17">
+			<node label="Tank 3" mode="1" type="1">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="9" component_id="18">
+			<node label="Tank 2" mode="1" type="1">
+				<position z="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data type="1049481524">
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="6">
+				<object id="20">
+					<pos x="0.75" y="1.75"/>
+					<in1 component_id="10"/>
+					<in2 component_id="18"/>
+				</object>
+			</c>
+			<c type="6">
+				<object id="21">
+					<pos x="0.75" y="0.75"/>
+					<in1 component_id="17"/>
+					<in2 component_id="16"/>
+				</object>
+			</c>
+			<c type="6">
+				<object id="22">
+					<pos x="0.75" y="-0.25"/>
+					<in1 component_id="14"/>
+					<in2 component_id="13"/>
+				</object>
+			</c>
+			<c type="6">
+				<object id="23">
+					<pos x="0.75" y="-1.25"/>
+					<in1 component_id="12"/>
+					<in2 component_id="15"/>
+				</object>
+			</c>
+			<c type="6">
+				<object id="24">
+					<pos x="2.25" y="-0.75"/>
+					<in1 component_id="22"/>
+					<in2 component_id="23"/>
+				</object>
+			</c>
+			<c type="6">
+				<object id="25">
+					<pos x="2.25" y="1.5"/>
+					<in1 component_id="20"/>
+					<in2 component_id="21"/>
+				</object>
+			</c>
+			<c type="6">
+				<object id="26">
+					<pos x="3.75" y="0.5"/>
+					<in1 component_id="25"/>
+					<in2 component_id="24"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="2">
+				<object id="10">
+					<pos x="-0.75" y="2"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="12">
+					<pos x="-0.75" y="-1"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="13">
+					<pos x="-0.75" y="-0.5"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="14">
+					<pos x="-0.75"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="15">
+					<pos x="-0.75" y="-1.5"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="16">
+					<pos x="-0.75" y="0.5"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="17">
+					<pos x="-0.75" y="1"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="18">
+					<pos x="-0.75" y="1.5"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="19">
+					<pos x="5.25" y="0.75"/>
+					<in1 component_id="26"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="20">
+				<pos x="0.75" y="1.75"/>
+				<in1 component_id="10"/>
+				<in2 component_id="18"/>
+			</c0>
+			<c1 id="21">
+				<pos x="0.75" y="0.75"/>
+				<in1 component_id="17"/>
+				<in2 component_id="16"/>
+			</c1>
+			<c2 id="22">
+				<pos x="0.75" y="-0.25"/>
+				<in1 component_id="14"/>
+				<in2 component_id="13"/>
+			</c2>
+			<c3 id="23">
+				<pos x="0.75" y="-1.25"/>
+				<in1 component_id="12"/>
+				<in2 component_id="15"/>
+			</c3>
+			<c4 id="24">
+				<pos x="2.25" y="-0.75"/>
+				<in1 component_id="22"/>
+				<in2 component_id="23"/>
+			</c4>
+			<c5 id="25">
+				<pos x="2.25" y="1.5"/>
+				<in1 component_id="20"/>
+				<in2 component_id="21"/>
+			</c5>
+			<c6 id="26">
+				<pos x="3.75" y="0.5"/>
+				<in1 component_id="25"/>
+				<in2 component_id="24"/>
+			</c6>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="10">
+				<pos x="-0.75" y="2"/>
+			</c0>
+			<c1 id="12">
+				<pos x="-0.75" y="-1"/>
+			</c1>
+			<c2 id="13">
+				<pos x="-0.75" y="-0.5"/>
+			</c2>
+			<c3 id="14">
+				<pos x="-0.75"/>
+			</c3>
+			<c4 id="15">
+				<pos x="-0.75" y="-1.5"/>
+			</c4>
+			<c5 id="16">
+				<pos x="-0.75" y="0.5"/>
+			</c5>
+			<c6 id="17">
+				<pos x="-0.75" y="1"/>
+			</c6>
+			<c7 id="18">
+				<pos x="-0.75" y="1.5"/>
+			</c7>
+			<c8 id="19">
+				<pos x="5.25" y="0.75"/>
+				<in1 component_id="26"/>
+			</c8>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

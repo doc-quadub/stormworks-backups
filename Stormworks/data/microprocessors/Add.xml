@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Add" width="3" length="1" id_counter="27" id_counter_node="9" sym2="256" sym3="256" sym4="256" sym5="256" sym6="256" sym7="8176" sym8="256" sym9="256" sym10="256" sym11="256" sym12="256">
+	<nodes>
+		<n id="1" component_id="10">
+			<node label="A" mode="1" type="1">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="2" component_id="19">
+			<node label="Output" type="1">
+				<position x="2"/>
+			</node>
+		</n>
+		<n id="9" component_id="18">
+			<node label="B" mode="1" type="1"/>
+		</n>
+	</nodes>
+	<group>
+		<data type="1049481524">
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="6">
+				<object id="27">
+					<pos x="0.5" y="1.75"/>
+					<in1 component_id="10"/>
+					<in2 component_id="18"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="2">
+				<object id="10">
+					<pos x="-0.75" y="2"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="18">
+					<pos x="-0.75" y="1.75"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="19">
+					<pos x="1.75" y="2"/>
+					<in1 component_id="27"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="27">
+				<pos x="0.5" y="1.75"/>
+				<in1 component_id="10"/>
+				<in2 component_id="18"/>
+			</c0>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="10">
+				<pos x="-0.75" y="2"/>
+			</c0>
+			<c1 id="18">
+				<pos x="-0.75" y="1.75"/>
+			</c1>
+			<c2 id="19">
+				<pos x="1.75" y="2"/>
+				<in1 component_id="27"/>
+			</c2>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

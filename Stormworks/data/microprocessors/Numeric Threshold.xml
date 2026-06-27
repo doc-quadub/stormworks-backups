@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Numeric Threshold" width="2" length="1" id_counter="16" id_counter_node="2" sym1="30750" sym2="16386" sym3="24570" sym4="23994" sym5="23738" sym6="23738" sym7="23738" sym8="23866" sym9="23866" sym10="23866" sym11="23994" sym12="24570" sym13="16386" sym14="30750">
+	<nodes>
+		<n id="1" component_id="16">
+			<node label="Input" type="1"/>
+		</n>
+		<n id="2" component_id="3">
+			<node label="Output" mode="1" type="1">
+				<position x="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data type="574451311">
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="18">
+				<object id="6">
+					<pos x="-0.5" y="0.5"/>
+					<in1 component_id="3"/>
+					<in2 component_id="10"/>
+				</object>
+			</c>
+			<c type="17">
+				<object id="7">
+					<pos x="-0.5" y="-0.25"/>
+					<in1 component_id="3"/>
+					<in2 component_id="9"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="8">
+					<pos x="0.75" y="0.25"/>
+					<in1 component_id="6"/>
+					<in2 component_id="7"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="9" n="Min">
+					<pos x="-1.75" y="-0.25"/>
+					<v text="-0.5" value="-0.5"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="10" n="Max">
+					<pos x="-1.75" y="0.75"/>
+					<v text="0.5" value="0.5"/>
+				</object>
+			</c>
+			<c type="42">
+				<object id="11">
+					<pos x="-0.5" y="-1.25"/>
+					<in1 component_id="3"/>
+					<in2 component_id="10"/>
+					<e text="0.0001" value="0.0001"/>
+				</object>
+			</c>
+			<c type="42">
+				<object id="12">
+					<pos x="-0.5" y="-2"/>
+					<in1 component_id="3"/>
+					<in2 component_id="9"/>
+					<e text="0.0001" value="0.0001"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="13">
+					<pos x="0.75" y="-1.5"/>
+					<in1 component_id="11"/>
+					<in2 component_id="12"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="14">
+					<pos x="2" y="-0.5"/>
+					<in1 component_id="8"/>
+					<in2 component_id="13"/>
+				</object>
+			</c>
+			<c type="22">
+				<object id="15">
+					<pos x="3.25" y="-0.25"/>
+					<in2 component_id="3"/>
+					<in3 component_id="14"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="2">
+				<object id="3">
+					<pos x="-1.75" y="0.25"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="16">
+					<pos x="4.5" y="0.25"/>
+					<in1 component_id="15"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="6">
+				<pos x="-0.5" y="0.5"/>
+				<in1 component_id="3"/>
+				<in2 component_id="10"/>
+			</c0>
+			<c1 id="7">
+				<pos x="-0.5" y="-0.25"/>
+				<in1 component_id="3"/>
+				<in2 component_id="9"/>
+			</c1>
+			<c2 id="8">
+				<pos x="0.75" y="0.25"/>
+				<in1 component_id="6"/>
+				<in2 component_id="7"/>
+			</c2>
+			<c3 id="9" n="Min">
+				<pos x="-1.75" y="-0.25"/>
+				<v text="-0.5" value="-0.5"/>
+			</c3>
+			<c4 id="10" n="Max">
+				<pos x="-1.75" y="0.75"/>
+				<v text="0.5" value="0.5"/>
+			</c4>
+			<c5 id="11">
+				<pos x="-0.5" y="-1.25"/>
+				<in1 component_id="3"/>
+				<in2 component_id="10"/>
+				<e text="0.0001" value="0.0001"/>
+			</c5>
+			<c6 id="12">
+				<pos x="-0.5" y="-2"/>
+				<in1 component_id="3"/>
+				<in2 component_id="9"/>
+				<e text="0.0001" value="0.0001"/>
+			</c6>
+			<c7 id="13">
+				<pos x="0.75" y="-1.5"/>
+				<in1 component_id="11"/>
+				<in2 component_id="12"/>
+			</c7>
+			<c8 id="14">
+				<pos x="2" y="-0.5"/>
+				<in1 component_id="8"/>
+				<in2 component_id="13"/>
+			</c8>
+			<c9 id="15">
+				<pos x="3.25" y="-0.25"/>
+				<in2 component_id="3"/>
+				<in3 component_id="14"/>
+			</c9>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="3">
+				<pos x="-1.75" y="0.25"/>
+			</c0>
+			<c1 id="16">
+				<pos x="4.5" y="0.25"/>
+				<in1 component_id="15"/>
+			</c1>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

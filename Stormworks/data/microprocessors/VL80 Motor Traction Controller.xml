@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="VL80 Motor Traction Controller" width="2" length="2" id_counter="102" id_counter_node="13">
+	<nodes>
+		<n id="6" component_id="38">
+			<node label="From Traction Control Microcontroller" mode="1" type="5"/>
+		</n>
+		<n id="7" component_id="40">
+			<node label="To Motor" type="1"/>
+		</n>
+		<n id="9" component_id="55">
+			<node label="Traction Control" mode="1">
+				<position z="1"/>
+			</node>
+		</n>
+		<n id="10" component_id="67">
+			<node label="Motor Overloaded">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="11" component_id="70">
+			<node label="Motor Current" type="1">
+				<position x="1" z="1"/>
+			</node>
+		</n>
+		<n id="12" component_id="83">
+			<node label="Inverting" mode="1" type="5">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="13" component_id="94">
+			<node label="Reversible Handle" mode="1" type="5">
+				<position z="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="31">
+				<object id="42" i="10">
+					<pos x="0.75" y="5"/>
+					<in1 component_id="38"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="51" e="((1/1900)*((x+10)^2))+0.025">
+					<pos x="2" y="5"/>
+					<in1 component_id="42"/>
+				</object>
+			</c>
+			<c type="23">
+				<object id="52">
+					<pos x="4.5" y="3.5"/>
+					<in1 component_id="74"/>
+					<in2 component_id="52"/>
+					<in3 component_id="55"/>
+					<kp text="0.001" value="0.001"/>
+					<ki text="0.002" value="0.002"/>
+					<kd text="0"/>
+				</object>
+			</c>
+			<c type="10">
+				<object id="58" e="((x-y)/2)*10000">
+					<pos x="4.5" y="5.25"/>
+					<in1 component_id="74"/>
+					<in2 component_id="52"/>
+				</object>
+			</c>
+			<c type="17">
+				<object id="60">
+					<pos x="7" y="5.5"/>
+					<in1 component_id="58"/>
+					<in2 component_id="61"/>
+				</object>
+			</c>
+			<c type="15">
+				<object id="61">
+					<pos x="5.75" y="5.5"/>
+					<n text="425" value="425"/>
+				</object>
+			</c>
+			<c type="26">
+				<object id="71" ct="0.2" dt="0.1">
+					<pos x="10.75" y="5.75"/>
+					<in1 component_id="78"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="72">
+					<pos x="8.25" y="5.5"/>
+					<in1 component_id="60"/>
+					<in2 component_id="55"/>
+				</object>
+			</c>
+			<c type="22">
+				<object id="74">
+					<pos x="3.25" y="4.5"/>
+					<in1 component_id="51"/>
+					<in3 component_id="87"/>
+				</object>
+			</c>
+			<c type="17">
+				<object id="75">
+					<pos x="0.75" y="4.25"/>
+					<in1 component_id="42"/>
+					<in2 component_id="76"/>
+				</object>
+			</c>
+			<c type="15">
+				<object id="76">
+					<pos x="-0.5" y="4.25"/>
+					<n text="0"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="78">
+					<pos x="9.5" y="5.5"/>
+					<in1 component_id="72"/>
+					<in2 component_id="79"/>
+				</object>
+			</c>
+			<c>
+				<object id="79">
+					<pos x="8.25" y="5.25"/>
+					<in1 component_id="80"/>
+				</object>
+			</c>
+			<c type="42">
+				<object id="80">
+					<pos x="7" y="5"/>
+					<in1 component_id="42"/>
+					<in2 component_id="81"/>
+					<e text="0.0001" value="0.0001"/>
+				</object>
+			</c>
+			<c type="15">
+				<object id="81">
+					<pos x="7" y="4.5"/>
+					<n text="1" value="1"/>
+				</object>
+			</c>
+			<c type="22">
+				<object id="84">
+					<pos x="7" y="3.5"/>
+					<in1 component_id="85"/>
+					<in2 component_id="52"/>
+					<in3 component_id="86"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="85" e="-x">
+					<pos x="5.75" y="4"/>
+					<in1 component_id="52"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="86">
+					<pos x="5.75" y="3"/>
+					<in1 component_id="83"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="87">
+					<pos x="2" y="4.25"/>
+					<in1 component_id="75"/>
+					<in2 component_id="88"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="88" i="31">
+					<pos x="0.75" y="3.75"/>
+					<in1 component_id="38"/>
+				</object>
+			</c>
+			<c type="44">
+				<object id="89" l="Inverted?" on="on" off="off">
+					<pos x="-1.75" y="6.75"/>
+					<in1 component_id="86"/>
+				</object>
+			</c>
+			<c type="44">
+				<object id="90" l="LK" on="on" off="off">
+					<pos x="-1.75" y="6.25"/>
+					<in1 component_id="88"/>
+				</object>
+			</c>
+			<c type="44">
+				<object id="91" l="Not 0 AND LK?" on="on" off="off">
+					<pos x="-1.75" y="5.75"/>
+					<in1 component_id="87"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="92" l="Thrust">
+					<pos x="4.5" y="6.25"/>
+					<in1 component_id="74"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="95" i="26">
+					<pos x="8.25" y="2.5"/>
+					<in1 component_id="94"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="96" i="27">
+					<pos x="8.25" y="2"/>
+					<in1 component_id="94"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="97" i="28">
+					<pos x="8.25" y="1.5"/>
+					<in1 component_id="94"/>
+				</object>
+			</c>
+			<c type="22">
+				<object id="98">
+					<pos x="8.25" y="3.5"/>
+					<in1 component_id="84"/>
+					<in3 component_id="99"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="99">
+					<pos x="9.5" y="2.25"/>
+					<in1 component_id="95"/>
+					<in2 component_id="96"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="100">
+					<pos x="9.5" y="1.5"/>
+					<in1 component_id="95"/>
+					<in2 component_id="97"/>
+				</object>
+			</c>
+			<c type="22">
+				<object id="101">
+					<pos x="9.5" y="3.75"/>
+					<in1 component_id="102"/>
+					<in2 component_id="98"/>
+					<in3 component_id="100"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="102" e="-x">
+					<pos x="8.25" y="4.5"/>
+					<in1 component_id="84"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="4">
+				<object id="38">
+					<pos x="-0.5" y="5"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="40">
+					<pos x="10.75" y="4.25"/>
+					<in1 component_id="101"/>
+				</object>
+			</c>
+			<c>
+				<object id="55">
+					<pos x="3.25" y="4"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="67">
+					<pos x="12" y="5.75"/>
+					<in1 component_id="71"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="70">
+					<pos x="5.75" y="5"/>
+					<in1 component_id="58"/>
+				</object>
+			</c>
+			<c type="4">
+				<object id="83">
+					<pos x="4.5" y="3"/>
+				</object>
+			</c>
+			<c type="4">
+				<object id="94">
+					<pos x="7" y="2.5"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="42" i="10">
+				<pos x="0.75" y="5"/>
+				<in1 component_id="38"/>
+			</c0>
+			<c1 id="51" e="((1/1900)*((x+10)^2))+0.025">
+				<pos x="2" y="5"/>
+				<in1 component_id="42"/>
+			</c1>
+			<c2 id="52">
+				<pos x="4.5" y="3.5"/>
+				<in1 component_id="74"/>
+				<in2 component_id="52"/>
+				<in3 component_id="55"/>
+				<kp text="0.001" value="0.001"/>
+				<ki text="0.002" value="0.002"/>
+				<kd text="0"/>
+			</c2>
+			<c3 id="58" e="((x-y)/2)*10000">
+				<pos x="4.5" y="5.25"/>
+				<in1 component_id="74"/>
+				<in2 component_id="52"/>
+			</c3>
+			<c4 id="60">
+				<pos x="7" y="5.5"/>
+				<in1 component_id="58"/>
+				<in2 component_id="61"/>
+			</c4>
+			<c5 id="61">
+				<pos x="5.75" y="5.5"/>
+				<n text="425" value="425"/>
+			</c5>
+			<c6 id="71" ct="0.2" dt="0.1">
+				<pos x="10.75" y="5.75"/>
+				<in1 component_id="78"/>
+			</c6>
+			<c7 id="72">
+				<pos x="8.25" y="5.5"/>
+				<in1 component_id="60"/>
+				<in2 component_id="55"/>
+			</c7>
+			<c8 id="74">
+				<pos x="3.25" y="4.5"/>
+				<in1 component_id="51"/>
+				<in3 component_id="87"/>
+			</c8>
+			<c9 id="75">
+				<pos x="0.75" y="4.25"/>
+				<in1 component_id="42"/>
+				<in2 component_id="76"/>
+			</c9>
+			<c10 id="76">
+				<pos x="-0.5" y="4.25"/>
+				<n text="0"/>
+			</c10>
+			<c11 id="78">
+				<pos x="9.5" y="5.5"/>
+				<in1 component_id="72"/>
+				<in2 component_id="79"/>
+			</c11>
+			<c12 id="79">
+				<pos x="8.25" y="5.25"/>
+				<in1 component_id="80"/>
+			</c12>
+			<c13 id="80">
+				<pos x="7" y="5"/>
+				<in1 component_id="42"/>
+				<in2 component_id="81"/>
+				<e text="0.0001" value="0.0001"/>
+			</c13>
+			<c14 id="81">
+				<pos x="7" y="4.5"/>
+				<n text="1" value="1"/>
+			</c14>
+			<c15 id="84">
+				<pos x="7" y="3.5"/>
+				<in1 component_id="85"/>
+				<in2 component_id="52"/>
+				<in3 component_id="86"/>
+			</c15>
+			<c16 id="85" e="-x">
+				<pos x="5.75" y="4"/>
+				<in1 component_id="52"/>
+			</c16>
+			<c17 id="86">
+				<pos x="5.75" y="3"/>
+				<in1 component_id="83"/>
+			</c17>
+			<c18 id="87">
+				<pos x="2" y="4.25"/>
+				<in1 component_id="75"/>
+				<in2 component_id="88"/>
+			</c18>
+			<c19 id="88" i="31">
+				<pos x="0.75" y="3.75"/>
+				<in1 component_id="38"/>
+			</c19>
+			<c20 id="89" l="Inverted?" on="on" off="off">
+				<pos x="-1.75" y="6.75"/>
+				<in1 component_id="86"/>
+			</c20>
+			<c21 id="90" l="LK" on="on" off="off">
+				<pos x="-1.75" y="6.25"/>
+				<in1 component_id="88"/>
+			</c21>
+			<c22 id="91" l="Not 0 AND LK?" on="on" off="off">
+				<pos x="-1.75" y="5.75"/>
+				<in1 component_id="87"/>
+			</c22>
+			<c23 id="92" l="Thrust">
+				<pos x="4.5" y="6.25"/>
+				<in1 component_id="74"/>
+			</c23>
+			<c24 id="95" i="26">
+				<pos x="8.25" y="2.5"/>
+				<in1 component_id="94"/>
+			</c24>
+			<c25 id="96" i="27">
+				<pos x="8.25" y="2"/>
+				<in1 component_id="94"/>
+			</c25>
+			<c26 id="97" i="28">
+				<pos x="8.25" y="1.5"/>
+				<in1 component_id="94"/>
+			</c26>
+			<c27 id="98">
+				<pos x="8.25" y="3.5"/>
+				<in1 component_id="84"/>
+				<in3 component_id="99"/>
+			</c27>
+			<c28 id="99">
+				<pos x="9.5" y="2.25"/>
+				<in1 component_id="95"/>
+				<in2 component_id="96"/>
+			</c28>
+			<c29 id="100">
+				<pos x="9.5" y="1.5"/>
+				<in1 component_id="95"/>
+				<in2 component_id="97"/>
+			</c29>
+			<c30 id="101">
+				<pos x="9.5" y="3.75"/>
+				<in1 component_id="102"/>
+				<in2 component_id="98"/>
+				<in3 component_id="100"/>
+			</c30>
+			<c31 id="102" e="-x">
+				<pos x="8.25" y="4.5"/>
+				<in1 component_id="84"/>
+			</c31>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="38">
+				<pos x="-0.5" y="5"/>
+			</c0>
+			<c1 id="40">
+				<pos x="10.75" y="4.25"/>
+				<in1 component_id="101"/>
+			</c1>
+			<c2 id="55">
+				<pos x="3.25" y="4"/>
+			</c2>
+			<c3 id="67">
+				<pos x="12" y="5.75"/>
+				<in1 component_id="71"/>
+			</c3>
+			<c4 id="70">
+				<pos x="5.75" y="5"/>
+				<in1 component_id="58"/>
+			</c4>
+			<c5 id="83">
+				<pos x="4.5" y="3"/>
+			</c5>
+			<c6 id="94">
+				<pos x="7" y="2.5"/>
+			</c6>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

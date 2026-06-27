@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Pneumatic Brake System v4_Wagon" width="4" length="2" id_counter="110" id_counter_node="9" sym0="65535" sym1="448" sym2="552" sym3="1044" sym4="1172" sym5="1044" sym6="61995" sym7="4552" sym8="65535" sym10="21124" sym11="43146" sym12="43242" sym13="43178" sym14="43178" sym15="43178">
+	<nodes>
+		<n id="2" component_id="92">
+			<node label="[Valve_6]" type="1"/>
+		</n>
+		<n id="3" component_id="17">
+			<node label="[Valve_7]" type="1">
+				<position x="2"/>
+			</node>
+		</n>
+		<n id="4" component_id="18">
+			<node label="[Valve_8]" type="1">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="5" component_id="19">
+			<node label="BL.Pr" mode="1" type="1">
+				<position x="2" z="1"/>
+			</node>
+		</n>
+		<n id="6" component_id="20">
+			<node label="ST.Pr" mode="1" type="1">
+				<position x="1" z="1"/>
+			</node>
+		</n>
+		<n id="7" component_id="21">
+			<node label="BC:Pr" mode="1" type="1">
+				<position z="1"/>
+			</node>
+		</n>
+		<n id="8" component_id="41">
+			<node label="[Valve_10]" type="1">
+				<position x="3"/>
+			</node>
+		</n>
+		<n id="9" component_id="51">
+			<node label="Brake Force" type="1">
+				<position x="3" z="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="43">
+				<object id="52" l="BL.Pr">
+					<pos x="-3" y="3.5"/>
+					<in1 component_id="93"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="53" l="ST.Pr">
+					<pos x="-3" y="2.75"/>
+					<in1 component_id="94"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="54" l="BC.Pr">
+					<pos x="-3" y="2"/>
+					<in1 component_id="95"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="55" l="BL.DELTA">
+					<pos x="-3" y="1.25"/>
+					<in1 component_id="98"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="56" l="BRAKE">
+					<pos x="-3" y="0.5"/>
+					<in1 component_id="109"/>
+				</object>
+			</c>
+			<c type="17">
+				<object id="65">
+					<pos x="7" y="3.5"/>
+					<in1 component_id="93"/>
+					<in2 component_id="66"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="66" e="x+0.02">
+					<pos x="5.75" y="3.5"/>
+					<in1 component_id="94"/>
+				</object>
+			</c>
+			<c type="22">
+				<object id="67">
+					<pos x="8.25" y="3.5"/>
+					<in1 component_id="100"/>
+					<in3 component_id="65"/>
+				</object>
+			</c>
+			<c type="22">
+				<object id="69">
+					<pos x="5.75" y="1.75"/>
+					<in1 component_id="74"/>
+					<in3 component_id="83"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="70">
+					<pos x="4.5" y="1.5"/>
+					<in1 component_id="82"/>
+					<in2 component_id="71"/>
+				</object>
+			</c>
+			<c type="17">
+				<object id="71">
+					<pos x="3.25" y="1.5"/>
+					<in1 component_id="94"/>
+					<in2 component_id="73"/>
+				</object>
+			</c>
+			<c type="15">
+				<object id="72">
+					<pos x="2" y="2.25"/>
+					<n text="-0.021" value="-0.021"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="73" e="x+0.1">
+					<pos x="2" y="1.5"/>
+					<in1 component_id="95"/>
+				</object>
+			</c>
+			<c type="10">
+				<object id="74" e="clamp((x-y-0.1)/3, 0, 1)*0.2">
+					<pos x="4.5" y="2"/>
+					<in1 component_id="94"/>
+					<in2 component_id="95"/>
+				</object>
+			</c>
+			<c type="17">
+				<object id="75">
+					<pos x="5.75" y="-0.5"/>
+					<in1 component_id="98"/>
+					<in2 component_id="77"/>
+				</object>
+			</c>
+			<c type="22">
+				<object id="76">
+					<pos x="8.25" y="0.25"/>
+					<in1 component_id="81"/>
+					<in3 component_id="84"/>
+				</object>
+			</c>
+			<c type="15">
+				<object id="77">
+					<pos x="4.5" y="-0.5"/>
+					<n text="0"/>
+				</object>
+			</c>
+			<c type="10">
+				<object id="81" e="clamp((x-y)/0.6, 0, 1)">
+					<pos x="5.75" y="0.25"/>
+					<in1 component_id="93"/>
+					<in2 component_id="94"/>
+				</object>
+			</c>
+			<c type="18">
+				<object id="82">
+					<pos x="3.25" y="2"/>
+					<in1 component_id="98"/>
+					<in2 component_id="72"/>
+				</object>
+			</c>
+			<c type="26">
+				<object id="83" ct="1.5" dt="0.1">
+					<pos x="4.5" y="2.75"/>
+					<in1 component_id="70"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="84">
+					<pos x="7" y="-0.25"/>
+					<in1 component_id="85"/>
+					<in2 component_id="75"/>
+				</object>
+			</c>
+			<c type="17">
+				<object id="85">
+					<pos x="7" y="0.5"/>
+					<in1 component_id="93"/>
+					<in2 component_id="94"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="93" e="clamp((x*0.9678)-1, 0, 11)">
+					<pos x="-0.5" y="3.75"/>
+					<in1 component_id="19"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="94" e="clamp((x*0.9678)-1, 0, 11)">
+					<pos x="-0.5" y="3.25"/>
+					<in1 component_id="20"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="95" e="clamp((x*0.9678)-1, 0, 11)">
+					<pos x="-0.5" y="2.75"/>
+					<in1 component_id="21"/>
+				</object>
+			</c>
+			<c type="56">
+				<object id="96" script="c = 120
+s = {}
+sum = 0
+flag = 0
+function onTick()
+    if flag == 1 then 
+        b = a
+        a = input.getNumber(1)
+        A = b - a
+        if (#s) &lt; c then 
+            table.insert(s, A)
+            sum = sum + A
+        else 
+            sum = sum - s[1] 
+            table.remove(s, 1)
+            table.insert(s, A)
+            sum = sum + A
+        end
+        output.setNumber(1, -(sum / #s * 60)) 
+    else
+        a = input.getNumber(1)
+        flag = 1
+    end
+end">
+					<pos x="-1.75" y="-0.5"/>
+					<in1 component_id="97"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="97" count="1">
+					<pos x="-3" y="-0.5"/>
+					<in1 component_id="93"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="98">
+					<pos x="-0.5" y="-0.25"/>
+					<in1 component_id="96"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="100" e="clamp(0.8-x, 0, 1)">
+					<pos x="5.75" y="4"/>
+					<in1 component_id="98"/>
+				</object>
+			</c>
+			<c type="22">
+				<object id="101">
+					<pos x="8.25" y="5"/>
+					<in1 component_id="102"/>
+					<in3 component_id="83"/>
+				</object>
+			</c>
+			<c type="15">
+				<object id="102">
+					<pos x="7" y="5.5"/>
+					<n text="0.05" value="0.05"/>
+				</object>
+			</c>
+			<c type="22">
+				<object id="104">
+					<pos x="8.25" y="1.75"/>
+					<in1 component_id="105"/>
+					<in2 component_id="69"/>
+					<in3 component_id="108"/>
+				</object>
+			</c>
+			<c type="15">
+				<object id="105">
+					<pos x="7" y="2.25"/>
+					<n text="1" value="1"/>
+				</object>
+			</c>
+			<c type="18">
+				<object id="106">
+					<pos x="7" y="1.5"/>
+					<in1 component_id="93"/>
+					<in2 component_id="107"/>
+				</object>
+			</c>
+			<c type="15">
+				<object id="107">
+					<pos x="5.75" y="1.5"/>
+					<n text="1" value="1"/>
+				</object>
+			</c>
+			<c type="26">
+				<object id="108" dt="0.1">
+					<pos x="7" y="2.75"/>
+					<in1 component_id="106"/>
+				</object>
+			</c>
+			<c type="10">
+				<object id="109" e="clamp(((x-0.2)/(3.8-0.2))*0.7, 0, 1)*y" p1="340282346638528859811704183484516925440" p2="340282346638528859811704183484516925440" p3="340282346638528859811704183484516925440">
+					<pos x="-0.5" y="0.75"/>
+					<in1 component_id="95"/>
+					<in2 component_id="110"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="110" n="Brake Multiplier (Default = 1)">
+					<pos x="-1.75" y="1"/>
+					<v text="1" value="1"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="3">
+				<object id="17">
+					<pos x="9.5" y="2.25"/>
+					<in1 component_id="104"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="18">
+					<pos x="9.5" y="0.75"/>
+					<in1 component_id="76"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="19">
+					<pos x="-1.75" y="3.75"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="20">
+					<pos x="-1.75" y="3.25"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="21">
+					<pos x="-1.75" y="2.75"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="41">
+					<pos x="9.5" y="5.5"/>
+					<in1 component_id="101"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="51">
+					<pos x="0.75" y="1.25"/>
+					<in1 component_id="109"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="92">
+					<pos x="9.5" y="4"/>
+					<in1 component_id="67"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="52" l="BL.Pr">
+				<pos x="-3" y="3.5"/>
+				<in1 component_id="93"/>
+			</c0>
+			<c1 id="53" l="ST.Pr">
+				<pos x="-3" y="2.75"/>
+				<in1 component_id="94"/>
+			</c1>
+			<c2 id="54" l="BC.Pr">
+				<pos x="-3" y="2"/>
+				<in1 component_id="95"/>
+			</c2>
+			<c3 id="55" l="BL.DELTA">
+				<pos x="-3" y="1.25"/>
+				<in1 component_id="98"/>
+			</c3>
+			<c4 id="56" l="BRAKE">
+				<pos x="-3" y="0.5"/>
+				<in1 component_id="109"/>
+			</c4>
+			<c5 id="65">
+				<pos x="7" y="3.5"/>
+				<in1 component_id="93"/>
+				<in2 component_id="66"/>
+			</c5>
+			<c6 id="66" e="x+0.02">
+				<pos x="5.75" y="3.5"/>
+				<in1 component_id="94"/>
+			</c6>
+			<c7 id="67">
+				<pos x="8.25" y="3.5"/>
+				<in1 component_id="100"/>
+				<in3 component_id="65"/>
+			</c7>
+			<c8 id="69">
+				<pos x="5.75" y="1.75"/>
+				<in1 component_id="74"/>
+				<in3 component_id="83"/>
+			</c8>
+			<c9 id="70">
+				<pos x="4.5" y="1.5"/>
+				<in1 component_id="82"/>
+				<in2 component_id="71"/>
+			</c9>
+			<c10 id="71">
+				<pos x="3.25" y="1.5"/>
+				<in1 component_id="94"/>
+				<in2 component_id="73"/>
+			</c10>
+			<c11 id="72">
+				<pos x="2" y="2.25"/>
+				<n text="-0.021" value="-0.021"/>
+			</c11>
+			<c12 id="73" e="x+0.1">
+				<pos x="2" y="1.5"/>
+				<in1 component_id="95"/>
+			</c12>
+			<c13 id="74" e="clamp((x-y-0.1)/3, 0, 1)*0.2">
+				<pos x="4.5" y="2"/>
+				<in1 component_id="94"/>
+				<in2 component_id="95"/>
+			</c13>
+			<c14 id="75">
+				<pos x="5.75" y="-0.5"/>
+				<in1 component_id="98"/>
+				<in2 component_id="77"/>
+			</c14>
+			<c15 id="76">
+				<pos x="8.25" y="0.25"/>
+				<in1 component_id="81"/>
+				<in3 component_id="84"/>
+			</c15>
+			<c16 id="77">
+				<pos x="4.5" y="-0.5"/>
+				<n text="0"/>
+			</c16>
+			<c17 id="81" e="clamp((x-y)/0.6, 0, 1)">
+				<pos x="5.75" y="0.25"/>
+				<in1 component_id="93"/>
+				<in2 component_id="94"/>
+			</c17>
+			<c18 id="82">
+				<pos x="3.25" y="2"/>
+				<in1 component_id="98"/>
+				<in2 component_id="72"/>
+			</c18>
+			<c19 id="83" ct="1.5" dt="0.1">
+				<pos x="4.5" y="2.75"/>
+				<in1 component_id="70"/>
+			</c19>
+			<c20 id="84">
+				<pos x="7" y="-0.25"/>
+				<in1 component_id="85"/>
+				<in2 component_id="75"/>
+			</c20>
+			<c21 id="85">
+				<pos x="7" y="0.5"/>
+				<in1 component_id="93"/>
+				<in2 component_id="94"/>
+			</c21>
+			<c22 id="93" e="clamp((x*0.9678)-1, 0, 11)">
+				<pos x="-0.5" y="3.75"/>
+				<in1 component_id="19"/>
+			</c22>
+			<c23 id="94" e="clamp((x*0.9678)-1, 0, 11)">
+				<pos x="-0.5" y="3.25"/>
+				<in1 component_id="20"/>
+			</c23>
+			<c24 id="95" e="clamp((x*0.9678)-1, 0, 11)">
+				<pos x="-0.5" y="2.75"/>
+				<in1 component_id="21"/>
+			</c24>
+			<c25 id="96" script="c = 120
+s = {}
+sum = 0
+flag = 0
+function onTick()
+    if flag == 1 then 
+        b = a
+        a = input.getNumber(1)
+        A = b - a
+        if (#s) &lt; c then 
+            table.insert(s, A)
+            sum = sum + A
+        else 
+            sum = sum - s[1] 
+            table.remove(s, 1)
+            table.insert(s, A)
+            sum = sum + A
+        end
+        output.setNumber(1, -(sum / #s * 60)) 
+    else
+        a = input.getNumber(1)
+        flag = 1
+    end
+end">
+				<pos x="-1.75" y="-0.5"/>
+				<in1 component_id="97"/>
+			</c25>
+			<c26 id="97" count="1">
+				<pos x="-3" y="-0.5"/>
+				<in1 component_id="93"/>
+			</c26>
+			<c27 id="98">
+				<pos x="-0.5" y="-0.25"/>
+				<in1 component_id="96"/>
+			</c27>
+			<c28 id="100" e="clamp(0.8-x, 0, 1)">
+				<pos x="5.75" y="4"/>
+				<in1 component_id="98"/>
+			</c28>
+			<c29 id="101">
+				<pos x="8.25" y="5"/>
+				<in1 component_id="102"/>
+				<in3 component_id="83"/>
+			</c29>
+			<c30 id="102">
+				<pos x="7" y="5.5"/>
+				<n text="0.05" value="0.05"/>
+			</c30>
+			<c31 id="104">
+				<pos x="8.25" y="1.75"/>
+				<in1 component_id="105"/>
+				<in2 component_id="69"/>
+				<in3 component_id="108"/>
+			</c31>
+			<c32 id="105">
+				<pos x="7" y="2.25"/>
+				<n text="1" value="1"/>
+			</c32>
+			<c33 id="106">
+				<pos x="7" y="1.5"/>
+				<in1 component_id="93"/>
+				<in2 component_id="107"/>
+			</c33>
+			<c34 id="107">
+				<pos x="5.75" y="1.5"/>
+				<n text="1" value="1"/>
+			</c34>
+			<c35 id="108" dt="0.1">
+				<pos x="7" y="2.75"/>
+				<in1 component_id="106"/>
+			</c35>
+			<c36 id="109" e="clamp(((x-0.2)/(3.8-0.2))*0.7, 0, 1)*y" p1="340282346638528859811704183484516925440" p2="340282346638528859811704183484516925440" p3="340282346638528859811704183484516925440">
+				<pos x="-0.5" y="0.75"/>
+				<in1 component_id="95"/>
+				<in2 component_id="110"/>
+			</c36>
+			<c37 id="110" n="Brake Multiplier (Default = 1)">
+				<pos x="-1.75" y="1"/>
+				<v text="1" value="1"/>
+			</c37>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="17">
+				<pos x="9.5" y="2.25"/>
+				<in1 component_id="104"/>
+			</c0>
+			<c1 id="18">
+				<pos x="9.5" y="0.75"/>
+				<in1 component_id="76"/>
+			</c1>
+			<c2 id="19">
+				<pos x="-1.75" y="3.75"/>
+			</c2>
+			<c3 id="20">
+				<pos x="-1.75" y="3.25"/>
+			</c3>
+			<c4 id="21">
+				<pos x="-1.75" y="2.75"/>
+			</c4>
+			<c5 id="41">
+				<pos x="9.5" y="5.5"/>
+				<in1 component_id="101"/>
+			</c5>
+			<c6 id="51">
+				<pos x="0.75" y="1.25"/>
+				<in1 component_id="109"/>
+			</c6>
+			<c7 id="92">
+				<pos x="9.5" y="4"/>
+				<in1 component_id="67"/>
+			</c7>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

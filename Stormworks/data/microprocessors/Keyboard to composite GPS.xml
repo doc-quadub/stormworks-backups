@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Keyboard to composite GPS and Altitude" width="4" length="1" id_counter="16" id_counter_node="4" sym0="6220" sym1="8274" sym2="6346" sym3="1346" sym4="6348" sym5="512" sym6="1792" sym7="512" sym8="512" sym9="512" sym10="2516" sym11="2132" sym12="2508" sym13="5204" sym14="5588">
+	<nodes>
+		<n id="1" component_id="11">
+			<node label="Input A" mode="1" type="1" description="1 channel"/>
+		</n>
+		<n id="2" component_id="12">
+			<node label="Output" type="5">
+				<position x="3"/>
+			</node>
+		</n>
+		<n id="3" component_id="10">
+			<node label="Input B" mode="1" type="1" description="2 channel">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="4" component_id="16">
+			<node label="Input Depth" mode="1" type="1" description="3 channel">
+				<position x="2"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data type="1701011814">
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="40">
+				<object id="13" count="3">
+					<pos x="-3" y="-0.25"/>
+					<in1 component_id="11"/>
+					<in2 component_id="10"/>
+					<in3 component_id="16"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="2">
+				<object id="10">
+					<pos x="-5.5"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="11">
+					<pos x="-4.25" y="0.25"/>
+				</object>
+			</c>
+			<c type="5">
+				<object id="12">
+					<pos x="-1.75" y="0.5"/>
+					<in1 component_id="13"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="16">
+					<pos x="-4.25" y="-0.25"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="13" count="3">
+				<pos x="-3" y="-0.25"/>
+				<in1 component_id="11"/>
+				<in2 component_id="10"/>
+				<in3 component_id="16"/>
+			</c0>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="10">
+				<pos x="-5.5"/>
+			</c0>
+			<c1 id="11">
+				<pos x="-4.25" y="0.25"/>
+			</c1>
+			<c2 id="12">
+				<pos x="-1.75" y="0.5"/>
+				<in1 component_id="13"/>
+			</c2>
+			<c3 id="16">
+				<pos x="-4.25" y="-0.25"/>
+			</c3>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

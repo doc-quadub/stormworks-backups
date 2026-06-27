@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="BTT" description="No description set." width="1" length="2" id_counter="7" id_counter_node="2" sym1="29696" sym2="33792" sym3="25984" sym4="5504" sym5="58752" sym6="384" sym7="384" sym8="2448" sym9="1440" sym11="3504" sym12="3504" sym14="1440" sym15="2448">
+	<nodes>
+		<n id="1" component_id="1">
+			<node label="Tick" mode="1" description="The input signal to be processed."/>
+		</n>
+		<n id="2" component_id="4">
+			<node label="BTT" type="1" description="The input signal to be processed.">
+				<position z="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data type="1086324736">
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="41">
+				<object id="5" count="1">
+					<pos y="-0.25"/>
+					<in1 component_id="1"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="6">
+					<pos x="2.5"/>
+					<in1 component_id="7"/>
+				</object>
+			</c>
+			<c type="56">
+				<object id="7" script="tim = 0
+btt = 0
+function onTick()
+	if input.getBool(1) then
+		btt = tim
+		tim = 0
+	else
+		tim = tim + 1
+	end
+	output.setNumber(1, btt/60)
+end
+
+">
+					<pos x="1.25" y="-0.25"/>
+					<in1 component_id="5"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c>
+				<object id="1">
+					<pos x="-1.25" y="-0.25"/>
+				</object>
+			</c>
+			<c type="3">
+				<object id="4">
+					<pos x="3.75"/>
+					<in1 component_id="6"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="5" count="1">
+				<pos y="-0.25"/>
+				<in1 component_id="1"/>
+			</c0>
+			<c1 id="6">
+				<pos x="2.5"/>
+				<in1 component_id="7"/>
+			</c1>
+			<c2 id="7" script="tim = 0
+btt = 0
+function onTick()
+	if input.getBool(1) then
+		btt = tim
+		tim = 0
+	else
+		tim = tim + 1
+	end
+	output.setNumber(1, btt/60)
+end
+
+">
+				<pos x="1.25" y="-0.25"/>
+				<in1 component_id="5"/>
+			</c2>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="1">
+				<pos x="-1.25" y="-0.25"/>
+			</c0>
+			<c1 id="4">
+				<pos x="3.75"/>
+				<in1 component_id="6"/>
+			</c1>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

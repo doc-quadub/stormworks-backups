@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="TDVCS - Telemechanical Driver Vigilance Control System" width="2" length="1" id_counter="83" id_counter_node="9" sym0="61455" sym1="32769" sym2="40965" sym3="33729" sym4="576" sym5="960" sym6="576" sym7="960" sym8="576" sym9="960" sym10="576" sym11="576" sym12="33729" sym13="40965" sym14="32769" sym15="61455">
+	<nodes>
+		<n id="6" component_id="42">
+			<node label="Seat" mode="1" type="5"/>
+		</n>
+		<n id="7" component_id="41">
+			<node label="Player Sensor" mode="1" type="1"/>
+		</n>
+		<n id="8" component_id="40">
+			<node label="Input" type="5" description='"Sleep" React - 1ch, "Fall" React - 2ch'>
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="9" component_id="43">
+			<node label="Toggle System" mode="1">
+				<position x="1"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="33">
+				<object id="45" n="TDVCS" on="Bool Signal" off="Constant On">
+					<pos x="-1.25" y="-2"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="47">
+					<pos y="-2.5"/>
+					<in1 component_id="45"/>
+					<in2 component_id="43"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="48">
+					<pos x="1.25" y="-2.25"/>
+					<in1 component_id="49"/>
+					<in2 component_id="47"/>
+				</object>
+			</c>
+			<c>
+				<object id="49">
+					<pos y="-1.75"/>
+					<in1 component_id="45"/>
+				</object>
+			</c>
+			<c type="42">
+				<object id="50">
+					<pos x="1.25" y="-1"/>
+					<in1 component_id="41"/>
+					<in2 component_id="51"/>
+					<e text="0.0001" value="0.0001"/>
+				</object>
+			</c>
+			<c type="15">
+				<object id="51">
+					<pos y="-1"/>
+					<n text="0"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="52">
+					<pos x="2.5" y="-1"/>
+					<in1 component_id="50"/>
+					<in2 component_id="48"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="53" i="8">
+					<pos x="-6.25" y="0.5"/>
+					<in1 component_id="42"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="54" i="9">
+					<pos x="-6.25"/>
+					<in1 component_id="42"/>
+				</object>
+			</c>
+			<c type="35">
+				<object id="55">
+					<pos x="-5" y="0.5"/>
+					<in1 component_id="53"/>
+				</object>
+			</c>
+			<c type="35">
+				<object id="56">
+					<pos x="-5"/>
+					<in1 component_id="54"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="57" e="x*60">
+					<pos x="-3.75" y="0.5"/>
+					<in1 component_id="55"/>
+				</object>
+			</c>
+			<c type="45">
+				<object id="58" e="x*60">
+					<pos x="-3.75"/>
+					<in1 component_id="56"/>
+				</object>
+			</c>
+			<c type="15">
+				<object id="60">
+					<pos x="-2.5" y="0.25"/>
+					<n text="0"/>
+				</object>
+			</c>
+			<c type="15">
+				<object id="62">
+					<pos x="-2.5" y="-0.25"/>
+					<n text="0"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="63">
+					<pos y="0.25"/>
+					<in1 component_id="77"/>
+					<in2 component_id="78"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="64">
+					<pos x="1.25" y="0.25"/>
+					<in1 component_id="63"/>
+					<in2 component_id="48"/>
+				</object>
+			</c>
+			<c type="49">
+				<object id="66">
+					<pos x="5" y="-1"/>
+					<in1 component_id="52"/>
+					<in2 component_id="67"/>
+				</object>
+			</c>
+			<c type="19">
+				<object id="67" name='"Fall" - Time until the Vigilance Check, sec'>
+					<pos x="3.75" y="-1"/>
+					<min text="20" value="20"/>
+					<max text="120" value="120"/>
+					<int text="1" value="1"/>
+					<v text="20" value="20"/>
+				</object>
+			</c>
+			<c type="41">
+				<object id="69" count="2">
+					<pos x="7.75" y="-0.25"/>
+					<in1 component_id="80"/>
+					<in2 component_id="66"/>
+				</object>
+			</c>
+			<c type="44">
+				<object id="70" l="He Sleep?" on="Yes" off="No">
+					<pos x="3.75" y="1"/>
+					<in1 component_id="82"/>
+				</object>
+			</c>
+			<c type="44">
+				<object id="71" l="He Fall?" on="Yes" off="No">
+					<pos x="3.75" y="-1.5"/>
+					<in1 component_id="52"/>
+				</object>
+			</c>
+			<c type="44">
+				<object id="73" l='"Fall" - Timer On' on="True" off="False">
+					<pos x="6.25" y="-0.25"/>
+					<in1 component_id="66"/>
+				</object>
+			</c>
+			<c type="44">
+				<object id="74" l="System On? " on="True" off="False">
+					<pos x="2.5" y="-2"/>
+					<in1 component_id="48"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="75" l="X Axis Changing">
+					<pos x="-1.25" y="2"/>
+					<in1 component_id="57"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="76" l="Y Axis Changing">
+					<pos x="-1.25" y="1.25"/>
+					<in1 component_id="58"/>
+				</object>
+			</c>
+			<c type="42">
+				<object id="77">
+					<pos x="-1.25" y="0.25"/>
+					<in1 component_id="57"/>
+					<in2 component_id="60"/>
+					<e text="0.0001" value="0.0001"/>
+				</object>
+			</c>
+			<c type="42">
+				<object id="78">
+					<pos x="-1.25" y="-0.25"/>
+					<in1 component_id="58"/>
+					<in2 component_id="62"/>
+					<e text="0.0001" value="0.0001"/>
+				</object>
+			</c>
+			<c type="19">
+				<object id="79" name='"Sleep" - Time until the Vigilance Check, sec'>
+					<pos x="3.75" y="0.25"/>
+					<min text="20" value="20"/>
+					<max text="120" value="120"/>
+					<int text="1" value="1"/>
+					<v text="40" value="40"/>
+				</object>
+			</c>
+			<c type="49">
+				<object id="80">
+					<pos x="5" y="0.25"/>
+					<in1 component_id="82"/>
+					<in2 component_id="79"/>
+				</object>
+			</c>
+			<c type="44">
+				<object id="81" l='"Sleep" - Timer On' on="True" off="False">
+					<pos x="6.25" y="1"/>
+					<in1 component_id="80"/>
+				</object>
+			</c>
+			<c type="1">
+				<object id="82">
+					<pos x="2.5" y="0.25"/>
+					<in1 component_id="64"/>
+					<in2 component_id="83"/>
+				</object>
+			</c>
+			<c>
+				<object id="83">
+					<pos x="1.75" y="-0.25"/>
+					<in1 component_id="50"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="5">
+				<object id="40">
+					<pos x="9" y="0.25"/>
+					<in1 component_id="69"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="41">
+					<pos x="-1.25" y="-0.75"/>
+				</object>
+			</c>
+			<c type="4">
+				<object id="42">
+					<pos x="-7.5" y="0.5"/>
+				</object>
+			</c>
+			<c>
+				<object id="43">
+					<pos x="-1.25" y="-2.5"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="45" n="TDVCS" on="Bool Signal" off="Constant On">
+				<pos x="-1.25" y="-2"/>
+			</c0>
+			<c1 id="47">
+				<pos y="-2.5"/>
+				<in1 component_id="45"/>
+				<in2 component_id="43"/>
+			</c1>
+			<c2 id="48">
+				<pos x="1.25" y="-2.25"/>
+				<in1 component_id="49"/>
+				<in2 component_id="47"/>
+			</c2>
+			<c3 id="49">
+				<pos y="-1.75"/>
+				<in1 component_id="45"/>
+			</c3>
+			<c4 id="50">
+				<pos x="1.25" y="-1"/>
+				<in1 component_id="41"/>
+				<in2 component_id="51"/>
+				<e text="0.0001" value="0.0001"/>
+			</c4>
+			<c5 id="51">
+				<pos y="-1"/>
+				<n text="0"/>
+			</c5>
+			<c6 id="52">
+				<pos x="2.5" y="-1"/>
+				<in1 component_id="50"/>
+				<in2 component_id="48"/>
+			</c6>
+			<c7 id="53" i="8">
+				<pos x="-6.25" y="0.5"/>
+				<in1 component_id="42"/>
+			</c7>
+			<c8 id="54" i="9">
+				<pos x="-6.25"/>
+				<in1 component_id="42"/>
+			</c8>
+			<c9 id="55">
+				<pos x="-5" y="0.5"/>
+				<in1 component_id="53"/>
+			</c9>
+			<c10 id="56">
+				<pos x="-5"/>
+				<in1 component_id="54"/>
+			</c10>
+			<c11 id="57" e="x*60">
+				<pos x="-3.75" y="0.5"/>
+				<in1 component_id="55"/>
+			</c11>
+			<c12 id="58" e="x*60">
+				<pos x="-3.75"/>
+				<in1 component_id="56"/>
+			</c12>
+			<c13 id="60">
+				<pos x="-2.5" y="0.25"/>
+				<n text="0"/>
+			</c13>
+			<c14 id="62">
+				<pos x="-2.5" y="-0.25"/>
+				<n text="0"/>
+			</c14>
+			<c15 id="63">
+				<pos y="0.25"/>
+				<in1 component_id="77"/>
+				<in2 component_id="78"/>
+			</c15>
+			<c16 id="64">
+				<pos x="1.25" y="0.25"/>
+				<in1 component_id="63"/>
+				<in2 component_id="48"/>
+			</c16>
+			<c17 id="66">
+				<pos x="5" y="-1"/>
+				<in1 component_id="52"/>
+				<in2 component_id="67"/>
+			</c17>
+			<c18 id="67" name='"Fall" - Time until the Vigilance Check, sec'>
+				<pos x="3.75" y="-1"/>
+				<min text="20" value="20"/>
+				<max text="120" value="120"/>
+				<int text="1" value="1"/>
+				<v text="20" value="20"/>
+			</c18>
+			<c19 id="69" count="2">
+				<pos x="7.75" y="-0.25"/>
+				<in1 component_id="80"/>
+				<in2 component_id="66"/>
+			</c19>
+			<c20 id="70" l="He Sleep?" on="Yes" off="No">
+				<pos x="3.75" y="1"/>
+				<in1 component_id="82"/>
+			</c20>
+			<c21 id="71" l="He Fall?" on="Yes" off="No">
+				<pos x="3.75" y="-1.5"/>
+				<in1 component_id="52"/>
+			</c21>
+			<c22 id="73" l='"Fall" - Timer On' on="True" off="False">
+				<pos x="6.25" y="-0.25"/>
+				<in1 component_id="66"/>
+			</c22>
+			<c23 id="74" l="System On? " on="True" off="False">
+				<pos x="2.5" y="-2"/>
+				<in1 component_id="48"/>
+			</c23>
+			<c24 id="75" l="X Axis Changing">
+				<pos x="-1.25" y="2"/>
+				<in1 component_id="57"/>
+			</c24>
+			<c25 id="76" l="Y Axis Changing">
+				<pos x="-1.25" y="1.25"/>
+				<in1 component_id="58"/>
+			</c25>
+			<c26 id="77">
+				<pos x="-1.25" y="0.25"/>
+				<in1 component_id="57"/>
+				<in2 component_id="60"/>
+				<e text="0.0001" value="0.0001"/>
+			</c26>
+			<c27 id="78">
+				<pos x="-1.25" y="-0.25"/>
+				<in1 component_id="58"/>
+				<in2 component_id="62"/>
+				<e text="0.0001" value="0.0001"/>
+			</c27>
+			<c28 id="79" name='"Sleep" - Time until the Vigilance Check, sec'>
+				<pos x="3.75" y="0.25"/>
+				<min text="20" value="20"/>
+				<max text="120" value="120"/>
+				<int text="1" value="1"/>
+				<v text="40" value="40"/>
+			</c28>
+			<c29 id="80">
+				<pos x="5" y="0.25"/>
+				<in1 component_id="82"/>
+				<in2 component_id="79"/>
+			</c29>
+			<c30 id="81" l='"Sleep" - Timer On' on="True" off="False">
+				<pos x="6.25" y="1"/>
+				<in1 component_id="80"/>
+			</c30>
+			<c31 id="82">
+				<pos x="2.5" y="0.25"/>
+				<in1 component_id="64"/>
+				<in2 component_id="83"/>
+			</c31>
+			<c32 id="83">
+				<pos x="1.75" y="-0.25"/>
+				<in1 component_id="50"/>
+			</c32>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="40">
+				<pos x="9" y="0.25"/>
+				<in1 component_id="69"/>
+			</c0>
+			<c1 id="41">
+				<pos x="-1.25" y="-0.75"/>
+			</c1>
+			<c2 id="42">
+				<pos x="-7.5" y="0.5"/>
+			</c2>
+			<c3 id="43">
+				<pos x="-1.25" y="-2.5"/>
+			</c3>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+

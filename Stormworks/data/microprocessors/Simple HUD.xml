@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Simple HUD" width="4" length="1" id_counter="40" id_counter_node="9" sym1="2" sym2="2" sym3="2" sym4="2" sym5="2" sym6="2" sym7="2" sym8="2018" sym9="2" sym10="2" sym11="2" sym12="2" sym13="2" sym14="2">
+	<nodes>
+		<n id="3" component_id="12">
+			<node label="Output" type="6"/>
+		</n>
+		<n id="7" component_id="36">
+			<node label="Pitch" mode="1" type="1">
+				<position x="1"/>
+			</node>
+		</n>
+		<n id="8" component_id="37">
+			<node label="Roll" mode="1" type="1">
+				<position x="2"/>
+			</node>
+		</n>
+		<n id="9" component_id="40">
+			<node label="Input" mode="1" type="6">
+				<position x="3"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data>
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="56">
+				<object id="7" script="local sliderPositionPitch = 80
+local sliderPositionRoll = 0
+
+function onTick()
+    local inputPitch = input.getNumber(1)
+    local inputRoll = input.getNumber(2)
+   
+    sliderPositionPitch = math.floor((0.25 - inputPitch) * 320)
+    sliderPositionPitch = math.max(10, math.min(150, sliderPositionPitch)) 
+
+    sliderPositionRoll = math.floor((inputRoll + 0.25) * 320)
+    sliderPositionRoll = math.max(0, math.min(320, sliderPositionRoll))
+end
+
+function onDraw()
+	local vignetteLayers = 50
+    local vignetteColor = {0, 0, 0}  
+    local maxOpacity = 0.9
+
+    for i = 1, vignetteLayers do
+        local opacity = -maxOpacity * (i / vignetteLayers)
+        screen.setColor(vignetteColor[1], vignetteColor[2], vignetteColor[3], opacity * 255)
+        
+        local padding = i * 1
+        screen.drawRect(padding - 1, padding - 3, 289 - 2 * padding, 163 - 2 * padding)
+    end
+
+	
+    local centerX, centerY = 144, 80
+    local circleRadius = 75
+
+    screen.setColor(100, 100, 100)
+    screen.drawRect(10, 10, 6, 140)
+    screen.setColor(255, 0, 0)
+    screen.drawRectF(11, sliderPositionPitch - 2, 5, 2)
+
+    screen.setColor(100, 100, 100)
+    screen.drawCircle(centerX, centerY, circleRadius)
+
+    local rollAngle = math.rad((sliderPositionRoll / 320) * 360 - 90)
+    local endX = centerX + circleRadius * math.cos(rollAngle)
+    local endY = centerY - circleRadius * math.sin(rollAngle)
+    local oppositeX = centerX - (circleRadius - 2) * math.cos(rollAngle)
+    local oppositeY = centerY + (circleRadius - 2) * math.sin(rollAngle)
+    screen.setColor(255, 255, 0)
+    screen.drawLine(oppositeX, oppositeY, math.floor(endX), math.floor(endY))
+end">
+					<pos x="-0.5" y="0.75"/>
+					<in1 component_id="38"/>
+					<in2 component_id="40"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="38" count="2">
+					<pos x="-1.75" y="0.75"/>
+					<in1 component_id="36"/>
+					<in2 component_id="37"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="7">
+				<object id="12">
+					<pos x="0.75" y="0.75"/>
+					<in1 component_id="7" node_index="1"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="36">
+					<pos x="-3" y="1"/>
+				</object>
+			</c>
+			<c type="2">
+				<object id="37">
+					<pos x="-3" y="0.75"/>
+				</object>
+			</c>
+			<c type="6">
+				<object id="40">
+					<pos x="-1.75" y="0.5"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="7" script="local sliderPositionPitch = 80
+local sliderPositionRoll = 0
+
+function onTick()
+    local inputPitch = input.getNumber(1)
+    local inputRoll = input.getNumber(2)
+   
+    sliderPositionPitch = math.floor((0.25 - inputPitch) * 320)
+    sliderPositionPitch = math.max(10, math.min(150, sliderPositionPitch)) 
+
+    sliderPositionRoll = math.floor((inputRoll + 0.25) * 320)
+    sliderPositionRoll = math.max(0, math.min(320, sliderPositionRoll))
+end
+
+function onDraw()
+	local vignetteLayers = 50
+    local vignetteColor = {0, 0, 0}  
+    local maxOpacity = 0.9
+
+    for i = 1, vignetteLayers do
+        local opacity = -maxOpacity * (i / vignetteLayers)
+        screen.setColor(vignetteColor[1], vignetteColor[2], vignetteColor[3], opacity * 255)
+        
+        local padding = i * 1
+        screen.drawRect(padding - 1, padding - 3, 289 - 2 * padding, 163 - 2 * padding)
+    end
+
+	
+    local centerX, centerY = 144, 80
+    local circleRadius = 75
+
+    screen.setColor(100, 100, 100)
+    screen.drawRect(10, 10, 6, 140)
+    screen.setColor(255, 0, 0)
+    screen.drawRectF(11, sliderPositionPitch - 2, 5, 2)
+
+    screen.setColor(100, 100, 100)
+    screen.drawCircle(centerX, centerY, circleRadius)
+
+    local rollAngle = math.rad((sliderPositionRoll / 320) * 360 - 90)
+    local endX = centerX + circleRadius * math.cos(rollAngle)
+    local endY = centerY - circleRadius * math.sin(rollAngle)
+    local oppositeX = centerX - (circleRadius - 2) * math.cos(rollAngle)
+    local oppositeY = centerY + (circleRadius - 2) * math.sin(rollAngle)
+    screen.setColor(255, 255, 0)
+    screen.drawLine(oppositeX, oppositeY, math.floor(endX), math.floor(endY))
+end">
+				<pos x="-0.5" y="0.75"/>
+				<in1 component_id="38"/>
+				<in2 component_id="40"/>
+			</c0>
+			<c1 id="38" count="2">
+				<pos x="-1.75" y="0.75"/>
+				<in1 component_id="36"/>
+				<in2 component_id="37"/>
+			</c1>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="12">
+				<pos x="0.75" y="0.75"/>
+				<in1 component_id="7" node_index="1"/>
+			</c0>
+			<c1 id="36">
+				<pos x="-3" y="1"/>
+			</c1>
+			<c2 id="37">
+				<pos x="-3" y="0.75"/>
+			</c2>
+			<c3 id="40">
+				<pos x="-1.75" y="0.5"/>
+			</c3>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+
