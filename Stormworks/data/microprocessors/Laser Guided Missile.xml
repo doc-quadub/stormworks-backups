@@ -1,0 +1,775 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<microprocessor name="Laser+GPS missile guidance" description="No description set." width="1" length="4" id_counter="59" id_counter_node="9" sym1="28086" sym2="16386" sym4="16386" sym5="16386" sym7="16386" sym8="16386" sym10="16386" sym11="16386" sym13="16386" sym14="28086">
+	<nodes>
+		<n id="1" component_id="2">
+			<node label="Physics" mode="1" type="5" description="The input signal to be processed."/>
+		</n>
+		<n id="2" component_id="4">
+			<node label="Hardpoint" mode="1" type="5" description="The input signal to be processed.">
+				<position z="1"/>
+			</node>
+		</n>
+		<n id="3" component_id="8">
+			<node label="Fins" type="5" description="The input signal to be processed.">
+				<position z="2"/>
+			</node>
+		</n>
+		<n id="6" component_id="11">
+			<node label="Launched" mode="1" description="The input signal to be processed."/>
+		</n>
+		<n id="9" component_id="50">
+			<node label="Laser" mode="1" type="5" description="The input signal to be processed.">
+				<position z="3"/>
+			</node>
+		</n>
+	</nodes>
+	<group>
+		<data type="1049481524">
+			<inputs/>
+			<outputs/>
+		</data>
+		<components>
+			<c type="13">
+				<object id="16">
+					<pos x="-0.75" y="-3"/>
+					<in1 component_id="22"/>
+					<in3 component_id="19"/>
+					<r text="0"/>
+				</object>
+			</c>
+			<c type="13">
+				<object id="17">
+					<pos x="-0.75" y="-3.75"/>
+					<in1 component_id="22"/>
+					<in3 component_id="20"/>
+					<r text="0"/>
+				</object>
+			</c>
+			<c type="13">
+				<object id="18">
+					<pos x="-0.75" y="-4.5"/>
+					<in1 component_id="22"/>
+					<in3 component_id="21"/>
+					<r text="0"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="19">
+					<pos x="-2" y="-3"/>
+					<in1 component_id="4"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="20" i="1">
+					<pos x="-2" y="-3.75"/>
+					<in1 component_id="4"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="21" i="2">
+					<pos x="-2" y="-4.5"/>
+					<in1 component_id="4"/>
+				</object>
+			</c>
+			<c>
+				<object id="22">
+					<pos x="-0.75" y="-2"/>
+					<in1 component_id="11"/>
+				</object>
+			</c>
+			<c type="40">
+				<object id="24" count="6" offset="9">
+					<pos x="0.5" y="-4.25"/>
+					<inc component_id="2"/>
+					<in1 component_id="16"/>
+					<in2 component_id="17"/>
+					<in3 component_id="18"/>
+					<in4 component_id="51"/>
+					<in5 component_id="52"/>
+					<in6 component_id="53"/>
+				</object>
+			</c>
+			<c type="56">
+				<object id="25" script='-- Author: Aerograch
+-- GitHub: https://github.com/Aerograch/Stormworks
+-- Workshop: 
+--
+-- Developed &amp; Minimized using LifeBoatAPI - Stormworks Lua plugin for VSCode
+-- https://code.visualstudio.com/download (search "Stormworks Lua with LifeboatAPI" extension)
+--      By Nameous Changey
+-- Minimized Size: 3635 (3962 with comment) chars
+bl="P:%d+%.?%d*"
+bk="iL:%d+%.?%d*"
+bj="D:%d+%.?%d*"
+bi="Vertical PID Values"
+bh="Horizontal PID Values"
+bg="I:%d+%.?%d*"
+bf="aer"
+
+w=tonumber
+t=tostring
+aE=false
+ao=true
+h=math
+aM=property
+aw=string
+aJ=input
+aG=output
+j=aG.setNumber
+e=aJ.getNumber
+aA=aJ.getBool
+ax=aG.setBool
+v=aw.sub
+x=aM.getText
+A=aw.match
+T=h.cos
+ad=h.sin
+af=h.atan
+M=h.sqrt
+function b(g,G,X)return{g or 0,G or 0,X or 0,u=function(a)local au=a[1]^2+a[2]^2+a[3]^2 return au==1 and 1 or M(au)end,r=function(a,f)return type(f)=="table" and a[1]*f[1]+a[2]*f[2]+a[3]*f[3]or b(a[1]*f,a[2]*f,a[3]*f)end,P=function(a,f)return b(a[1]+f[1],a[2]+f[2],a[3]+f[3])end,s=function(a,f)return b(a[1]-f[1],a[2]-f[2],a[3]-f[3])end,ac=function(a)return a:r(1/a:u())end,aB=function(a,E)return E[1]:r(a[1]):P(E[2]:r(a[2])):P(E[3]:r(a[3]))end,U=function(a,E)return b(a:r(E[1]),a:r(E[2]),a:r(E[3]))end,aP=function(a)return b(af(a[1],-a[3]),af(a[2],M(a[1]^2+a[3]^2)),M(a[1]*a[1]+a[2]*a[2]+a[3]*a[3]))end}end
+function az(g,G,X,aN)local n,k,l,y,o,p=ad(g),T(g),ad(G),T(G),ad(X),T(X)return aN~=bf and{b(y*p,y*o,-l),b(n*l*p-k*o,n*l*o+k*p,n*y),b(k*l*p+n*o,k*l*o-n*p,k*y)}or{b(p*k+o*l*n,-o*y,o*l*k-p*n),b(o*k-p*l*n,p*y,-p*l*k-o*n),b(n*y,l,k*y)}end
+function bc(ar,am)return{ar[1]:U(am),ar[2]:U(am),ar[3]:U(am)}end
+pi=h.pi
+V=pi*2
+sin=ad
+cos=T
+acos=h.acos
+asin=h.asin
+atan=af
+tan=h.tan
+abs=h.abs
+sqrt=M
+bd=h.log
+function b_(g)return g&lt;0 and-1 or 1
+end
+function ak(g,aS,aY)return h.min(h.max(g,aS),aY)end
+function len(g,G)return M(g^2+G^2)end
+function ba(g)return g%V
+end
+function bb(g)return(g-pi)%V-pi
+end
+function aI(aZ)return{z={},J={},F={},max=aZ,i=0,aK=function(_,al)_.i=(_.i%_.max)+1
+_.z[_.i]=al[1]_.J[_.i]=al[2]_.F[_.i]=al[3]local aq=0
+for D=1,#_.z,1 do
+aq=aq+_.z[D]end
+local ag=0
+for D=1,#_.J,1 do
+ag=ag+_.J[D]end
+local ah=0
+for D=1,#_.F,1 do
+ah=ah+_.F[D]end
+return b(aq/#_.z,ag/#_.J,ah/#_.F)end}end
+function aC(aj,at,ai,Y,S,H)return{aj=aj,at=at,ai=ai,B=0,as=0,Y=Y or-1,S=S or 1,H=H or 10,c=0,aF=function(_,aU,aX,W)W=W==nil and ao or W
+if not W then
+_.B=0
+_.as=0
+return 0
+end
+local aa=aU-aX
+_.B=_.B+aa
+if _.B&gt;_.H then
+_.B=_.H
+elseif _.B&lt;-_.H then
+_.B=-_.H
+end
+local aW=aa-_.as
+_.as=aa
+_.c=_.aj*aa+_.at*_.B+_.ai*aW
+if _.c&gt;_.S then
+_.c=_.S
+elseif _.c&lt;_.Y then
+_.c=_.Y
+end
+return _.c
+end}end
+c={}q={A(x(bh),bl),A(x(bh),bg),A(x(bh),bj),A(x(bh),bk),A(x(bi),bl),A(x(bi),bg),A(x(bi),bj),A(x(bi),bk)}an=aE
+for D=1,8 do
+if t(q[D])=="nil" then
+an=ao
+break
+end
+end
+if not an then
+c={ab=aC(w(v(t(q[1]),3))+0,w(v(t(q[2]),3))+0,w(v(t(q[3]),3))+0,-1,1,w(v(t(q[4]),4))+0),Q=aC(w(v(t(q[5]),3))+0,w(v(t(q[6]),3))+0,w(v(t(q[7]),3))+0,-1,1,w(v(t(q[8]),4))+0)}end
+aR=aM.getNumber("Vertical correction factor")d=aI(60)aD=aI(60)Z=0
+O=b()N=b()av=0
+L={}m={}be=0
+function onTick()if an then
+ax(32,ao)return
+else
+ax(32,aE)end
+ay=aA(1)aQ=aA(2)ae=b(e(1),e(2),e(3))ap=az(e(4),e(5),e(6))aO=b(e(7),e(8),e(9))I=aO:aB(ap)if aQ then
+Z=Z+1
+else
+Z=0
+end
+if Z&gt;=10 then
+m=az(e(13)*V,e(14)*V,0,bf)[3]:r(e(15)):aB(ap):P(ae)m[2]=m[2]+aR
+d:aK(m)if#d.z==60 then
+av=m:s(ae):u()/I:u()O=b(d.z[d.i],d.J[d.i],d.F[d.i])N=b(d.z[(d.i%d.max)+1],d.J[(d.i%d.max)+1],d.F[(d.i%d.max)+1])L=aD:aK(O:s(N))if#aD.z==60 then
+m=L:r(m:s(ae):u()/I:u()):P(m)end
+end
+else
+m=b(e(10),e(11),e(12))end
+K=m:s(ae)aL=b(K[1],0,K[3]):u()&lt;1000
+if not aL then
+K[2]=K[2]+50
+end
+R=K:ac():s(I:ac())if not aL then
+aV=b(100,ak(K[2],-50,50),0):ac()aT=b(100,I[2],0):ac()R=b(R[1],aV:s(aT)[2],R[3])end
+C=R:U(ap)C=b(-C[1],C[2],-C[3])aH=C:aP()c.ab:aF(0,-aH[1]*ak(C:u()*10,0,1),ay)c.Q:aF(0,aH[2]*ak(C:u()*10,0,1),ay)j(1,c.ab.c~=c.ab.c and 0 or c.ab.c)j(2,c.Q.c~=c.Q.c and 0 or c.Q.c)j(3,av)j(4,I[2])j(5,I[3])j(6,L[1])j(7,L[2])j(8,L[3])j(9,O:s(N)[1])j(10,O:s(N)[2])j(11,O:s(N)[3])end
+'>
+					<pos x="3" y="-3"/>
+					<in1 component_id="48"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="26">
+					<pos x="3" y="-3.5"/>
+					<in1 component_id="25"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="27" i="1">
+					<pos x="3" y="-4"/>
+					<in1 component_id="25"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="28" l="1">
+					<pos x="4.25" y="-3.75"/>
+					<in1 component_id="26"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="29" l="2">
+					<pos x="4.25" y="-4.25"/>
+					<in1 component_id="27"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="30" i="2">
+					<pos x="3" y="-5"/>
+					<in1 component_id="25"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="31" i="3">
+					<pos x="3" y="-5.5"/>
+					<in1 component_id="25"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="32" i="4">
+					<pos x="3" y="-6"/>
+					<in1 component_id="25"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="33" i="5">
+					<pos x="3" y="-6.5"/>
+					<in1 component_id="25"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="34" i="6">
+					<pos x="3" y="-7"/>
+					<in1 component_id="25"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="35" i="7">
+					<pos x="3" y="-7.5"/>
+					<in1 component_id="25"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="36" l="timeToImpact">
+					<pos x="4.25" y="-5.25"/>
+					<in1 component_id="30"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="37" l="velocityY">
+					<pos x="4.25" y="-5.75"/>
+					<in1 component_id="31"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="38" l="velocityZ">
+					<pos x="4.25" y="-6.25"/>
+					<in1 component_id="32"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="39" l="targetVelocityX">
+					<pos x="4.25" y="-6.75"/>
+					<in1 component_id="33"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="40" l="targetVelocityY">
+					<pos x="4.25" y="-7.25"/>
+					<in1 component_id="34"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="41" l="targetVelocityZ">
+					<pos x="4.25" y="-7.75"/>
+					<in1 component_id="35"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="42" i="8">
+					<pos x="3" y="-8"/>
+					<in1 component_id="25"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="43" i="9">
+					<pos x="3" y="-8.5"/>
+					<in1 component_id="25"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="44" i="10">
+					<pos x="3" y="-9"/>
+					<in1 component_id="25"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="45" l="lastSecondVectorX">
+					<pos x="4.25" y="-8.25"/>
+					<in1 component_id="42"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="46" l="lastSecondVectorY">
+					<pos x="4.25" y="-8.75"/>
+					<in1 component_id="43"/>
+				</object>
+			</c>
+			<c type="43">
+				<object id="47" l="lastSecondVectorZ">
+					<pos x="4.25" y="-9.25"/>
+					<in1 component_id="44"/>
+				</object>
+			</c>
+			<c type="41">
+				<object id="48" count="2">
+					<pos x="1.75" y="-3.25"/>
+					<inc component_id="24"/>
+					<in1 component_id="11"/>
+					<in2 component_id="54"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="51" i="1">
+					<pos x="-0.75" y="-5"/>
+					<in1 component_id="50"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="52" i="2">
+					<pos x="-0.75" y="-5.25"/>
+					<in1 component_id="50"/>
+				</object>
+			</c>
+			<c type="31">
+				<object id="53">
+					<pos x="-0.75" y="-5.5"/>
+					<in1 component_id="50"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="54">
+					<pos x="-0.75" y="-5.75"/>
+					<in1 component_id="50"/>
+				</object>
+			</c>
+			<c type="34">
+				<object id="55" n="Vertical correction factor">
+					<pos x="0.5"/>
+					<v text="2" value="2"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="56" n="Horizontal PID Values" v="P:1, I:0.1, D:1, iL:1">
+					<pos x="0.5" y="-0.5"/>
+				</object>
+			</c>
+			<c type="58">
+				<object id="57" n="Vertical PID Values" v="P:1, I:0.1, D:1, iL:1">
+					<pos x="0.5" y="-1"/>
+				</object>
+			</c>
+			<c type="44">
+				<object id="58" l="Parsing failed!" m="1">
+					<pos x="4.25" y="-9.75"/>
+					<in1 component_id="59"/>
+				</object>
+			</c>
+			<c type="29">
+				<object id="59" i="31">
+					<pos x="3" y="-9.75"/>
+					<in1 component_id="25"/>
+				</object>
+			</c>
+		</components>
+		<components_bridge>
+			<c type="4">
+				<object id="2">
+					<pos x="0.5" y="-2.25"/>
+				</object>
+			</c>
+			<c type="4">
+				<object id="4">
+					<pos x="-3.25" y="-3.75"/>
+				</object>
+			</c>
+			<c type="5">
+				<object id="8">
+					<pos x="4.25" y="-2.75"/>
+					<in1 component_id="25"/>
+				</object>
+			</c>
+			<c>
+				<object id="11">
+					<pos x="-2" y="-1.25"/>
+				</object>
+			</c>
+			<c type="4">
+				<object id="50">
+					<pos x="-2" y="-5.25"/>
+				</object>
+			</c>
+		</components_bridge>
+		<groups/>
+		<component_states>
+			<c0 id="16">
+				<pos x="-0.75" y="-3"/>
+				<in1 component_id="22"/>
+				<in3 component_id="19"/>
+				<r text="0"/>
+			</c0>
+			<c1 id="17">
+				<pos x="-0.75" y="-3.75"/>
+				<in1 component_id="22"/>
+				<in3 component_id="20"/>
+				<r text="0"/>
+			</c1>
+			<c2 id="18">
+				<pos x="-0.75" y="-4.5"/>
+				<in1 component_id="22"/>
+				<in3 component_id="21"/>
+				<r text="0"/>
+			</c2>
+			<c3 id="19">
+				<pos x="-2" y="-3"/>
+				<in1 component_id="4"/>
+			</c3>
+			<c4 id="20" i="1">
+				<pos x="-2" y="-3.75"/>
+				<in1 component_id="4"/>
+			</c4>
+			<c5 id="21" i="2">
+				<pos x="-2" y="-4.5"/>
+				<in1 component_id="4"/>
+			</c5>
+			<c6 id="22">
+				<pos x="-0.75" y="-2"/>
+				<in1 component_id="11"/>
+			</c6>
+			<c7 id="24" count="6" offset="9">
+				<pos x="0.5" y="-4.25"/>
+				<inc component_id="2"/>
+				<in1 component_id="16"/>
+				<in2 component_id="17"/>
+				<in3 component_id="18"/>
+				<in4 component_id="51"/>
+				<in5 component_id="52"/>
+				<in6 component_id="53"/>
+			</c7>
+			<c8 id="25" script='-- Author: Aerograch
+-- GitHub: https://github.com/Aerograch/Stormworks
+-- Workshop: 
+--
+-- Developed &amp; Minimized using LifeBoatAPI - Stormworks Lua plugin for VSCode
+-- https://code.visualstudio.com/download (search "Stormworks Lua with LifeboatAPI" extension)
+--      By Nameous Changey
+-- Minimized Size: 3635 (3962 with comment) chars
+bl="P:%d+%.?%d*"
+bk="iL:%d+%.?%d*"
+bj="D:%d+%.?%d*"
+bi="Vertical PID Values"
+bh="Horizontal PID Values"
+bg="I:%d+%.?%d*"
+bf="aer"
+
+w=tonumber
+t=tostring
+aE=false
+ao=true
+h=math
+aM=property
+aw=string
+aJ=input
+aG=output
+j=aG.setNumber
+e=aJ.getNumber
+aA=aJ.getBool
+ax=aG.setBool
+v=aw.sub
+x=aM.getText
+A=aw.match
+T=h.cos
+ad=h.sin
+af=h.atan
+M=h.sqrt
+function b(g,G,X)return{g or 0,G or 0,X or 0,u=function(a)local au=a[1]^2+a[2]^2+a[3]^2 return au==1 and 1 or M(au)end,r=function(a,f)return type(f)=="table" and a[1]*f[1]+a[2]*f[2]+a[3]*f[3]or b(a[1]*f,a[2]*f,a[3]*f)end,P=function(a,f)return b(a[1]+f[1],a[2]+f[2],a[3]+f[3])end,s=function(a,f)return b(a[1]-f[1],a[2]-f[2],a[3]-f[3])end,ac=function(a)return a:r(1/a:u())end,aB=function(a,E)return E[1]:r(a[1]):P(E[2]:r(a[2])):P(E[3]:r(a[3]))end,U=function(a,E)return b(a:r(E[1]),a:r(E[2]),a:r(E[3]))end,aP=function(a)return b(af(a[1],-a[3]),af(a[2],M(a[1]^2+a[3]^2)),M(a[1]*a[1]+a[2]*a[2]+a[3]*a[3]))end}end
+function az(g,G,X,aN)local n,k,l,y,o,p=ad(g),T(g),ad(G),T(G),ad(X),T(X)return aN~=bf and{b(y*p,y*o,-l),b(n*l*p-k*o,n*l*o+k*p,n*y),b(k*l*p+n*o,k*l*o-n*p,k*y)}or{b(p*k+o*l*n,-o*y,o*l*k-p*n),b(o*k-p*l*n,p*y,-p*l*k-o*n),b(n*y,l,k*y)}end
+function bc(ar,am)return{ar[1]:U(am),ar[2]:U(am),ar[3]:U(am)}end
+pi=h.pi
+V=pi*2
+sin=ad
+cos=T
+acos=h.acos
+asin=h.asin
+atan=af
+tan=h.tan
+abs=h.abs
+sqrt=M
+bd=h.log
+function b_(g)return g&lt;0 and-1 or 1
+end
+function ak(g,aS,aY)return h.min(h.max(g,aS),aY)end
+function len(g,G)return M(g^2+G^2)end
+function ba(g)return g%V
+end
+function bb(g)return(g-pi)%V-pi
+end
+function aI(aZ)return{z={},J={},F={},max=aZ,i=0,aK=function(_,al)_.i=(_.i%_.max)+1
+_.z[_.i]=al[1]_.J[_.i]=al[2]_.F[_.i]=al[3]local aq=0
+for D=1,#_.z,1 do
+aq=aq+_.z[D]end
+local ag=0
+for D=1,#_.J,1 do
+ag=ag+_.J[D]end
+local ah=0
+for D=1,#_.F,1 do
+ah=ah+_.F[D]end
+return b(aq/#_.z,ag/#_.J,ah/#_.F)end}end
+function aC(aj,at,ai,Y,S,H)return{aj=aj,at=at,ai=ai,B=0,as=0,Y=Y or-1,S=S or 1,H=H or 10,c=0,aF=function(_,aU,aX,W)W=W==nil and ao or W
+if not W then
+_.B=0
+_.as=0
+return 0
+end
+local aa=aU-aX
+_.B=_.B+aa
+if _.B&gt;_.H then
+_.B=_.H
+elseif _.B&lt;-_.H then
+_.B=-_.H
+end
+local aW=aa-_.as
+_.as=aa
+_.c=_.aj*aa+_.at*_.B+_.ai*aW
+if _.c&gt;_.S then
+_.c=_.S
+elseif _.c&lt;_.Y then
+_.c=_.Y
+end
+return _.c
+end}end
+c={}q={A(x(bh),bl),A(x(bh),bg),A(x(bh),bj),A(x(bh),bk),A(x(bi),bl),A(x(bi),bg),A(x(bi),bj),A(x(bi),bk)}an=aE
+for D=1,8 do
+if t(q[D])=="nil" then
+an=ao
+break
+end
+end
+if not an then
+c={ab=aC(w(v(t(q[1]),3))+0,w(v(t(q[2]),3))+0,w(v(t(q[3]),3))+0,-1,1,w(v(t(q[4]),4))+0),Q=aC(w(v(t(q[5]),3))+0,w(v(t(q[6]),3))+0,w(v(t(q[7]),3))+0,-1,1,w(v(t(q[8]),4))+0)}end
+aR=aM.getNumber("Vertical correction factor")d=aI(60)aD=aI(60)Z=0
+O=b()N=b()av=0
+L={}m={}be=0
+function onTick()if an then
+ax(32,ao)return
+else
+ax(32,aE)end
+ay=aA(1)aQ=aA(2)ae=b(e(1),e(2),e(3))ap=az(e(4),e(5),e(6))aO=b(e(7),e(8),e(9))I=aO:aB(ap)if aQ then
+Z=Z+1
+else
+Z=0
+end
+if Z&gt;=10 then
+m=az(e(13)*V,e(14)*V,0,bf)[3]:r(e(15)):aB(ap):P(ae)m[2]=m[2]+aR
+d:aK(m)if#d.z==60 then
+av=m:s(ae):u()/I:u()O=b(d.z[d.i],d.J[d.i],d.F[d.i])N=b(d.z[(d.i%d.max)+1],d.J[(d.i%d.max)+1],d.F[(d.i%d.max)+1])L=aD:aK(O:s(N))if#aD.z==60 then
+m=L:r(m:s(ae):u()/I:u()):P(m)end
+end
+else
+m=b(e(10),e(11),e(12))end
+K=m:s(ae)aL=b(K[1],0,K[3]):u()&lt;1000
+if not aL then
+K[2]=K[2]+50
+end
+R=K:ac():s(I:ac())if not aL then
+aV=b(100,ak(K[2],-50,50),0):ac()aT=b(100,I[2],0):ac()R=b(R[1],aV:s(aT)[2],R[3])end
+C=R:U(ap)C=b(-C[1],C[2],-C[3])aH=C:aP()c.ab:aF(0,-aH[1]*ak(C:u()*10,0,1),ay)c.Q:aF(0,aH[2]*ak(C:u()*10,0,1),ay)j(1,c.ab.c~=c.ab.c and 0 or c.ab.c)j(2,c.Q.c~=c.Q.c and 0 or c.Q.c)j(3,av)j(4,I[2])j(5,I[3])j(6,L[1])j(7,L[2])j(8,L[3])j(9,O:s(N)[1])j(10,O:s(N)[2])j(11,O:s(N)[3])end
+'>
+				<pos x="3" y="-3"/>
+				<in1 component_id="48"/>
+			</c8>
+			<c9 id="26">
+				<pos x="3" y="-3.5"/>
+				<in1 component_id="25"/>
+			</c9>
+			<c10 id="27" i="1">
+				<pos x="3" y="-4"/>
+				<in1 component_id="25"/>
+			</c10>
+			<c11 id="28" l="1">
+				<pos x="4.25" y="-3.75"/>
+				<in1 component_id="26"/>
+			</c11>
+			<c12 id="29" l="2">
+				<pos x="4.25" y="-4.25"/>
+				<in1 component_id="27"/>
+			</c12>
+			<c13 id="30" i="2">
+				<pos x="3" y="-5"/>
+				<in1 component_id="25"/>
+			</c13>
+			<c14 id="31" i="3">
+				<pos x="3" y="-5.5"/>
+				<in1 component_id="25"/>
+			</c14>
+			<c15 id="32" i="4">
+				<pos x="3" y="-6"/>
+				<in1 component_id="25"/>
+			</c15>
+			<c16 id="33" i="5">
+				<pos x="3" y="-6.5"/>
+				<in1 component_id="25"/>
+			</c16>
+			<c17 id="34" i="6">
+				<pos x="3" y="-7"/>
+				<in1 component_id="25"/>
+			</c17>
+			<c18 id="35" i="7">
+				<pos x="3" y="-7.5"/>
+				<in1 component_id="25"/>
+			</c18>
+			<c19 id="36" l="timeToImpact">
+				<pos x="4.25" y="-5.25"/>
+				<in1 component_id="30"/>
+			</c19>
+			<c20 id="37" l="velocityY">
+				<pos x="4.25" y="-5.75"/>
+				<in1 component_id="31"/>
+			</c20>
+			<c21 id="38" l="velocityZ">
+				<pos x="4.25" y="-6.25"/>
+				<in1 component_id="32"/>
+			</c21>
+			<c22 id="39" l="targetVelocityX">
+				<pos x="4.25" y="-6.75"/>
+				<in1 component_id="33"/>
+			</c22>
+			<c23 id="40" l="targetVelocityY">
+				<pos x="4.25" y="-7.25"/>
+				<in1 component_id="34"/>
+			</c23>
+			<c24 id="41" l="targetVelocityZ">
+				<pos x="4.25" y="-7.75"/>
+				<in1 component_id="35"/>
+			</c24>
+			<c25 id="42" i="8">
+				<pos x="3" y="-8"/>
+				<in1 component_id="25"/>
+			</c25>
+			<c26 id="43" i="9">
+				<pos x="3" y="-8.5"/>
+				<in1 component_id="25"/>
+			</c26>
+			<c27 id="44" i="10">
+				<pos x="3" y="-9"/>
+				<in1 component_id="25"/>
+			</c27>
+			<c28 id="45" l="lastSecondVectorX">
+				<pos x="4.25" y="-8.25"/>
+				<in1 component_id="42"/>
+			</c28>
+			<c29 id="46" l="lastSecondVectorY">
+				<pos x="4.25" y="-8.75"/>
+				<in1 component_id="43"/>
+			</c29>
+			<c30 id="47" l="lastSecondVectorZ">
+				<pos x="4.25" y="-9.25"/>
+				<in1 component_id="44"/>
+			</c30>
+			<c31 id="48" count="2">
+				<pos x="1.75" y="-3.25"/>
+				<inc component_id="24"/>
+				<in1 component_id="11"/>
+				<in2 component_id="54"/>
+			</c31>
+			<c32 id="51" i="1">
+				<pos x="-0.75" y="-5"/>
+				<in1 component_id="50"/>
+			</c32>
+			<c33 id="52" i="2">
+				<pos x="-0.75" y="-5.25"/>
+				<in1 component_id="50"/>
+			</c33>
+			<c34 id="53">
+				<pos x="-0.75" y="-5.5"/>
+				<in1 component_id="50"/>
+			</c34>
+			<c35 id="54">
+				<pos x="-0.75" y="-5.75"/>
+				<in1 component_id="50"/>
+			</c35>
+			<c36 id="55" n="Vertical correction factor">
+				<pos x="0.5"/>
+				<v text="2" value="2"/>
+			</c36>
+			<c37 id="56" n="Horizontal PID Values" v="P:1, I:0.1, D:1, iL:1">
+				<pos x="0.5" y="-0.5"/>
+			</c37>
+			<c38 id="57" n="Vertical PID Values" v="P:1, I:0.1, D:1, iL:1">
+				<pos x="0.5" y="-1"/>
+			</c38>
+			<c39 id="58" l="Parsing failed!" m="1">
+				<pos x="4.25" y="-9.75"/>
+				<in1 component_id="59"/>
+			</c39>
+			<c40 id="59" i="31">
+				<pos x="3" y="-9.75"/>
+				<in1 component_id="25"/>
+			</c40>
+		</component_states>
+		<component_bridge_states>
+			<c0 id="2">
+				<pos x="0.5" y="-2.25"/>
+			</c0>
+			<c1 id="4">
+				<pos x="-3.25" y="-3.75"/>
+			</c1>
+			<c2 id="8">
+				<pos x="4.25" y="-2.75"/>
+				<in1 component_id="25"/>
+			</c2>
+			<c3 id="11">
+				<pos x="-2" y="-1.25"/>
+			</c3>
+			<c4 id="50">
+				<pos x="-2" y="-5.25"/>
+			</c4>
+		</component_bridge_states>
+		<group_states/>
+	</group>
+</microprocessor>
+
