@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition>
+	<meshes>
+		<mesh id="track_diagonal_right_mesh" file_name="meshes/real_track/ballast/track_pieces__track_diagonal_right.mesh">
+			<transform/>
+		</mesh>
+		<mesh id="real_track_cm3_m2_0" file_name="meshes/real_track/track_diagonal_right_cm3_m2_0.mesh">
+			<transform/>
+		</mesh>
+		<mesh id="real_track_cm2_m3_0" file_name="meshes/real_track/track_diagonal_right_cm2_m3_0.mesh">
+			<transform/>
+		</mesh>
+		<mesh id="real_track_cm2_m2_0" file_name="meshes/real_track/track_diagonal_right_cm2_m2_0.mesh">
+			<transform/>
+		</mesh>
+		<mesh id="real_track_cm2_m1_0" file_name="meshes/real_track/track_diagonal_right_cm2_m1_0.mesh">
+			<transform/>
+		</mesh>
+		<mesh id="real_track_cm1_m2_0" file_name="meshes/real_track/track_diagonal_right_cm1_m2_0.mesh">
+			<transform/>
+		</mesh>
+		<mesh id="real_track_cm1_m1_0" file_name="meshes/real_track/track_diagonal_right_cm1_m1_0.mesh">
+			<transform/>
+		</mesh>
+		<mesh id="real_track_cm1_p0_0" file_name="meshes/real_track/track_diagonal_right_cm1_p0_0.mesh">
+			<transform/>
+		</mesh>
+		<mesh id="real_track_cp0_m1_0" file_name="meshes/real_track/track_diagonal_right_cp0_m1_0.mesh">
+			<transform/>
+		</mesh>
+		<mesh id="real_track_cp0_p0_0" file_name="meshes/real_track/track_diagonal_right_cp0_p0_0.mesh">
+			<transform/>
+		</mesh>
+		<mesh id="real_track_cp0_p1_0" file_name="meshes/real_track/track_diagonal_right_cp0_p1_0.mesh">
+			<transform/>
+		</mesh>
+		<mesh id="real_track_cp1_p0_0" file_name="meshes/real_track/track_diagonal_right_cp1_p0_0.mesh">
+			<transform/>
+		</mesh>
+		<mesh id="real_track_cp1_p1_0" file_name="meshes/real_track/track_diagonal_right_cp1_p1_0.mesh">
+			<transform/>
+		</mesh>
+		<mesh id="real_track_cp1_p2_0" file_name="meshes/real_track/track_diagonal_right_cp1_p2_0.mesh">
+			<transform/>
+		</mesh>
+		<mesh id="real_track_cp2_p1_0" file_name="meshes/real_track/track_diagonal_right_cp2_p1_0.mesh">
+			<transform/>
+		</mesh>
+	</meshes>
+	<physics_objects/>
+	<physics_meshes>
+		<physics_mesh id="track_diagonal_right_phys" file_name="meshes/track_pieces/track_diagonal_right_phys.phys">
+			<transform/>
+		</physics_mesh>
+		<physics_mesh id="real_track_phys_cm2_m2" file_name="meshes/real_track/track_diagonal_right_cm2_m2.phys">
+			<transform/>
+		</physics_mesh>
+		<physics_mesh id="real_track_phys_cm1_m1" file_name="meshes/real_track/track_diagonal_right_cm1_m1.phys">
+			<transform/>
+		</physics_mesh>
+		<physics_mesh id="real_track_phys_cm1_p0" file_name="meshes/real_track/track_diagonal_right_cm1_p0.phys">
+			<transform/>
+		</physics_mesh>
+		<physics_mesh id="real_track_phys_cp0_m1" file_name="meshes/real_track/track_diagonal_right_cp0_m1.phys">
+			<transform/>
+		</physics_mesh>
+		<physics_mesh id="real_track_phys_cp0_p0" file_name="meshes/real_track/track_diagonal_right_cp0_p0.phys">
+			<transform/>
+		</physics_mesh>
+		<physics_mesh id="real_track_phys_cp1_p1" file_name="meshes/real_track/track_diagonal_right_cp1_p1.phys">
+			<transform/>
+		</physics_mesh>
+	</physics_meshes>
+	<physics_dynamics/>
+	<lights_omni/>
+	<lights_spot/>
+	<lights_tube/>
+	<screens/>
+	<edit_areas/>
+	<interactables/>
+	<door_logic_nodes/>
+	<light_logic_nodes/>
+	<rotation_logic_nodes/>
+	<hangar_door_logic_nodes/>
+	<audio_logic_nodes/>
+	<tile_markers/>
+	<mission_zones/>
+	<dynamic_markers/>
+	<ladders/>
+	<perches/>
+	<fires/>
+	<train_tracks>
+		<track id="train_track_0">
+			<transform 30="501.529877" 31="16.244417" 32="498.456085"/>
+			<links>
+				<link id="train_track_1"/>
+			</links>
+		</track>
+		<track id="train_track_1">
+			<transform 30="-498.460144" 31="16.244417" 32="-501.543915"/>
+			<links>
+				<link id="train_track_0"/>
+			</links>
+		</track>
+		<track id="train_track_2">
+			<transform 30="-501.510681" 31="16.244417" 32="-498.455933"/>
+			<links>
+				<link id="train_track_3"/>
+			</links>
+		</track>
+		<track id="train_track_3">
+			<transform 30="498.443726" 31="16.244417" 32="501.541687"/>
+			<links>
+				<link id="train_track_2"/>
+			</links>
+		</track>
+	</train_tracks>
+	<volcano_markers/>
+	<mineral_rocks/>
+</definition>
+
