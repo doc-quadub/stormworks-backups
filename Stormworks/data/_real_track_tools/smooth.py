@@ -14,6 +14,11 @@ MAX_TURN_PER_PIECE = math.radians(1.0)
 MIN_TURN_TO_SMOOTH = math.radians(0.25)
 MAX_PIECES = 24
 NEW_NODE_PREFIX = "train_rt_"
+# The game treats track nodes lying close together as connected (that is how tiles join), so a
+# new node must never come near a node it is not linked to: two gently diverging branches got
+# their curve points 0.02 - 0.7 m apart and trains jumped from one branch to the other.
+# Vanilla never has unlinked nodes closer than ~1.09 m.
+MIN_NODE_GAP = 1.5
 
 
 def _norm2(x, z):
@@ -36,7 +41,7 @@ def node_pairs(nodes):
     for k, (p, links) in nodes.items():
         nbrs = list(dict.fromkeys(o for o in links if o in nodes and o != k))
         pairing = {o: None for o in nbrs}
-        if len(nbrs) == 2:
+        if len(nbrs) == 2 and not is_junction(nodes, k):
             pairing[nbrs[0]], pairing[nbrs[1]] = nbrs[1], nbrs[0]
         elif len(nbrs) >= 3:
             best = None
@@ -53,25 +58,35 @@ def node_pairs(nodes):
     return result
 
 
+def is_junction(nodes, k):
+    """A switch: three or more links, or two links leaving on the same side (a switch on a tile
+    border whose third link is in the neighbouring tile)."""
+    nbrs = list(set(o for o in nodes[k][1] if o in nodes and o != k))
+    if len(nbrs) >= 3:
+        return True
+    if len(nbrs) == 2:
+        p = nodes[k][0]
+        a, b = _dir(p, nodes[nbrs[0]][0]), _dir(p, nodes[nbrs[1]][0])
+        return a[0] * b[0] + a[1] * b[1] > 0
+    return False
+
+
 def node_tangent(nodes, pairs, k, towards, border_tangents):
     """Unit horizontal tangent at node k for the edge leaving towards `towards`."""
     p = nodes[k][0]
     chord = _dir(p, nodes[towards][0])
+    other = pairs[k].get(towards)
     if k in border_tangents:
         t = border_tangents[k]
+    elif other is not None and is_junction(nodes, other):
+        # the edge on the other side ends at a junction and stays straight (vanilla): carry
+        # its direction on, so the curve joins it without a kink
+        t = _dir(nodes[other][0], p)
+    elif other is not None:
+        # through route: Catmull-Rom style tangent from the paired neighbours
+        t = _dir(nodes[other][0], nodes[towards][0])
     else:
-        other = pairs[k].get(towards)
-        if other is not None:
-            # through route: Catmull-Rom style tangent from the paired neighbours
-            t = _dir(nodes[other][0], nodes[towards][0])
-        else:
-            through = [(a, b) for a, b in pairs[k].items() if b is not None]
-            if through:
-                # diverging branch of a junction: start tangent to the through route
-                a, b = through[0]
-                t = _dir(nodes[a][0], nodes[b][0])
-            else:
-                t = chord
+        t = chord
     if t[0] * chord[0] + t[1] * chord[1] < 0:
         t = (-t[0], -t[1])
     if t == (0.0, 0.0):
@@ -109,6 +124,25 @@ def smooth_graph(nodes, node_y, border_tangents=None, skip=frozenset()):
     """
     border_tangents = border_tangents or {}
     pairs = node_pairs(nodes)
+    grid = {}
+
+    def cell(x, z):
+        return (int(math.floor(x / MIN_NODE_GAP)), int(math.floor(z / MIN_NODE_GAP)))
+
+    def register(k, x, z):
+        grid.setdefault(cell(x, z), []).append((k, x, z))
+
+    def clear_of_others(x, z, own):
+        cx, cz = cell(x, z)
+        for ix in (cx - 1, cx, cx + 1):
+            for iz in (cz - 1, cz, cz + 1):
+                for k, kx, kz in grid.get((ix, iz), ()):
+                    if k not in own and math.hypot(kx - x, kz - z) < MIN_NODE_GAP:
+                        return False
+        return True
+
+    for k, (p, _) in nodes.items():
+        register(k, p[0], p[2])
     new_nodes = {k: (p, list(links)) for k, (p, links) in nodes.items()}
     new_y = dict(node_y)
     inserted = []
@@ -120,6 +154,11 @@ def smooth_graph(nodes, node_y, border_tangents=None, skip=frozenset()):
                 continue
             done.add(frozenset((a, b)))
             if a in skip or b in skip:
+                continue
+            if is_junction(nodes, a) or is_junction(nodes, b):
+                # Junction edges keep the vanilla geometry: the game picks the route at a switch
+                # (forward / left / right) from the directions of these links, and bending them
+                # broke switching and squeezed the turnout curve into a sharp hook.
                 continue
             pb = nodes[b][0]
             length = math.hypot(pb[0] - pa[0], pb[2] - pa[2])
@@ -137,11 +176,17 @@ def smooth_graph(nodes, node_y, border_tangents=None, skip=frozenset()):
             if deviation > MAX_DEVIATION:
                 scale *= MAX_DEVIATION / deviation
             pieces = min(MAX_PIECES, max(2, int(math.ceil(turn / MAX_TURN_PER_PIECE))))
+            # pieces no shorter than MIN_NODE_GAP, so even nodes two steps apart stay apart
+            pieces = min(pieces, int(length // MIN_NODE_GAP))
+            if pieces < 2:
+                continue
             chain = [a]
             for i in range(1, pieces):
                 f = i / pieces
                 x, z = _hermite(pa, pb, ta, tb, scale, f)
                 y = pa[1] + (pb[1] - pa[1]) * f
+                if not clear_of_others(x, z, (a, b)):
+                    continue          # would sit next to another track's node: leave it out
                 counter += 1
                 nid = "%s%d" % (NEW_NODE_PREFIX, counter)
                 new_nodes[nid] = ((x, y, z), [])
@@ -149,6 +194,10 @@ def smooth_graph(nodes, node_y, border_tangents=None, skip=frozenset()):
                 inserted.append(nid)
                 chain.append(nid)
             chain.append(b)
+            if len(chain) == 2:
+                continue
+            for nid in chain[1:-1]:
+                register(nid, new_nodes[nid][0][0], new_nodes[nid][0][2])
             # relink: a -> first new ... last new -> b
             new_nodes[a][1][:] = [chain[1] if o == b else o for o in new_nodes[a][1]]
             new_nodes[b][1][:] = [chain[-2] if o == a else o for o in new_nodes[b][1]]
@@ -157,13 +206,31 @@ def smooth_graph(nodes, node_y, border_tangents=None, skip=frozenset()):
     return new_nodes, new_y, inserted
 
 
-def train_tracks_xml(original_text, new_nodes, new_y, newline):
+def train_tracks_xml(original_text, new_nodes, new_y, newline, raise_kept=0.0):
     """Rebuild the <train_tracks> block: original nodes keep their transform attributes (the height
-    changes; x/z only for border nodes that were moved), inserted nodes are appended."""
+    changes; x/z only for border nodes that were moved) and any extra attributes of the <track>
+    element (seasonal_flags), inserted nodes are appended. Original nodes the graph does not
+    contain (seasonal-only nodes, which the track reader skips) are kept as they are, lifted by
+    raise_kept like the rest of the graph, so no link points to a missing node."""
     import re
     block_match = re.search(r"<train_tracks>.*?</train_tracks>", original_text, re.S)
-    original_attrs = {m.group(1): m.group(2) for m in re.finditer(
-        r'<track id="([^"]+)">\s*<transform([^/]*)/>', block_match.group(0))}
+    original_attrs = {}
+    element_attrs = {}
+    kept_blocks = []
+    for m in re.finditer(r'<track id="([^"]+)"([^>]*)>(\s*<transform([^/]*)/>.*?)</track>',
+                         block_match.group(0), re.S):
+        node_id, extra, body, transform = m.group(1), m.group(2), m.group(3), m.group(4)
+        if node_id in new_nodes:
+            original_attrs[node_id] = transform
+            element_attrs[node_id] = extra
+        else:
+            old_y = re.search(r'\b31="([^"]*)"', transform)
+            if old_y:
+                lifted = transform.replace(old_y.group(0), '31="%.6f"' % (float(old_y.group(1)) + raise_kept))
+            else:
+                lifted = transform.rstrip() + ' 31="%.6f"' % raise_kept
+            kept_blocks.append('\t\t<track id="%s"%s>%s</track>'
+                               % (node_id, extra, body.replace(transform, lifted, 1)))
     order = list(original_attrs) + [k for k in new_nodes if k not in original_attrs]
     lines = ["<train_tracks>"]
     for k in order:
@@ -184,7 +251,7 @@ def train_tracks_xml(original_text, new_nodes, new_y, newline):
                     attrs = attrs.rstrip() + " " + text
         else:
             attrs = ' 30="%.6f" 31="%.6f" 32="%.6f"' % (p[0], new_y[k], p[2])
-        lines.append('\t\t<track id="%s">' % k)
+        lines.append('\t\t<track id="%s"%s>' % (k, element_attrs.get(k, "")))
         lines.append("\t\t\t<transform%s/>" % attrs)
         if links:
             lines.append("\t\t\t<links>")
@@ -194,6 +261,7 @@ def train_tracks_xml(original_text, new_nodes, new_y, newline):
         else:
             lines.append("\t\t\t<links/>")
         lines.append("\t\t</track>")
+    lines.extend(kept_blocks)
     lines.append("\t</train_tracks>")
     block = newline.join(lines)
     return original_text[:block_match.start()] + block + original_text[block_match.end():]

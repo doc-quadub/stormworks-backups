@@ -84,10 +84,16 @@ def write_mesh(path, mesh):
     assert len(mesh.vertices) < 65536, "too many vertices for one mesh: %d" % len(mesh.vertices)
     out = bytearray()
     out += b"mesh" + struct.pack("<HHHHH", 7, 1, len(mesh.vertices), 0x13, 0)
-    for (x, y, z, r, g, b, a, nx, ny, nz) in mesh.vertices:
-        out += struct.pack("<3f4B3f", x, y, z, r, g, b, a, nx, ny, nz)
-    out += struct.pack("<I", len(mesh.indices))
-    out += struct.pack("<%dH" % len(mesh.indices), *mesh.indices)
+    if hasattr(mesh.vertices, "tobytes"):
+        # numpy record array already in file layout (see rails.polys_to_mesh)
+        out += mesh.vertices.tobytes()
+        out += struct.pack("<I", len(mesh.indices))
+        out += mesh.indices.astype("<u2").tobytes()
+    else:
+        for (x, y, z, r, g, b, a, nx, ny, nz) in mesh.vertices:
+            out += struct.pack("<3f4B3f", x, y, z, r, g, b, a, nx, ny, nz)
+        out += struct.pack("<I", len(mesh.indices))
+        out += struct.pack("<%dH" % len(mesh.indices), *mesh.indices)
     out += struct.pack("<H", len(mesh.submeshes))
     for sm in mesh.submeshes:
         out += struct.pack("<IIHH", sm.index_start, sm.index_count, 0, sm.shader)
@@ -133,6 +139,33 @@ def read_phys(path):
         parts.append([values[i:i + 3] for i in range(0, 3 * n, 3)])
         offset += 2 + 12 * n + 2
     return parts
+
+
+VERTEX_RECORD = None
+
+
+def vertex_record_dtype():
+    """numpy record type of one .mesh vertex (28 bytes, file layout)."""
+    global VERTEX_RECORD
+    if VERTEX_RECORD is None:
+        import numpy as np
+        VERTEX_RECORD = np.dtype([("x", "<f4"), ("y", "<f4"), ("z", "<f4"),
+                                  ("r", "u1"), ("g", "u1"), ("b", "u1"), ("a", "u1"),
+                                  ("nx", "<f4"), ("ny", "<f4"), ("nz", "<f4")])
+    return VERTEX_RECORD
+
+
+def read_vertex_array(path):
+    """(file bytes, numpy record array of the vertices) - fast read when only vertices matter."""
+    import numpy as np
+    data = open(path, "rb").read()
+    assert data[:4] == b"mesh", "not a mesh file"
+    count = struct.unpack_from("<H", data, 8)[0]
+    return data, np.frombuffer(data, dtype=vertex_record_dtype(), count=count, offset=14)
+
+
+VERTEX_COLOR_OFFSET = 12      # byte offset of r, g, b inside a vertex record
+FIRST_VERTEX_OFFSET = 14
 
 
 # Backwards-compatible helper used by earlier analysis scripts.

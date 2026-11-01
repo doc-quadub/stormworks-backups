@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scene version="4" dlc="7">
-	<game_data day_tick="67675" month="5" year="2032" weather="13677" total_playtime="16746" currency="20000" is_create_character="true">
-		<difficulty_settings vehicle_damage="true" player_damage="true" npc_damage="true" sharks="true" auto_refuel="true" lightning="true"/>
-		<game_mode_settings infinite_money="true" creative_menu="true" base_island="data/tiles/mega_island_9_8.xml" no_clip="true" dev_goto="true" cleanup_vehicle="true"/>
-		<player_pos x="1323.29051" y="7.705123" z="-3767.04699"/>
+	<game_data day_tick="107700" month="5" year="2032" weather="4750" total_playtime="7351" currency="20000" is_create_character="true">
+		<difficulty_settings vehicle_damage="true" npc_damage="true" sharks="true" auto_refuel="true" lightning="true"/>
+		<game_mode_settings day_length="60" infinite_money="true" creative_menu="true" base_island="data/tiles/mega_island_9_8.xml" no_clip="true" dev_goto="true" cleanup_vehicle="true" override_weather="true" override_time="true"/>
+		<player_pos x="3833.959951" y="6.214494" z="-5368.292843"/>
 		<active_playlists>
 			<playlist_name value="rom/data/missions/default_railroad_signals"/>
 		</active_playlists>
@@ -206,7 +206,8 @@
 			<color_mesh_clothing r="0" g="0" b="0"/>
 		</character_visual_data>
 		<active_mods>
-			<mod_path value="C:\Users\quadub\AppData\Roaming\Stormworks\data/mods/real_track_test"/>
+			<mod_path value="C:\Users\quadub\AppData\Roaming\Stormworks\data/mods/sawyer_railroads_overhaul_plus"/>
+			<mod_path value="C:\Program Files (x86)\Steam\steamapps\workshop\content\573090\3393471780"/>
 		</active_mods>
 	</game_data>
 	<tiles seed="17216">
@@ -237,6 +238,12 @@
 			</tile>
 			<tile>
 				<value x="1" y="-5"/>
+			</tile>
+			<tile>
+				<value x="2" y="-7"/>
+			</tile>
+			<tile>
+				<value x="3" y="-7"/>
 			</tile>
 			<tile>
 				<value x="2" y="-6"/>
@@ -286,6 +293,51 @@
 			<tile>
 				<value x="3" y="-2"/>
 			</tile>
+			<tile>
+				<value x="4" y="-7"/>
+			</tile>
+			<tile>
+				<value x="5" y="-7"/>
+			</tile>
+			<tile>
+				<value x="4" y="-6"/>
+			</tile>
+			<tile>
+				<value x="4" y="-5"/>
+			</tile>
+			<tile>
+				<value x="5" y="-6"/>
+			</tile>
+			<tile>
+				<value x="5" y="-5"/>
+			</tile>
+			<tile>
+				<value x="6" y="-7"/>
+			</tile>
+			<tile>
+				<value x="6" y="-6"/>
+			</tile>
+			<tile>
+				<value x="6" y="-5"/>
+			</tile>
+			<tile>
+				<value x="4" y="-4"/>
+			</tile>
+			<tile>
+				<value x="4" y="-3"/>
+			</tile>
+			<tile>
+				<value x="5" y="-4"/>
+			</tile>
+			<tile>
+				<value x="5" y="-3"/>
+			</tile>
+			<tile>
+				<value x="6" y="-4"/>
+			</tile>
+			<tile>
+				<value x="6" y="-3"/>
+			</tile>
 		</discovered_tiles>
 		<purchased_tiles>
 			<tile>
@@ -294,11 +346,7 @@
 		</purchased_tiles>
 		<addon_nodes/>
 		<workbench>
-			<inventories>
-				<i c="100" d="500" j="200">
-					<c x="1" y="-4"/>
-				</i>
-			</inventories>
+			<inventories/>
 		</workbench>
 		<moon>
 			<discovered_tiles/>
@@ -309,7 +357,7 @@
 			</workbench>
 		</moon>
 	</tiles>
-	<vehicles vehicle_counter="321" group_counter="321">
+	<vehicles vehicle_counter="323" group_counter="323">
 		<vehicle_data>
 			<vehicle id="1" vehicle_group_id="1" is_static="true" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
 				<transform 00="0.710318" 02="-0.703881" 20="0.703881" 22="0.710318" 30="-22977.38931" 31="7.590332" 32="92932.326995"/>
@@ -1121,56 +1169,56 @@
 				<active_transponders/>
 				<authors/>
 			</vehicle>
-			<vehicle id="91" vehicle_group_id="91" is_static="true" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
-				<transform 30="3773.773071" 31="4.514125" 32="-5217.041016"/>
+			<vehicle id="91" vehicle_group_id="91" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
+				<transform 30="3773.776145" 31="7.505928" 32="-5217.04204"/>
 				<bounds>
-					<min x="-0.875" y="-0.375" z="-0.625"/>
-					<max x="0.875" y="5.375" z="0.375"/>
+					<min x="-0.878074" y="-3.366803" z="-0.623975"/>
+					<max x="0.871926" y="2.383197" z="0.376025"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
 			</vehicle>
-			<vehicle id="92" vehicle_group_id="92" is_static="true" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
-				<transform 00="-1" 22="-1" 30="3762.460617" 31="4.236427" 32="-5300.315155"/>
+			<vehicle id="92" vehicle_group_id="92" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
+				<transform 00="-1" 22="-1" 30="3762.457543" 31="7.22823" 32="-5300.31413"/>
 				<bounds>
-					<min x="-0.875" y="-0.375" z="-0.625"/>
-					<max x="0.875" y="5.375" z="0.375"/>
+					<min x="-0.878074" y="-3.366803" z="-0.623975"/>
+					<max x="0.871926" y="2.383197" z="0.376025"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
 			</vehicle>
-			<vehicle id="93" vehicle_group_id="93" is_static="true" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
-				<transform 00="-0.900459" 02="-0.434941" 20="0.434941" 22="-0.900459" 30="3619.038621" 31="5.654757" 32="-4542.053689"/>
+			<vehicle id="93" vehicle_group_id="93" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
+				<transform 00="-0.900459" 02="-0.434941" 20="0.434941" 22="-0.900459" 30="3619.035407" 31="8.64656" 32="-4542.054103"/>
 				<bounds>
-					<min x="-0.875" y="-0.375" z="-0.625"/>
-					<max x="0.875" y="5.375" z="0.375"/>
+					<min x="-0.878074" y="-3.366803" z="-0.623975"/>
+					<max x="0.871926" y="2.383197" z="0.376025"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
 			</vehicle>
-			<vehicle id="94" vehicle_group_id="94" is_static="true" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
-				<transform 00="-0.891524" 02="-0.452974" 20="0.452974" 22="-0.891524" 30="3630.481121" 31="5.654772" 32="-4536.33843"/>
+			<vehicle id="94" vehicle_group_id="94" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
+				<transform 00="-0.891524" 02="-0.452974" 20="0.452974" 22="-0.891524" 30="3630.477917" 31="8.646575" 32="-4536.338909"/>
 				<bounds>
-					<min x="-0.875" y="-0.375" z="-0.625"/>
-					<max x="0.875" y="5.375" z="0.375"/>
+					<min x="-0.878074" y="-3.366803" z="-0.623975"/>
+					<max x="0.871926" y="2.383197" z="0.376025"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
 			</vehicle>
-			<vehicle id="95" vehicle_group_id="95" is_static="true" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
-				<transform 00="0.986486" 02="0.163843" 20="-0.163843" 22="0.986486" 30="3757.647504" 31="5.593102" 32="-4934.060275"/>
+			<vehicle id="95" vehicle_group_id="95" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
+				<transform 00="0.986486" 02="0.163843" 20="-0.163843" 22="0.986486" 30="3757.650704" 31="8.584905" 32="-4934.060782"/>
 				<bounds>
-					<min x="-0.875" y="-0.375" z="-0.625"/>
-					<max x="0.875" y="5.375" z="0.375"/>
+					<min x="-0.878074" y="-3.366803" z="-0.623975"/>
+					<max x="0.871926" y="2.383197" z="0.376025"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
 			</vehicle>
-			<vehicle id="96" vehicle_group_id="96" is_static="true" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
-				<transform 00="0.984055" 02="0.177865" 20="-0.177865" 22="0.984055" 30="3745.826796" 31="5.593102" 32="-4936.276724"/>
+			<vehicle id="96" vehicle_group_id="96" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
+				<transform 00="0.984055" 02="0.177865" 20="-0.177865" 22="0.984055" 30="3745.830003" 31="8.584905" 32="-4936.277185"/>
 				<bounds>
-					<min x="-0.875" y="-0.375" z="-0.625"/>
-					<max x="0.875" y="5.375" z="0.375"/>
+					<min x="-0.878074" y="-3.366803" z="-0.623975"/>
+					<max x="0.871926" y="2.383197" z="0.376025"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -3191,11 +3239,29 @@
 				<active_transponders/>
 				<authors/>
 			</vehicle>
-			<vehicle id="321" vehicle_group_id="321" player_created="true" on_map="true" is_first_spawn="false" is_editable="true" parent_mission_component_id="4294967295">
-				<transform 00="-0.017117" 01="-0" 02="-0.999853" 10="0" 11="1" 12="-0" 20="0.999853" 21="-0" 22="-0.017117" 30="1315.776321" 31="8.184025" 32="-3769.766065"/>
+			<vehicle id="321" vehicle_group_id="321" is_static="true" is_render_vehicle="false" is_first_spawn="false" parent_mission_component_id="4294967295">
+				<transform 00="0.709695" 02="0.704509" 20="-0.704509" 22="0.709695" 30="4131.260834" 31="12.132302" 32="-5887.417091"/>
 				<bounds>
-					<min x="-1.874652" y="-1.050807" z="-8.147551"/>
-					<max x="1.875348" y="0.699193" z="8.352449"/>
+					<min x="-0.375" y="-0.125" z="-0.875"/>
+					<max x="0.375" y="0.875" z="0.875"/>
+				</bounds>
+				<active_transponders/>
+				<authors/>
+			</vehicle>
+			<vehicle id="322" vehicle_group_id="322" is_static="true" is_render_vehicle="false" is_first_spawn="false" parent_mission_component_id="4294967295">
+				<transform 00="0" 02="-1" 20="1" 22="0" 30="3695.053192" 31="11.186218" 32="-5429.573242"/>
+				<bounds>
+					<min x="-0.375" y="-0.125" z="-0.875"/>
+					<max x="0.375" y="0.875" z="0.875"/>
+				</bounds>
+				<active_transponders/>
+				<authors/>
+			</vehicle>
+			<vehicle id="323" vehicle_group_id="323" is_static="true" is_render_vehicle="false" is_first_spawn="false" parent_mission_component_id="4294967295">
+				<transform 00="0" 02="-1" 20="1" 22="0" 30="3695.049255" 31="11.186218" 32="-5427.960327"/>
+				<bounds>
+					<min x="-0.375" y="-0.125" z="-0.875"/>
+					<max x="0.375" y="0.875" z="0.875"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -5122,12 +5188,23 @@
 				</vehicles>
 				<initial_transform 00="-0.027547" 02="-0.99962" 20="0.99962" 22="-0.027547" 30="1208.035706" 31="7.337198" 32="-3747.705139"/>
 			</group>
-			<group id="321" edit_grid_id="train_edit">
+			<group id="321" structure="true">
 				<vehicles>
 					<v value="321"/>
 				</vehicles>
-				<edit_grid_pos x="1313.00705" y="10.022367" z="-3769.663834"/>
-				<initial_transform 00="-0.017877" 02="-0.99984" 20="0.99984" 22="-0.017877" 30="1313.00705" 31="10.022367" 32="-3769.663834"/>
+				<initial_transform 00="0.709695" 02="0.704509" 20="-0.704509" 22="0.709695" 30="4131.260834" 31="12.132302" 32="-5887.417091"/>
+			</group>
+			<group id="322" structure="true">
+				<vehicles>
+					<v value="322"/>
+				</vehicles>
+				<initial_transform 00="-0" 02="-1" 20="1" 22="-0" 30="3695.053192" 31="11.186218" 32="-5429.573242"/>
+			</group>
+			<group id="323" structure="true">
+				<vehicles>
+					<v value="323"/>
+				</vehicles>
+				<initial_transform 00="-0" 02="-1" 20="1" 22="-0" 30="3695.049255" 31="11.186218" 32="-5427.960327"/>
 			</group>
 		</vehicle_group_data>
 	</vehicles>
@@ -5493,7 +5570,7 @@
 				<transform 00="0.909945" 02="0.41473" 20="-0.41473" 22="0.909945" 30="-852.015732" 31="31.431873" 32="-6010.500507"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="27" id="91" char_steam_id="-1" time_alive="13677">
+			<object type="27" id="91" char_steam_id="-1" time_alive="4750">
 				<bounds>
 					<min x="-0.7" y="-0.65" z="-0.75"/>
 					<max x="0.7" y="0.65" z="0.75"/>
@@ -5501,71 +5578,71 @@
 				<transform 00="0.896247" 01="-0.000571" 02="-0.443554" 10="0.000636" 11="1" 12="-0.000003" 20="0.443554" 21="-0.00028" 22="0.896247" 30="1869.686104" 31="8.066002" 32="-4799.258585"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="92" char_steam_id="-1" time_alive="13677">
+			<object type="29" id="92" char_steam_id="-1" time_alive="4750">
 				<bounds>
 					<min x="-0.8" y="-0.15" z="-0.8"/>
 					<max x="0.8" y="0.15" z="0.8"/>
 				</bounds>
-				<transform 00="0.999985" 01="-0.000016" 02="-0.005456" 10="0.000016" 11="1" 12="-0.000025" 20="0.005456" 21="0.000025" 22="0.999985" 30="1896.095769" 31="7.590578" 32="-4802.472494"/>
+				<transform 00="0.999985" 01="-0.000016" 02="-0.005456" 10="0.000016" 11="1" 12="-0.000024" 20="0.005456" 21="0.000024" 22="0.999985" 30="1896.096061" 31="7.590578" 32="-4802.472978"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="93" char_steam_id="-1" time_alive="13677">
+			<object type="29" id="93" char_steam_id="-1" time_alive="4750">
 				<bounds>
 					<min x="-0.8" y="-0.15" z="-0.8"/>
 					<max x="0.8" y="0.15" z="0.8"/>
 				</bounds>
-				<transform 00="0.734832" 01="0.136161" 02="-0.664441" 10="-0.181354" 11="0.983417" 12="0.000961" 20="0.653553" 21="0.119793" 22="0.74734" 30="1895.008563" 31="7.789295" 32="-4802.474614"/>
+				<transform 00="0.734946" 01="0.136146" 02="-0.664319" 10="-0.181305" 11="0.983426" 12="0.000964" 20="0.65344" 21="0.119736" 22="0.747449" 30="1895.008467" 31="7.789237" 32="-4802.474309"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="94" char_steam_id="-1" time_alive="13677">
+			<object type="29" id="94" char_steam_id="-1" time_alive="4750">
 				<bounds>
 					<min x="-0.8" y="-0.15" z="-0.8"/>
 					<max x="0.8" y="0.15" z="0.8"/>
 				</bounds>
-				<transform 00="0.999999" 01="-0.000007" 02="-0.001331" 10="0.000007" 11="1" 12="0.000083" 20="0.001331" 21="-0.000083" 22="0.999999" 30="1905.592794" 31="7.590275" 32="-4842.406673"/>
+				<transform 00="0.999999" 01="0.000024" 02="-0.00134" 10="-0.000024" 11="1" 12="0.000025" 20="0.00134" 21="-0.000025" 22="0.999999" 30="1905.592812" 31="7.590175" 32="-4842.406634"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="95" char_steam_id="-1" time_alive="13677">
+			<object type="29" id="95" char_steam_id="-1" time_alive="4750">
 				<bounds>
 					<min x="-0.8" y="-0.15" z="-0.8"/>
 					<max x="0.8" y="0.15" z="0.8"/>
 				</bounds>
-				<transform 00="-0.114545" 01="-0.000178" 02="-0.993418" 10="-0.000125" 11="1" 12="-0.000165" 20="0.993418" 21="0.000105" 22="-0.114545" 30="1905.590051" 31="7.840001" 32="-4842.407093"/>
+				<transform 00="-0.114546" 01="-0.00015" 02="-0.993418" 10="-0.000088" 11="1" 12="-0.000141" 20="0.993418" 21="0.000071" 22="-0.114547" 30="1905.59011" 31="7.840018" 32="-4842.40699"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="96" char_steam_id="-1" time_alive="13677">
+			<object type="29" id="96" char_steam_id="-1" time_alive="4750">
 				<bounds>
 					<min x="-0.8" y="-0.15" z="-0.8"/>
 					<max x="0.8" y="0.15" z="0.8"/>
 				</bounds>
-				<transform 00="0.984326" 01="0.000104" 02="0.176359" 10="-0.000065" 11="1" 12="-0.000227" 20="-0.176359" 21="0.000212" 22="0.984326" 30="1905.594005" 31="8.08995" 32="-4842.410001"/>
+				<transform 00="0.984324" 01="0.000065" 02="0.17637" 10="-0.00003" 11="1" 12="-0.0002" 20="-0.17637" 21="0.000192" 22="0.984324" 30="1905.594129" 31="8.089969" 32="-4842.409806"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="97" char_steam_id="-1" time_alive="13677">
+			<object type="29" id="97" char_steam_id="-1" time_alive="4750">
 				<bounds>
 					<min x="-0.8" y="-0.15" z="-0.8"/>
 					<max x="0.8" y="0.15" z="0.8"/>
 				</bounds>
-				<transform 00="0.999999" 01="0.000186" 02="0.001515" 10="-0.000186" 11="1" 12="-0.000311" 20="-0.001515" 21="0.000311" 22="0.999999" 30="1905.59108" 31="8.339808" 32="-4842.408988"/>
+				<transform 00="0.999999" 01="0.000147" 02="0.001538" 10="-0.000147" 11="1" 12="-0.000282" 20="-0.001538" 21="0.000282" 22="0.999999" 30="1905.591268" 31="8.339831" 32="-4842.40873"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="98" char_steam_id="-1" time_alive="13677">
+			<object type="29" id="98" char_steam_id="-1" time_alive="4750">
 				<bounds>
 					<min x="-0.8" y="-0.15" z="-0.8"/>
 					<max x="0.8" y="0.15" z="0.8"/>
 				</bounds>
-				<transform 00="0.189336" 01="0.000413" 02="0.981912" 10="-0.000266" 11="1" 12="-0.000369" 20="-0.981912" 21="-0.000191" 22="0.189336" 30="1905.590785" 31="8.589709" 32="-4842.409919"/>
+				<transform 00="0.189311" 01="0.000376" 02="0.981917" 10="-0.000224" 11="1" 12="-0.00034" 20="-0.981917" 21="-0.000155" 22="0.189311" 30="1905.590984" 31="8.589735" 32="-4842.409606"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="99" char_steam_id="-1" time_alive="13677">
+			<object type="29" id="99" char_steam_id="-1" time_alive="4750">
 				<bounds>
 					<min x="-0.8" y="-0.15" z="-0.8"/>
 					<max x="0.8" y="0.15" z="0.8"/>
 				</bounds>
-				<transform 00="0.953517" 01="0.000414" 02="0.301339" 10="-0.000302" 11="1" 12="-0.00042" 20="-0.301339" 21="0.00031" 22="0.953517" 30="1905.590157" 31="8.839647" 32="-4842.410626"/>
+				<transform 00="0.95351" 01="0.000366" 02="0.301361" 10="-0.000259" 11="1" 12="-0.000393" 20="-0.301361" 21="0.000297" 22="0.95351" 30="1905.590346" 31="8.839674" 32="-4842.410292"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="100" char_steam_id="-1" time_alive="13677">
+			<object type="29" id="100" char_steam_id="-1" time_alive="4750">
 				<bounds>
 					<min x="-0.8" y="-0.15" z="-0.8"/>
 					<max x="0.8" y="0.15" z="0.8"/>
@@ -5573,8 +5650,12 @@
 				<transform 00="0.954118" 01="-0" 02="-0.299431" 10="0" 11="1" 12="0" 20="0.299431" 21="-0" 22="0.954118" 30="1905.59135" 31="7.590335" 32="-4840.621642"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="4" id="101" char_steam_id="-1">
-				<transform 30="4130.78656" 31="8.927777" 32="-5890.217125"/>
+			<object type="4" id="101" char_steam_id="-1" time_alive="2903">
+				<bounds>
+					<min x="-0.275" y="-0.275" z="-0.275"/>
+					<max x="0.275" y="0.275" z="0.275"/>
+				</bounds>
+				<transform 00="1" 01="-0" 02="-0.000611" 10="0" 11="1" 12="0" 20="0.000611" 21="-0" 22="1" 30="4130.786471" 31="8.896816" 32="-5890.216154"/>
 				<flare_color g="0" b="0"/>
 			</object>
 			<object type="28" id="102" char_steam_id="-1">
@@ -16957,12 +17038,12 @@
 				<transform 30="64074.942795" 32="57799.095108"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="1" id="2947" char_network_peer_id="0" char_steam_id="76561198195609338" char_outfit="2" network_name="Капитан Дик Чижик" fishing_float_movable_id="4294967295" fishing_hook_movable_id="4294967295" time_alive="13677">
+			<object type="1" id="2947" char_network_peer_id="0" char_steam_id="76561198195609338" char_outfit="2" network_name="Капитан Дик Чижик" fishing_float_movable_id="4294967295" fishing_hook_movable_id="4294967295" time_alive="2963">
 				<bounds>
 					<min x="-0.22" y="-0.8" z="-0.22"/>
 					<max x="0.22" y="0.8" z="0.22"/>
 				</bounds>
-				<char_tail_offset x="0.291167" z="0.406475"/>
+				<char_tail_offset x="0.166214" z="-0.471564"/>
 				<visual_data is_male="true" hair_mesh="6" upper_mesh="3" mid_mesh="3" lower_mesh="3" hat_mesh="49" clothing_mesh="42" chest_style="4" leg_style="1" feet_style="1" is_generated="true">
 					<color_skin r="247" g="187" b="148"/>
 					<color_legs_upper r="20" g="20" b="20"/>
@@ -16974,12 +17055,12 @@
 					<color_mesh_mask r="68" g="69" b="69"/>
 					<color_mesh_clothing r="0" g="0" b="0"/>
 				</visual_data>
-				<char_orientation x="-2.765058" y="0.016283"/>
+				<char_orientation x="0.484643" y="-0.187778"/>
 				<inventory_data>
 					<character_item_2 item="15" oxygen="100"/>
 					<character_item_3 item="6"/>
 				</inventory_data>
-				<transform 30="1323.29051" 31="7.705123" 32="-3767.04699"/>
+				<transform 30="3833.959951" 31="6.214494" 32="-5368.292843"/>
 				<flare_color g="0" b="0"/>
 			</object>
 		</pseudo_data>
@@ -16990,7 +17071,7 @@
 	<missions_global>
 		<tracked_fires/>
 	</missions_global>
-	<ocean ocean_time="13677"/>
+	<ocean ocean_time="4750"/>
 	<tech_tree>
 		<active_research/>
 	</tech_tree>
@@ -20669,21 +20750,7 @@
 		</zone>
 	</cargo>
 	<ropes>
-		<inactive_ropes>
-			<r rope_type="1" spool_slack="0.35" rope_length="1.5" character_peer_id="65535" movable_id_0="4294967295" movable_id_1="4294967295">
-				<bounds>
-					<min x="1313.689819" y="-1.992317" z="-3780.649902"/>
-					<max x="1333.715454" y="18.007687" z="-3759.154297"/>
-				</bounds>
-				<color r="204" g="39" b="39"/>
-				<anchor_a vehicle_id="321" body_id="183">
-					<voxel_pos x="-3" y="-7" z="43"/>
-				</anchor_a>
-				<anchor_b vehicle_id="321" body_id="183">
-					<voxel_pos x="3" y="-7" z="43"/>
-				</anchor_b>
-			</r>
-		</inactive_ropes>
+		<inactive_ropes/>
 		<active_ropes/>
 		<inactive_nets/>
 		<active_nets/>
@@ -37176,126 +37243,126 @@
 			</r>
 		</minerals>
 	</mineral_manager>
-	<wildlife fish_uid="35">
+	<wildlife fish_uid="52">
 		<fish>
-			<f fish_type="20" uid="1" state_ticks="13675" jump_timer="180" out_of_water_timer="2000" scale="1" despawn_ticks="276">
-				<transform 00="0.580706" 01="0.017601" 02="0.813923" 10="0.730323" 11="0.430507" 12="-0.53037" 20="-0.359735" 21="0.902416" 22="0.237143" 30="1289.787846" 31="-4.98072" 32="-3866.356644"/>
-				<target_heading x="0.812298" z="-0.583243"/>
+			<f fish_type="39" uid="25" state_ticks="2661" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="-0.946202" 01="-0.03691" 02="-0.321465" 10="-0.304493" 11="0.437703" 12="0.845991" 20="0.109481" 21="0.898362" 22="-0.425394" 30="3851.183825" 31="-4.980122" 32="-5316.012092"/>
+				<target_heading x="-0.310555" z="0.950555"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="33" uid="3" state_ticks="13673" jump_timer="180" out_of_water_timer="2000" scale="1">
-				<transform 00="0.998116" 01="-0.057463" 02="-0.021518" 10="-0.022683" 11="-0.019692" 12="-0.999549" 20="0.057014" 21="0.998153" 22="-0.020958" 30="1204.731765" 31="-5.018074" 32="-3677.712226"/>
-				<target_heading x="-0.967771" z="0.251832"/>
+			<f fish_type="21" uid="26" state_ticks="2660" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="0.20056" 01="0" 02="-0.979682" 10="-0.892505" 11="0.412372" 12="-0.182713" 20="0.403993" 21="0.911016" 22="0.082705" 30="3837.52431" 31="-12.006736" 32="-5354.285579"/>
+				<target_heading x="-0.979681" z="-0.20056"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="37" uid="6" state_ticks="13670" jump_timer="180" out_of_water_timer="2000" scale="1">
-				<transform 00="0.030936" 01="0.066078" 02="0.997335" 10="0.991945" 11="-0.124656" 12="-0.02251" 20="0.122836" 21="0.989997" 22="-0.069403" 30="1244.083124" 31="-8.223868" 32="-3787.750406"/>
-				<target_heading x="-0.26516" z="-0.964205"/>
+			<f fish_type="16" uid="27" state_ticks="2659" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="0.225546" 01="0.016684" 02="-0.97409" 10="-0.887451" 11="0.416035" 12="-0.198359" 20="0.401946" 21="0.909196" 22="0.108641" 30="3889.243406" 31="-5.975941" 32="-5373.678492"/>
+				<target_heading x="-0.972073" z="-0.234679"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="27" uid="7" state_ticks="13669" jump_timer="180" out_of_water_timer="2000" scale="1" turn_factor="-0">
-				<transform 00="0.98132" 01="-0.176855" 02="-0.075719" 10="-0.021717" 11="0.28923" 12="-0.957013" 20="0.191153" 21="0.940781" 22="0.279986" 30="1203.975572" 31="-5.025912" 32="-3711.035148"/>
-				<target_heading x="-0.897936" z="-0.440127"/>
+			<f fish_type="38" uid="28" state_ticks="2658" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="0.125225" 01="-0.014843" 02="0.992017" 10="0.895242" 11="0.432657" 12="-0.106535" 20="-0.427622" 21="0.901436" 22="0.067468" 30="3724.536487" 31="-5.018304" 32="-5360.387119"/>
+				<target_heading x="0.990285" z="-0.139056"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="30" uid="8" state_ticks="13668" jump_timer="180" out_of_water_timer="2000" scale="1">
-				<transform 00="0.999125" 01="0.031579" 02="-0.027427" 10="-0.022433" 11="-0.14886" 12="-0.988604" 20="-0.035302" 21="0.988354" 22="-0.148022" 30="1202.886587" 31="-4.977328" 32="-3759.023111"/>
-				<target_heading x="-0.998996" z="-0.044808"/>
+			<f fish_type="2" uid="29" state_ticks="2657" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="0.918355" 01="-0.005906" 02="0.395714" 10="0.360165" 11="0.426898" 12="-0.829482" 20="-0.164031" 21="0.904281" 22="0.394171" 30="3883.573679" 31="-4.978805" 32="-5251.576207"/>
+				<target_heading x="0.394352" z="-0.91896"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="24" uid="9" state_ticks="13667" jump_timer="180" out_of_water_timer="2000" scale="1">
-				<transform 00="0.999691" 01="0.016096" 02="-0.01895" 10="-0.0221" 11="0.226038" 12="-0.973868" 20="-0.011392" 21="0.973986" 22="0.226324" 30="1203.134153" 31="-5.009021" 32="-3748.113742"/>
-				<target_heading x="-0.743813" z="-0.668388"/>
+			<f fish_type="38" uid="30" state_ticks="2656" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="-0.185864" 01="0.044258" 02="-0.981578" 10="-0.883439" 11="0.429761" 12="0.186658" 20="0.430105" 21="0.901858" 22="-0.040778" 30="3831.392708" 31="-5.041029" 32="-5331.470749"/>
+				<target_heading x="-0.98507" z="0.172154"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="28" uid="10" state_ticks="13666" jump_timer="180" out_of_water_timer="2000" scale="1">
-				<transform 00="0.785058" 01="-0.045447" 02="-0.617752" 10="-0.588029" 11="0.258789" 12="-0.766323" 20="0.194694" 21="0.964864" 22="0.176441" 30="1285.910129" 31="-4.955196" 32="-3742.738734"/>
-				<target_heading x="-0.607402" z="-0.794395"/>
+			<f fish_type="37" uid="31" state_ticks="2655" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="-0.986092" 01="0.002311" 02="0.166183" 10="0.153317" 11="0.398632" 12="0.904205" 20="-0.064156" 21="0.917108" 22="-0.393442" 30="3883.817285" 31="-5.042691" 32="-5351.552172"/>
+				<target_heading x="0.162156" z="0.986765"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="24" uid="12" state_ticks="13664" jump_timer="180" out_of_water_timer="2000" scale="1">
-				<transform 00="-0.662017" 01="0.024112" 02="-0.749101" 10="-0.690391" 11="0.369391" 12="0.622022" 20="0.291709" 21="0.928961" 22="-0.227896" 30="1215.760688" 31="-5.036477" 32="-3673.985265"/>
-				<target_heading x="-0.743737" z="0.668473"/>
+			<f fish_type="31" uid="32" state_ticks="2654" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="-0.917758" 01="0" 02="0.397139" 10="0.364295" 11="0.398199" 12="0.841859" 20="-0.158141" 21="0.917299" 22="-0.365451" 30="3732.690901" 31="-10.502226" 32="-5306.689225"/>
+				<target_heading x="0.397139" z="0.917758"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="18" uid="13" state_ticks="13663" jump_timer="180" out_of_water_timer="2000" scale="1">
-				<transform 00="-0.997036" 01="0.076839" 02="0.003781" 10="0.022035" 11="0.23813" 12="0.970983" 20="0.073709" 21="0.968189" 22="-0.239117" 30="1204.562918" 31="-4.992049" 32="-3685.152725"/>
-				<target_heading x="-0.73485" z="0.678229"/>
+			<f fish_type="24" uid="34" state_ticks="2652" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="-0.805186" 01="0.002245" 02="-0.593018" 10="-0.541549" 11="0.404719" 12="0.736836" 20="0.24166" 21="0.914438" 22="-0.324659" 30="3937.15123" 31="-5.385339" 32="-5324.687164"/>
+				<target_heading x="-0.589519" z="0.807755"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="30" uid="14" state_ticks="13662" jump_timer="180" out_of_water_timer="2000" scale="1" turn_factor="0" despawn_ticks="13">
-				<transform 00="0.958236" 01="-0.000832" 02="-0.285978" 10="-0.260259" 11="0.411934" 12="-0.873256" 20="0.118531" 21="0.911213" 22="0.394513" 30="1176.791995" 31="-5.016937" 32="-3799.505945"/>
-				<target_heading x="-0.28724" z="-0.957861"/>
+			<f fish_type="27" uid="36" state_ticks="2650" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="0.936411" 01="0.004094" 02="-0.350882" 10="-0.320813" 11="0.415122" 12="-0.851324" 20="0.142174" 21="0.909756" 22="0.390038" 30="3808.699659" 31="-4.984387" 32="-5260.869906"/>
+				<target_heading x="-0.349508" z="-0.936933"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="8" uid="17" state_ticks="13659" jump_timer="180" out_of_water_timer="2000" scale="1" turn_factor="0">
-				<transform 00="0.351984" 01="-0.023002" 02="0.935723" 10="0.872725" 11="0.369402" 12="-0.319206" 20="-0.338316" 21="0.928985" 22="0.150098" 30="1287.194453" 31="-5.05409" 32="-3807.922528"/>
-				<target_heading x="0.929895" z="-0.367824"/>
+			<f fish_type="30" uid="37" state_ticks="2649" jump_timer="180" out_of_water_timer="2000" scale="1" despawn_ticks="30">
+				<transform 00="0.552491" 01="0.004321" 02="-0.833507" 10="-0.760569" 11="0.41173" 12="-0.50201" 20="0.341011" 21="0.911296" 22="0.230763" 30="3879.130693" 31="-4.992251" 32="-5238.93302"/>
+				<target_heading x="-0.843444" z="-0.537217"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="20" uid="18" state_ticks="13658" jump_timer="180" out_of_water_timer="2000" scale="1" turn_factor="0">
-				<transform 00="0.454051" 01="-0.005968" 02="0.890956" 10="0.80179" 11="0.43882" 12="-0.405671" 20="-0.388548" 21="0.898555" 22="0.204032" 30="1391.736597" 31="-5.014302" 32="-3865.636479"/>
-				<target_heading x="0.891232" z="-0.453548"/>
+			<f fish_type="21" uid="38" state_ticks="2648" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="0.117921" 01="-0" 02="0.993023" 10="0.904659" 11="0.412373" 12="-0.107427" 20="-0.409495" 21="0.911015" 22="0.048627" 30="3806.512434" 31="-11.352502" 32="-5359.326089"/>
+				<target_heading x="0.993023" z="-0.117921"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="28" uid="19" state_ticks="13657" jump_timer="180" out_of_water_timer="2000" scale="1">
-				<transform 00="0.182782" 01="0.015008" 02="-0.983039" 10="-0.947393" 11="0.269908" 12="-0.172034" 20="0.262748" 21="0.962769" 22="0.063553" 30="1259.733661" 31="-5.037373" 32="-3809.779286"/>
-				<target_heading x="-0.983389" z="-0.18151"/>
+			<f fish_type="38" uid="39" state_ticks="2647" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="-0.819688" 01="0.077804" 02="0.567502" 10="0.530255" 11="0.477799" 12="0.700384" 20="-0.216659" 21="0.875017" 22="-0.432902" 30="3724.889955" 31="-4.899673" 32="-5335.41516"/>
+				<target_heading x="0.566613" z="0.823984"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="2" uid="22" state_ticks="13654" jump_timer="180" out_of_water_timer="2000" scale="1">
-				<transform 00="0.993951" 01="0.107365" 02="-0.023133" 10="-0.022681" 11="-0.005428" 12="-0.999728" 20="-0.107461" 21="0.994205" 22="-0.00296" 30="1202.26036" 31="-5.003619" 32="-3786.618784"/>
-				<target_heading x="-0.535927" z="-0.844264"/>
+			<f fish_type="28" uid="40" state_ticks="2646" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="-0.999679" 01="-0.024471" 02="-0.006628" 10="-0.013579" 11="0.296018" 12="0.955086" 20="-0.02141" 21="0.954869" 22="-0.296256" 30="3760.614695" 31="-4.989851" 32="-5421.453299"/>
+				<target_heading x="-0.016385" z="0.999866"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="39" uid="25" state_ticks="12147" jump_timer="180" out_of_water_timer="2000" scale="1" turn_factor="0">
-				<transform 00="0.637625" 01="0.015994" 02="0.770181" 10="0.691415" 11="0.428961" 12="-0.581324" 20="-0.339676" 21="0.903181" 22="0.262458" 30="1373.279688" 31="-5.016318" 32="-3816.2449"/>
-				<target_heading x="0.757124" z="-0.653272"/>
+			<f fish_type="30" uid="41" state_ticks="2645" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="0.841711" 01="0.003148" 02="0.539918" 10="0.492738" 11="0.404369" 12="-0.770516" 20="-0.220752" 21="0.91459" 22="0.338811" 30="3777.416812" 31="-7.686283" 32="-5303.575633"/>
+				<target_heading x="0.538958" z="-0.842333"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="38" uid="26" state_ticks="10897" jump_timer="180" out_of_water_timer="2000" scale="1" turn_factor="0">
-				<transform 00="0.570319" 01="0.009516" 02="0.821368" 10="0.741592" 11="0.424039" 12="-0.519839" 20="-0.353239" 21="0.905594" 22="0.23478" 30="1375.831299" 31="-5.01626" 32="-3859.10039"/>
-				<target_heading x="0.816269" z="-0.57767"/>
+			<f fish_type="20" uid="42" state_ticks="2644" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="-0.985053" 01="0.000112" 02="-0.17225" 10="-0.15505" 11="0.435017" 12="0.886972" 20="0.075032" 21="0.900422" 22="-0.428498" 30="3768.23046" 31="-9.5821" 32="-5320.675991"/>
+				<target_heading x="-0.172226" z="0.985058"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="15" uid="27" state_ticks="10821" jump_timer="180" out_of_water_timer="2000" scale="1" turn_factor="-0">
-				<transform 00="0.4076" 01="0.008651" 02="-0.91312" 10="-0.828575" 11="0.423817" 12="-0.365845" 20="0.383831" 21="0.905707" 22="0.179915" 30="1192.071762" 31="-4.981088" 32="-3799.818235"/>
-				<target_heading x="-0.910445" z="-0.413636"/>
+			<f fish_type="28" uid="43" state_ticks="2643" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="0.9923" 01="0.016408" 02="0.122764" 10="0.112906" 11="0.287626" 12="-0.951064" 20="-0.050915" 21="0.957602" 22="0.283559" 30="3865.401535" 31="-4.957591" 32="-5258.045877"/>
+				<target_heading x="0.119812" z="-0.992797"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="18" uid="28" state_ticks="10773" jump_timer="180" out_of_water_timer="2000" scale="1" turn_factor="0">
-				<transform 00="0.333262" 01="-0.048249" 02="0.941599" 10="0.859946" 11="0.425018" 12="-0.282584" 20="-0.386562" 21="0.903898" 22="0.183134" 30="1422.46384" 31="-5.038156" 32="-3749.291245"/>
-				<target_heading x="0.942" z="-0.335612"/>
+			<f fish_type="20" uid="45" state_ticks="2641" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="0.74195" 01="-0.012547" 02="0.670338" 10="0.606448" 11="0.438892" 12="-0.663019" 20="-0.285887" 21="0.898452" 22="0.333245" 30="3782.280024" 31="-5.067588" 32="-5267.661214"/>
+				<target_heading x="0.671319" z="-0.741169"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="18" uid="29" state_ticks="10703" jump_timer="180" out_of_water_timer="2000" scale="1">
-				<transform 00="-0.201092" 01="0.008886" 02="0.979532" 10="0.890834" 11="0.41754" 12="0.179095" 20="-0.407403" 21="0.908615" 22="-0.09188" 30="1348.51769" 31="-5.008025" 32="-3703.170899"/>
-				<target_heading x="0.982709" z="0.185154"/>
+			<f fish_type="16" uid="46" state_ticks="2640" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="0.443077" 01="-0.000434" 02="0.896484" 10="0.81255" 11="0.422669" 12="-0.401389" 20="-0.378742" 21="0.906284" 22="0.187627" 30="3733.57676" 31="-4.967533" 32="-5333.293955"/>
+				<target_heading x="0.900814" z="-0.434205"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="37" uid="30" state_ticks="8729" jump_timer="180" out_of_water_timer="2000" scale="1" despawn_ticks="107">
-				<transform 00="0.065117" 01="-0.011078" 02="-0.997816" 10="-0.914726" 11="0.398954" 12="-0.064124" 20="0.398793" 21="0.916904" 22="0.015845" 30="1187.592004" 31="-5.014458" 32="-3835.157965"/>
-				<target_heading x="-0.997532" z="-0.070218"/>
+			<f fish_type="28" uid="47" state_ticks="2639" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="-0.211507" 01="-0" 02="0.977377" 10="0.938937" 11="0.27769" 12="0.203188" 20="-0.271408" 21="0.960671" 22="-0.058733" 30="3753.712776" 31="-12.964602" 32="-5342.864827"/>
+				<target_heading x="0.977377" z="0.211507"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="28" uid="31" state_ticks="8432" jump_timer="180" out_of_water_timer="2000" scale="1" turn_factor="0">
-				<transform 00="-0.350972" 01="0.013722" 02="0.936285" 10="0.905857" 11="0.258213" 12="0.335781" 20="-0.237154" 21="0.965991" 22="-0.103056" 30="1385.224181" 31="-5.042946" 32="-3788.360577"/>
-				<target_heading x="0.940507" z="0.33977"/>
+			<f fish_type="38" uid="48" state_ticks="2171" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="-0.247518" 01="0.005209" 02="-0.968869" 10="-0.870451" 11="0.437964" 12="0.22473" 20="0.4255" 21="0.898978" 22="-0.10387" 30="3920.408979" 31="-5.033571" 32="-5349.870845"/>
+				<target_heading x="-0.970387" z="0.241555"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="27" uid="32" state_ticks="7477" jump_timer="180" out_of_water_timer="2000" scale="1" turn_factor="0">
-				<transform 00="0.393045" 01="-0.060152" 02="0.91755" 10="0.841925" 11="0.424739" 12="-0.332806" 20="-0.3697" 21="0.903315" 22="0.217585" 30="1397.652614" 31="-5.022836" 32="-3832.713223"/>
-				<target_heading x="0.9195" z="-0.393094"/>
+			<f fish_type="8" uid="49" state_ticks="2052" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="-0.01246" 01="0.007672" 02="-0.999893" 10="-0.927608" 11="0.373276" 12="0.014424" 20="0.373347" 21="0.927689" 22="0.002466" 30="3869.615415" 31="-7.781829" 32="-5377.130623"/>
+				<target_heading x="-0.999896" z="0.014437"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="27" uid="33" state_ticks="5382" jump_timer="180" out_of_water_timer="2000" scale="1">
-				<transform 00="0.413524" 01="0.001058" 02="0.910493" 10="0.819963" 11="0.434279" 12="-0.372912" 20="-0.395802" 21="0.900778" 22="0.178717" 30="1331.463882" 31="-4.978522" 32="-3783.161068"/>
-				<target_heading x="0.909769" z="-0.415115"/>
+			<f fish_type="28" uid="50" state_ticks="1971" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="0.300069" 01="0.009963" 02="0.953866" 10="0.916347" 11="0.27486" 12="-0.291137" 20="-0.26508" 21="0.961433" 22="0.073348" 30="3769.784009" 31="-5.001399" 32="-5265.984867"/>
+				<target_heading x="0.952355" z="-0.30499"/>
 				<flee_heading z="1"/>
 			</f>
-			<f fish_type="2" uid="34" state_ticks="2405" jump_timer="180" out_of_water_timer="2000" scale="1">
-				<transform 00="-0.169076" 01="0.051995" 02="0.984231" 10="0.898829" 11="0.417845" 12="0.132332" 20="-0.404375" 21="0.907029" 22="-0.117382" 30="1259.845104" 31="-5.027824" 32="-3691.002647"/>
-				<target_heading x="0.988312" z="0.152442"/>
+			<f fish_type="31" uid="51" state_ticks="1934" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="-0.969553" 01="0.012108" 02="-0.244581" 10="-0.220124" 11="0.394516" 12="0.892133" 20="0.107293" 21="0.918809" 22="-0.379839" 30="3893.492024" 31="-5.023635" 32="-5351.221625"/>
+				<target_heading x="-0.247106" z="0.968989"/>
 				<flee_heading z="1"/>
 			</f>
 		</fish>
@@ -37491,7 +37558,7 @@
 			</fishing_hotspot>
 		</fishing_hotspots>
 	</wildlife>
-	<oil_spill oil_chunk_index="365" oil_data_src="1" oil_data_dst="0" oil_texture_src="1" oil_texture_dst="2" oil_texture_upl="0"/>
+	<oil_spill oil_chunk_index="719" oil_texture_src="1" oil_texture_dst="2" oil_texture_upl="0"/>
 	<test_location>
 		<test_location/>
 		<test_location/>

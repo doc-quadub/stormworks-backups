@@ -41,6 +41,16 @@ SLEEPER_MERGE_MAX_ANGLE = math.radians(12.0)
 SLEEPER_EXTENSION_MARGIN = 0.35
 SLEEPER_MAX_HALF_SPAN = 4.5
 
+# Ballast prism: the crushed stone bed the sleepers lie in, a trapezoid in cross-section.
+# Its top is a little below the sleeper top (only the sleeper tops and the ends show), the
+# slopes run down into the ground. Heights relative to the sleeper top.
+BALLAST_TOP_BELOW_SLEEPER = 0.03
+BALLAST_TOP_HALF_WIDTH = 1.18
+BALLAST_BOTTOM_HALF_WIDTH = 1.63
+BALLAST_BOTTOM_BELOW_SLEEPER = SLEEPER_HEIGHT     # level of the sleeper bottom, inside the ground
+BALLAST_PIECE_LENGTH = 4.0
+COLOR_BALLAST = (82, 80, 76, 255)                 # same as the recoloured track bed of the terrain
+
 COLOR_RAIL_SIDE = (62, 56, 52, 255)
 COLOR_RAIL_TOP = (150, 148, 145, 255)
 COLOR_SLEEPER = (138, 136, 130, 255)
@@ -157,8 +167,11 @@ def build_chains(nodes):
         p = nodes[k][0]
         if len(nbrs) == 2:
             a, b = nbrs
-            pair[(k, a)] = b
-            pair[(k, b)] = a
+            # Two links leaving on the same side are not a line through the node: it is a
+            # switch whose third link is in the neighbouring tile (switch on the tile border).
+            if dot(horizontal_dir(p, nodes[a][0]), horizontal_dir(p, nodes[b][0])) < 0:
+                pair[(k, a)] = b
+                pair[(k, b)] = a
         elif len(nbrs) >= 3:
             best = None
             for i in range(len(nbrs)):
@@ -309,21 +322,29 @@ def without_collinear_points(profile):
 
 
 def oriented_rect_overlap(c1, u1, span1, t1, hw1, c2, u2, span2, t2, hw2):
-    """Separating-axis test for two horizontal rectangles given by centre, axes and extents."""
-    def corners(c, u, span, t, hw):
-        pts = []
-        for su in span:
-            for st in (-hw, hw):
-                p = add(add(c, mul(u, su)), mul(t, st))
-                pts.append((p[0], p[2]))
-        return pts
+    """Separating-axis test for two horizontal rectangles given by centre, axes and extents.
 
-    a = corners(c1, u1, span1, t1, hw1)
-    b = corners(c2, u2, span2, t2, hw2)
-    for axis in ((u1[0], u1[2]), (t1[0], t1[2]), (u2[0], u2[2]), (t2[0], t2[2])):
-        pa = [p[0] * axis[0] + p[1] * axis[1] for p in a]
-        pb = [p[0] * axis[0] + p[1] * axis[1] for p in b]
-        if max(pa) < min(pb) or max(pb) < min(pa):
+    Rectangle: points c + u*s + t*w with s in span, |w| <= hw (u, t horizontal unit vectors).
+    Its projection on an axis k is an interval centred at k.c + (k.u)*(s0+s1)/2 with half length
+    |k.u|*(s1-s0)/2 + |k.t|*hw - computed directly, without building the corners."""
+    # Quick exact reject: rectangles whose bounding circles do not touch cannot overlap.
+    r1 = math.sqrt(max(span1[0] * span1[0], span1[1] * span1[1]) + hw1 * hw1)
+    r2 = math.sqrt(max(span2[0] * span2[0], span2[1] * span2[1]) + hw2 * hw2)
+    dx, dz = c1[0] - c2[0], c1[2] - c2[2]
+    if dx * dx + dz * dz > (r1 + r2) * (r1 + r2):
+        return False
+    mid1, half1 = (span1[0] + span1[1]) / 2, (span1[1] - span1[0]) / 2
+    mid2, half2 = (span2[0] + span2[1]) / 2, (span2[1] - span2[0]) / 2
+    for kx, kz in ((u1[0], u1[2]), (t1[0], t1[2]), (u2[0], u2[2]), (t2[0], t2[2])):
+        ku1 = kx * u1[0] + kz * u1[2]
+        kt1 = kx * t1[0] + kz * t1[2]
+        ku2 = kx * u2[0] + kz * u2[2]
+        kt2 = kx * t2[0] + kz * t2[2]
+        centre1 = kx * c1[0] + kz * c1[2] + ku1 * mid1
+        centre2 = kx * c2[0] + kz * c2[2] + ku2 * mid2
+        extent1 = abs(ku1) * half1 + abs(kt1) * hw1
+        extent2 = abs(ku2) * half2 + abs(kt2) * hw2
+        if abs(centre1 - centre2) > extent1 + extent2:
             return False
     return True
 
@@ -603,10 +624,44 @@ def sample_chain(points, spacing, phase):
         s_base += seg_len
 
 
+OVERLAP_DROP = 0.01
+
+
+def sleeper_reach_along(other, u):
+    """How far another sleeper reaches across a line of direction u (projected half extent)."""
+    return abs(dot(other.axis_u, u)) * max(-other.span[0], other.span[1]) + \
+        abs(dot(other.axis_t, u)) * SLEEPER_HALF_WIDTH
+
+
+def try_merge(overlapping, rails, t):
+    """Extend one of the overlapping sleepers so it also carries `rails` (a long turnout
+    timber). Only for tracks crossing at a small angle and while the timber stays within
+    SLEEPER_MAX_HALF_SPAN; otherwise return False and the caller places a separate sleeper."""
+    if not overlapping:
+        return False
+    for other in overlapping:
+        angle = math.acos(max(-1.0, min(1.0, abs(dot(t, other.axis_t)))))
+        if angle >= SLEEPER_MERGE_MAX_ANGLE:
+            return False
+    for other in sorted(overlapping, key=lambda o: o.span[1] - o.span[0]):
+        lo, hi = other.span
+        for r in rails:
+            s = dot(sub(r, other.center), other.axis_u)
+            lo = min(lo, s - SLEEPER_EXTENSION_MARGIN)
+            hi = max(hi, s + SLEEPER_EXTENSION_MARGIN)
+        if lo >= -SLEEPER_MAX_HALF_SPAN and hi <= SLEEPER_MAX_HALF_SPAN:
+            other.span[0], other.span[1] = lo, hi
+            return True
+    return False
+
+
 def place_sleepers(chains_points):
     """Place sleepers for all chains; overlapping ones are merged into long timbers."""
     placed = []
     grid = {}
+    # largest bounding-circle radius of any placed sleeper (grows when timbers are extended);
+    # the neighbour search only needs to reach this far
+    largest_reach = [0.0]
 
     def cells_near(c, radius=6.0):
         cx, cz = int(c[0] // 5), int(c[2] // 5)
@@ -627,27 +682,43 @@ def place_sleepers(chains_points):
             span = [-SLEEPER_HALF_LENGTH, SLEEPER_HALF_LENGTH]
             rails = [add(pos, mul(u, -RAIL_HALF_GAUGE)), add(pos, mul(u, RAIL_HALF_GAUGE))]
 
-            merged = False
-            for other in cells_near(pos):
-                if not oriented_rect_overlap(pos, u, span, t, SLEEPER_HALF_WIDTH,
-                                             other.center, other.axis_u, other.span,
-                                             other.axis_t, SLEEPER_HALF_WIDTH):
+            # bounding-circle pre-check inline (exact, only skips pairs that cannot overlap)
+            reach = math.sqrt(SLEEPER_HALF_LENGTH * SLEEPER_HALF_LENGTH +
+                              SLEEPER_HALF_WIDTH * SLEEPER_HALF_WIDTH)
+            overlapping = []
+            for o in cells_near(pos, min(6.0, reach + largest_reach[0])):
+                other_reach = math.sqrt(max(o.span[0] * o.span[0], o.span[1] * o.span[1]) +
+                                        SLEEPER_HALF_WIDTH * SLEEPER_HALF_WIDTH)
+                dx, dz = pos[0] - o.center[0], pos[2] - o.center[2]
+                if dx * dx + dz * dz > (reach + other_reach) * (reach + other_reach):
                     continue
-                angle = math.acos(max(-1.0, min(1.0, abs(dot(t, other.axis_t)))))
-                if angle < SLEEPER_MERGE_MAX_ANGLE:
-                    # Extend the existing timber so it carries this track's rails as well.
-                    for r in rails:
-                        s = dot(sub(r, other.center), other.axis_u)
-                        other.span[0] = max(-SLEEPER_MAX_HALF_SPAN,
-                                            min(other.span[0], s - SLEEPER_EXTENSION_MARGIN))
-                        other.span[1] = min(SLEEPER_MAX_HALF_SPAN,
-                                            max(other.span[1], s + SLEEPER_EXTENSION_MARGIN))
-                merged = True
-                break
-            if not merged:
-                s = Sleeper(pos, u, t, span, top_y, chain_index, seg_index, order, d3)
-                placed.append(s)
-                register(s)
+                if oriented_rect_overlap(pos, u, span, t, SLEEPER_HALF_WIDTH,
+                                         o.center, o.axis_u, o.span,
+                                         o.axis_t, SLEEPER_HALF_WIDTH):
+                    overlapping.append(o)
+            if try_merge(overlapping, rails, t):
+                for o in overlapping:
+                    largest_reach[0] = max(largest_reach[0], math.sqrt(
+                        max(o.span[0] * o.span[0], o.span[1] * o.span[1]) +
+                        SLEEPER_HALF_WIDTH * SLEEPER_HALF_WIDTH))
+                continue
+            # Not mergeable (crossing at a large angle, or the timber would get too long):
+            # this track keeps its own sleeper. Shorten it away from the others as far as its
+            # own rails allow, and sit it a centimetre lower so coplanar tops never flicker.
+            for o in overlapping:
+                side = dot(sub(o.center, pos), u)
+                if side > 0:
+                    span[1] = max(RAIL_HALF_GAUGE + SLEEPER_EXTENSION_MARGIN,
+                                  min(span[1], side - sleeper_reach_along(o, u)))
+                else:
+                    span[0] = min(-RAIL_HALF_GAUGE - SLEEPER_EXTENSION_MARGIN,
+                                  max(span[0], side + sleeper_reach_along(o, u)))
+            if overlapping:
+                top_y -= OVERLAP_DROP
+            s = Sleeper(pos, u, t, span, top_y, chain_index, seg_index, order, d3)
+            placed.append(s)
+            register(s)
+            largest_reach[0] = max(largest_reach[0], reach)
     return placed
 
 
@@ -785,35 +856,51 @@ def polys_to_meshes(polys):
     return meshes
 
 
+VERTEX_DTYPE = None
+
+
 def polys_to_mesh(polys):
-    mesh = Mesh()
-    lo = [math.inf] * 3
-    hi = [-math.inf] * 3
+    """Pack polygons (and shared-vertex strips) into one mesh. Vertices go into a numpy record
+    array laid out exactly like the .mesh file (28 bytes each), so writing is a single copy."""
+    import numpy as np
+    global VERTEX_DTYPE
+    if VERTEX_DTYPE is None:
+        from swmesh import vertex_record_dtype
+        VERTEX_DTYPE = vertex_record_dtype()
+    positions, normals, colors, indices = [], [], [], []
     for poly in polys:
-        base = len(mesh.vertices)
+        base = len(positions)
         points = poly[0]
-        for p in points:
-            for i in range(3):
-                lo[i] = min(lo[i], p[i])
-                hi[i] = max(hi[i], p[i])
+        positions.extend(points)
         if len(poly) == 5:
             # shared-vertex strip: per-vertex normals and colours, triangles in game winding
-            _, normals, colors, _, triangles = poly
-            for p, n, color in zip(points, normals, colors):
-                mesh.vertices.append((p[0], p[1], p[2], color[0], color[1], color[2], color[3],
-                                      n[0], n[1], n[2]))
+            _, strip_normals, strip_colors, _, triangles = poly
+            normals.extend(strip_normals)
+            colors.extend(strip_colors)
             for t in triangles:
-                mesh.indices += [base + t[0], base + t[1], base + t[2]]
+                indices += (base + t[0], base + t[1], base + t[2])
             continue
         _, n, color, _ = poly
-        for p in points:
-            mesh.vertices.append((p[0], p[1], p[2], color[0], color[1], color[2], color[3],
-                                  n[0], n[1], n[2]))
+        count = len(points)
+        normals.extend([n] * count)
+        colors.extend([color] * count)
         # Fan triangulation. Game convention: (b-a)x(c-a) points against the normal,
         # so each counter-clockwise triangle (0, i, i+1) is written as (0, i+1, i).
-        for i in range(1, len(points) - 1):
-            mesh.indices += [base, base + i + 1, base + i]
-    mesh.submeshes = [Submesh(0, len(mesh.indices), 0, tuple(lo), tuple(hi))]
+        for i in range(1, count - 1):
+            indices += (base, base + i + 1, base + i)
+    pos = np.array(positions, dtype=np.float64).reshape(-1, 3)
+    data = np.empty(len(pos), dtype=VERTEX_DTYPE)
+    data["x"], data["y"], data["z"] = pos[:, 0], pos[:, 1], pos[:, 2]
+    col = np.array(colors, dtype=np.uint8).reshape(-1, 4)
+    data["r"], data["g"], data["b"], data["a"] = col[:, 0], col[:, 1], col[:, 2], col[:, 3]
+    nrm = np.array(normals, dtype=np.float64).reshape(-1, 3)
+    data["nx"], data["ny"], data["nz"] = nrm[:, 0], nrm[:, 1], nrm[:, 2]
+    mesh = Mesh()
+    mesh.vertices = data
+    mesh.indices = np.array(indices, dtype="<u2")
+    lo = tuple(float(v) for v in pos.min(axis=0))
+    hi = tuple(float(v) for v in pos.max(axis=0))
+    mesh.submeshes = [Submesh(0, len(indices), 0, lo, hi)]
     return mesh
 
 
@@ -931,7 +1018,50 @@ def add_standard_sleeper(builder, template, sleeper):
         builder.polys.append((pts, nn, color, anchor))
 
 
-def build_tile_v4(nodes, node_y, border_cuts, continuing):
+def add_ballast_prism(builder, points, keep=None):
+    """Ballast prism along a rail-top polyline. keep(point) -> bool limits it to some stretches
+    (test areas); each kept stretch is closed with end faces."""
+    points = densify(points, BALLAST_PIECE_LENGTH)
+    if keep is not None:
+        runs, current = [], []
+        for p in points:
+            if keep(p):
+                current.append(p)
+            elif current:
+                runs.append(current)
+                current = []
+        if current:
+            runs.append(current)
+    else:
+        runs = [points]
+    for run in runs:
+        if len(run) < 2:
+            continue
+        offsets = miter_offsets(run)
+        sections = []
+        for p, (n, scale) in zip(run, offsets):
+            top_y = p[1] - RAIL_HEIGHT - BALLAST_TOP_BELOW_SLEEPER
+            bottom_y = p[1] - RAIL_HEIGHT - BALLAST_BOTTOM_BELOW_SLEEPER
+
+            def at(u, y):
+                q = add(p, mul(n, u * scale))
+                return (q[0], y, q[2])
+            # left foot, left top edge, right top edge, right foot (n points left)
+            sections.append([at(BALLAST_BOTTOM_HALF_WIDTH, bottom_y), at(BALLAST_TOP_HALF_WIDTH, top_y),
+                             at(-BALLAST_TOP_HALF_WIDTH, top_y), at(-BALLAST_BOTTOM_HALF_WIDTH, bottom_y)])
+        for i in range(len(run) - 1):
+            a, b = sections[i], sections[i + 1]
+            anchor = ((run[i][0] + run[i + 1][0]) / 2, (run[i][2] + run[i + 1][2]) / 2)
+            n = offsets[i][0]
+            for k, outward in ((0, add(n, (0.0, 0.6, 0.0))), (1, (0.0, 1.0, 0.0)),
+                               (2, add(mul(n, -1.0), (0.0, 0.6, 0.0)))):
+                builder.quad(a[k], b[k], b[k + 1], a[k + 1], COLOR_BALLAST, anchor, outward)
+        for section, p, q in ((sections[0], run[0], run[1]), (sections[-1], run[-1], run[-2])):
+            outward = horizontal_dir(q, p)
+            builder.polygon(section, COLOR_BALLAST, (p[0], p[2]), outward)
+
+
+def build_tile_v4(nodes, node_y, border_cuts, continuing, ballast_keep=None):
     """One tile, fully baked: rails, standard sleepers and turnout bearers in the same meshes."""
     chains = build_chains(nodes)
     builder = Builder()
@@ -946,6 +1076,8 @@ def build_tile_v4(nodes, node_y, border_cuts, continuing):
         build_rails(builder, densify(pts, RAIL_PIECE_LENGTH),
                     capped_start=capped(chain[0]), capped_end=capped(chain[-1]),
                     start_dir=border_cuts.get(chain[0]), end_dir=border_cuts.get(chain[-1]))
+        if ballast_keep is not None:
+            add_ballast_prism(builder, pts, ballast_keep)
     template = _sleeper_template()
     sleepers = place_sleepers(chains_points)
     for s in sleepers:

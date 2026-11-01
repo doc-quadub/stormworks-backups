@@ -2,6 +2,8 @@
 
 Steps (each resumable; run repeatedly until it prints 'done'):
   python3 build_world.py <rom_dir> <work_dir> scan      # find tiles, ballast recolour analysis
+  python3 build_world.py <rom_dir> <work_dir> signs     # kilometre / picket posts (mainland)
+  python3 build_world.py <rom_dir> <work_dir> catenary  # Plus edition only: overhead line plan
   python3 build_world.py <rom_dir> <work_dir> tiles     # rails/bearers meshes + sleeper placements
   python3 build_world.py <rom_dir> <work_dir> assemble  # unique track meshes, ballast meshes, tile XMLs
 
@@ -18,27 +20,48 @@ import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from swmesh import read_mesh_full, write_mesh, write_phys, read_tracks, parse_transform  # noqa: E402
+from swmesh import (read_mesh_full, write_mesh, write_phys, read_tracks, parse_transform,  # noqa: E402
+                    read_vertex_array, VERTEX_COLOR_OFFSET, FIRST_VERTEX_OFFSET)
+import numpy as np  # noqa: E402
 import rails  # noqa: E402
 import smooth  # noqa: E402
+import signs  # noqa: E402
+import catenary  # noqa: E402
 
 MESH_DIR = "meshes/real_track"
 LIB_DIR = MESH_DIR + "/lib"
 BALLAST_DIR = MESH_DIR + "/ballast"
 # dark "rail" strip colour -> ballast colour of the same terrain set
-STRIP_TO_BALLAST = {
-    (45, 34, 32): (174, 150, 121),     # mainland (mega_island), Sawyer, arctic, track pieces
-    (41, 31, 29): (188, 157, 125),     # arid island
+# Test: ballast prism (rails.add_ballast_prism) only inside this box, world x0, x1, z0, z1
+# (internal tile-grid coordinates); None = nowhere. North Harbour station to ~2.3 km east.
+BALLAST_PRISM_TEST_BOX = None
+BALLAST_COLOR = (82, 80, 76)       # dark grey crushed stone
+# Vanilla track bed colours -> (new colour, search radius): vertices of these colours closer
+# than the radius to a track line are repainted. The radius keeps beaches and dirt roads of the
+# same sandy colour untouched; the sandy shoulder reaches ~2.2 m, more between double tracks.
+TRACK_BED_RECOLOR = {
+    (45, 34, 32): (BALLAST_COLOR, 2.5),      # dark rail strips: mainland, Sawyer, arctic, modular
+    (174, 150, 121): (BALLAST_COLOR, 4.0),   # sandy ballast and shoulder of the same set
+    (41, 31, 29): (BALLAST_COLOR, 2.5),      # dark rail strips: arid island
+    (188, 157, 125): (BALLAST_COLOR, 4.0),   # sandy ballast: arid island
 }
-STRIP_SEARCH_RADIUS = 2.5       # strip-coloured vertices this close to a track line get recoloured
+WORKERS = 2                     # parallel tile builders (the PC's shell has 2 cores)
 TIME_BUDGET = 140.0             # seconds per invocation (remote shell calls are time limited)
 CHUNK_SIZE = 250.0              # spatial grid for splitting baked track geometry into meshes
 MIN_COMPONENT_LENGTH = 50.0     # isolated bits of track graph shorter than this are not drawn
 BORDER = 499.5
+SHALLOW_CROSSING_COS = 0.7     # track meets a tile edge at less than ~45 degrees
 
+MOD_NAME = "Stormworks Railway Overhaul (SRO)"
+MOD_VERSION = "1.0.1"
+# with an overhead line plan (step "catenary") the build is the Plus edition
+PLUS_NAME = "Stormworks Railway Overhaul (SRO) Catenary+"
+PLUS_VERSION = "0.6 (test: overhead line from North Harbour station to km 6)"
+MOD_AUTHOR = "quadub"
 MOD_XML = ('<?xml version="1.0" encoding="UTF-8"?>\n'
-           '<mod name="Real Track" author="Real Track" '
-           'desc="3D rails and concrete sleepers on every railway tile of the vanilla map. '
+           '<mod name="{name}" author="{author}" '
+           'desc="v{version}. 3D rails and concrete sleepers on every railway tile of the vanilla map, '
+           'smoothed curves, dark grey ballast, kilometre and picket posts on the mainland. '
            'Track graph raised by {raise_cm} cm so trains run on the rail heads."/>\n')
 
 
@@ -100,9 +123,56 @@ class SegmentGrid:
                     best = min(best, math.hypot(x - a[0] - t * dx, z - a[2] - t * dz))
         return best
 
+    def near_bed(self, x, y, z, radius):
+        """True if (x, y, z) lies within `radius` (horizontally) of a track line and roughly at
+        track-bed height there - not on a beach or road under a bridge, not down in a dock."""
+        cx, cz = int(x // self.cell), int(z // self.cell)
+        for ix in (cx - 1, cx, cx + 1):
+            for iz in (cz - 1, cz, cz + 1):
+                for a, b in self.grid.get((ix, iz), ()):
+                    dx, dz = b[0] - a[0], b[2] - a[2]
+                    length2 = dx * dx + dz * dz
+                    t = 0.0 if length2 == 0 else max(0.0, min(1.0, ((x - a[0]) * dx + (z - a[2]) * dz) / length2))
+                    if math.hypot(x - a[0] - t * dx, z - a[2] - t * dz) > radius:
+                        continue
+                    track_y = a[1] + (b[1] - a[1]) * t
+                    if BED_BELOW_TRACK <= y - track_y <= BED_ABOVE_TRACK:
+                        return True
+        return False
+
+
+BED_BELOW_TRACK = -1.5     # track bed vertices lie at most this far below the track line ...
+BED_ABOVE_TRACK = 0.3      # ... and at most this far above it
+
+MODULAR_HEIGHT = 16.0
+MODULAR_TRACK_OFFSET = 2.175     # straight joints: tracks at +-2.17..2.2 from the tile axis
+MODULAR_CORNER = (498.5, 501.5)  # diagonal joints: just outside a tile corner
+
+
+def modular_joint(p):
+    """Nominal (position, outward direction) of a modular-line track end, or None."""
+    x, y, z = p
+    if abs(y - MODULAR_HEIGHT) > 0.08:
+        return None
+    ax, az = abs(x), abs(z)
+    sx, sz = math.copysign(1.0, x), math.copysign(1.0, z)
+    if abs(ax - 500.0) < 0.05 and 2.1 < az < 2.25:
+        return (sx * 500.0, MODULAR_HEIGHT, sz * MODULAR_TRACK_OFFSET), (sx, 0.0)
+    if abs(az - 500.0) < 0.05 and 2.1 < ax < 2.25:
+        return (sx * MODULAR_TRACK_OFFSET, MODULAR_HEIGHT, sz * 500.0), (0.0, sz)
+    for cx, cz in (MODULAR_CORNER, MODULAR_CORNER[::-1]):
+        if abs(ax - cx) < 0.15 and abs(az - cz) < 0.15:
+            h = math.sqrt(0.5)
+            return (sx * cx, MODULAR_HEIGHT, sz * cz), (sx * h, sz * h)
+    return None
+
 
 def border_normal(p):
     half = rails.TILE_HALF_SIZE - 0.5
+    if abs(p[0]) >= half - 2.0 and abs(p[2]) >= half - 2.0:
+        # diagonal joint through a tile corner: cut across the 45 degree track
+        h = math.sqrt(0.5)
+        return (math.copysign(h, p[0]), 0.0, math.copysign(h, p[2]))
     if abs(p[0]) >= half:
         return (math.copysign(1.0, p[0]), 0.0, 0.0)
     if abs(p[2]) >= half:
@@ -206,27 +276,33 @@ def find_stray_components(rom_dir, tiles):
 
 def step_scan(rom_dir, work):
     tiles_dir = os.path.join(rom_dir, "data", "tiles")
-    tiles = sorted(f[:-4] for f in os.listdir(tiles_dir)
-                   if f.endswith(".xml") and "<track " in read_text(os.path.join(tiles_dir, f)))
+    # *_instances.xml (tree placement) are large and never hold tracks: skip reading them
+    texts = {}
+    for f in sorted(os.listdir(tiles_dir)):
+        if f.endswith(".xml") and not f.endswith("_instances.xml"):
+            text = read_text(os.path.join(tiles_dir, f))
+            if "<track " in text:
+                texts[f[:-4]] = text
+    tiles = sorted(texts)
     recolor = {}          # mesh file -> {vertex index: ballast colour}
     usage = {}            # mesh file -> tiles using it
     for tile in tiles:
-        text = read_text(tile_xml_path(rom_dir, tile))
+        text = texts[tile]
         nodes = read_tracks(tile_xml_path(rom_dir, tile))
         grid = SegmentGrid(nodes)
         for file_name, matrix in mesh_entries(text):
             path = os.path.join(rom_dir, *file_name.split("/"))
             if not os.path.exists(path):
                 continue
-            mesh = read_mesh_full(path)
+            _, verts = read_vertex_array(path)
             hits = recolor.setdefault(file_name, {})
-            for i, v in enumerate(mesh.vertices):
-                new_color = STRIP_TO_BALLAST.get(tuple(v[3:6]))
-                if new_color is None:
-                    continue
-                x, _, z = transform_point(v, matrix)
-                if grid.distance(x, z) <= STRIP_SEARCH_RADIUS:
-                    hits[i] = new_color
+            colors = np.stack([verts["r"], verts["g"], verts["b"]], axis=1)
+            for old_color, (new_color, radius) in TRACK_BED_RECOLOR.items():
+                for i in np.nonzero((colors == old_color).all(axis=1))[0]:
+                    v = (float(verts["x"][i]), float(verts["y"][i]), float(verts["z"][i]))
+                    x, y, z = transform_point(v, matrix)
+                    if grid.near_bed(x, y, z, radius):
+                        hits[int(i)] = new_color
             usage.setdefault(file_name, set()).add(tile)
     recolor = {k: sorted([i, *c] for i, c in v.items()) for k, v in recolor.items() if v}
     stray, partners = find_stray_components(rom_dir, tiles)
@@ -240,91 +316,184 @@ def step_scan(rom_dir, work):
     print("done")
 
 
+# ---------------------------------------------------------------- step 1b: track posts
+
+def step_signs(rom_dir, work):
+    scan = json.load(open(os.path.join(work, "scan.json")))
+    planned = signs.plan_signs(rom_dir, scan["tiles"], lambda tile: prepare_graph(rom_dir, tile, scan))
+    with open(os.path.join(work, "signs.json"), "w") as f:
+        json.dump(planned, f)
+    print("done")
+
+
+def step_catenary(rom_dir, work):
+    """Plan of the overhead line (Plus edition). Without catenary.json the build is the plain
+    Sawyer Railroads Overhaul."""
+    scan = json.load(open(os.path.join(work, "scan.json")))
+    plan = catenary.plan_catenary(rom_dir, scan["tiles"], lambda tile: prepare_graph(rom_dir, tile, scan))
+    with open(os.path.join(work, "catenary.json"), "w") as f:
+        json.dump(plan, f)
+    print("done")
+
+
 # ---------------------------------------------------------------- step 2: per-tile geometry
 
-def step_tiles(rom_dir, work):
+def prepare_graph(rom_dir, tile, scan):
+    """Tile graph as it is drawn: border nodes joined with their partners, curves smoothed.
+    Used by both the scan (kilometre posts) and the tiles step, so both see the same track.
+    Returns (nodes, node_y, inserted ids, border tangents, stray ids)."""
+    nodes = read_tracks(tile_xml_path(rom_dir, tile))
+    node_y = {k: p[1] + rails.GRAPH_RAISE for k, (p, _) in nodes.items()}
+    stray = set(scan.get("stray", {}).get(tile, ()))
+
+    # Border nodes shared with a neighbour: same point, height and direction on both sides.
+    # Vanilla pairs can be a few centimetres apart; both tiles move their node to the middle,
+    # exactly on the tile edge.
+    border_tangents = {}
+    # Joints of the modular sea lines (track_* tiles and the tiles they plug into). One modular
+    # file is used in many places with different neighbours, so pairs cannot be averaged; instead
+    # every such joint is snapped to its exact nominal position, height and direction.
+    for k, (p, links) in list(nodes.items()):
+        if k in stray:
+            continue
+        if len([o for o in links if o in nodes and o != k]) != 1:
+            continue
+        joint = modular_joint(p)
+        if joint is not None:
+            position, direction = joint
+            nodes[k] = (position, links)
+            node_y[k] = position[1] + rails.GRAPH_RAISE
+            border_tangents[k] = direction
+
+    for k, (ptile, pnode, py, dx, dz, px, pz) in scan.get("partners", {}).get(tile, {}).items():
+        if k in border_tangents:
+            continue          # snapped modular joint
+        p, links = nodes[k]
+        inner = [o for o in links if o in nodes and o != k]
+        if len(inner) != 1:
+            continue
+        if abs(p[0]) >= BORDER:
+            p = (math.copysign(500.0, p[0]), p[1], (p[2] + pz) / 2)
+        else:
+            p = ((p[0] + px) / 2, p[1], math.copysign(500.0, p[2]))
+        nodes[k] = (p, links)
+        node_y[k] = (p[1] + py) / 2 + rails.GRAPH_RAISE
+        q = nodes[inner[0]][0]
+        ox, oz = p[0] - q[0], p[2] - q[2]          # own direction, heading out of the tile
+        olen = math.hypot(ox, oz)
+        tx, tz = ox / olen + dx, oz / olen + dz     # + partner direction, heading on
+        tlen = math.hypot(tx, tz)
+        if tlen > 1e-6:
+            border_tangents[k] = (tx / tlen, tz / tlen)
+
+    nodes, node_y, inserted = smooth.smooth_graph(nodes, node_y, border_tangents, stray)
+    return nodes, node_y, inserted, border_tangents, stray
+
+
+TILE_JOB = {}      # set once per worker process: rom_dir, scan, planned signs, output folders
+
+
+def _init_tile_worker(rom_dir, work):
     rails.RAIL_PIECE_LENGTH = 1e9            # one rail piece per graph segment
     rails.CHUNK_SIZE = CHUNK_SIZE
-    scan = json.load(open(os.path.join(work, "scan.json")))
-    # Written outside the mod folder; assemble moves in only unique files (some prefab tiles,
-    # e.g. the rotated track_* variants, produce byte-identical meshes).
-    out_mesh_dir = os.path.join(work, "track_meshes")
-    os.makedirs(out_mesh_dir, exist_ok=True)
-    state_dir = os.path.join(work, "tiles")
-    os.makedirs(state_dir, exist_ok=True)
-    start = time.time()
-    remaining = 0
-    for tile in scan["tiles"]:
-        state_path = os.path.join(state_dir, tile + ".json")
-        if os.path.exists(state_path):
-            continue
-        if time.time() - start > TIME_BUDGET:
-            remaining += 1
-            continue
-        nodes = read_tracks(tile_xml_path(rom_dir, tile))
-        node_y = {k: p[1] + rails.GRAPH_RAISE for k, (p, _) in nodes.items()}
-        stray = set(scan.get("stray", {}).get(tile, ()))
+    signs_path = os.path.join(work, "signs.json")
+    catenary_path = os.path.join(work, "catenary.json")
+    TILE_JOB.update(
+        catenary_plan=json.load(open(catenary_path)) if os.path.exists(catenary_path) else None,
+        rom_dir=rom_dir,
+        scan=json.load(open(os.path.join(work, "scan.json"))),
+        planned_signs=json.load(open(signs_path)) if os.path.exists(signs_path) else {},
+        # Written outside the mod folder; assemble moves in only unique files (some prefab
+        # tiles, e.g. the rotated track_* variants, produce byte-identical meshes).
+        out_mesh_dir=os.path.join(work, "track_meshes"),
+        state_dir=os.path.join(work, "tiles"))
 
-        # Border nodes shared with a neighbour: same point, height and direction on both sides.
-        # Vanilla pairs can be a few centimetres apart; both tiles move their node to the middle,
-        # exactly on the tile edge.
-        border_tangents = {}
-        for k, (ptile, pnode, py, dx, dz, px, pz) in scan.get("partners", {}).get(tile, {}).items():
-            p, links = nodes[k]
-            inner = [o for o in links if o in nodes and o != k]
-            if len(inner) != 1:
-                continue
-            if abs(p[0]) >= BORDER:
-                p = (math.copysign(500.0, p[0]), p[1], (p[2] + pz) / 2)
-            else:
-                p = ((p[0] + px) / 2, p[1], math.copysign(500.0, p[2]))
-            nodes[k] = (p, links)
-            node_y[k] = (p[1] + py) / 2 + rails.GRAPH_RAISE
-            q = nodes[inner[0]][0]
-            ox, oz = p[0] - q[0], p[2] - q[2]          # own direction, heading out of the tile
-            olen = math.hypot(ox, oz)
-            tx, tz = ox / olen + dx, oz / olen + dz     # + partner direction, heading on
-            tlen = math.hypot(tx, tz)
-            if tlen > 1e-6:
-                border_tangents[k] = (tx / tlen, tz / tlen)
 
-        nodes, node_y, inserted = smooth.smooth_graph(nodes, node_y, border_tangents, stray)
-        drawn = {k: v for k, v in nodes.items() if k not in stray}
-        border_cuts = {}
-        for k, (p, links) in drawn.items():
-            n = border_normal(p)
-            if n is not None and len([o for o in links if o in drawn and o != k]) == 1:
-                if k in border_tangents:
-                    t = border_tangents[k]
-                    border_cuts[k] = (n, (t[0], 0.0, t[1]))
+def build_one_tile(tile):
+    """Geometry, collision and state file of one tile. Returns a log line."""
+    rom_dir, scan = TILE_JOB["rom_dir"], TILE_JOB["scan"]
+    planned_signs = TILE_JOB["planned_signs"]
+    out_mesh_dir = TILE_JOB["out_mesh_dir"]
+    state_path = os.path.join(TILE_JOB["state_dir"], tile + ".json")
+    nodes, node_y, inserted, border_tangents, stray = prepare_graph(rom_dir, tile, scan)
+    drawn = {k: v for k, v in nodes.items() if k not in stray}
+    border_cuts = {}
+    for k, (p, links) in drawn.items():
+        n = border_normal(p)
+        if n is not None and len([o for o in links if o in drawn and o != k]) == 1:
+            if k in border_tangents:
+                t = border_tangents[k]
+                t3 = (t[0], 0.0, t[1])
+                if abs(rails.dot(n, t3)) < SHALLOW_CROSSING_COS:
+                    # the track crosses the tile edge at a shallow angle: an edge-plane cut
+                    # would be a long sliver, so both tiles cut square to the shared direction
+                    border_cuts[k] = (t3, t3)
                 else:
-                    border_cuts[k] = n
-        builder, sleeper_count, chains = rails.build_tile_v4(drawn, node_y, border_cuts,
-                                                             set(border_cuts))
-        placements = []
-        meshes = rails.polys_to_meshes(builder.polys)
-        files = []
-        vertices = 0
-        for chunk_name, mesh in meshes.items():
-            safe = chunk_name.replace("+", "p").replace("-", "m")
-            file_name = "%s_%s.mesh" % (tile, safe)
-            write_mesh(os.path.join(out_mesh_dir, file_name), mesh)
-            files.append((safe, file_name))
-            vertices += len(mesh.vertices)
-        phys_files = []
-        for chunk_name, triangles in rails.collision_to_phys_chunks(builder.collision).items():
-            safe = chunk_name.replace("+", "p").replace("-", "m")
-            file_name = "%s_%s.phys" % (tile, safe)
-            write_phys(os.path.join(out_mesh_dir, file_name), triangles)
-            phys_files.append((safe, file_name))
-        with open(state_path, "w") as f:
-            json.dump({"node_y": node_y, "files": files, "phys_files": phys_files,
-                       "placements": placements, "vertices": vertices,
-                       "collision_triangles": len(builder.collision),
-                       "graph": {k: [p[0], p[1], p[2], links] for k, (p, links) in nodes.items()}}, f)
-        print("%-45s chains %3d  added nodes %4d  sleepers %6d  vertices %8d  meshes %3d"
-              % (tile, len(chains), len(inserted), sleeper_count, vertices, len(files)))
-    print("remaining", remaining if remaining else 0)
+                    border_cuts[k] = (n, t3)
+            else:
+                border_cuts[k] = n
+    ballast_keep = None
+    origin = signs.mainland_origin(tile)
+    if BALLAST_PRISM_TEST_BOX is not None and origin is not None:
+        x0, x1, z0, z1 = BALLAST_PRISM_TEST_BOX
+
+        def ballast_keep(p, ox=origin[0], oz=origin[1]):
+            return x0 <= p[0] + ox <= x1 and z0 <= p[2] + oz <= z1
+    builder, sleeper_count, chains = rails.build_tile_v4(drawn, node_y, border_cuts,
+                                                         set(border_cuts), ballast_keep)
+    tile_signs = planned_signs.get(tile, [])
+    for sign in tile_signs:
+        signs.add_sign(builder, sign)
+    if TILE_JOB["catenary_plan"] and signs.mainland_origin(tile) is not None:
+        catenary.add_catenary(builder, TILE_JOB["catenary_plan"], tile, signs.mainland_origin(tile))
+    placements = []
+    meshes = rails.polys_to_meshes(builder.polys)
+    files = []
+    vertices = 0
+    for chunk_name, mesh in meshes.items():
+        safe = chunk_name.replace("+", "p").replace("-", "m")
+        file_name = "%s_%s.mesh" % (tile, safe)
+        write_mesh(os.path.join(out_mesh_dir, file_name), mesh)
+        files.append((safe, file_name))
+        vertices += len(mesh.vertices)
+    phys_files = []
+    for chunk_name, triangles in rails.collision_to_phys_chunks(builder.collision).items():
+        safe = chunk_name.replace("+", "p").replace("-", "m")
+        file_name = "%s_%s.phys" % (tile, safe)
+        write_phys(os.path.join(out_mesh_dir, file_name), triangles)
+        phys_files.append((safe, file_name))
+    # written to a temporary name and renamed: a run stopped half-way never leaves a broken state
+    with open(state_path + ".tmp", "w") as f:
+        json.dump({"node_y": node_y, "files": files, "phys_files": phys_files,
+                   "placements": placements, "vertices": vertices,
+                   "collision_triangles": len(builder.collision),
+                   "graph": {k: [p[0], p[1], p[2], links] for k, (p, links) in nodes.items()}}, f)
+    os.replace(state_path + ".tmp", state_path)
+    return ("%-45s chains %3d  added nodes %4d  sleepers %6d  posts %3d  vertices %8d  meshes %3d"
+            % (tile, len(chains), len(inserted), sleeper_count, len(tile_signs), vertices, len(files)))
+
+
+def step_tiles(rom_dir, work):
+    """Tiles are independent: built in parallel worker processes (one per CPU core), until the
+    time budget of this invocation runs out; run again to continue."""
+    import multiprocessing
+    os.makedirs(os.path.join(work, "track_meshes"), exist_ok=True)
+    os.makedirs(os.path.join(work, "tiles"), exist_ok=True)
+    scan = json.load(open(os.path.join(work, "scan.json")))
+    pending = [t for t in scan["tiles"]
+               if not os.path.exists(os.path.join(work, "tiles", t + ".json"))]
+    start = time.time()
+    finished = 0
+    workers = max(1, min(WORKERS, os.cpu_count() or 1))
+    with multiprocessing.Pool(workers, _init_tile_worker, (rom_dir, work)) as pool:
+        for line in pool.imap_unordered(build_one_tile, pending):
+            print(line)
+            finished += 1
+            if time.time() - start > TIME_BUDGET:
+                break
+        pool.terminate()
+    remaining = len(pending) - finished
+    print("remaining", remaining)
     if not remaining:
         print("done")
 
@@ -389,11 +558,12 @@ def step_assemble(rom_dir, work):
     ballast = os.path.join(mod, *BALLAST_DIR.split("/"))
     os.makedirs(ballast, exist_ok=True)
     for file_name, indices in scan["recolor"].items():
-        mesh = read_mesh_full(os.path.join(rom_dir, *file_name.split("/")))
+        data = bytearray(open(os.path.join(rom_dir, *file_name.split("/")), "rb").read())
         for i, r, g, b in indices:
-            v = mesh.vertices[i]
-            mesh.vertices[i] = v[:3] + (r, g, b) + v[6:]
-        write_mesh(os.path.join(mod, *ballast_copy_name(file_name).split("/")), mesh)
+            at = FIRST_VERTEX_OFFSET + 28 * i + VERTEX_COLOR_OFFSET
+            data[at:at + 3] = bytes((r, g, b))
+        with open(os.path.join(mod, *ballast_copy_name(file_name).split("/")), "wb") as f:
+            f.write(data)
 
     # tile XMLs
     tiles_out = os.path.join(mod, "data", "tiles")
@@ -407,9 +577,12 @@ def step_assemble(rom_dir, work):
         newline = "\r\n" if "\r\n" in text else "\n"
 
         graph = {k: ((v[0], v[1], v[2]), v[3]) for k, v in state["graph"].items()}
-        original_count = len(re.findall(r'<track id="', text))
-        text = smooth.train_tracks_xml(text, graph, state["node_y"], newline)
-        assert len(re.findall(r'<track id="', text)) == len(graph) >= original_count, tile
+        original_ids = set(re.findall(r'<track id="([^"]+)"', text))
+        text = smooth.train_tracks_xml(text, graph, state["node_y"], newline, rails.GRAPH_RAISE)
+        written_ids = re.findall(r'<track id="([^"]+)"', text)
+        assert len(written_ids) == len(set(written_ids)) and original_ids <= set(written_ids), tile
+        for links in re.findall(r'<links>(.*?)</links>', text, re.S):
+            assert set(re.findall(r'<link id="([^"]+)"', links)) <= set(written_ids), tile
 
         for file_name in scan["recolor"]:
             text = text.replace('file_name="%s"' % file_name,
@@ -433,7 +606,10 @@ def step_assemble(rom_dir, work):
         total_vertices += state["vertices"]
 
     with open(os.path.join(mod, "mod.xml"), "w", encoding="utf-8") as f:
-        f.write(MOD_XML.format(raise_cm=int(round(rails.GRAPH_RAISE * 100))))
+        plus = os.path.exists(os.path.join(work, "catenary.json"))
+        f.write(MOD_XML.format(name=PLUS_NAME if plus else MOD_NAME, author=MOD_AUTHOR,
+                               version=PLUS_VERSION if plus else MOD_VERSION,
+                               raise_cm=int(round(rails.GRAPH_RAISE * 100))))
     print("tiles", len(scan["tiles"]), " mesh entries added", total_entries,
           " track vertices", total_vertices, " physics entries added", total_phys,
           " shared duplicate files", duplicates)
@@ -443,4 +619,5 @@ def step_assemble(rom_dir, work):
 if __name__ == "__main__":
     rom_dir, work, step = sys.argv[1:4]
     os.makedirs(work, exist_ok=True)
-    {"scan": step_scan, "tiles": step_tiles, "assemble": step_assemble}[step](rom_dir, work)
+    {"scan": step_scan, "signs": step_signs, "catenary": step_catenary, "tiles": step_tiles,
+     "assemble": step_assemble}[step](rom_dir, work)
