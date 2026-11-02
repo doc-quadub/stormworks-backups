@@ -166,14 +166,26 @@ SIGNAL_CLEARANCE = 1.6
 # End of a wire run: the last support is an anchor pole - both wires leave the track sideways to
 # it, end in insulators, the tension comes from a weight stack on the far side of the pole, and a
 # guy wire to a ground anchor behind the pole takes the pull.
-ANCHOR_CONTACT_HEIGHT = 7.00         # contact wire anchored this high above the rail (out of reach)
-ANCHOR_MESSENGER_HEIGHT = 8.35
-ANCHOR_INSULATOR_LENGTH = 1.00
-WEIGHTS_RADIUS = 0.20
+# Compensated anchoring (both wires on one compensator, as on Russian main lines): the anchored
+# branch ends in an insulator chain on each wire, both chains meet at a yoke, the yoke pulls on
+# the moving block of a pulley block whose fixed block sits at the pole; the rope runs on over
+# the fixed block down along the pole to a stack of weights. Heights above the rail, distances
+# out from the pole axis towards the span.
+COMPENSATOR_HEIGHT = 7.25            # 1.0 m above the working contact wire
+ANCHOR_CONTACT_HEIGHT = 7.00         # anchored branch rises out of the pantograph's reach
+ANCHOR_MESSENGER_HEIGHT = 7.50
+FIXED_BLOCK_OUT = 0.42
+MOVING_BLOCK_OUT = 1.25
+YOKE_OUT = 1.55
+ANCHOR_INSULATOR_LENGTH = 1.00       # insulator chain of each wire, yoke -> wire end
+WIRE_END_OUT = YOKE_OUT + ANCHOR_INSULATOR_LENGTH
+FIXED_BLOCK_RADIUS = 0.14
+MOVING_BLOCK_RADIUS = 0.20
+WEIGHTS_RADIUS = 0.17
 WEIGHTS_HEIGHT = 1.60
-WEIGHTS_BOTTOM = 2.30                # above the rail
-WEIGHTS_OFFSET = 0.45                # from the pole axis, away from the span
-GUY_TOP = 8.45                       # guy wire leaves the pole this high above the rail
+WEIGHTS_BOTTOM = 1.90                # above the rail
+GUY_TOP = COMPENSATOR_HEIGHT         # guy wire leaves the pole at the compensator, opposite side
+GUY_INSULATOR_FROM_FOOT = 1.5        # insulator in the guy wire, this far up from the ground anchor
 GUY_DISTANCE = 7.0                   # ground anchor this far behind the pole
 GUY_CLEARANCE = 2.6                  # ground anchor from any track axis, at least
 GUY_RADIUS = 0.014
@@ -940,9 +952,19 @@ def wire_ends(sp):
         return k["messenger"], k["contact"]
     pole, rail_y = sp["pole"], sp["track"][1]
     tx, tz = sp["anchor"]["towards"]
-    out = POLE_RADIUS_TOP + 0.10
-    return ((pole[0] + tx * out, rail_y + ANCHOR_MESSENGER_HEIGHT, pole[2] + tz * out),
-            (pole[0] + tx * out, rail_y + ANCHOR_CONTACT_HEIGHT, pole[2] + tz * out))
+    return ((pole[0] + tx * WIRE_END_OUT, rail_y + ANCHOR_MESSENGER_HEIGHT, pole[2] + tz * WIRE_END_OUT),
+            (pole[0] + tx * WIRE_END_OUT, rail_y + ANCHOR_CONTACT_HEIGHT, pole[2] + tz * WIRE_END_OUT))
+
+
+def _insulator_chain(builder, a, b, anchor, sheds=6):
+    """Suspension insulator chain from a to b: a rod with sheds (discs) along it."""
+    _tube(builder, a, b, 0.03, 6, COLOR_INSULATOR, anchor, caps=True)
+    axis = _unit(_sub(b, a))
+    length = math.dist(a, b)
+    for i in range(sheds):
+        centre = _add(a, _mul(axis, length * (i + 0.5) / sheds))
+        _tube(builder, _add(centre, _mul(axis, -0.025)), _add(centre, _mul(axis, 0.025)), 0.12, 8,
+              COLOR_INSULATOR, anchor, caps=True)
 
 
 def _concrete_pole(builder, pole, base_y, top_y, t, origin, anchor):
@@ -1065,8 +1087,8 @@ def add_support(builder, sp, origin):
 
 
 def add_anchor(builder, sp, origin):
-    """Anchoring at a pole: weight stack with its rope on the far side, guy wire to a ground
-    anchor block behind the pole. (The wires and their insulators come with the span.)"""
+    """Compensated anchoring at a pole: insulator chains, yoke, pulley block, rope and weight
+    stack along the pole, guy wire (with an insulator) to a ground anchor block behind it."""
     ox, oz = origin
 
     def local(p):
@@ -1075,30 +1097,57 @@ def add_anchor(builder, sp, origin):
     pole, rail_y = sp["pole"], sp["track"][1]
     anchor = (pole[0] - ox, pole[2] - oz)
     tx, tz = sp["anchor"]["towards"]
-    back = (-tx, 0.0, -tz)
-    # weights: a stack of discs hanging on a rope from a bracket at the messenger height
-    centre = (pole[0] + back[0] * WEIGHTS_OFFSET, rail_y + WEIGHTS_BOTTOM, pole[2] + back[2] * WEIGHTS_OFFSET)
-    _tube(builder, local(centre), local((centre[0], centre[1] + WEIGHTS_HEIGHT, centre[2])),
-          WEIGHTS_RADIUS, 8, COLOR_WEIGHTS, anchor, caps=True)
-    for i in range(1, 8):                 # disc joints
-        y = centre[1] + WEIGHTS_HEIGHT * i / 8
-        _tube(builder, local((centre[0], y - 0.01, centre[2])), local((centre[0], y + 0.01, centre[2])),
-              WEIGHTS_RADIUS + 0.012, 8, COLOR_STEEL, anchor, caps=False)
-    bracket_y = rail_y + ANCHOR_MESSENGER_HEIGHT - 0.15
-    pulley = (centre[0], bracket_y, centre[2])
-    _tube(builder, local((pole[0], bracket_y, pole[2])), local(pulley), ROD_RADIUS * 1.8, 4,
+
+    def out(distance, height):
+        return local((pole[0] + tx * distance, rail_y + height, pole[2] + tz * distance))
+
+    across = (-tz, 0.0, tx)                    # horizontal, square to the wires: block axles
+    messenger_end, contact_end = wire_ends(sp)
+    # insulator chains and the yoke joining them
+    yoke_top, yoke_bottom = out(YOKE_OUT, ANCHOR_MESSENGER_HEIGHT), out(YOKE_OUT, ANCHOR_CONTACT_HEIGHT)
+    _insulator_chain(builder, yoke_top, local(messenger_end), anchor)
+    _insulator_chain(builder, yoke_bottom, local(contact_end), anchor)
+    _tube(builder, yoke_top, yoke_bottom, TUBE_RADIUS, 4, COLOR_STEEL, anchor, caps=True)
+    yoke_middle = out(YOKE_OUT, COMPENSATOR_HEIGHT)
+    moving = out(MOVING_BLOCK_OUT, COMPENSATOR_HEIGHT)
+    fixed = out(FIXED_BLOCK_OUT, COMPENSATOR_HEIGHT)
+    _tube(builder, moving, yoke_middle, ROD_RADIUS, 4, COLOR_STEEL, anchor, caps=True)
+    # blocks (pulleys) and the rope strands between them
+    for centre, radius in ((fixed, FIXED_BLOCK_RADIUS), (moving, MOVING_BLOCK_RADIUS)):
+        _tube(builder, _add(centre, _mul(across, -0.03)), _add(centre, _mul(across, 0.03)), radius, 10,
+              COLOR_STEEL, anchor, caps=True)
+    for side in (1.0, -1.0):
+        _tube(builder, _add(fixed, (0.0, side * FIXED_BLOCK_RADIUS, 0.0)),
+              _add(moving, (0.0, side * MOVING_BLOCK_RADIUS, 0.0)), DROPPER_RADIUS * 1.4, 4,
+              COLOR_STEEL, anchor, caps=True)
+    # bracket holding the fixed block on the pole
+    _tube(builder, out(0.0, COMPENSATOR_HEIGHT + FIXED_BLOCK_RADIUS + 0.05),
+          _add(fixed, (0.0, FIXED_BLOCK_RADIUS + 0.05, 0.0)), ROD_RADIUS * 1.8, 4, COLOR_STEEL,
+          anchor, caps=True)
+    _tube(builder, _add(fixed, (0.0, FIXED_BLOCK_RADIUS + 0.05, 0.0)), fixed, ROD_RADIUS, 4,
           COLOR_STEEL, anchor, caps=True)
-    _tube(builder, local((centre[0], centre[1] + WEIGHTS_HEIGHT, centre[2])), local(pulley),
-          DROPPER_RADIUS * 1.4, 4, COLOR_STEEL, anchor, caps=True)
-    _tube(builder, local((pulley[0], pulley[1] - 0.12, pulley[2] - 0.0)),
-          local((pulley[0], pulley[1] + 0.12, pulley[2])), 0.13, 8, COLOR_STEEL, anchor, caps=True)
-    # guy wire and its ground anchor block
+    # rope down along the pole to the weight stack
+    weights_bottom = out(FIXED_BLOCK_OUT, WEIGHTS_BOTTOM)
+    weights_top = out(FIXED_BLOCK_OUT, WEIGHTS_BOTTOM + WEIGHTS_HEIGHT)
+    _tube(builder, _add(fixed, (0.0, -FIXED_BLOCK_RADIUS, 0.0)), weights_top, DROPPER_RADIUS * 1.4, 4,
+          COLOR_STEEL, anchor, caps=True)
+    _tube(builder, weights_bottom, weights_top, WEIGHTS_RADIUS, 8, COLOR_WEIGHTS, anchor, caps=True)
+    for i in range(1, 8):                 # disc joints
+        y = WEIGHTS_BOTTOM + WEIGHTS_HEIGHT * i / 8
+        _tube(builder, out(FIXED_BLOCK_OUT, y - 0.01), out(FIXED_BLOCK_OUT, y + 0.01),
+              WEIGHTS_RADIUS + 0.012, 8, COLOR_STEEL, anchor, caps=False)
+    # guy wire with an insulator, and its ground anchor block
     ground = sp["anchor"]["guy_ground"]
     block_side, block_height = GUY_BLOCK
     guy_dir = _unit2((ground[0] - pole[0], ground[2] - pole[2]))
-    top = (pole[0] + guy_dir[0] * 0.15, rail_y + GUY_TOP, pole[2] + guy_dir[1] * 0.15)
-    foot = (ground[0], ground[1] + block_height, ground[2])
-    _tube(builder, local(top), local(foot), GUY_RADIUS, 4, COLOR_STEEL, anchor, caps=True)
+    top = local((pole[0] + guy_dir[0] * 0.15, rail_y + GUY_TOP, pole[2] + guy_dir[1] * 0.15))
+    foot = local((ground[0], ground[1] + block_height, ground[2]))
+    down = _unit(_sub(top, foot))
+    insulator_low = _add(foot, _mul(down, GUY_INSULATOR_FROM_FOOT))
+    insulator_high = _add(insulator_low, _mul(down, 0.45))
+    _tube(builder, top, insulator_high, GUY_RADIUS, 4, COLOR_STEEL, anchor, caps=True)
+    _insulator_chain(builder, insulator_high, insulator_low, anchor, sheds=3)
+    _tube(builder, insulator_low, foot, GUY_RADIUS * 1.6, 4, COLOR_STEEL, anchor, caps=True)
     frame = signs.Frame(local((ground[0], ground[1], ground[2])), guy_dir)
     signs._box(builder, frame, block_side / 2, block_side / 2, -0.5, block_height,
                [(-0.5, block_height, COLOR_FOUNDATION)], anchor)
@@ -1163,14 +1212,6 @@ def add_span(builder, a, b, origin):
     m1, c1 = wire_ends(b)
     _wire(builder, local(m0), local(m1), sag, pieces, WIRE_RADIUS, COLOR_MESSENGER, anchor)
     _tube(builder, local(c0), local(c1), WIRE_RADIUS, 3, COLOR_CONTACT, anchor)
-    # anchored ends: the last metre of both wires is an insulator
-    for sp, (m_end, c_end), (m_other, c_other) in ((a, (m0, c0), (m1, c1)), (b, (m1, c1), (m0, c0))):
-        if sp.get("anchor") is None:
-            continue
-        for end, other in ((m_end, m_other), (c_end, c_other)):
-            direction = _unit(_sub(other, end))
-            _tube(builder, local(end), local(_add(end, _mul(direction, ANCHOR_INSULATOR_LENGTH))),
-                  INSULATOR_RADIUS * 0.8, 6, COLOR_INSULATOR, anchor, caps=True)
     # droppers
     count = int(length // DROPPER_SPACING)
     for i in range(1, count + 1):
