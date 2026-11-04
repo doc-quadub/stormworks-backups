@@ -188,7 +188,8 @@ def read_tracks(path):
     text = open(path, encoding="utf-8").read()
     nodes = {}
     # isolated nodes are written as <links/>
-    pattern = r'<track id="([^"]+)">\s*<transform([^/]*)/>\s*(?:<links>(.*?)</links>|<links/>)'
+    # nodes may carry extra attributes (seasonal_flags: a few border joints of the vanilla map)
+    pattern = r'<track id="([^"]+)"[^>]*>\s*<transform([^/]*)/>\s*(?:<links>(.*?)</links>|<links/>)'
     for m in re.finditer(pattern, text, re.S):
         matrix = parse_transform(m.group(2))
         pos = (matrix[3][0], matrix[3][1], matrix[3][2])

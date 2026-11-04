@@ -50,13 +50,15 @@ TIME_BUDGET = 140.0             # seconds per invocation (remote shell calls are
 CHUNK_SIZE = 250.0              # spatial grid for splitting baked track geometry into meshes
 MIN_COMPONENT_LENGTH = 50.0     # isolated bits of track graph shorter than this are not drawn
 BORDER = 499.5
+BORDER_NEAR = 497.0             # border pairs may lie this far inside / outside their tile edge
+BORDER_PAIR_GAP = 1.0           # ... and this far apart (vanilla pairs that do not quite meet)
 SHALLOW_CROSSING_COS = 0.7     # track meets a tile edge at less than ~45 degrees
 
 MOD_NAME = "Stormworks Railway Overhaul (SRO)"
-MOD_VERSION = "1.0.1"
+MOD_VERSION = "1.0.2"
 # with an overhead line plan (step "catenary") the build is the Plus edition
 PLUS_NAME = "Stormworks Railway Overhaul (SRO) Catenary+"
-PLUS_VERSION = "0.6.1 (test: overhead line from North Harbour station to km 6)"
+PLUS_VERSION = "0.8.1 (overhead line on all Sawyer mainland tracks)"
 MOD_AUTHOR = "quadub"
 MOD_XML = ('<?xml version="1.0" encoding="UTF-8"?>\n'
            '<mod name="{name}" author="{author}" '
@@ -189,24 +191,37 @@ def find_stray_components(rom_dir, tiles):
     """
     nodes_by_tile = {t: read_tracks(tile_xml_path(rom_dir, t)) for t in tiles}
 
-    def own_edge(p):
-        if p[0] >= BORDER:
-            return ("x+", p[2])
-        if p[0] <= -BORDER:
-            return ("x-", p[2])
-        if p[2] >= BORDER:
-            return ("z+", p[0])
-        if p[2] <= -BORDER:
-            return ("z-", p[0])
-        return None
+    def own_edge(p, near=BORDER):
+        """(edge, coordinate along the edge, coordinate across it) of a node near a tile edge."""
+        if max(abs(p[0]), abs(p[2])) < near:
+            return None
+        if abs(p[0]) >= abs(p[2]):               # near a corner: the edge it is nearest to
+            return ("x+" if p[0] > 0 else "x-", p[2], p[0])
+        return ("z+" if p[2] > 0 else "z-", p[0], p[2])
+
+    def grid(t):
+        m = re.fullmatch(r"(.+)_(\d+)_(\d+)", t)
+        return None if m is None else (m.group(1), int(m.group(2)), int(m.group(3)))
+
+    step = {"x+": (1, 0), "x-": (-1, 0), "z+": (0, 1), "z-": (0, -1)}
+
+    def neighbours(t, edge, tt):
+        """Is tile tt the neighbour of t across `edge` (for tiles of one grid)?"""
+        a, b = grid(t), grid(tt)
+        if a is None or b is None or a[0] != b[0]:
+            return None                         # not one grid: unknown
+        return (b[1] - a[1], b[2] - a[2]) == step[edge]
+
+    def degree(nodes, k):
+        return len([o for o in nodes[k][1] if o in nodes and o != k])
 
     opposite = {"x+": "x-", "x-": "x+", "z+": "z-", "z-": "z+"}
     by_edge = {}
     for t, nodes in nodes_by_tile.items():
         for k, (p, _) in nodes.items():
-            e = own_edge(p)
+            e = own_edge(p, BORDER_NEAR)
             if e:
-                by_edge.setdefault((e[0], round(e[1])), []).append((t, k, e[1], p[1]))
+                by_edge.setdefault((e[0], round(e[1])), []).append((t, k, e[1], p[1], e[2]))
 
     parent = {}
 
@@ -227,20 +242,40 @@ def find_stray_components(rom_dir, tiles):
             for o in links:
                 if o in nodes and o != k:
                     union((t, k), (t, o))
-            e = own_edge(p)
+            e = own_edge(p, BORDER_NEAR)
             if e:
                 for c in (round(e[1]) - 1, round(e[1]), round(e[1]) + 1):
-                    for tt, kk, along, y in by_edge.get((opposite[e[0]], c), ()):
-                        if abs(along - e[1]) < 0.15 and abs(y - p[1]) < 0.3:
+                    for tt, kk, along, y, across in by_edge.get((opposite[e[0]], c), ()):
+                        if abs(y - p[1]) >= 0.3:
+                            continue
+                        adjacent = neighbours(t, e[0], tt)
+                        on_edge = abs(e[2]) >= BORDER and abs(across) >= BORDER
+                        # the old rule (any tiles): both right on the edge, at the same point
+                        strict = on_edge and abs(along - e[1]) < 0.15
+                        loose = False
+                        if not strict and adjacent:
+                            # neighbouring grid tiles, two track ends that do not quite meet on the
+                            # edge (a little apart, or both a little off it)
+                            gap_across = e[2] - math.copysign(1000.0, e[2]) - across
+                            loose = (math.hypot(along - e[1], gap_across) < BORDER_PAIR_GAP
+                                     and degree(nodes, k) == 1 and degree(nodes_by_tile[tt], kk) == 1)
+                        if strict or loose:
                             union((t, k), (tt, kk))
-                            candidates.setdefault((t, k), set()).add((tt, kk))
+                            candidates.setdefault((t, k), {"strict": set(), "loose": set()})[
+                                "strict" if strict else "loose"].add((tt, kk))
 
     # Unique border partners: (partner tile, partner node, partner raw y, partner inward direction,
     # partner raw x, partner raw z)
     partners = {}
-    for (t, k), found in candidates.items():
-        if len(found) != 1:
-            continue
+    chosen = {}
+    for key, found in candidates.items():
+        best = found["strict"] or found["loose"]      # an exact pair always wins
+        if len(best) == 1:
+            chosen[key] = (next(iter(best)), bool(found["strict"]))
+    for (t, k), (pair, exact) in chosen.items():
+        found = {pair}
+        if not exact and chosen.get(pair, (None,))[0] != (t, k):
+            continue                                  # a loose pair must be mutual
         tt, kk = next(iter(found))
         pp, plinks = nodes_by_tile[tt][kk]
         inner = [o for o in plinks if o in nodes_by_tile[tt] and o != kk]
@@ -372,7 +407,8 @@ def prepare_graph(rom_dir, tile, scan):
         inner = [o for o in links if o in nodes and o != k]
         if len(inner) != 1:
             continue
-        if abs(p[0]) >= BORDER:
+        # snap across the edge the node is nearest to (a pair may lie a little off the edge)
+        if abs(abs(p[0]) - 500.0) <= abs(abs(p[2]) - 500.0):
             p = (math.copysign(500.0, p[0]), p[1], (p[2] + pz) / 2)
         else:
             p = ((p[0] + px) / 2, p[1], math.copysign(500.0, p[2]))

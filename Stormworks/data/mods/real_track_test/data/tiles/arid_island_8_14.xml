@@ -297,7 +297,7 @@
 			<transform 30="360.608459" 31="8.485984" 32="213.682938"/>
 			<links>
 				<link id="train_rt_18"/>
-				<link id="train_57"/>
+				<link id="train_rt_19"/>
 			</links>
 		</track>
 		<track id="train_56">
@@ -310,8 +310,15 @@
 		<track id="train_57">
 			<transform 30="-423.735352" 31="8.485984" 32="213.682938"/>
 			<links>
-				<link id="train_55"/>
+				<link id="train_rt_19"/>
 				<link id="train_65"/>
+			</links>
+		</track>
+		<track id="train_65" seasonal_flags="2">
+			<transform 30="-500" 31="8.485984" 32="213.160004"/>
+			<links>
+				<link id="train_57"/>
+				<link id="train_61"/>
 			</links>
 		</track>
 		<track id="train_59">
@@ -461,11 +468,11 @@
 				<link id="train_55"/>
 			</links>
 		</track>
-		<track id="train_65" seasonal_flags="2">
-			<transform 30="-500" 31="8.485984" 32="213.160004"/>
+		<track id="train_rt_19">
+			<transform 30="-31.564317" 31="8.485984" 32="213.936822"/>
 			<links>
+				<link id="train_55"/>
 				<link id="train_57"/>
-				<link id="train_61"/>
 			</links>
 		</track>
 	</train_tracks>
