@@ -46,8 +46,9 @@ POLE_BASE_BELOW_RAIL = 0.80       # every pole stands on this level (below the r
 FOUNDATION_SIDE = 0.90            # square concrete block under a pole whose ground is lower
 FOUNDATION_BURIED = 1.20
 COLOR_FOUNDATION = (128, 126, 120, 255)
-POLE_RADIUS_GROUND = 0.217        # 433 mm at the ground line (490 mm at the foot, 290 at top)
-POLE_RADIUS_TOP = 0.145
+POLE_RADIUS_GROUND = 0.225        # 450 mm from the foot up to half the height ...
+POLE_RADIUS_TOP = 0.150           # ... then tapering to 300 mm at the top
+POLE_TAPER_FROM = 0.5             # fraction of the height where the taper starts
 POLE_SIDES = 8
 
 # Cantilever (after a manual drawing): the inclined tube goes from a hinge on the pole 250 mm
@@ -175,10 +176,12 @@ SHARE_KEEP_SPAN = 10.0               # moved support stays this far from its nei
 SHARE_MIN_TRACK_GAP = 2.0            # the two tracks of a shared pole are at least this far apart
 JUNCTION_DROP = 15.0                 # a side track's last support this close to its turnout is
                                      # dropped when its wire runs on over the turnout
-ANCHOR_POLE_SHIFTS = (6.0, 9.0, 12.0, 4.0, -6.0, -9.0, -12.0)   # an anchor on a shared pole gets its
+ANCHOR_POLE_SHIFTS = (-6.0, -9.0, -12.0, -4.0, 6.0, 9.0, 12.0)   # an anchor on a shared pole gets its
                                      # own pole this far beyond (away from its span; negative:
                                      # back towards it), on its side of the track or else the other
 POLE_SPACING = 2.5                   # poles at least this far apart
+ANCHOR_POLE_OUTSET = 0.8             # an own anchor pole before a shared pole: this much further out
+GUY_POLE_CLEARANCE = 1.5             # a guy rope keeps this far from other poles
 
 # "DPR" line (two wires - rail, 27.5 kV for non-traction consumers): on the field side of the
 # outermost poles of the bundle (portal posts too), straight through, independent of the tracks.
@@ -247,7 +250,40 @@ PORTAL_SEARCH_STEP = 3.0             # step when looking for a spot with room fo
 PORTAL_REUSE_AHEAD = 15.0
 PORTAL_STRETCH = 1.2                 # a span may stretch this much to hang from an existing portal
 PORTAL_BEAM_HEIGHT = 9.30            # beam centre above the rail top
-PORTAL_BEAM_SIZE = (0.40, 0.55)      # width, height
+PORTAL_BEAM_SIZE = (0.40, 0.55)      # (old box beam, not used)
+PORTAL_BEAM_BOTTOM = 9.05            # underside of the lattice girder above the rail top
+PORTAL_TRUSS_HEIGHT = 1.00           # one post per side (girder as wide as the head: 0.40 m)
+PORTAL_TWIN_TRUSS_HEIGHT = 1.50      # two posts per side (girder 1.08 m wide)
+PORTAL_PANEL = 1.00                  # panel length of the lattice
+PORTAL_CHORD_RADIUS = 0.045
+PORTAL_WEB_RADIUS = 0.022
+PORTAL_TWIN_SPAN = 15.0              # wider than this: two posts in a row on each side
+PORTAL_TWIN_OFFSET = (2 * POLE_RADIUS_GROUND + POLE_RADIUS_GROUND) / 2   # post axes this far from the
+                                     # pole spot (along): a gap of half the post diameter between them
+PORTAL_HEAD_HEIGHT = 0.90            # head: four steel angles round the post top(s) ...
+PORTAL_HEAD_HALF = 0.17              # ... at this distance from the post axis (across, and along)
+PORTAL_ANGLE_LEG = 0.075
+PORTAL_ANGLE_THICK = 0.010
+PORTAL_HEAD_RINGS = ((0.03, 0.09), (0.17, 0.23))   # two clamp rings at the foot of the angles
+PORTAL_HEAD_PLATE = 0.06             # bearing plate on the angles, under the girder
+PORTAL_PLATE_MARGIN = 0.03
+PORTAL_DECK = 0.04
+PORTAL_RAILING = 1.10
+PORTAL_RAILING_STEP = 1.50
+PORTAL_LADDER_FROM = 0.30            # the lowest rung this far above the ground (a working ladder)
+PORTAL_LADDER_ELEMENT_BACK = 0.30    # the game's ladder element this far behind the rungs (towards
+                                     # the post): the climbing character then hangs close to them
+
+
+def PORTAL_LADDER_BRACKETS(foot_y, head_y):
+    """Heights of the ladder's stand-offs to the post: near the foot, then about every 2.5 m."""
+    count = max(2, int(round((head_y - 0.3 - (foot_y + 0.3)) / 2.5)) + 1)
+    return [foot_y + 0.3 + (head_y - 0.6 - foot_y) * i / (count - 1) for i in range(count)]
+PORTAL_LADDER_OUT = 0.45             # ladder from the post axis, along the track, outside the girder
+PORTAL_LADDER_WIDTH = 0.42
+PORTAL_LADDER_STEP = 0.30
+PORTAL_LADDER_ABOVE = 1.10           # the stringers run on this far above the deck (hand holds)
+COLOR_LATTICE = (104, 106, 108, 255)
 
 # bridges, ledges
 FOOTING_LOW = 3.0                    # ground at most this far below the rail: an ordinary pole
@@ -607,7 +643,7 @@ def plan_catenary(rom_dir, tiles, prepare_graph, start=ROUTE_START, end=ROUTE_EN
             elif supports[a].get("insulate") and supports[b].get("section_anchor"):
                 span["insulators"] = "from"
             spans.append(span)
-    anchors = _mark_anchors(ground, net, runs, supports)
+    anchors = _mark_anchors(ground, net, runs, supports, portals)
     _assign_stagger(runs, supports)
     middle_anchors = _middle_anchors(runs, supports, spans)
     live = {sp["portal"] for sp in supports if sp["portal"] is not None and not sp.get("dropped")}
@@ -1060,10 +1096,16 @@ def _anchor_poles(ground, net, runs, supports, portals):
             beyond = _unit2((track[0] - other[0], track[2] - other[2]))
             lateral = (sp["pole"][0] - track[0], sp["pole"][2] - track[2])
             spots = _pole_spots(supports, portals)
+            # Before the shared pole (on the span side) first: the anchored branch then ends before
+            # it and does not run through that pole's cantilever. Such an anchor pole stands a
+            # little further out, so its guy (pointing back past the shared pole) clears it.
+            reach = math.hypot(*lateral)
+            outset = (reach + ANCHOR_POLE_OUTSET) / reach if reach > 1e-6 else 1.0
             options = [(shift, 1.0) for shift in ANCHOR_POLE_SHIFTS] + [(shift, -1.0) for shift in ANCHOR_POLE_SHIFTS]
             for shift, mirror in options:
-                x = track[0] + lateral[0] * mirror + beyond[0] * shift
-                z = track[2] + lateral[1] * mirror + beyond[1] * shift
+                widen = outset if shift < 0 else 1.0
+                x = track[0] + lateral[0] * mirror * widen + beyond[0] * shift
+                z = track[2] + lateral[1] * mirror * widen + beyond[1] * shift
                 if (_track_distance(net, x, z) < POLE_CLEARANCE or _near_signal(net, (x, z))
                         or _shades_signal(net, (x, z), sp["t"])):
                     continue
@@ -1161,9 +1203,20 @@ def _track_distance(net, x, z, radius=10.0):
                 for sa, sb, _ in net.all_tracks.near(x, z, radius)] + [radius])
 
 
-def _mark_anchors(ground, net, runs, supports):
+def _mark_anchors(ground, net, runs, supports, portals=()):
     """The first and last support of every wire run with a pole become anchor supports."""
     count = 0
+    spots = _pole_spots(supports, portals)
+
+    def near_pole(a, b):
+        for x, z in spots:
+            if math.hypot(x - a[0], z - a[1]) < 0.3:
+                continue                     # its own pole
+            if (min(a[0], b[0]) - 2 < x < max(a[0], b[0]) + 2 and min(a[1], b[1]) - 2 < z < max(a[1], b[1]) + 2
+                    and signs._point_segment_distance((x, z), a, b) < GUY_POLE_CLEARANCE):
+                return True
+        return False
+
     for indices in runs:
         if len(indices) < 2:
             continue
@@ -1191,7 +1244,8 @@ def _mark_anchors(ground, net, runs, supports):
                     floor = max(candidates) if candidates else None
                     roofed = floor is not None and any(floor + 1.0 < h < floor + 15.0 for h in heights)
                     clearance = _track_distance(net, gx, gz)
-                    crossing = _crosses_track(net.all_tracks, (pole[0], pole[2]), (gx, gz))
+                    crossing = (_crosses_track(net.all_tracks, (pole[0], pole[2]), (gx, gz))
+                                or near_pole((pole[0], pole[2]), (gx, gz)))
                     good = (clearance >= GUY_CLEARANCE and not roofed and floor is not None and not crossing
                             and not _near_signal(net, (pole[0], pole[2]), (gx, gz)))
                     # otherwise keep the least bad: on the ground, clear of the tracks
@@ -1704,11 +1758,12 @@ def _insulator_chain(builder, a, b, anchor, sheds=3, shed_radius=0.11, core_radi
               COLOR_INSULATOR, anchor, caps=True)
 
 
-def pole_radius_at(sp_base_y, y):
-    """Radius of the concrete pole at height y (the cone of _concrete_pole)."""
-    bottom = sp_base_y - POLE_BURIED
-    f = max(0.0, min(1.0, (y - bottom) / (POLE_HEIGHT + POLE_BURIED)))
-    return (POLE_RADIUS_GROUND + 0.007) * (1 - f) + POLE_RADIUS_TOP * f
+def pole_radius_at(sp_base_y, y, height=POLE_HEIGHT):
+    """Radius of the concrete pole (base sp_base_y, `height` tall) at height y: straight up to
+    POLE_TAPER_FROM of its height, then tapering to the top."""
+    taper = sp_base_y + height * POLE_TAPER_FROM
+    f = max(0.0, min(1.0, (y - taper) / (height * (1.0 - POLE_TAPER_FROM))))
+    return POLE_RADIUS_GROUND * (1 - f) + POLE_RADIUS_TOP * f
 
 
 def _concrete_pole(builder, pole, base_y, top_y, t, origin, anchor, buried=POLE_BURIED):
@@ -1723,8 +1778,11 @@ def _concrete_pole(builder, pole, base_y, top_y, t, origin, anchor, buried=POLE_
         signs._box(builder, frame, half, half, -drop, 0.0, [(-drop, 0.0, COLOR_FOUNDATION)], anchor)
         signs.add_box_collision(builder, frame, half, half, -drop, 0.0, anchor)
     height = top_y - base_y
-    _cone(builder, (pole[0] - ox, base_y - buried, pole[2] - oz), height + buried,
-          POLE_RADIUS_GROUND + 0.007, POLE_RADIUS_TOP, POLE_SIDES, COLOR_CONCRETE, anchor)
+    taper = height * POLE_TAPER_FROM
+    _cone(builder, (pole[0] - ox, base_y - buried, pole[2] - oz), taper + buried,
+          POLE_RADIUS_GROUND, POLE_RADIUS_GROUND, POLE_SIDES, COLOR_CONCRETE, anchor)
+    _cone(builder, (pole[0] - ox, base_y + taper, pole[2] - oz), height - taper,
+          POLE_RADIUS_GROUND, POLE_RADIUS_TOP, POLE_SIDES, COLOR_CONCRETE, anchor)
     signs.add_box_collision(builder, frame, POLE_RADIUS_GROUND, POLE_RADIUS_GROUND,
                             -buried, height, anchor)
 
@@ -1759,15 +1817,109 @@ def add_bracket(builder, sp, origin, anchor):
 
 
 def portal_beam_y(portal):
-    return portal.get("beam_y", portal["rail_y"] + PORTAL_BEAM_HEIGHT)
+    """Centre height of the cross beam (truss: of the cross girder under its top chords)."""
+    if portal.get("kind") == "truss":
+        return portal.get("beam_y", portal["rail_y"] + PORTAL_BEAM_HEIGHT)
+    return portal["rail_y"] + PORTAL_BEAM_BOTTOM + portal_beam_size(portal)[1] / 2
+
+
+def portal_twin(portal):
+    """Wide portals stand on two posts in a row (along the tracks) on each side."""
+    a, b = portal["poles"]
+    return math.hypot(b[0] - a[0], b[2] - a[2]) > PORTAL_TWIN_SPAN
+
+
+def portal_head_half(portal):
+    """(along the tracks, across) half size of a portal head's bearing plate."""
+    along = (PORTAL_TWIN_OFFSET if portal_twin(portal) else 0.0) + PORTAL_HEAD_HALF + PORTAL_PLATE_MARGIN
+    return along, PORTAL_HEAD_HALF + PORTAL_PLATE_MARGIN
 
 
 def portal_beam_size(portal):
-    return TRUSS_BEAM_SIZE if portal.get("kind") == "truss" else PORTAL_BEAM_SIZE
+    """(width, height) of the girder: as wide as the heads (along the tracks)."""
+    if portal.get("kind") == "truss":
+        return TRUSS_BEAM_SIZE
+    height = PORTAL_TWIN_TRUSS_HEIGHT if portal_twin(portal) else PORTAL_TRUSS_HEIGHT
+    return 2 * portal_head_half(portal)[0], height
+
+
+def portal_ladder(portal):
+    """The ladder of a wide portal (world): the first post of side a, on its end face (along the
+    track, away from the other post). Returns {"post", "foot" (rung plane centre at the lowest rung
+    level), "ground", "x" (along the rungs), "z" (from the post towards the climber), "top" (deck
+    top)}, or None."""
+    if portal.get("kind") == "truss" or not portal_twin(portal):
+        return None
+    a, b = portal["poles"]
+    across = _unit((b[0] - a[0], 0.0, b[2] - a[2]))
+    along = (across[2], -across[0])
+    out = (-along[0], 0.0, -along[1])                    # away from the other post
+    post = (a[0] - along[0] * PORTAL_TWIN_OFFSET, a[2] - along[1] * PORTAL_TWIN_OFFSET)
+    base_y = portal["rail_y"] - POLE_BASE_BELOW_RAIL
+    ground = max(base_y, a[1])
+    width, height = portal_beam_size(portal)
+    top = portal_beam_y(portal) + height / 2 + PORTAL_DECK
+    foot = (post[0] + out[0] * PORTAL_LADDER_OUT, ground + PORTAL_LADDER_FROM, post[1] + out[2] * PORTAL_LADDER_OUT)
+    return {"post": post, "foot": foot, "ground": ground, "x": across, "z": out, "top": top}
+
+
+def portal_ladders(plan):
+    """Game ladder elements for the portal ladders: [(world point at the ladder foot on the ground,
+    x axis, z axis, height)]. The element stands in the rung plane; its z axis points from the
+    structure towards the climber (as the vanilla railway ladders)."""
+    found = []
+    for portal in plan.get("portals", []):
+        if portal.get("unused"):
+            continue
+        ladder = portal_ladder(portal)
+        if ladder is None:
+            continue
+        back = PORTAL_LADDER_ELEMENT_BACK
+        foot = (ladder["foot"][0] - ladder["z"][0] * back, ladder["ground"], ladder["foot"][2] - ladder["z"][2] * back)
+        found.append((foot, ladder["x"], ladder["z"], ladder["top"] - ladder["ground"]))
+    return found
+
+
+def _lattice_beam(builder, start, end, width, height, color, anchor):
+    """Box lattice girder from start to end (centre line): four chords, verticals and diagonals on
+    the side faces, zigzag bracing on the top and bottom faces."""
+    axis = _unit(_sub(end, start))
+    side = _unit(_cross((0.0, 1.0, 0.0), axis))      # horizontal, across the girder
+    length = math.dist(start, end)
+    panels = max(2, int(round(length / PORTAL_PANEL)))
+    step = length / panels
+
+    def at(x, y, z):
+        """x along the girder from start, y up from the centre line, z across."""
+        return _add(_add(_add(start, _mul(axis, x)), (0.0, y, 0.0)), _mul(side, z))
+
+    h, w = height / 2, width / 2
+    for y in (-h, h):
+        for z in (-w, w):
+            _tube(builder, at(0.0, y, z), at(length, y, z), PORTAL_CHORD_RADIUS, 4, color, anchor, caps=True)
+    for i in range(panels + 1):
+        x = i * step
+        for z in (-w, w):
+            _tube(builder, at(x, -h, z), at(x, h, z), PORTAL_WEB_RADIUS, 4, color, anchor)
+        for y in (-h, h):
+            _tube(builder, at(x, y, -w), at(x, y, w), PORTAL_WEB_RADIUS, 4, color, anchor)
+        if i == panels:
+            break
+        x1 = x + step
+        flip = i % 2 == 0
+        for z in (-w, w):
+            _tube(builder, at(x, -h if flip else h, z), at(x1, h if flip else -h, z), PORTAL_WEB_RADIUS, 4,
+                  color, anchor)
+        for y in (-h, h):
+            _tube(builder, at(x, y, -w if flip else w), at(x1, y, w if flip else -w), PORTAL_WEB_RADIUS, 4,
+                  color, anchor)
 
 
 def add_portal(builder, portal, origin):
-    """Rigid cross-span: two concrete poles beyond the outer tracks, a steel box beam on top."""
+    """Rigid cross-span: concrete posts beyond the outer tracks with steel heads, a lattice girder
+    resting on the heads. Wider than PORTAL_TWIN_SPAN: two posts in a row on each side, a wider
+    girder with a deck and railings on top and a ladder up one post. In a through truss: only a
+    cross girder under the truss top chords."""
     ox, oz = origin
 
     def local(p):
@@ -1776,29 +1928,147 @@ def add_portal(builder, portal, origin):
     a, b = portal["poles"]
     across = _unit((b[0] - a[0], 0.0, b[2] - a[2]))
     along = (across[2], -across[0])                 # horizontal, along the tracks
+    along3 = (along[0], 0.0, along[1])
     beam_y = portal_beam_y(portal)
-    base_y = portal["rail_y"] - POLE_BASE_BELOW_RAIL
     width, height = portal_beam_size(portal)
-    truss = portal.get("kind") == "truss"
-    if not truss:
-        for pole in (a, b):
-            anchor = (pole[0] - ox, pole[2] - oz)
-            _concrete_pole(builder, pole, base_y, beam_y + height / 2 + 0.25, along, origin, anchor)
-    # beam: a box from pole to pole (past the pole axes by a little); in a truss a cross girder
-    # from top chord to top chord
-    over = 0.0 if truss else 0.35
-    start = _add((a[0], beam_y, a[2]), _mul(across, -over))
-    end = _add((b[0], beam_y, b[2]), _mul(across, over))
-    centre = _lerp(start, end, 0.5)
     frame_t = (across[0], across[2])
-    frame = signs.Frame(local((centre[0], beam_y - height / 2, centre[2])), frame_t)
-    half_length = math.dist(start, end) / 2
+    if portal.get("kind") == "truss":
+        centre = _lerp((a[0], beam_y, a[2]), (b[0], beam_y, b[2]), 0.5)
+        frame = signs.Frame(local((centre[0], beam_y - height / 2, centre[2])), frame_t)
+        half_length = math.dist(a, b) / 2
+        anchor = (centre[0] - ox, centre[2] - oz)
+        signs._box(builder, frame, half_length, width / 2, 0.0, height, [(0.0, height, COLOR_TRUSS)], anchor)
+        builder.polygon([frame.at(-half_length, -width / 2, 0.0), frame.at(half_length, -width / 2, 0.0),
+                         frame.at(half_length, width / 2, 0.0), frame.at(-half_length, width / 2, 0.0)],
+                        COLOR_TRUSS, anchor, (0.0, -1.0, 0.0))
+        signs.add_box_collision(builder, frame, half_length, width / 2, 0.0, height, anchor)
+        return
+
+    twin = portal_twin(portal)
+    rail_y = portal["rail_y"]
+    base_y = rail_y - POLE_BASE_BELOW_RAIL
+    bottom = rail_y + PORTAL_BEAM_BOTTOM               # underside of the girder = top of the plates
+    plate_y = bottom - PORTAL_HEAD_PLATE
+    head_y = plate_y - PORTAL_HEAD_HEIGHT
+    post_top = plate_y - 0.05
+    offsets = (-PORTAL_TWIN_OFFSET, PORTAL_TWIN_OFFSET) if twin else (0.0,)
+    plate_along, plate_across = portal_head_half(portal)
+    corner_along = plate_along - PORTAL_PLATE_MARGIN     # outer corner of the angles
+    corner_across = plate_across - PORTAL_PLATE_MARGIN
+    leg, thick = PORTAL_ANGLE_LEG, PORTAL_ANGLE_THICK
+
+    for pole in (a, b):
+        anchor = (pole[0] - ox, pole[2] - oz)
+
+        def block(c_along, c_across, half_along, half_across, y0, y1, bottom_face=False):
+            frame = signs.Frame(local((pole[0] + along[0] * c_along + across[0] * c_across, y0,
+                                       pole[2] + along[1] * c_along + across[2] * c_across)), along)
+            # Frame: t = along the tracks, r = right of it (= -across or +across): symmetric boxes
+            signs._box(builder, frame, half_along, half_across, 0.0, y1 - y0, [(0.0, y1 - y0, COLOR_STEEL)], anchor)
+            if bottom_face:
+                builder.polygon([frame.at(-half_along, -half_across, 0.0), frame.at(half_along, -half_across, 0.0),
+                                 frame.at(half_along, half_across, 0.0), frame.at(-half_along, half_across, 0.0)],
+                                COLOR_STEEL, anchor, (0.0, -1.0, 0.0))
+
+        for offset in offsets:
+            post = [pole[0] + along[0] * offset, pole[1], pole[2] + along[1] * offset]
+            _concrete_pole(builder, post, base_y, post_top, along, origin, (post[0] - ox, post[2] - oz))
+        # head: four steel angles at the corners round the post top(s), held by two clamp rings
+        # at their foot, the bearing plate on top
+        for sa in (-1.0, 1.0):
+            for sc in (-1.0, 1.0):
+                block(sa * (corner_along - leg / 2), sc * (corner_across - thick / 2), leg / 2, thick / 2,
+                      head_y, plate_y)
+                block(sa * (corner_along - thick / 2), sc * (corner_across - leg / 2), thick / 2, leg / 2,
+                      head_y, plate_y)
+        for r0, r1 in PORTAL_HEAD_RINGS:
+            band = 0.012
+            for sc in (-1.0, 1.0):
+                block(0.0, sc * (corner_across + band / 2), corner_along + band, band / 2,
+                      head_y + r0, head_y + r1, True)
+            for sa in (-1.0, 1.0):
+                block(sa * (corner_along + band / 2), 0.0, band / 2, corner_across, head_y + r0, head_y + r1, True)
+        block(0.0, 0.0, plate_along, plate_across, plate_y, bottom, True)
+        # collider: the whole head as one box
+        signs.add_box_collision(builder, signs.Frame(local((pole[0], head_y, pole[2])), along),
+                                plate_along, plate_across, 0.0, bottom - head_y, anchor)
+
+    # girder: from plate edge to plate edge, as wide as the plates
+    start = _add((a[0], beam_y, a[2]), _mul(across, -plate_across))
+    end = _add((b[0], beam_y, b[2]), _mul(across, plate_across))
+    centre = _lerp(start, end, 0.5)
     anchor = (centre[0] - ox, centre[2] - oz)
-    color = COLOR_TRUSS if truss else COLOR_STEEL
-    signs._box(builder, frame, half_length, width / 2, 0.0, height, [(0.0, height, color)], anchor)
-    builder.polygon([frame.at(-half_length, -width / 2, 0.0), frame.at(half_length, -width / 2, 0.0),
-                     frame.at(half_length, width / 2, 0.0), frame.at(-half_length, width / 2, 0.0)],
-                    color, anchor, (0.0, -1.0, 0.0))
+    _lattice_beam(builder, local(start), local(end), width, height, COLOR_LATTICE, anchor)
+    # collider: one solid box for the girder (and the deck on it)
+    girder = signs.Frame(local((centre[0], bottom, centre[2])), frame_t)
+    signs.add_box_collision(builder, girder, math.dist(start, end) / 2, width / 2, 0.0,
+                            height + (PORTAL_DECK if twin else 0.0), anchor)
+    if not twin:
+        return
+    # deck and railings on top (with an opening where the ladder comes up)
+    top = beam_y + height / 2
+    deck = signs.Frame(local((centre[0], top, centre[2])), frame_t)
+    half_length = math.dist(start, end) / 2
+    signs._box(builder, deck, half_length, width / 2, 0.0, PORTAL_DECK, [(0.0, PORTAL_DECK, COLOR_STEEL)], anchor)
+    builder.polygon([deck.at(-half_length, -width / 2, 0.0), deck.at(half_length, -width / 2, 0.0),
+                     deck.at(half_length, width / 2, 0.0), deck.at(-half_length, width / 2, 0.0)],
+                    COLOR_STEEL, anchor, (0.0, -1.0, 0.0))
+    # the deck frame's side axis r points along +along; the ladder stands on the -along side, at
+    # the first post of side a
+    ladder_x = -half_length + plate_across                 # pole a, along the girder
+    gap = (ladder_x - PORTAL_LADDER_WIDTH / 2 - 0.15, ladder_x + PORTAL_LADDER_WIDTH / 2 + 0.15)
+    rail_top = top + PORTAL_DECK + PORTAL_RAILING
+    edge = width / 2 - 0.03
+    for side in (-1.0, 1.0):
+        pieces = [(-half_length + 0.03, half_length - 0.03)]
+        if side < 0:
+            pieces = [(-half_length + 0.03, gap[0]), (gap[1], half_length - 0.03)]
+        for x0, x1 in pieces:
+            if x1 - x0 < 0.1:
+                continue
+            posts = max(2, int(round((x1 - x0) / PORTAL_RAILING_STEP)) + 1)
+            for i in range(posts):
+                foot = deck.at(x0 + (x1 - x0) * i / (posts - 1), side * edge, PORTAL_DECK)
+                _tube(builder, foot, (foot[0], rail_top, foot[2]), 0.022, 4, COLOR_STEEL, anchor, caps=True)
+            for y in (rail_top, top + PORTAL_DECK + PORTAL_RAILING / 2):
+                p0, p1 = deck.at(x0, side * edge, 0.0), deck.at(x1, side * edge, 0.0)
+                _tube(builder, (p0[0], y, p0[2]), (p1[0], y, p1[2]), 0.022, 4, COLOR_STEEL, anchor, caps=True)
+            # collider: a thin box along the railing, so nobody walks off the deck through it
+            middle = deck.at((x0 + x1) / 2, side * edge, 0.0)
+            signs.add_box_collision(builder, signs.Frame(middle, frame_t), (x1 - x0) / 2, 0.025,
+                                    PORTAL_DECK, PORTAL_DECK + PORTAL_RAILING, anchor)
+    # ladder (no safety hoops) on the end face of the first post, along the track, outside the
+    # girder: the climber comes up beside the deck and steps onto it through the opening
+    ladder = portal_ladder(portal)
+    post, out = ladder["post"], ladder["z"]
+    foot_y = ladder["foot"][1]
+    top_y = top + PORTAL_DECK + PORTAL_LADDER_ABOVE
+    ladder_anchor = (post[0] - ox, post[1] - oz)
+    for s_ in (-PORTAL_LADDER_WIDTH / 2, PORTAL_LADDER_WIDTH / 2):
+        x = post[0] + out[0] * PORTAL_LADDER_OUT + across[0] * s_
+        z = post[1] + out[2] * PORTAL_LADDER_OUT + across[2] * s_
+        _tube(builder, local((x, foot_y, z)), local((x, top_y, z)), 0.025, 4, COLOR_STEEL, ladder_anchor, caps=True)
+        # stand-offs: from each stringer in to the post, ending on its surface (the stringers are
+        # wider apart than the post near its top, so they converge onto the post's face)
+        for y in PORTAL_LADDER_BRACKETS(foot_y, head_y):
+            radius = pole_radius_at(base_y, y, post_top - base_y)
+            lateral = math.copysign(radius * 0.5, s_)
+            depth = math.sqrt(radius * radius - lateral * lateral) * 0.97
+            _tube(builder, local((x, y, z)),
+                  local((post[0] + out[0] * depth + across[0] * lateral, y,
+                         post[1] + out[2] * depth + across[2] * lateral)),
+                  0.018, 4, COLOR_STEEL, ladder_anchor, caps=True)
+    # clamp bands round the post where the stand-offs meet it
+    for y in PORTAL_LADDER_BRACKETS(foot_y, head_y):
+        band = pole_radius_at(base_y, y, post_top - base_y) + 0.012
+        _tube(builder, local((post[0], y - 0.04, post[1])), local((post[0], y + 0.04, post[1])), band,
+              POLE_SIDES, COLOR_STEEL, ladder_anchor, caps=True)
+    y = foot_y + 0.15
+    while y < top + PORTAL_DECK + 0.1:
+        c = (post[0] + out[0] * PORTAL_LADDER_OUT, y, post[1] + out[2] * PORTAL_LADDER_OUT)
+        _tube(builder, local(_add(c, _mul(across, -PORTAL_LADDER_WIDTH / 2))),
+              local(_add(c, _mul(across, PORTAL_LADDER_WIDTH / 2))), 0.016, 4, COLOR_STEEL, ladder_anchor)
+        y += PORTAL_LADDER_STEP
 
 
 def add_portal_hanger(builder, sp, portal, origin):

@@ -175,10 +175,12 @@ SHARE_KEEP_SPAN = 10.0               # moved support stays this far from its nei
 SHARE_MIN_TRACK_GAP = 2.0            # the two tracks of a shared pole are at least this far apart
 JUNCTION_DROP = 15.0                 # a side track's last support this close to its turnout is
                                      # dropped when its wire runs on over the turnout
-ANCHOR_POLE_SHIFTS = (6.0, 9.0, 12.0, 4.0, -6.0, -9.0, -12.0)   # an anchor on a shared pole gets its
+ANCHOR_POLE_SHIFTS = (-6.0, -9.0, -12.0, -4.0, 6.0, 9.0, 12.0)   # an anchor on a shared pole gets its
                                      # own pole this far beyond (away from its span; negative:
                                      # back towards it), on its side of the track or else the other
 POLE_SPACING = 2.5                   # poles at least this far apart
+ANCHOR_POLE_OUTSET = 0.8             # an own anchor pole before a shared pole: this much further out
+GUY_POLE_CLEARANCE = 1.5             # a guy rope keeps this far from other poles
 
 # "DPR" line (two wires - rail, 27.5 kV for non-traction consumers): on the field side of the
 # outermost poles of the bundle (portal posts too), straight through, independent of the tracks.
@@ -607,7 +609,7 @@ def plan_catenary(rom_dir, tiles, prepare_graph, start=ROUTE_START, end=ROUTE_EN
             elif supports[a].get("insulate") and supports[b].get("section_anchor"):
                 span["insulators"] = "from"
             spans.append(span)
-    anchors = _mark_anchors(ground, net, runs, supports)
+    anchors = _mark_anchors(ground, net, runs, supports, portals)
     _assign_stagger(runs, supports)
     middle_anchors = _middle_anchors(runs, supports, spans)
     live = {sp["portal"] for sp in supports if sp["portal"] is not None and not sp.get("dropped")}
@@ -1060,10 +1062,16 @@ def _anchor_poles(ground, net, runs, supports, portals):
             beyond = _unit2((track[0] - other[0], track[2] - other[2]))
             lateral = (sp["pole"][0] - track[0], sp["pole"][2] - track[2])
             spots = _pole_spots(supports, portals)
+            # Before the shared pole (on the span side) first: the anchored branch then ends before
+            # it and does not run through that pole's cantilever. Such an anchor pole stands a
+            # little further out, so its guy (pointing back past the shared pole) clears it.
+            reach = math.hypot(*lateral)
+            outset = (reach + ANCHOR_POLE_OUTSET) / reach if reach > 1e-6 else 1.0
             options = [(shift, 1.0) for shift in ANCHOR_POLE_SHIFTS] + [(shift, -1.0) for shift in ANCHOR_POLE_SHIFTS]
             for shift, mirror in options:
-                x = track[0] + lateral[0] * mirror + beyond[0] * shift
-                z = track[2] + lateral[1] * mirror + beyond[1] * shift
+                widen = outset if shift < 0 else 1.0
+                x = track[0] + lateral[0] * mirror * widen + beyond[0] * shift
+                z = track[2] + lateral[1] * mirror * widen + beyond[1] * shift
                 if (_track_distance(net, x, z) < POLE_CLEARANCE or _near_signal(net, (x, z))
                         or _shades_signal(net, (x, z), sp["t"])):
                     continue
@@ -1161,9 +1169,20 @@ def _track_distance(net, x, z, radius=10.0):
                 for sa, sb, _ in net.all_tracks.near(x, z, radius)] + [radius])
 
 
-def _mark_anchors(ground, net, runs, supports):
+def _mark_anchors(ground, net, runs, supports, portals=()):
     """The first and last support of every wire run with a pole become anchor supports."""
     count = 0
+    spots = _pole_spots(supports, portals)
+
+    def near_pole(a, b):
+        for x, z in spots:
+            if math.hypot(x - a[0], z - a[1]) < 0.3:
+                continue                     # its own pole
+            if (min(a[0], b[0]) - 2 < x < max(a[0], b[0]) + 2 and min(a[1], b[1]) - 2 < z < max(a[1], b[1]) + 2
+                    and signs._point_segment_distance((x, z), a, b) < GUY_POLE_CLEARANCE):
+                return True
+        return False
+
     for indices in runs:
         if len(indices) < 2:
             continue
@@ -1191,7 +1210,8 @@ def _mark_anchors(ground, net, runs, supports):
                     floor = max(candidates) if candidates else None
                     roofed = floor is not None and any(floor + 1.0 < h < floor + 15.0 for h in heights)
                     clearance = _track_distance(net, gx, gz)
-                    crossing = _crosses_track(net.all_tracks, (pole[0], pole[2]), (gx, gz))
+                    crossing = (_crosses_track(net.all_tracks, (pole[0], pole[2]), (gx, gz))
+                                or near_pole((pole[0], pole[2]), (gx, gz)))
                     good = (clearance >= GUY_CLEARANCE and not roofed and floor is not None and not crossing
                             and not _near_signal(net, (pole[0], pole[2]), (gx, gz)))
                     # otherwise keep the least bad: on the ground, clear of the tracks

@@ -52,19 +52,28 @@ MIN_COMPONENT_LENGTH = 50.0     # isolated bits of track graph shorter than this
 BORDER = 499.5
 BORDER_NEAR = 497.0             # border pairs may lie this far inside / outside their tile edge
 BORDER_PAIR_GAP = 1.0           # ... and this far apart (vanilla pairs that do not quite meet)
+BORDER_SLIDE_MAX = 3.0          # a border end slides at most this far along its track onto the edge
 SHALLOW_CROSSING_COS = 0.7     # track meets a tile edge at less than ~45 degrees
 
 MOD_NAME = "Stormworks Railway Overhaul (SRO)"
-MOD_VERSION = "1.0.2"
+MOD_VERSION = "1.0.3"
 # with an overhead line plan (step "catenary") the build is the Plus edition
-PLUS_NAME = "Stormworks Railway Overhaul (SRO) Catenary+"
-PLUS_VERSION = "0.8.1 (overhead line on all Sawyer mainland tracks)"
+PLUS_NAME = "SRO Catenary+ (Sawyer)"
+PLUS_VERSION = "1.0"
 MOD_AUTHOR = "quadub"
 MOD_XML = ('<?xml version="1.0" encoding="UTF-8"?>\n'
            '<mod name="{name}" author="{author}" '
            'desc="v{version}. 3D rails and concrete sleepers on every railway tile of the vanilla map, '
            'smoothed curves, dark grey ballast, kilometre and picket posts on the mainland. '
            'Track graph raised by {raise_cm} cm so trains run on the rail heads."/>\n')
+PLUS_XML = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<mod name="{name}" author="{author}" '
+            'desc="v{version}. Stormworks Railway Overhaul with a Soviet / Russian style 25 kV overhead line '
+            '(visual) on every track of the Sawyer mainland: concrete poles with insulated cantilevers, '
+            'zigzagged contact wire on droppers, anchor sections with overlaps, tension weights, portals '
+            'with lattice girders and working ladders, wires through truss bridges. Includes the whole base SRO '
+            '(3D rails and sleepers on every railway tile, smoothed curves, kilometre posts, track graph '
+            'raised by {raise_cm} cm): use it instead of SRO, not together with it."/>\n')
 
 
 # ---------------------------------------------------------------- helpers
@@ -407,11 +416,29 @@ def prepare_graph(rom_dir, tile, scan):
         inner = [o for o in links if o in nodes and o != k]
         if len(inner) != 1:
             continue
-        # snap across the edge the node is nearest to (a pair may lie a little off the edge)
-        if abs(abs(p[0]) - 500.0) <= abs(abs(p[2]) - 500.0):
-            p = (math.copysign(500.0, p[0]), p[1], (p[2] + pz) / 2)
+        # Onto the edge the node is nearest to. A pair may lie a little off the edge (or apart):
+        # each end slides along its own track onto the edge (so a track meeting the edge at an
+        # angle keeps its line), and the pair meets in the middle of the two slid points.
+        q0 = nodes[inner[0]][0]
+        x_edge = abs(abs(p[0]) - 500.0) <= abs(abs(p[2]) - 500.0)
+        own_dir = (p[0] - q0[0], p[2] - q0[2])
+        partner_dir = (-dx, -dz)                      # partner heading out of its tile
+
+        def slide(x, z, d):
+            across, along, d_across, d_along = (x, z, d[0], d[1]) if x_edge else (z, x, d[1], d[0])
+            length = math.hypot(*d)
+            if length < 1e-9 or abs(d_across) / length < 0.3:
+                return along                          # along the edge: no sliding
+            u = (math.copysign(500.0, across) - across) / d_across
+            if abs(u) * length > BORDER_SLIDE_MAX:
+                return along
+            return along + d_along * u
+
+        along = (slide(p[0], p[2], own_dir) + slide(px, pz, partner_dir)) / 2
+        if x_edge:
+            p = (math.copysign(500.0, p[0]), p[1], along)
         else:
-            p = ((p[0] + px) / 2, p[1], math.copysign(500.0, p[2]))
+            p = (along, p[1], math.copysign(500.0, p[2]))
         nodes[k] = (p, links)
         node_y[k] = (p[1] + py) / 2 + rails.GRAPH_RAISE
         q = nodes[inner[0]][0]
@@ -601,9 +628,19 @@ def step_assemble(rom_dir, work):
         with open(os.path.join(mod, *ballast_copy_name(file_name).split("/")), "wb") as f:
             f.write(data)
 
+    # game ladder elements for the portal ladders (Plus edition), by the tile they stand in
+    ladders = {}
+    catenary_path = os.path.join(work, "catenary.json")
+    if os.path.exists(catenary_path):
+        for foot, x_axis, z_axis, height in catenary.portal_ladders(json.load(open(catenary_path))):
+            tile = "mega_island_%d_%d" % (int(math.floor((foot[0] + 8500) / 1000)), int(math.floor((foot[2] + 12500) / 1000)))
+            if tile in scan["tiles"]:
+                ladders.setdefault(tile, []).append((foot, x_axis, z_axis, height))
+
     # tile XMLs
     tiles_out = os.path.join(mod, "data", "tiles")
     os.makedirs(tiles_out, exist_ok=True)
+    total_ladders = 0
     total_entries = 0
     total_phys = 0
     total_vertices = 0
@@ -636,6 +673,18 @@ def step_assemble(rom_dir, work):
                                 % (safe, MESH_DIR, stored_name[file_name], newline, newline, newline))
         text = append_to_section(text, "physics_meshes", "".join(phys_entries), newline)
         total_phys += len(phys_entries)
+        ladder_entries = []
+        if tile in ladders:
+            ox, oz = signs.mainland_origin(tile)
+            for i, (foot, x_axis, z_axis, height) in enumerate(ladders[tile]):
+                ladder_entries.append(
+                    '\t\t<ladder id="real_track_ladder_%d" height="%.3f">%s'
+                    '\t\t\t<transform 00="%.6f" 02="%.6f" 20="%.6f" 22="%.6f" 30="%.6f" 31="%.6f" 32="%.6f"/>%s'
+                    '\t\t</ladder>%s'
+                    % (i, height, newline, x_axis[0], x_axis[2], z_axis[0], z_axis[2],
+                       foot[0] - ox, foot[1], foot[2] - oz, newline, newline))
+            text = append_to_section(text, "ladders", "".join(ladder_entries), newline)
+        total_ladders += len(ladder_entries)
         with open(os.path.join(tiles_out, tile + ".xml"), "w", encoding="utf-8", newline="") as f:
             f.write(text)
         total_entries += len(entries)
@@ -643,12 +692,12 @@ def step_assemble(rom_dir, work):
 
     with open(os.path.join(mod, "mod.xml"), "w", encoding="utf-8") as f:
         plus = os.path.exists(os.path.join(work, "catenary.json"))
-        f.write(MOD_XML.format(name=PLUS_NAME if plus else MOD_NAME, author=MOD_AUTHOR,
+        f.write((PLUS_XML if plus else MOD_XML).format(name=PLUS_NAME if plus else MOD_NAME, author=MOD_AUTHOR,
                                version=PLUS_VERSION if plus else MOD_VERSION,
                                raise_cm=int(round(rails.GRAPH_RAISE * 100))))
     print("tiles", len(scan["tiles"]), " mesh entries added", total_entries,
           " track vertices", total_vertices, " physics entries added", total_phys,
-          " shared duplicate files", duplicates)
+          " shared duplicate files", duplicates, " ladders", total_ladders)
     print("done")
 
 

@@ -9,9 +9,12 @@ for path in sorted(glob.glob(os.path.join(mod, 'data', 'tiles', '*.xml'))):
     ours2 = strip(ours)
     ours2 = re.sub(r'<mesh id="real_track_[^"]*" file_name="[^"]*">\s*<transform/>\s*</mesh>\s*', '', ours2)
     ours2 = re.sub(r'<physics_mesh id="real_track_phys_[^"]*" file_name="[^"]*">\s*<transform/>\s*</physics_mesh>\s*', '', ours2)
+    ours2 = re.sub(r'<ladder id="real_track_ladder_[^"]*" height="[^"]*">\s*<transform[^/]*/>\s*</ladder>\s*', '', ours2)
     ours2 = re.sub(r'file_name="meshes/real_track/ballast/([^"]+)"', lambda m: 'file_name="meshes/' + m.group(1).replace('__', '/') + '"', ours2)
     v2 = strip(vanilla)
-    norm = lambda t: re.sub(r'\s+', '', t).replace('<meshes/>', '<meshes></meshes>').replace('<physics_meshes/>', '<physics_meshes></physics_meshes>')
+    norm = lambda t: (re.sub(r'\s+', '', t).replace('<meshes/>', '<meshes></meshes>')
+                      .replace('<physics_meshes/>', '<physics_meshes></physics_meshes>')
+                      .replace('<ladders/>', '<ladders></ladders>'))
     if norm(ours2) != norm(v2):
         diff += 1
         a, b = norm(ours2), norm(v2)

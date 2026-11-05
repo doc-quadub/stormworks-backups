@@ -19,6 +19,9 @@
 		<mesh id="mesh5" file_name="meshes/arid_mainland_assets/train_buffer_v2.mesh">
 			<transform 00="-0.894934" 02="0.446198" 20="-0.446198" 22="-0.894934" 30="-69.666977" 31="13.341482" 32="38.227745"/>
 		</mesh>
+		<mesh id="real_track_cm1_m3_0" file_name="meshes/real_track/mega_island_15_3_cm1_m3_0.mesh">
+			<transform/>
+		</mesh>
 		<mesh id="real_track_cm1_m2_0" file_name="meshes/real_track/mega_island_15_3_cm1_m2_0.mesh">
 			<transform/>
 		</mesh>
@@ -67,6 +70,9 @@
 		<physics_mesh id="physics_mesh5" file_name="meshes/arid_mainland_assets/train_buffer_v2_phys.phys">
 			<transform 00="-0.894934" 02="0.446198" 20="-0.446198" 22="-0.894934" 30="-69.666977" 31="13.341482" 32="38.227745"/>
 		</physics_mesh>
+		<physics_mesh id="real_track_phys_cm1_m3" file_name="meshes/real_track/mega_island_15_3_cm1_m3.phys">
+			<transform/>
+		</physics_mesh>
 		<physics_mesh id="real_track_phys_cm1_m2" file_name="meshes/real_track/mega_island_15_3_cm1_m2.phys">
 			<transform/>
 		</physics_mesh>
@@ -104,7 +110,11 @@
 	<tile_markers/>
 	<mission_zones/>
 	<dynamic_markers/>
-	<ladders/>
+	<ladders>
+		<ladder id="real_track_ladder_0" height="10.781">
+			<transform 00="-0.788576" 02="0.614938" 20="-0.614938" 22="-0.788576" 30="-16.117644" 31="13.236258" 32="-210.366779"/>
+		</ladder>
+	</ladders>
 	<perches/>
 	<fires/>
 	<train_tracks>

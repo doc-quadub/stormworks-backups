@@ -58,7 +58,7 @@ MOD_NAME = "Stormworks Railway Overhaul (SRO)"
 MOD_VERSION = "1.0.2"
 # with an overhead line plan (step "catenary") the build is the Plus edition
 PLUS_NAME = "Stormworks Railway Overhaul (SRO) Catenary+"
-PLUS_VERSION = "0.8.1 (overhead line on all Sawyer mainland tracks)"
+PLUS_VERSION = "0.8.2 (overhead line on all Sawyer mainland tracks)"
 MOD_AUTHOR = "quadub"
 MOD_XML = ('<?xml version="1.0" encoding="UTF-8"?>\n'
            '<mod name="{name}" author="{author}" '

@@ -25,9 +25,6 @@
 		<mesh id="real_track_cm2_p1_0" file_name="meshes/real_track/mega_island_12_7_cm2_p1_0.mesh">
 			<transform/>
 		</mesh>
-		<mesh id="real_track_cm2_p2_0" file_name="meshes/real_track/mega_island_12_7_cm2_p2_0.mesh">
-			<transform/>
-		</mesh>
 		<mesh id="real_track_cm1_m2_0" file_name="meshes/real_track/mega_island_12_7_cm1_m2_0.mesh">
 			<transform/>
 		</mesh>
@@ -305,7 +302,11 @@
 	</tile_markers>
 	<mission_zones/>
 	<dynamic_markers/>
-	<ladders/>
+	<ladders>
+		<ladder id="real_track_ladder_0" height="10.945">
+			<transform 00="0.993634" 02="0.112654" 20="-0.112654" 22="0.993634" 30="-238.327746" 31="5.536878" 32="-90.524724"/>
+		</ladder>
+	</ladders>
 	<perches/>
 	<fires/>
 	<train_tracks>

@@ -37,6 +37,9 @@
 		<mesh id="real_track_cp1_m1_0" file_name="meshes/real_track/mega_island_6_4_cp1_m1_0.mesh">
 			<transform/>
 		</mesh>
+		<mesh id="real_track_cp1_m1_1" file_name="meshes/real_track/mega_island_6_4_cp1_m1_1.mesh">
+			<transform/>
+		</mesh>
 		<mesh id="real_track_cp1_p0_0" file_name="meshes/real_track/mega_island_6_4_cp1_p0_0.mesh">
 			<transform/>
 		</mesh>
@@ -73,9 +76,6 @@
 		<physics_mesh id="real_track_phys_cp0_p1" file_name="meshes/real_track/mega_island_6_4_cp0_p1.phys">
 			<transform/>
 		</physics_mesh>
-		<physics_mesh id="real_track_phys_cp1_m3" file_name="meshes/real_track/mega_island_6_4_cp1_m3.phys">
-			<transform/>
-		</physics_mesh>
 		<physics_mesh id="real_track_phys_cp1_m2" file_name="meshes/real_track/mega_island_6_4_cp1_m2.phys">
 			<transform/>
 		</physics_mesh>
@@ -104,7 +104,26 @@
 	<tile_markers/>
 	<mission_zones/>
 	<dynamic_markers/>
-	<ladders/>
+	<ladders>
+		<ladder id="real_track_ladder_0" height="10.742">
+			<transform 00="-0.979242" 02="0.202695" 20="-0.202695" 22="-0.979242" 30="299.548270" 31="24.663254" 32="-282.604072"/>
+		</ladder>
+		<ladder id="real_track_ladder_1" height="10.374">
+			<transform 00="-0.959467" 02="0.281820" 20="-0.281820" 22="-0.959467" 30="313.152806" 31="25.032090" 32="-227.354276"/>
+		</ladder>
+		<ladder id="real_track_ladder_2" height="11.291">
+			<transform 00="-0.865926" 02="-0.500172" 20="0.500172" 22="-0.865926" 30="253.451387" 31="24.147467" 32="323.688663"/>
+		</ladder>
+		<ladder id="real_track_ladder_3" height="11.308">
+			<transform 00="0.911395" 02="0.411532" 20="-0.411532" 22="0.911395" 30="257.051065" 31="24.130651" 32="278.927302"/>
+		</ladder>
+		<ladder id="real_track_ladder_4" height="10.973">
+			<transform 00="0.211909" 02="-0.977289" 20="0.977289" 22="0.211909" 30="62.803895" 31="24.409225" 32="-5.457243"/>
+		</ladder>
+		<ladder id="real_track_ladder_5" height="10.894">
+			<transform 00="-0.088107" 02="0.996111" 20="-0.996111" 22="-0.088107" 30="99.423389" 31="24.571529" 32="-19.268505"/>
+		</ladder>
+	</ladders>
 	<perches/>
 	<fires/>
 	<train_tracks>
