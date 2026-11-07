@@ -203,7 +203,157 @@ def smooth_graph(nodes, node_y, border_tangents=None, skip=frozenset()):
             new_nodes[b][1][:] = [chain[-2] if o == a else o for o in new_nodes[b][1]]
             for i in range(1, len(chain) - 1):
                 new_nodes[chain[i]][1].extend([chain[i - 1], chain[i + 1]])
+    fixed = set(skip) | set(border_tangents)
+    for k in nodes:
+        if is_junction(nodes, k):
+            fixed.add(k)
+            fixed.update(o for o in nodes[k][1] if o in nodes)    # junction edges stay vanilla
+    counter = fair_graph(new_nodes, new_y, fixed, inserted, counter)
     return new_nodes, new_y, inserted
+
+
+# Fairing: the Hermite pieces pass exactly through every vanilla node, so wherever the vanilla
+# polyline is irregular (a node a little off the line, short and long segments mixed, kinks of
+# 2 - 8 degrees at single nodes) the curvature still jumps and trains jerk; on long curves of
+# large radius as much as on short tight ones. Each run of plain nodes between fixed ones
+# (switches and their edges, tile borders, track ends) is resampled every FAIR_SPACING metres,
+# smoothed by a bi-Laplacian (removes curvature jumps, keeps a circular curve circular) with the
+# shift limited to FAIR_MAX_SHIFT sideways and FAIR_MAX_RISE in height, and its nodes are moved
+# onto the result; more nodes are added where the faired curve turns.
+FAIR_SPACING = 3.0
+FAIR_MAX_SHIFT = 0.25
+FAIR_MAX_RISE = 0.15
+FAIR_ITERATIONS = 400
+FAIR_RATE = 0.1
+FAIR_MAX_TURN = math.radians(0.75)
+FAIR_MIN_PIECE = 0.8
+
+
+def _fair_runs(nodes, fixed):
+    """Runs of nodes [a, ..., z]: a and z fixed or not of degree 2, all between of degree 2."""
+    def nbrs(k):
+        return [o for o in dict.fromkeys(nodes[k][1]) if o in nodes and o != k]
+
+    def plain(k):
+        return k not in fixed and len(nbrs(k)) == 2
+
+    runs, seen = [], set()
+    for a in nodes:
+        if plain(a):
+            continue
+        for b in nbrs(a):
+            if (a, b) in seen:
+                continue
+            run = [a, b]
+            seen.add((a, b))
+            while plain(run[-1]):
+                nxt = [o for o in nbrs(run[-1]) if o != run[-2]]
+                if not nxt or nxt[0] in run:
+                    break
+                run.append(nxt[0])
+            seen.add((run[-1], run[-2]))
+            if len(run) >= 3:
+                runs.append(run)
+    return runs
+
+
+def fair_graph(nodes, node_y, fixed, inserted, counter):
+    import numpy as np
+    grid = {}
+
+    def cell(x, z):
+        return (int(math.floor(x / MIN_NODE_GAP)), int(math.floor(z / MIN_NODE_GAP)))
+
+    for k, (p, _) in nodes.items():
+        grid.setdefault(cell(p[0], p[2]), set()).add(k)
+
+    def clear(x, z, own):
+        cx, cz = cell(x, z)
+        for ix in (cx - 1, cx, cx + 1):
+            for iz in (cz - 1, cz, cz + 1):
+                for k in grid.get((ix, iz), ()):
+                    if k not in own:
+                        q = nodes[k][0]
+                        if math.hypot(q[0] - x, q[2] - z) < MIN_NODE_GAP:
+                            return False
+        return True
+
+    def move(k, x, y, z):
+        p = nodes[k][0]
+        grid[cell(p[0], p[2])].discard(k)
+        nodes[k] = ((x, y, z), nodes[k][1])
+        grid.setdefault(cell(x, z), set()).add(k)
+
+    for run in _fair_runs(nodes, fixed):
+        pts = np.array([nodes[k][0] for k in run], dtype=float)
+        lift = np.array([node_y[k] - nodes[k][0][1] for k in run])
+        seg = np.hypot(np.diff(pts[:, 0]), np.diff(pts[:, 2]))
+        s = np.concatenate([[0.0], np.cumsum(seg)])
+        total = s[-1]
+        m = int(math.ceil(total / FAIR_SPACING))
+        if m < 6:
+            continue
+        u = np.linspace(0.0, total, m + 1)
+        dense0 = np.stack([np.interp(u, s, pts[:, i]) for i in range(3)], axis=1)
+        dense = dense0.copy()
+        for _ in range(FAIR_ITERATIONS):
+            d = dense[:-4] - 4 * dense[1:-3] + 6 * dense[2:-2] - 4 * dense[3:-1] + dense[4:]
+            dense[2:-2] -= FAIR_RATE * d
+            shift = dense[2:-2] - dense0[2:-2]
+            horizontal = np.hypot(shift[:, 0], shift[:, 2])
+            scale = np.minimum(1.0, FAIR_MAX_SHIFT / np.maximum(horizontal, 1e-9))
+            shift[:, 0] *= scale
+            shift[:, 2] *= scale
+            shift[:, 1] = np.clip(shift[:, 1], -FAIR_MAX_RISE, FAIR_MAX_RISE)
+            dense[2:-2] = dense0[2:-2] + shift
+
+        def at(sv):
+            return [float(np.interp(sv, u, dense[:, i])) for i in range(3)]
+
+        # move the run's own nodes onto the faired curve (not next to another track's node)
+        for i, k in enumerate(run[1:-1], start=1):
+            x, y, z = at(s[i])
+            own = {run[i - 1], k, run[i + 1]}
+            if clear(x, z, own):
+                move(k, x, y, z)
+                node_y[k] = y + lift[i]
+        # more nodes where the faired curve turns
+        for i in range(len(run) - 1):
+            a, b = run[i], run[i + 1]
+            length = s[i + 1] - s[i]
+            if length < 2 * FAIR_MIN_PIECE:
+                continue
+            e = 0.25
+            p0, p1 = at(max(0.0, s[i] - e)), at(s[i] + e)
+            q0, q1 = at(s[i + 1] - e), at(min(total, s[i + 1] + e))
+            h0 = math.atan2(p1[2] - p0[2], p1[0] - p0[0])
+            h1 = math.atan2(q1[2] - q0[2], q1[0] - q0[0])
+            turn = abs((h1 - h0 + math.pi) % (2 * math.pi) - math.pi)
+            pieces = min(int(math.ceil(turn / FAIR_MAX_TURN)), int(length // FAIR_MIN_PIECE), MAX_PIECES)
+            if pieces < 2:
+                continue
+            chain = [a]
+            for j in range(1, pieces):
+                sv = s[i] + length * j / pieces
+                x, y, z = at(sv)
+                if not clear(x, z, {a, b}):
+                    continue
+                counter += 1
+                nid = "%s%d" % (NEW_NODE_PREFIX, counter)
+                nodes[nid] = ((x, y, z), [])
+                grid.setdefault(cell(x, z), set()).add(nid)
+                f = (sv - s[i]) / length
+                node_y[nid] = y + lift[i] + (lift[i + 1] - lift[i]) * f
+                inserted.append(nid)
+                chain.append(nid)
+            chain.append(b)
+            if len(chain) == 2:
+                continue
+            nodes[a][1][:] = [chain[1] if o == b else o for o in nodes[a][1]]
+            nodes[b][1][:] = [chain[-2] if o == a else o for o in nodes[b][1]]
+            for j in range(1, len(chain) - 1):
+                nodes[chain[j]][1].extend([chain[j - 1], chain[j + 1]])
+    return counter
 
 
 def train_tracks_xml(original_text, new_nodes, new_y, newline, raise_kept=0.0):

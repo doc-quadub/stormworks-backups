@@ -542,17 +542,116 @@ def build_network(tiles, prepare_graph):
     return net
 
 
+KM_SHIFT_MAX = 100.0         # a kilometre post may move on this far past an obstacle ...
+PICKET_SHIFT_MAX = 95.0      # ... a picket post less than the picket spacing, else it is left out
+SHIFT_STEP = 5.0
+LEFT_SEARCH = 25.0           # tracks of the bundle on the left: the post goes beyond the last one
+GROUND_ABOVE_RAIL_POST = 1.5 # ground higher than this above the rail: the post would be in the slope
+EYE_HEIGHT = 3.0             # driver's eye above the rail top (visibility check)
+SIGHT_STEP = 0.5
+
+
 def plan_signs(rom_dir, tiles, prepare_graph, log=print):
-    """Return {tile: [sign dict]} for mainland tiles."""
+    """Return {tile: [sign dict]} for mainland tiles.
+
+    Every 100 m along each line (distance from North Harbour) one post per bundle of tracks: on the
+    right of the rightmost track (right-hand running); where there is no place there - no ground,
+    the post would be in a slope, something blocks the driver's view of it, a track too close - on
+    the left of the leftmost track of the bundle; where neither side has a place, a kilometre post
+    moves on (up to KM_SHIFT_MAX) to the first place past the obstacle, a picket post likewise but
+    less than the picket spacing, else it is left out."""
     net = build_network(tiles, prepare_graph)
     nodes_world, links, edge_tile = net.nodes_world, net.links, net.edge_tile
     dist, line_set, lines = net.dist, net.line_set, net.lines
     all_tracks, line_index = net.all_tracks, net.line_index
     mainland, joins = net.mainland, net.joins
+    after = {}
+    for a, b in lines:
+        after.setdefault(a, []).append(b)
 
     ground = Ground(rom_dir)
     signs = {}
-    stats = {"candidates": 0, "not_outer": 0, "no_place": 0, "km": 0, "picket": 0}
+    stats = {"candidates": 0, "not_outer": 0, "no_place": 0, "km": 0, "picket": 0, "left": 0, "moved": 0}
+
+    def point_on(a, b, f):
+        pa, pb = nodes_world[a], nodes_world[b]
+        return (pa[0] + (pb[0] - pa[0]) * f, pa[1] + (pb[1] - pa[1]) * f, pa[2] + (pb[2] - pa[2]) * f)
+
+    def walk(a, b, f, extra):
+        """(edge, fraction) `extra` metres further on along the line from (a, b, f)."""
+        while True:
+            length = max(1e-6, dist[b] - dist[a])
+            g = f + extra / length
+            if g <= 1.0:
+                return (a, b), g
+            extra -= (1.0 - f) * length
+            nxt = after.get(b)
+            if not nxt:
+                return None
+            ta = (nodes_world[b][0] - nodes_world[a][0], nodes_world[b][2] - nodes_world[a][2])
+            # the straightest continuation
+            nb = max(nxt, key=lambda c: (ta[0] * (nodes_world[c][0] - nodes_world[b][0]) + ta[1] * (nodes_world[c][2] - nodes_world[b][2]))
+                     / max(1e-6, math.hypot(nodes_world[c][0] - nodes_world[b][0], nodes_world[c][2] - nodes_world[b][2])))
+            a, b, f = b, nb, 0.0
+
+    def visible(eye, target):
+        """No ground or structure between the driver's eye and the post top."""
+        dx, dy, dz = target[0] - eye[0], target[1] - eye[1], target[2] - eye[2]
+        length = math.hypot(dx, dz)
+        steps = max(1, int(length / SIGHT_STEP))
+        for i in range(1, steps):
+            f = i / steps
+            x, y, z = eye[0] + dx * f, eye[1] + dy * f, eye[2] + dz * f
+            hs = ground.heights(x, z)
+            if hs and min(hs) > y:          # the line of sight runs inside a hill or wall
+                return False
+        return True
+
+    def spot(p, t, side, start, half_width):
+        """A place for a post beside the track point p on `side` (+1 right, -1 left), `start`
+        metres out: (x, y, z) or (None, reason)."""
+        r = right_of(t)
+        for offset in LATERAL_OFFSETS:
+            lateral = start + offset + half_width
+            x, z = p[0] + r[0] * side * lateral, p[2] + r[1] * side * lateral
+            clear = all(_point_segment_distance((x, z), sa, sb) >= MIN_CLEARANCE + half_width
+                        for sa, sb, _ in all_tracks.near(x, z, MIN_CLEARANCE + 2))
+            if not clear:
+                continue
+            hs = ground.heights(x, z)
+            candidates = [h for h in hs if p[1] - GROUND_BELOW_RAIL <= h <= p[1] + GROUND_ABOVE_RAIL]
+            if not candidates:
+                continue
+            y = max(candidates)
+            if y > p[1] + GROUND_ABOVE_RAIL_POST:
+                continue                        # in the slope: hardly visible, half buried
+            blocked = False
+            for du, dv in ((0, 0), (half_width, 0), (-half_width, 0), (0, 0.2), (0, -0.2)):
+                sx = x + r[0] * du + t[0] * dv
+                sz = z + r[1] * du + t[1] * dv
+                near = sorted(h for h in ground.heights(sx, sz) if y - 1.0 < h < y + HEADROOM)
+                if near and near[-1] - near[0] > 0.3:
+                    blocked = True
+                    break
+            if blocked:
+                continue
+            eye = (p[0] - t[0] * 40.0, p[1] + EYE_HEIGHT, p[2] - t[1] * 40.0)    # seen from 40 m before it
+            if not visible(eye, (x, y + KM_POST_HEIGHT, z)):
+                continue
+            return (x, y, z)
+        return None
+
+    def bundle_width(p, t, side):
+        """How far out the last track of the bundle lies on `side` (0 if none)."""
+        r = right_of(t)
+        d = (r[0] * side, r[1] * side)
+        widest, reach = 0.0, LEFT_SEARCH
+        for sa, sb, _ in all_tracks.near(p[0], p[2], reach):
+            s_hit = _ray_hits_segment((p[0], p[2]), d, reach, sa, sb)
+            if s_hit is not None and s_hit > 0.5:
+                widest = max(widest, s_hit)
+        return widest
+
     for a, b in lines:
         da, db = dist[a], dist[b]
         first = int(math.floor(da / PICKET_SPACING)) + 1
@@ -563,8 +662,8 @@ def plan_signs(rom_dir, tiles, prepare_graph, log=print):
             mark = m * PICKET_SPACING
             stats["candidates"] += 1
             f = (mark - da) / (db - da)
+            p = point_on(a, b, f)
             pa, pb = nodes_world[a], nodes_world[b]
-            p = (pa[0] + (pb[0] - pa[0]) * f, pa[1] + (pb[1] - pa[1]) * f, pa[2] + (pb[2] - pa[2]) * f)
             tx, tz = pb[0] - pa[0], pb[2] - pa[2]
             tl = math.hypot(tx, tz)
             if tl < 1e-6:
@@ -592,46 +691,39 @@ def plan_signs(rom_dir, tiles, prepare_graph, log=print):
                 behind, ahead = picket, picket + 1
                 half_width = POST_SIDE / 2
             placed = None
-            reasons = []
-            for offset in LATERAL_OFFSETS:
-                lateral = offset + half_width
-                x, z = p[0] + r[0] * lateral, p[2] + r[1] * lateral
-                clear = all(_point_segment_distance((x, z), sa, sb) >= MIN_CLEARANCE + half_width
-                            for sa, sb, _ in all_tracks.near(x, z, MIN_CLEARANCE + 2))
-                if not clear:
-                    reasons.append("track")
-                    continue
-                hs = ground.heights(x, z)
-                candidates = [h for h in hs if p[1] - GROUND_BELOW_RAIL <= h <= p[1] + GROUND_ABOVE_RAIL]
-                if not candidates:
-                    reasons.append("ground %s" % [round(h - p[1], 1) for h in hs])
-                    continue
-                y = max(candidates)
-                blocked = False
-                for du, dv in ((0, 0), (half_width, 0), (-half_width, 0), (0, 0.2), (0, -0.2)):
-                    sx = x + r[0] * du + t[0] * dv
-                    sz = z + r[1] * du + t[1] * dv
-                    # a second surface above the ground (tunnel roof, bridge, building) blocks
-                    # the spot; a single steep surface (cutting slope) does not
-                    near = sorted(h for h in ground.heights(sx, sz) if y - 1.0 < h < y + HEADROOM)
-                    if near and near[-1] - near[0] > 0.3:
-                        blocked = True
-                        break
-                if blocked:
-                    reasons.append("headroom")
-                    continue
-                placed = (x, y, z)
-                break
+            shift = 0.0
+            limit = KM_SHIFT_MAX if km else PICKET_SHIFT_MAX
+            while shift <= limit + 1e-6:
+                at = walk(a, b, f, shift)
+                if at is None:
+                    break
+                (ea, eb), g = at
+                q = point_on(ea, eb, g)
+                qa, qb = nodes_world[ea], nodes_world[eb]
+                ql = math.hypot(qb[0] - qa[0], qb[2] - qa[2])
+                tq = ((qb[0] - qa[0]) / ql, (qb[2] - qa[2]) / ql) if ql > 1e-6 else t
+                found = spot(q, tq, 1.0, 0.0, half_width)
+                side = 1.0
+                if found is None:
+                    found = spot(q, tq, -1.0, bundle_width(q, tq, -1.0), half_width)
+                    side = -1.0
+                if found is not None:
+                    placed = (found, (ea, eb), tq, side)
+                    break
+                shift += SHIFT_STEP
             if placed is None:
                 stats["no_place"] += 1
-                FAILED.append({"at": [p[0], p[1], p[2]], "mark": mark, "reasons": reasons})
+                FAILED.append({"at": [p[0], p[1], p[2]], "mark": mark})
                 continue
-            tile = edge_tile[(a, b)]
+            (x, y, z), edge, tq, side = placed
+            stats["left"] += side < 0
+            stats["moved"] += shift > 0
+            tile = edge_tile[edge]
             ox, oz = mainland_origin(tile)
             signs.setdefault(tile, []).append({
                 "kind": "km" if km else "picket",
-                "pos": [placed[0] - ox, placed[1], placed[2] - oz],
-                "dir": [t[0], t[1]],
+                "pos": [x - ox, y, z - oz],
+                "dir": [tq[0], tq[1]],
                 "behind": behind, "ahead": ahead, "distance": mark})
             stats["km" if km else "picket"] += 1
     log("mainland tiles %d, nodes %d, tile joins %d, reached %d, line edges %d; %s"

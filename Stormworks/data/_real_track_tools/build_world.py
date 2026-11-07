@@ -14,6 +14,7 @@ import hashlib
 import json
 import math
 import os
+import struct
 import re
 import sys
 import time
@@ -39,6 +40,9 @@ BALLAST_COLOR = (82, 80, 76)       # dark grey crushed stone
 # Vanilla track bed colours -> (new colour, search radius): vertices of these colours closer
 # than the radius to a track line are repainted. The radius keeps beaches and dirt roads of the
 # same sandy colour untouched; the sandy shoulder reaches ~2.2 m, more between double tracks.
+SANDY_BED_COLORS = ((174, 150, 121), (188, 157, 125))
+SANDY_TRIANGLE_REACH = 8.0      # a sandy bed vertex whose triangles reach further out is not repainted
+PRISM_NEAR = 8.0                # ballast prism along the track this near such a vertex
 TRACK_BED_RECOLOR = {
     (45, 34, 32): (BALLAST_COLOR, 2.5),      # dark rail strips: mainland, Sawyer, arctic, modular
     (174, 150, 121): (BALLAST_COLOR, 4.0),   # sandy ballast and shoulder of the same set
@@ -46,7 +50,7 @@ TRACK_BED_RECOLOR = {
     (188, 157, 125): (BALLAST_COLOR, 4.0),   # sandy ballast: arid island
 }
 WORKERS = 2                     # parallel tile builders (the PC's shell has 2 cores)
-TIME_BUDGET = 140.0             # seconds per invocation (remote shell calls are time limited)
+TIME_BUDGET = float(os.environ.get("TIME_BUDGET", "140"))   # seconds per invocation (remote shell calls are time limited)
 CHUNK_SIZE = 250.0              # spatial grid for splitting baked track geometry into meshes
 MIN_COMPONENT_LENGTH = 50.0     # isolated bits of track graph shorter than this are not drawn
 BORDER = 499.5
@@ -56,23 +60,25 @@ BORDER_SLIDE_MAX = 3.0          # a border end slides at most this far along its
 SHALLOW_CROSSING_COS = 0.7     # track meets a tile edge at less than ~45 degrees
 
 MOD_NAME = "Stormworks Railway Overhaul (SRO)"
-MOD_VERSION = "1.0.3"
+MOD_VERSION = "1.1"
 # with an overhead line plan (step "catenary") the build is the Plus edition
 PLUS_NAME = "SRO Catenary+ (Sawyer)"
-PLUS_VERSION = "1.0"
+PLUS_VERSION = "1.2"
 MOD_AUTHOR = "quadub"
 MOD_XML = ('<?xml version="1.0" encoding="UTF-8"?>\n'
            '<mod name="{name}" author="{author}" '
            'desc="v{version}. 3D rails and concrete sleepers on every railway tile of the vanilla map, '
-           'smoothed curves, dark grey ballast, kilometre and picket posts on the mainland. '
+           'smoothed curves, dark grey ballast, concrete level crossings, kilometre and picket posts on the mainland. '
            'Track graph raised by {raise_cm} cm so trains run on the rail heads."/>\n')
 PLUS_XML = ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<mod name="{name}" author="{author}" '
             'desc="v{version}. Stormworks Railway Overhaul with a Soviet / Russian style 25 kV overhead line '
-            '(visual) on every track of the Sawyer mainland: concrete poles with insulated cantilevers, '
-            'zigzagged contact wire on droppers, anchor sections with overlaps, tension weights, portals '
-            'with lattice girders and working ladders, wires through truss bridges. Includes the whole base SRO '
-            '(3D rails and sleepers on every railway tile, smoothed curves, kilometre posts, track graph '
+            '(visual) on every track of the Sawyer mainland, after the Soviet standard drawings: concrete poles with '
+            'earthed cantilevers and glass insulator strings, direct and reverse registration arms, zigzagged '
+            'contact wire on droppers and spring stays, anchor sections with overlaps on traverses, tension '
+            'weights, middle anchors, DPR line on the field side, portals with lattice girders, console posts '
+            'and working ladders, wires through truss bridges. Includes the whole base SRO '
+            '(3D rails and sleepers on every railway tile, smoothed curves, level crossings, kilometre posts, track graph '
             'raised by {raise_cm} cm): use it instead of SRO, not together with it."/>\n')
 
 
@@ -191,6 +197,18 @@ def border_normal(p):
     return None
 
 
+# World places (tile centres) of tiles outside the two grids, read from a save's tile map
+# (<save>/tiles/tile_<x>_<z>.bin names the tile file of each 1 km cell; n = minus). Island 33
+# (Sawyer island, Spycakes): its tiles meet with track ends a few centimetres apart.
+TILE_WORLD = {
+    "island_33_tile_03": (-19000, -2000), "island_33_tile_04": (-18000, -2000), "island_33_tile_05": (-17000, -2000),
+    "island_33_tile_06": (-16000, -2000), "island_33_tile_07": (-15000, -2000),
+    "island_33_tile_11": (-21000, -3000), "island_33_tile_12": (-20000, -3000), "island_33_tile_13": (-19000, -3000),
+    "island_33_tile_21": (-21000, -4000), "island_33_tile_22": (-20000, -4000), "island_33_tile_23": (-19000, -4000),
+    "island_33_tile_31": (-21000, -5000), "island_33_tile_32": (-20000, -5000), "island_33_tile_33": (-19000, -5000),
+}
+
+
 def find_stray_components(rom_dir, tiles):
     """Find pieces of track graph not connected to anything, shorter than MIN_COMPONENT_LENGTH.
 
@@ -215,7 +233,11 @@ def find_stray_components(rom_dir, tiles):
     step = {"x+": (1, 0), "x-": (-1, 0), "z+": (0, 1), "z-": (0, -1)}
 
     def neighbours(t, edge, tt):
-        """Is tile tt the neighbour of t across `edge` (for tiles of one grid)?"""
+        """Is tile tt the neighbour of t across `edge` (for tiles of one grid, or two tiles whose
+        world places are known)?"""
+        if t in TILE_WORLD and tt in TILE_WORLD:
+            (ax, az), (bx, bz) = TILE_WORLD[t], TILE_WORLD[tt]
+            return ((bx - ax) // 1000, (bz - az) // 1000) == step[edge]
         a, b = grid(t), grid(tt)
         if a is None or b is None or a[0] != b[0]:
             return None                         # not one grid: unknown
@@ -329,6 +351,7 @@ def step_scan(rom_dir, work):
                 texts[f[:-4]] = text
     tiles = sorted(texts)
     recolor = {}          # mesh file -> {vertex index: ballast colour}
+    prism = {}            # tile -> [[x, z], ...] sandy bed vertices left unpainted (ballast prism there)
     usage = {}            # mesh file -> tiles using it
     for tile in tiles:
         text = texts[tile]
@@ -338,20 +361,47 @@ def step_scan(rom_dir, work):
             path = os.path.join(rom_dir, *file_name.split("/"))
             if not os.path.exists(path):
                 continue
-            _, verts = read_vertex_array(path)
+            data, verts = read_vertex_array(path)
             hits = recolor.setdefault(file_name, {})
             colors = np.stack([verts["r"], verts["g"], verts["b"]], axis=1)
+            sandy = []
             for old_color, (new_color, radius) in TRACK_BED_RECOLOR.items():
                 for i in np.nonzero((colors == old_color).all(axis=1))[0]:
                     v = (float(verts["x"][i]), float(verts["y"][i]), float(verts["z"][i]))
                     x, y, z = transform_point(v, matrix)
                     if grid.near_bed(x, y, z, radius):
                         hits[int(i)] = new_color
+                        if old_color in SANDY_BED_COLORS:
+                            sandy.append(int(i))
+            # Where the open sand around has the same colour as the sandy shoulder, its vertices
+            # near the track belong to large triangles reaching far out: repainting them smears
+            # the ballast colour over the desert in big blots. Those are left as they are; the
+            # track gets a ballast prism of its own there instead.
+            if sandy:
+                count = struct.unpack_from("<I", data, FIRST_VERTEX_OFFSET + 28 * len(verts))[0]
+                idx = np.frombuffer(data, dtype="<u2", count=count,
+                                    offset=FIRST_VERTEX_OFFSET + 28 * len(verts) + 4).reshape(-1, 3)
+                sandy_set = set(sandy)
+                reach_cache = {}
+
+                def reach(j):
+                    if j not in reach_cache:
+                        x, y, z = transform_point((float(verts["x"][j]), float(verts["y"][j]), float(verts["z"][j])), matrix)
+                        reach_cache[j] = (grid.distance(x, z), x, z)
+                    return reach_cache[j]
+                for tri in idx[np.isin(idx, np.array(sandy)).any(axis=1)]:
+                    far = max(reach(int(j))[0] for j in tri)
+                    if far > SANDY_TRIANGLE_REACH:
+                        for j in tri:
+                            j = int(j)
+                            if j in sandy_set and j in hits:
+                                del hits[j]
+                                prism.setdefault(tile, []).append([round(reach(j)[1], 1), round(reach(j)[2], 1)])
             usage.setdefault(file_name, set()).add(tile)
     recolor = {k: sorted([i, *c] for i, c in v.items()) for k, v in recolor.items() if v}
     stray, partners = find_stray_components(rom_dir, tiles)
     with open(os.path.join(work, "scan.json"), "w") as f:
-        json.dump({"tiles": tiles, "recolor": recolor, "stray": stray, "partners": partners,
+        json.dump({"tiles": tiles, "recolor": recolor, "stray": stray, "partners": partners, "prism": prism,
                    "usage": {k: sorted(v) for k, v in usage.items() if k in recolor}}, f)
     print("tiles with tracks:", len(tiles), " meshes to recolour:", len(recolor),
           " vertices:", sum(len(v) for v in recolor.values()),
@@ -374,10 +424,35 @@ def step_catenary(rom_dir, work):
     """Plan of the overhead line (Plus edition). Without catenary.json the build is the plain
     Sawyer Railroads Overhaul."""
     scan = json.load(open(os.path.join(work, "scan.json")))
-    plan = catenary.plan_catenary(rom_dir, scan["tiles"], lambda tile: prepare_graph(rom_dir, tile, scan))
+    road_dir = os.path.join(work, "roads")
+    plan = catenary.plan_catenary(rom_dir, scan["tiles"], lambda tile: prepare_graph(rom_dir, tile, scan),
+                                  road_dir=road_dir if os.path.isdir(road_dir) else None)
     with open(os.path.join(work, "catenary.json"), "w") as f:
         json.dump(plan, f)
     print("done")
+
+
+def step_roads(rom_dir, work):
+    """Asphalt triangles of every mainland terrain mesh (poles keep off roads); resumable."""
+    out_dir = os.path.join(work, "roads")
+    os.makedirs(out_dir, exist_ok=True)
+    mesh_dir = os.path.join(rom_dir, "meshes", "mainland")
+    names = sorted(n[:-5] for n in os.listdir(mesh_dir) if re.fullmatch(r"mega_island_\d+_\d+\.mesh", n))
+    start = time.time()
+    left = 0
+    for name in names:
+        target = os.path.join(out_dir, name + ".json")
+        if os.path.exists(target):
+            continue
+        if time.time() - start > TIME_BUDGET:
+            left += 1
+            continue
+        with open(target + ".tmp", "w") as f:
+            json.dump(catenary.extract_roads(os.path.join(mesh_dir, name + ".mesh")), f)
+        os.replace(target + ".tmp", target)
+    print("remaining", left)
+    if not left:
+        print("done")
 
 
 # ---------------------------------------------------------------- step 2: per-tile geometry
@@ -409,6 +484,7 @@ def prepare_graph(rom_dir, tile, scan):
             node_y[k] = position[1] + rails.GRAPH_RAISE
             border_tangents[k] = direction
 
+    planned = {}
     for k, (ptile, pnode, py, dx, dz, px, pz) in scan.get("partners", {}).get(tile, {}).items():
         if k in border_tangents:
             continue          # snapped modular joint
@@ -436,21 +512,154 @@ def prepare_graph(rom_dir, tile, scan):
 
         along = (slide(p[0], p[2], own_dir) + slide(px, pz, partner_dir)) / 2
         if x_edge:
-            p = (math.copysign(500.0, p[0]), p[1], along)
+            q = (math.copysign(500.0, p[0]), p[1], along)
         else:
-            p = (along, p[1], math.copysign(500.0, p[2]))
-        nodes[k] = (p, links)
-        node_y[k] = (p[1] + py) / 2 + rails.GRAPH_RAISE
-        q = nodes[inner[0]][0]
-        ox, oz = p[0] - q[0], p[2] - q[2]          # own direction, heading out of the tile
+            q = (along, p[1], math.copysign(500.0, p[2]))
+        ox, oz = q[0] - q0[0], q[2] - q0[2]          # own direction, heading out of the tile
         olen = math.hypot(ox, oz)
         tx, tz = ox / olen + dx, oz / olen + dz     # + partner direction, heading on
         tlen = math.hypot(tx, tz)
-        if tlen > 1e-6:
-            border_tangents[k] = (tx / tlen, tz / tlen)
+        planned[k] = (q, (p[1] + py) / 2 + rails.GRAPH_RAISE, (tx / tlen, tz / tlen) if tlen > 1e-6 else None)
+
+    # A pair moved onto the edge must not land next to another track's node there: two branches
+    # of a turnout right at the border ended up 0.1 - 0.2 m apart and the game joined them (the
+    # switch stopped working). Such a pair keeps its vanilla position (both tiles decide alike).
+    def placed(k):
+        return planned[k][0] if k in planned else nodes[k][0]
+
+    keep = set()
+    for k in planned:
+        q = placed(k)
+        for o in nodes:
+            if o == k or o in nodes[k][1] or k in nodes[o][1]:
+                continue
+            r = placed(o)
+            if abs(r[0] - q[0]) > 2 or abs(r[2] - q[2]) > 2:
+                continue
+            gap = math.hypot(r[0] - q[0], r[2] - q[2])
+            before = math.hypot(nodes[o][0][0] - nodes[k][0][0], nodes[o][0][2] - nodes[k][0][2])
+            if gap < smooth.MIN_NODE_GAP and before > gap + 0.05:
+                moved_k = math.hypot(q[0] - nodes[k][0][0], q[2] - nodes[k][0][2])
+                moved_o = math.hypot(r[0] - nodes[o][0][0], r[2] - nodes[o][0][2])
+                keep.add(k if moved_k >= moved_o else o)
+    prepare_graph.kept[tile] = {k for k in keep if planned[k][2] is not None}
+    for k, (q, y, tangent) in planned.items():
+        if k in keep:
+            if tangent is not None:
+                border_tangents[k] = tangent      # both ends cut square to the shared direction
+            continue
+        nodes[k] = (q, nodes[k][1])
+        node_y[k] = y
+        if tangent is not None:
+            border_tangents[k] = tangent
 
     nodes, node_y, inserted = smooth.smooth_graph(nodes, node_y, border_tangents, stray)
     return nodes, node_y, inserted, border_tangents, stray
+
+
+prepare_graph.kept = {}
+
+
+# Level crossings: a road (asphalt in the terrain colours) on both sides of a track for a short
+# stretch; plus crossings reported in game (roads drawn otherwise). World X / Y and a radius.
+ROAD_COLOURS = {(45, 41, 45)}
+CROSSING_SIDES = (4.5, 6.0)          # road colour looked for this far out on both sides
+CROSSING_RUN = (3.0, 30.0)           # ... over this length along the track (longer: a paved yard)
+CROSSINGS_EXTRA = ()                 # ((x, z, radius), ...)
+
+
+def tile_world_origin(tile):
+    m = re.fullmatch(r"(mega_island|arid_island)_(\d+)_(\d+)", tile)
+    if m:
+        ox, oz = {"mega_island": (-8000, -12000), "arid_island": (-24000, -40000)}[m.group(1)]
+        return 1000 * int(m.group(2)) + ox, 1000 * int(m.group(3)) + oz
+    return TILE_WORLD.get(tile)
+
+
+class TileColours:
+    """Colour of the topmost terrain triangle at a tile-local point."""
+
+    def __init__(self, rom_dir, tile):
+        self.cells = {}
+        text = read_text(tile_xml_path(rom_dir, tile))
+        for file_name, matrix in mesh_entries(text):
+            if "mainland/" not in file_name:
+                continue
+            path = os.path.join(rom_dir, *file_name.split("/"))
+            if not os.path.exists(path):
+                continue
+            data, v = read_vertex_array(path)
+            n = len(v)
+            count = struct.unpack_from("<I", data, FIRST_VERTEX_OFFSET + 28 * n)[0]
+            idx = np.frombuffer(data, dtype="<u2", count=count, offset=FIRST_VERTEX_OFFSET + 28 * n + 4).reshape(-1, 3)
+            road = np.zeros(n, dtype=bool)
+            for c in ROAD_COLOURS:
+                road |= (v["r"] == c[0]) & (v["g"] == c[1]) & (v["b"] == c[2])
+            pts = [transform_point((float(v["x"][i]), float(v["y"][i]), float(v["z"][i])), matrix) for i in range(n)]
+            for a, b, c in idx:
+                pa, pb, pc = pts[a], pts[b], pts[c]
+                for ix in range(int(min(pa[0], pb[0], pc[0]) // 8), int(max(pa[0], pb[0], pc[0]) // 8) + 1):
+                    for iz in range(int(min(pa[2], pb[2], pc[2]) // 8), int(max(pa[2], pb[2], pc[2]) // 8) + 1):
+                        self.cells.setdefault((ix, iz), []).append((pa, pb, pc, bool(road[a])))
+
+    def road(self, x, z):
+        best = None
+        for a, b, c, is_road in self.cells.get((int(x // 8), int(z // 8)), ()):
+            d = (b[0] - a[0]) * (c[2] - a[2]) - (c[0] - a[0]) * (b[2] - a[2])
+            if abs(d) < 1e-12:
+                continue
+            l1 = ((x - a[0]) * (c[2] - a[2]) - (c[0] - a[0]) * (z - a[2])) / d
+            l2 = ((b[0] - a[0]) * (z - a[2]) - (x - a[0]) * (b[2] - a[2])) / d
+            if l1 < 0 or l2 < 0 or l1 + l2 > 1:
+                continue
+            y = a[1] + l1 * (b[1] - a[1]) + l2 * (c[1] - a[1])
+            if best is None or y > best[0]:
+                best = (y, is_road)
+        return best is not None and best[1]
+
+
+def find_crossings(rom_dir, tile, drawn, node_y):
+    """Tile-local points (every metre) of the track where it crosses a road."""
+    origin = tile_world_origin(tile)
+    extra = []
+    if origin is not None:
+        extra = [(x - origin[0], z - origin[1], r) for x, z, r in CROSSINGS_EXTRA
+                 if abs(x - origin[0]) < 520 and abs(z - origin[1]) < 520]
+    colours = TileColours(rom_dir, tile)
+    if not colours.cells and not extra:
+        return []
+    found = []
+    for chain, _ in rails.build_chains(drawn):
+        pts = rails.densify(rails.chain_points(chain, drawn, node_y), 1.0)
+        flags = []
+        for i in range(len(pts)):
+            p = pts[i]
+            if any(math.hypot(p[0] - x, p[2] - z) < r for x, z, r in extra):
+                flags.append(2)
+                continue
+            if not colours.cells or i == 0 or i == len(pts) - 1:
+                flags.append(0)
+                continue
+            t = rails.horizontal_dir(pts[i - 1], pts[i + 1])
+            n = (-t[2], t[0])
+            both = all(any(colours.road(p[0] + n[0] * sd * d, p[2] + n[1] * sd * d) for d in CROSSING_SIDES)
+                       for sd in (1.0, -1.0))
+            flags.append(1 if both else 0)
+        i = 0
+        while i < len(flags):
+            if flags[i]:
+                j = i
+                while j < len(flags) and flags[j]:
+                    j += 1
+                if any(f == 2 for f in flags[i:j]) or CROSSING_RUN[0] <= j - i <= CROSSING_RUN[1]:
+                    found.extend(pts[i:j])
+                i = j
+            else:
+                i += 1
+    return found
+
+
+      # tile -> border pair nodes left at their vanilla place (see above)
 
 
 TILE_JOB = {}      # set once per worker process: rom_dir, scan, planned signs, output folders
@@ -481,7 +690,12 @@ def build_one_tile(tile):
     nodes, node_y, inserted, border_tangents, stray = prepare_graph(rom_dir, tile, scan)
     drawn = {k: v for k, v in nodes.items() if k not in stray}
     border_cuts = {}
+    kept = prepare_graph.kept.get(tile, set())
     for k, (p, links) in drawn.items():
+        if k in kept and k in border_tangents:
+            t = border_tangents[k]
+            border_cuts[k] = ((t[0], 0.0, t[1]), (t[0], 0.0, t[1]))
+            continue
         n = border_normal(p)
         if n is not None and len([o for o in links if o in drawn and o != k]) == 1:
             if k in border_tangents:
@@ -497,13 +711,36 @@ def build_one_tile(tile):
                 border_cuts[k] = n
     ballast_keep = None
     origin = signs.mainland_origin(tile)
-    if BALLAST_PRISM_TEST_BOX is not None and origin is not None:
+    spots = scan.get("prism", {}).get(tile)
+    if spots:
+        cells = {}
+        for x, z in spots:
+            cells.setdefault((int(x // PRISM_NEAR), int(z // PRISM_NEAR)), []).append((x, z))
+
+        def ballast_keep(p):
+            cx, cz = int(p[0] // PRISM_NEAR), int(p[2] // PRISM_NEAR)
+            return any(math.hypot(x - p[0], z - p[2]) < PRISM_NEAR
+                       for ix in (cx - 1, cx, cx + 1) for iz in (cz - 1, cz, cz + 1)
+                       for x, z in cells.get((ix, iz), ()))
+    elif BALLAST_PRISM_TEST_BOX is not None and origin is not None:
         x0, x1, z0, z1 = BALLAST_PRISM_TEST_BOX
 
         def ballast_keep(p, ox=origin[0], oz=origin[1]):
             return x0 <= p[0] + ox <= x1 and z0 <= p[2] + oz <= z1
+    crossing_points = find_crossings(rom_dir, tile, drawn, node_y)
+    crossing_keep = None
+    if crossing_points:
+        cgrid = {}
+        for q in crossing_points:
+            cgrid.setdefault((int(q[0] // 4), int(q[2] // 4)), []).append(q)
+
+        def crossing_keep(p):
+            cx, cz = int(p[0] // 4), int(p[2] // 4)
+            return any(math.hypot(q[0] - p[0], q[2] - p[2]) < 0.6
+                       for ix in (cx - 1, cx, cx + 1) for iz in (cz - 1, cz, cz + 1)
+                       for q in cgrid.get((ix, iz), ()))
     builder, sleeper_count, chains = rails.build_tile_v4(drawn, node_y, border_cuts,
-                                                         set(border_cuts), ballast_keep)
+                                                         set(border_cuts), ballast_keep, crossing_keep)
     tile_signs = planned_signs.get(tile, [])
     for sign in tile_signs:
         signs.add_sign(builder, sign)
@@ -532,8 +769,9 @@ def build_one_tile(tile):
                    "collision_triangles": len(builder.collision),
                    "graph": {k: [p[0], p[1], p[2], links] for k, (p, links) in nodes.items()}}, f)
     os.replace(state_path + ".tmp", state_path)
-    return ("%-45s chains %3d  added nodes %4d  sleepers %6d  posts %3d  vertices %8d  meshes %3d"
-            % (tile, len(chains), len(inserted), sleeper_count, len(tile_signs), vertices, len(files)))
+    return ("%-45s chains %3d  added nodes %4d  sleepers %6d  posts %3d  vertices %8d  meshes %3d  crossings %d"
+            % (tile, len(chains), len(inserted), sleeper_count, len(tile_signs), vertices, len(files),
+               getattr(builder, "crossings", 0)))
 
 
 def step_tiles(rom_dir, work):
@@ -597,30 +835,66 @@ def step_assemble(rom_dir, work):
     raw_dir = os.path.join(work, "track_meshes")
     mesh_dir = os.path.join(mod, *MESH_DIR.split("/"))
     os.makedirs(mesh_dir, exist_ok=True)
-    stored_by_hash = {}
-    stored_name = {}
-    duplicates = 0
-    for tile in scan["tiles"]:
-        state = json.load(open(os.path.join(work, "tiles", tile + ".json")))
-        for _, file_name in state["files"] + state["phys_files"]:
-            source = os.path.join(raw_dir, file_name)
-            if not os.path.exists(source):            # already moved by an earlier assemble run
+    # resumable across time limited calls: files are compared by size first and hashed only on a size match
+    state_path = os.path.join(work, "assemble_state.json")
+    if os.path.exists(state_path):
+        saved = json.load(open(state_path))
+    else:
+        saved = {"stored_name": {}, "by_size": {}, "duplicates": 0, "meshes_done": False}
+    stored_name = saved["stored_name"]
+    by_size = saved["by_size"]            # size -> [[stored file, md5 or None], ...]
+    duplicates = saved["duplicates"]
+    start = time.time()
+
+    def file_md5(path):
+        with open(path, "rb") as f:
+            return hashlib.md5(f.read()).hexdigest()
+
+    if not saved["meshes_done"]:
+        for tile in scan["tiles"]:
+            state = json.load(open(os.path.join(work, "tiles", tile + ".json")))
+            for _, file_name in state["files"] + state["phys_files"]:
+                if file_name in stored_name:
+                    continue
+                source = os.path.join(raw_dir, file_name)
+                if not os.path.exists(source):            # moved by an earlier run before its state was saved
+                    stored_name[file_name] = file_name
+                    continue
+                if time.time() - start > TIME_BUDGET:
+                    json.dump(saved, open(state_path, "w"))
+                    print("partial: stored", len(stored_name), " duplicates", duplicates)
+                    return
+                size = str(os.path.getsize(source))
+                same = by_size.setdefault(size, [])
+                match = None
+                if same:
+                    digest = file_md5(source)
+                    for entry in same:
+                        if entry[1] is None:
+                            entry[1] = file_md5(os.path.join(mesh_dir, entry[0]))
+                        if entry[1] == digest:
+                            match = entry[0]
+                            break
+                else:
+                    digest = None
+                if match:
+                    stored_name[file_name] = match
+                    duplicates += 1
+                    saved["duplicates"] = duplicates
+                    continue
+                same.append([file_name, digest])
                 stored_name[file_name] = file_name
-                continue
-            with open(source, "rb") as f:
-                digest = hashlib.md5(f.read()).hexdigest()
-            if digest in stored_by_hash:
-                stored_name[file_name] = stored_by_hash[digest]
-                duplicates += 1
-                continue
-            stored_by_hash[digest] = file_name
-            stored_name[file_name] = file_name
-            os.replace(source, os.path.join(mesh_dir, file_name))
+                os.replace(source, os.path.join(mesh_dir, file_name))
+        saved["meshes_done"] = True
+        json.dump(saved, open(state_path, "w"))
+        print("meshes stored", len(stored_name), " duplicates", duplicates)
 
     # ballast copies (dark rail strips painted as ballast, only next to track lines)
     ballast = os.path.join(mod, *BALLAST_DIR.split("/"))
     os.makedirs(ballast, exist_ok=True)
     for file_name, indices in scan["recolor"].items():
+        if os.path.exists(os.path.join(mod, *ballast_copy_name(file_name).split("/"))):
+            continue
         data = bytearray(open(os.path.join(rom_dir, *file_name.split("/")), "rb").read())
         for i, r, g, b in indices:
             at = FIRST_VERTEX_OFFSET + 28 * i + VERTEX_COLOR_OFFSET
@@ -646,6 +920,12 @@ def step_assemble(rom_dir, work):
     total_vertices = 0
     for tile in scan["tiles"]:
         state = json.load(open(os.path.join(work, "tiles", tile + ".json")))
+        total_vertices += state["vertices"]
+        if os.path.exists(os.path.join(tiles_out, tile + ".xml")):
+            continue
+        if time.time() - start > TIME_BUDGET:
+            print("partial: tile xmls")
+            return
         text = read_text(tile_xml_path(rom_dir, tile))
         newline = "\r\n" if "\r\n" in text else "\n"
 
@@ -688,7 +968,6 @@ def step_assemble(rom_dir, work):
         with open(os.path.join(tiles_out, tile + ".xml"), "w", encoding="utf-8", newline="") as f:
             f.write(text)
         total_entries += len(entries)
-        total_vertices += state["vertices"]
 
     with open(os.path.join(mod, "mod.xml"), "w", encoding="utf-8") as f:
         plus = os.path.exists(os.path.join(work, "catenary.json"))
@@ -704,5 +983,5 @@ def step_assemble(rom_dir, work):
 if __name__ == "__main__":
     rom_dir, work, step = sys.argv[1:4]
     os.makedirs(work, exist_ok=True)
-    {"scan": step_scan, "signs": step_signs, "catenary": step_catenary, "tiles": step_tiles,
+    {"scan": step_scan, "signs": step_signs, "roads": step_roads, "catenary": step_catenary, "tiles": step_tiles,
      "assemble": step_assemble}[step](rom_dir, work)

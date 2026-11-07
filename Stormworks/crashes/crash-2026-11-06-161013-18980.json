@@ -1,0 +1,3127 @@
+
+{
+  "schema_version": 1,
+  "summary": "NO_EXCEPTION in <unknown> (C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe)",
+  "location": "stormworks64.exe+0x1cca67",
+  "application": {
+    "name": "Stormworks",
+    "version": "v1.15.26",
+    "build": "1f8b90b3e1f0bb76c98a289713a94df4df07b2f1",
+    "executable": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+    "steam_id": "76561198195609338",
+    "process_id": 18980,
+    "uptime_seconds": 38.312
+  },
+  "crash": {
+    "time_utc": "2026-11-06T16:10:14Z",
+    "reason": "abort",
+    "has_exception": false,
+    "code_name": "NO_EXCEPTION",
+    "code": "0x0000000000000000",
+    "address": "0x0000000000000000",
+    "description": "",
+    "thread_id": 17332,
+    "thread_name": "state_transition"
+  },
+  "registers": {
+    "rip": "0x00007ff72e94ca67",
+    "rsp": "0x0000004b36ffd670",
+    "rbp": "0x00007ff72f30da40",
+    "rax": "0x00000000000043b4",
+    "rbx": "0x00007ff72f49b8f0",
+    "rcx": "0x00000235bf32d740",
+    "rdx": "0x0000000000000004",
+    "rsi": "0x0000000000000000",
+    "rdi": "0x00000235bf110000",
+    "r8": "0x0000000000000000",
+    "r9": "0x0000004b36ffd758",
+    "r10": "0xc6c1864950d77370",
+    "r11": "0x0000004b36ffd748",
+    "r12": "0x0000000000000910",
+    "r13": "0x0000000000000000",
+    "r14": "0x0000004b36ffda01",
+    "r15": "0x0000000000000000",
+    "eflags": "0x0000000000000246"
+  },
+  "threads": [
+    {
+      "id": 17332,
+      "name": "state_transition",
+      "is_crashing_thread": true,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff72e94ca67",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 1886823
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff72e94c862",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 1886306
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff72f138c1a",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 10193946
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff72f1316d4",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 10163924
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff72f137271",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 10187377
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff72f122ac8",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 10103496
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff72f123700",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 10106624
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff72f120639",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 10094137
+        },
+        {
+          "index": 8,
+          "type": "native",
+          "address": "0x00007ff95bf3296f",
+          "function": "_chkstk",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf32850",
+          "function_offset": 287
+        },
+        {
+          "index": 9,
+          "type": "native",
+          "address": "0x00007ff95bee2554",
+          "function": "RtlRaiseException",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bee20d0",
+          "function_offset": 1156
+        },
+        {
+          "index": 10,
+          "type": "native",
+          "address": "0x00007ff95bee22a7",
+          "function": "RtlRaiseException",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bee20d0",
+          "function_offset": 471
+        },
+        {
+          "index": 11,
+          "type": "native",
+          "address": "0x00007ff959845369",
+          "function": "RaiseException",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff959845300",
+          "function_offset": 105
+        },
+        {
+          "index": 12,
+          "type": "native",
+          "address": "0x00007ff72f120d40",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 10095936
+        },
+        {
+          "index": 13,
+          "type": "native",
+          "address": "0x00007ff72e96f931",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 2029873
+        },
+        {
+          "index": 14,
+          "type": "native",
+          "address": "0x00007ff72e972d2e",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 2043182
+        },
+        {
+          "index": 15,
+          "type": "native",
+          "address": "0x00007ff72ed6b038",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 6205496
+        },
+        {
+          "index": 16,
+          "type": "native",
+          "address": "0x00007ff72efcb04e",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 8695886
+        },
+        {
+          "index": 17,
+          "type": "native",
+          "address": "0x00007ff72e8fd789",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 1562505
+        },
+        {
+          "index": 18,
+          "type": "native",
+          "address": "0x00007ff72f0d63f4",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 9790452
+        },
+        {
+          "index": 19,
+          "type": "native",
+          "address": "0x00007ff72f1372ce",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 10187470
+        },
+        {
+          "index": 20,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 21,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 5604,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf2dc24",
+          "function": "NtDelayExecution",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf2dc10",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff9598662ce",
+          "function": "SleepEx",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff959866230",
+          "function_offset": 158
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff72f01c00d",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 9027597
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff72f0dcbca",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 9817034
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 10504,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf31034",
+          "function": "ZwWaitForWorkViaWorkerFactory",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf31020",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bedd407",
+          "function": "TpReleaseCleanupGroupMembers",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedccc0",
+          "function_offset": 1863
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 17976,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf31034",
+          "function": "ZwWaitForWorkViaWorkerFactory",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf31020",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bedd407",
+          "function": "TpReleaseCleanupGroupMembers",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedccc0",
+          "function_offset": 1863
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 10708,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf31034",
+          "function": "ZwWaitForWorkViaWorkerFactory",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf31020",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bedd407",
+          "function": "TpReleaseCleanupGroupMembers",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedccc0",
+          "function_offset": 1863
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 19836,
+      "name": "http",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf30fd4",
+          "function": "NtWaitForAlertByThreadId",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf30fc0",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bef55f1",
+          "function": "RtlSleepConditionVariableSRW",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bef54c0",
+          "function_offset": 305
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95988ee79",
+          "function": "SleepConditionVariableSRW",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95988ee50",
+          "function_offset": 41
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff72f0de809",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 9824265
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff72f0de902",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 9824514
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff72e8fd6fc",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 1562364
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff72f0d63f4",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 9790452
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff72f1372ce",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 10187470
+        },
+        {
+          "index": 8,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 9,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 22352,
+      "name": "network",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf2dc24",
+          "function": "NtDelayExecution",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf2dc10",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff9598662ce",
+          "function": "SleepEx",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff959866230",
+          "function_offset": 158
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff72e8fcea0",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 1560224
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff72f0d63f4",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 9790452
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff72f1372ce",
+          "function": null,
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+          "function_address": "0x00007ff72e780000",
+          "function_offset": 10187470
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 3100,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf31034",
+          "function": "ZwWaitForWorkViaWorkerFactory",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf31020",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bedd407",
+          "function": "TpReleaseCleanupGroupMembers",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedccc0",
+          "function_offset": 1863
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 4328,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf31034",
+          "function": "ZwWaitForWorkViaWorkerFactory",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf31020",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bedd407",
+          "function": "TpReleaseCleanupGroupMembers",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedccc0",
+          "function_offset": 1863
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 8240,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf2e0f4",
+          "function": "NtWaitForMultipleObjects",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf2e0e0",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff959870d00",
+          "function": "WaitForMultipleObjectsEx",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff959870c10",
+          "function_offset": 240
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff954e87eaf",
+          "function": "CreateDispatcherQueueController",
+          "source": "C:\\Windows\\SYSTEM32\\CoreMessaging.dll",
+          "function_address": "0x00007ff954e75c00",
+          "function_offset": 74415
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff954e87b99",
+          "function": "CreateDispatcherQueueController",
+          "source": "C:\\Windows\\SYSTEM32\\CoreMessaging.dll",
+          "function_address": "0x00007ff954e75c00",
+          "function_offset": 73625
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff954e87321",
+          "function": "CreateDispatcherQueueController",
+          "source": "C:\\Windows\\SYSTEM32\\CoreMessaging.dll",
+          "function_address": "0x00007ff954e75c00",
+          "function_offset": 71457
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff954e865a4",
+          "function": "CreateDispatcherQueueController",
+          "source": "C:\\Windows\\SYSTEM32\\CoreMessaging.dll",
+          "function_address": "0x00007ff954e75c00",
+          "function_offset": 68004
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff954e89d24",
+          "function": "CreateDispatcherQueueController",
+          "source": "C:\\Windows\\SYSTEM32\\CoreMessaging.dll",
+          "function_address": "0x00007ff954e75c00",
+          "function_offset": 82212
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff954e86a88",
+          "function": "CreateDispatcherQueueController",
+          "source": "C:\\Windows\\SYSTEM32\\CoreMessaging.dll",
+          "function_address": "0x00007ff954e75c00",
+          "function_offset": 69256
+        },
+        {
+          "index": 8,
+          "type": "native",
+          "address": "0x00007ff954ebe465",
+          "function": "CoreUICreateEx",
+          "source": "C:\\Windows\\SYSTEM32\\CoreMessaging.dll",
+          "function_address": "0x00007ff954ebca50",
+          "function_offset": 6677
+        },
+        {
+          "index": 9,
+          "type": "native",
+          "address": "0x00007ff954ebd2eb",
+          "function": "CoreUICreateEx",
+          "source": "C:\\Windows\\SYSTEM32\\CoreMessaging.dll",
+          "function_address": "0x00007ff954ebca50",
+          "function_offset": 2203
+        },
+        {
+          "index": 10,
+          "type": "native",
+          "address": "0x00007ff94a8d25da",
+          "function": "Ordinal2604",
+          "source": "C:\\Windows\\SYSTEM32\\inputhost.dll",
+          "function_address": "0x00007ff94a8ceb60",
+          "function_offset": 14970
+        },
+        {
+          "index": 11,
+          "type": "native",
+          "address": "0x00007ff94a8d6829",
+          "function": "DllGetActivationFactory",
+          "source": "C:\\Windows\\SYSTEM32\\inputhost.dll",
+          "function_address": "0x00007ff94a8d2720",
+          "function_offset": 16649
+        },
+        {
+          "index": 12,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 13,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 14816,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf30fd4",
+          "function": "NtWaitForAlertByThreadId",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf30fc0",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bef55f1",
+          "function": "RtlSleepConditionVariableSRW",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bef54c0",
+          "function_offset": 305
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95988ee79",
+          "function": "SleepConditionVariableSRW",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95988ee50",
+          "function_offset": 41
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff9370576ea",
+          "function": "Cnd_wait",
+          "source": "C:\\Windows\\SYSTEM32\\MSVCP140.dll",
+          "function_address": "0x00007ff9370576c0",
+          "function_offset": 42
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff8da794950",
+          "function": "alcGetInteger64vSOFT",
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\OpenAL64.dll",
+          "function_address": "0x00007ff8da750750",
+          "function_offset": 279040
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff8da73b6a8",
+          "function": "alGetError",
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\OpenAL64.dll",
+          "function_address": "0x00007ff8da73b540",
+          "function_offset": 360
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff959541bb2",
+          "function": "configthreadlocale",
+          "source": "C:\\Windows\\System32\\ucrtbase.dll",
+          "function_address": "0x00007ff959541b20",
+          "function_offset": 146
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 8,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 17608,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf2d624",
+          "function": "ZwWaitForSingleObject",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf2d610",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95983b6ae",
+          "function": "WaitForSingleObjectEx",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95983b620",
+          "function_offset": 142
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff8da794d83",
+          "function": "alcGetInteger64vSOFT",
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\OpenAL64.dll",
+          "function_address": "0x00007ff8da750750",
+          "function_offset": 280115
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff8da791be0",
+          "function": "alcGetInteger64vSOFT",
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\OpenAL64.dll",
+          "function_address": "0x00007ff8da750750",
+          "function_offset": 267408
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff959541bb2",
+          "function": "configthreadlocale",
+          "source": "C:\\Windows\\System32\\ucrtbase.dll",
+          "function_address": "0x00007ff959541b20",
+          "function_offset": 146
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 12068,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf2d624",
+          "function": "ZwWaitForSingleObject",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf2d610",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95983b6ae",
+          "function": "WaitForSingleObjectEx",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95983b620",
+          "function_offset": 142
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff8da73b920",
+          "function": "alGetError",
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\OpenAL64.dll",
+          "function_address": "0x00007ff8da73b540",
+          "function_offset": 992
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff8da73b6a8",
+          "function": "alGetError",
+          "source": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\OpenAL64.dll",
+          "function_address": "0x00007ff8da73b540",
+          "function_offset": 360
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff959541bb2",
+          "function": "configthreadlocale",
+          "source": "C:\\Windows\\System32\\ucrtbase.dll",
+          "function_address": "0x00007ff959541b20",
+          "function_offset": 146
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 13764,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf30fd4",
+          "function": "NtWaitForAlertByThreadId",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf30fc0",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bef55f1",
+          "function": "RtlSleepConditionVariableSRW",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bef54c0",
+          "function_offset": 305
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95988ee79",
+          "function": "SleepConditionVariableSRW",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95988ee50",
+          "function_offset": 41
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff8b3cbbe20",
+          "function": "eglGetProcAddress",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\amdogl.inf_amd64_0c58af8f08364541\\atio6axx.dll",
+          "function_address": "0x00007ff8b3bfec40",
+          "function_offset": 774624
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff8b353e16f",
+          "function": "GetSettingsBlobsAll",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\amdogl.inf_amd64_0c58af8f08364541\\atio6axx.dll",
+          "function_address": "0x00007ff8b2cfe4e0",
+          "function_offset": 8649871
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff8b35441b2",
+          "function": "GetSettingsBlobsAll",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\amdogl.inf_amd64_0c58af8f08364541\\atio6axx.dll",
+          "function_address": "0x00007ff8b2cfe4e0",
+          "function_offset": 8674514
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff8b3d39f5f",
+          "function": "eglGetProcAddress",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\amdogl.inf_amd64_0c58af8f08364541\\atio6axx.dll",
+          "function_address": "0x00007ff8b3bfec40",
+          "function_offset": 1291039
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 8,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 22124,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf30fd4",
+          "function": "NtWaitForAlertByThreadId",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf30fc0",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bef55f1",
+          "function": "RtlSleepConditionVariableSRW",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bef54c0",
+          "function_offset": 305
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95988ee79",
+          "function": "SleepConditionVariableSRW",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95988ee50",
+          "function_offset": 41
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff8b3cbbe20",
+          "function": "eglGetProcAddress",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\amdogl.inf_amd64_0c58af8f08364541\\atio6axx.dll",
+          "function_address": "0x00007ff8b3bfec40",
+          "function_offset": 774624
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff8b353e60c",
+          "function": "GetSettingsBlobsAll",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\amdogl.inf_amd64_0c58af8f08364541\\atio6axx.dll",
+          "function_address": "0x00007ff8b2cfe4e0",
+          "function_offset": 8651052
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff8b3544015",
+          "function": "GetSettingsBlobsAll",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\amdogl.inf_amd64_0c58af8f08364541\\atio6axx.dll",
+          "function_address": "0x00007ff8b2cfe4e0",
+          "function_offset": 8674101
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff8b3d39f5f",
+          "function": "eglGetProcAddress",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\amdogl.inf_amd64_0c58af8f08364541\\atio6axx.dll",
+          "function_address": "0x00007ff8b3bfec40",
+          "function_offset": 1291039
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 8,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 16412,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf30fd4",
+          "function": "NtWaitForAlertByThreadId",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf30fc0",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bef55f1",
+          "function": "RtlSleepConditionVariableSRW",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bef54c0",
+          "function_offset": 305
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95988ee79",
+          "function": "SleepConditionVariableSRW",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95988ee50",
+          "function_offset": 41
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff8b3cbbe20",
+          "function": "eglGetProcAddress",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\amdogl.inf_amd64_0c58af8f08364541\\atio6axx.dll",
+          "function_address": "0x00007ff8b3bfec40",
+          "function_offset": 774624
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff8b35a7ab3",
+          "function": "GetSettingsBlobsAll",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\amdogl.inf_amd64_0c58af8f08364541\\atio6axx.dll",
+          "function_address": "0x00007ff8b2cfe4e0",
+          "function_offset": 9082323
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff8b35a91d2",
+          "function": "GetSettingsBlobsAll",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\amdogl.inf_amd64_0c58af8f08364541\\atio6axx.dll",
+          "function_address": "0x00007ff8b2cfe4e0",
+          "function_offset": 9088242
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff8b3d39f5f",
+          "function": "eglGetProcAddress",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\amdogl.inf_amd64_0c58af8f08364541\\atio6axx.dll",
+          "function_address": "0x00007ff8b3bfec40",
+          "function_offset": 1291039
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 8,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 17580,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf30fd4",
+          "function": "NtWaitForAlertByThreadId",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf30fc0",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bef55f1",
+          "function": "RtlSleepConditionVariableSRW",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bef54c0",
+          "function_offset": 305
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95988ee79",
+          "function": "SleepConditionVariableSRW",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95988ee50",
+          "function_offset": 41
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff8b3cbbe20",
+          "function": "eglGetProcAddress",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\amdogl.inf_amd64_0c58af8f08364541\\atio6axx.dll",
+          "function_address": "0x00007ff8b3bfec40",
+          "function_offset": 774624
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff8b334d42d",
+          "function": "GetSettingsBlobsAll",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\amdogl.inf_amd64_0c58af8f08364541\\atio6axx.dll",
+          "function_address": "0x00007ff8b2cfe4e0",
+          "function_offset": 6614861
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff8b3286712",
+          "function": "GetSettingsBlobsAll",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\amdogl.inf_amd64_0c58af8f08364541\\atio6axx.dll",
+          "function_address": "0x00007ff8b2cfe4e0",
+          "function_offset": 5800498
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff8b3d39f5f",
+          "function": "eglGetProcAddress",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\amdogl.inf_amd64_0c58af8f08364541\\atio6axx.dll",
+          "function_address": "0x00007ff8b3bfec40",
+          "function_offset": 1291039
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 8,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 4044,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf30fd4",
+          "function": "NtWaitForAlertByThreadId",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf30fc0",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bef5865",
+          "function": "RtlSleepConditionVariableCS",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bef5760",
+          "function_offset": 261
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95988edc9",
+          "function": "SleepConditionVariableCS",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95988eda0",
+          "function_offset": 41
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff94b048234",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 688692
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff94b0484df",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 689375
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff94bf39ba7",
+          "function": "boost::serialization::singleton<std::set<boost::serialization::void_cast_detail::void_caster const * __ptr64,boost::serialization::void_cast_detail::void_caster_compare,std::allocator<boost::",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94bf09450",
+          "function_offset": 198487
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 9396,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf30fd4",
+          "function": "NtWaitForAlertByThreadId",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf30fc0",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bef5865",
+          "function": "RtlSleepConditionVariableCS",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bef5760",
+          "function_offset": 261
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95988edc9",
+          "function": "SleepConditionVariableCS",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95988eda0",
+          "function_offset": 41
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff94b048234",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 688692
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff94b0484df",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 689375
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff94bf39ba7",
+          "function": "boost::serialization::singleton<std::set<boost::serialization::void_cast_detail::void_caster const * __ptr64,boost::serialization::void_cast_detail::void_caster_compare,std::allocator<boost::",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94bf09450",
+          "function_offset": 198487
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 21520,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf30fd4",
+          "function": "NtWaitForAlertByThreadId",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf30fc0",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bef5865",
+          "function": "RtlSleepConditionVariableCS",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bef5760",
+          "function_offset": 261
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95988edc9",
+          "function": "SleepConditionVariableCS",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95988eda0",
+          "function_offset": 41
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff94b048234",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 688692
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff94b0484df",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 689375
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff94bf39ba7",
+          "function": "boost::serialization::singleton<std::set<boost::serialization::void_cast_detail::void_caster const * __ptr64,boost::serialization::void_cast_detail::void_caster_compare,std::allocator<boost::",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94bf09450",
+          "function_offset": 198487
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 14724,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf30fd4",
+          "function": "NtWaitForAlertByThreadId",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf30fc0",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bef5865",
+          "function": "RtlSleepConditionVariableCS",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bef5760",
+          "function_offset": 261
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95988edc9",
+          "function": "SleepConditionVariableCS",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95988eda0",
+          "function_offset": 41
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff94b048234",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 688692
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff94b0484df",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 689375
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff94bf39ba7",
+          "function": "boost::serialization::singleton<std::set<boost::serialization::void_cast_detail::void_caster const * __ptr64,boost::serialization::void_cast_detail::void_caster_compare,std::allocator<boost::",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94bf09450",
+          "function_offset": 198487
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 8664,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf30fd4",
+          "function": "NtWaitForAlertByThreadId",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf30fc0",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bef5865",
+          "function": "RtlSleepConditionVariableCS",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bef5760",
+          "function_offset": 261
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95988edc9",
+          "function": "SleepConditionVariableCS",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95988eda0",
+          "function_offset": 41
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff94b048234",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 688692
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff94b0484df",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 689375
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff94bf39ba7",
+          "function": "boost::serialization::singleton<std::set<boost::serialization::void_cast_detail::void_caster const * __ptr64,boost::serialization::void_cast_detail::void_caster_compare,std::allocator<boost::",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94bf09450",
+          "function_offset": 198487
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 8420,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf30fd4",
+          "function": "NtWaitForAlertByThreadId",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf30fc0",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bef5865",
+          "function": "RtlSleepConditionVariableCS",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bef5760",
+          "function_offset": 261
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95988edc9",
+          "function": "SleepConditionVariableCS",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95988eda0",
+          "function_offset": 41
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff94b048234",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 688692
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff94b0484df",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 689375
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff94bf39ba7",
+          "function": "boost::serialization::singleton<std::set<boost::serialization::void_cast_detail::void_caster const * __ptr64,boost::serialization::void_cast_detail::void_caster_compare,std::allocator<boost::",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94bf09450",
+          "function_offset": 198487
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 11132,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf30fd4",
+          "function": "NtWaitForAlertByThreadId",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf30fc0",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bef5865",
+          "function": "RtlSleepConditionVariableCS",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bef5760",
+          "function_offset": 261
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95988edc9",
+          "function": "SleepConditionVariableCS",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95988eda0",
+          "function_offset": 41
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff94b048234",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 688692
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff94b0484df",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 689375
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff94bf39ba7",
+          "function": "boost::serialization::singleton<std::set<boost::serialization::void_cast_detail::void_caster const * __ptr64,boost::serialization::void_cast_detail::void_caster_compare,std::allocator<boost::",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94bf09450",
+          "function_offset": 198487
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 6616,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf30fd4",
+          "function": "NtWaitForAlertByThreadId",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf30fc0",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bef5865",
+          "function": "RtlSleepConditionVariableCS",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bef5760",
+          "function_offset": 261
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95988edc9",
+          "function": "SleepConditionVariableCS",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95988eda0",
+          "function_offset": 41
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff94b048234",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 688692
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff94b0484df",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 689375
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff94bf39ba7",
+          "function": "boost::serialization::singleton<std::set<boost::serialization::void_cast_detail::void_caster const * __ptr64,boost::serialization::void_cast_detail::void_caster_compare,std::allocator<boost::",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94bf09450",
+          "function_offset": 198487
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 8732,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf30fd4",
+          "function": "NtWaitForAlertByThreadId",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf30fc0",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bef5865",
+          "function": "RtlSleepConditionVariableCS",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bef5760",
+          "function_offset": 261
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95988edc9",
+          "function": "SleepConditionVariableCS",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95988eda0",
+          "function_offset": 41
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff94b048234",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 688692
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff94b0484df",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 689375
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff94bf39ba7",
+          "function": "boost::serialization::singleton<std::set<boost::serialization::void_cast_detail::void_caster const * __ptr64,boost::serialization::void_cast_detail::void_caster_compare,std::allocator<boost::",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94bf09450",
+          "function_offset": 198487
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 11356,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf30fd4",
+          "function": "NtWaitForAlertByThreadId",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf30fc0",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bef5865",
+          "function": "RtlSleepConditionVariableCS",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bef5760",
+          "function_offset": 261
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95988edc9",
+          "function": "SleepConditionVariableCS",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95988eda0",
+          "function_offset": 41
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff94b048234",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 688692
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff94b0484df",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 689375
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff94bf39ba7",
+          "function": "boost::serialization::singleton<std::set<boost::serialization::void_cast_detail::void_caster const * __ptr64,boost::serialization::void_cast_detail::void_caster_compare,std::allocator<boost::",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94bf09450",
+          "function_offset": 198487
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 8936,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf30fd4",
+          "function": "NtWaitForAlertByThreadId",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf30fc0",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bef5865",
+          "function": "RtlSleepConditionVariableCS",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bef5760",
+          "function_offset": 261
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95988edc9",
+          "function": "SleepConditionVariableCS",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95988eda0",
+          "function_offset": 41
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff94afd09b0",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 199088
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff94afd08b9",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 198841
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff94bf39ba7",
+          "function": "boost::serialization::singleton<std::set<boost::serialization::void_cast_detail::void_caster const * __ptr64,boost::serialization::void_cast_detail::void_caster_compare,std::allocator<boost::",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94bf09450",
+          "function_offset": 198487
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 3932,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf2d624",
+          "function": "ZwWaitForSingleObject",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf2d610",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95983b6ae",
+          "function": "WaitForSingleObjectEx",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95983b620",
+          "function_offset": 142
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff94b0c7fad",
+          "function": "boost::serialization::singleton<boost::serialization::extended_type_info_typeid<_SC_CBRCONSTVALUES> >::singleton<boost::serialization::extended_type_info_typeid<_SC_CBRCONSTVALUES> >",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94b0556e0",
+          "function_offset": 469197
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff94b0c80be",
+          "function": "boost::serialization::singleton<boost::serialization::extended_type_info_typeid<_SC_CBRCONSTVALUES> >::singleton<boost::serialization::extended_type_info_typeid<_SC_CBRCONSTVALUES> >",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94b0556e0",
+          "function_offset": 469470
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff94b0c8289",
+          "function": "boost::serialization::singleton<boost::serialization::extended_type_info_typeid<_SC_CBRCONSTVALUES> >::singleton<boost::serialization::extended_type_info_typeid<_SC_CBRCONSTVALUES> >",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94b0556e0",
+          "function_offset": 469929
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff94bf39ba7",
+          "function": "boost::serialization::singleton<std::set<boost::serialization::void_cast_detail::void_caster const * __ptr64,boost::serialization::void_cast_detail::void_caster_compare,std::allocator<boost::",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94bf09450",
+          "function_offset": 198487
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 20980,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf2d624",
+          "function": "ZwWaitForSingleObject",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf2d610",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95983b6ae",
+          "function": "WaitForSingleObjectEx",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95983b620",
+          "function_offset": 142
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff914d1bd66",
+          "function": "procHookGetMessage",
+          "source": "C:\\ProgramData\\FPSMonitor\\hooks\\fps-mon64.dll",
+          "function_address": "0x00007ff914cf9f10",
+          "function_offset": 138838
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff914d2b892",
+          "function": "procHookGetMessage",
+          "source": "C:\\ProgramData\\FPSMonitor\\hooks\\fps-mon64.dll",
+          "function_address": "0x00007ff914cf9f10",
+          "function_offset": 203138
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 10256,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf30fd4",
+          "function": "NtWaitForAlertByThreadId",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf30fc0",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bef5865",
+          "function": "RtlSleepConditionVariableCS",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bef5760",
+          "function_offset": 261
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95988edc9",
+          "function": "SleepConditionVariableCS",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95988eda0",
+          "function_offset": 41
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff94b048234",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 688692
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff94b0484df",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 689375
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff94bf39ba7",
+          "function": "boost::serialization::singleton<std::set<boost::serialization::void_cast_detail::void_caster const * __ptr64,boost::serialization::void_cast_detail::void_caster_compare,std::allocator<boost::",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94bf09450",
+          "function_offset": 198487
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    },
+    {
+      "id": 17396,
+      "name": "",
+      "is_crashing_thread": false,
+      "is_truncated": false,
+      "callstack": [
+        {
+          "index": 0,
+          "type": "native",
+          "address": "0x00007ff95bf30fd4",
+          "function": "NtWaitForAlertByThreadId",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bf30fc0",
+          "function_offset": 20
+        },
+        {
+          "index": 1,
+          "type": "native",
+          "address": "0x00007ff95bef5865",
+          "function": "RtlSleepConditionVariableCS",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bef5760",
+          "function_offset": 261
+        },
+        {
+          "index": 2,
+          "type": "native",
+          "address": "0x00007ff95988edc9",
+          "function": "SleepConditionVariableCS",
+          "source": "C:\\Windows\\System32\\KERNELBASE.dll",
+          "function_address": "0x00007ff95988eda0",
+          "function_offset": 41
+        },
+        {
+          "index": 3,
+          "type": "native",
+          "address": "0x00007ff94b048234",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 688692
+        },
+        {
+          "index": 4,
+          "type": "native",
+          "address": "0x00007ff94b0484df",
+          "function": null,
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94afa0000",
+          "function_offset": 689375
+        },
+        {
+          "index": 5,
+          "type": "native",
+          "address": "0x00007ff94bf39ba7",
+          "function": "boost::serialization::singleton<std::set<boost::serialization::void_cast_detail::void_caster const * __ptr64,boost::serialization::void_cast_detail::void_caster_compare,std::allocator<boost::",
+          "source": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+          "function_address": "0x00007ff94bf09450",
+          "function_offset": 198487
+        },
+        {
+          "index": 6,
+          "type": "native",
+          "address": "0x00007ff95b157374",
+          "function": "BaseThreadInitThunk",
+          "source": "C:\\Windows\\System32\\KERNEL32.DLL",
+          "function_address": "0x00007ff95b157360",
+          "function_offset": 20
+        },
+        {
+          "index": 7,
+          "type": "native",
+          "address": "0x00007ff95bedcc91",
+          "function": "RtlUserThreadStart",
+          "source": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+          "function_address": "0x00007ff95bedcc70",
+          "function_offset": 33
+        }
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\stormworks64.exe",
+      "base": "0x00007ff72e780000",
+      "size": 14213120
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\ntdll.dll",
+      "base": "0x00007ff95be90000",
+      "size": 2064384
+    },
+    {
+      "path": "C:\\Windows\\System32\\KERNEL32.DLL",
+      "base": "0x00007ff95b140000",
+      "size": 794624
+    },
+    {
+      "path": "C:\\Windows\\System32\\KERNELBASE.dll",
+      "base": "0x00007ff959820000",
+      "size": 3104768
+    },
+    {
+      "path": "C:\\Windows\\System32\\USER32.dll",
+      "base": "0x00007ff95a2b0000",
+      "size": 1708032
+    },
+    {
+      "path": "C:\\Windows\\System32\\win32u.dll",
+      "base": "0x00007ff959ba0000",
+      "size": 139264
+    },
+    {
+      "path": "C:\\Windows\\System32\\GDI32.dll",
+      "base": "0x00007ff95bd60000",
+      "size": 176128
+    },
+    {
+      "path": "C:\\Windows\\System32\\gdi32full.dll",
+      "base": "0x00007ff959700000",
+      "size": 1150976
+    },
+    {
+      "path": "C:\\Windows\\System32\\msvcp_win.dll",
+      "base": "0x00007ff959bd0000",
+      "size": 643072
+    },
+    {
+      "path": "C:\\Windows\\System32\\ucrtbase.dll",
+      "base": "0x00007ff959520000",
+      "size": 1048576
+    },
+    {
+      "path": "C:\\Windows\\System32\\COMDLG32.dll",
+      "base": "0x00007ff95b3d0000",
+      "size": 892928
+    },
+    {
+      "path": "C:\\Windows\\System32\\msvcrt.dll",
+      "base": "0x00007ff959eb0000",
+      "size": 647168
+    },
+    {
+      "path": "C:\\Windows\\System32\\combase.dll",
+      "base": "0x00007ff959f50000",
+      "size": 3489792
+    },
+    {
+      "path": "C:\\Windows\\System32\\RPCRT4.dll",
+      "base": "0x00007ff95ab60000",
+      "size": 1179648
+    },
+    {
+      "path": "C:\\Windows\\System32\\shcore.dll",
+      "base": "0x00007ff95aa20000",
+      "size": 708608
+    },
+    {
+      "path": "C:\\Windows\\System32\\SHLWAPI.dll",
+      "base": "0x00007ff95b310000",
+      "size": 372736
+    },
+    {
+      "path": "C:\\Windows\\System32\\SHELL32.dll",
+      "base": "0x00007ff95b4b0000",
+      "size": 7798784
+    },
+    {
+      "path": "C:\\Windows\\System32\\ADVAPI32.dll",
+      "base": "0x00007ff95bd90000",
+      "size": 724992
+    },
+    {
+      "path": "C:\\Windows\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_5.82.19041.6280_none_792d7c952443c49a\\COMCTL32.dll",
+      "base": "0x00007ff934890000",
+      "size": 720896
+    },
+    {
+      "path": "C:\\Windows\\System32\\sechost.dll",
+      "base": "0x00007ff95b210000",
+      "size": 651264
+    },
+    {
+      "path": "C:\\Windows\\System32\\bcrypt.dll",
+      "base": "0x00007ff9596d0000",
+      "size": 159744
+    },
+    {
+      "path": "C:\\Windows\\System32\\WS2_32.dll",
+      "base": "0x00007ff95b040000",
+      "size": 438272
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\OPENGL32.dll",
+      "base": "0x00007ff90be90000",
+      "size": 1212416
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\dbghelp.dll",
+      "base": "0x00007ff9513c0000",
+      "size": 2101248
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\GLU32.dll",
+      "base": "0x00007ff90be60000",
+      "size": 180224
+    },
+    {
+      "path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\steam_api64.dll",
+      "base": "0x00007ff951120000",
+      "size": 315392
+    },
+    {
+      "path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Stormworks\\OpenAL64.dll",
+      "base": "0x00007ff8da730000",
+      "size": 1282048
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\dbgcore.DLL",
+      "base": "0x00007ff9274d0000",
+      "size": 212992
+    },
+    {
+      "path": "C:\\Windows\\System32\\ole32.dll",
+      "base": "0x00007ff95ae30000",
+      "size": 1224704
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\WINMM.dll",
+      "base": "0x00007ff94a810000",
+      "size": 159744
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\VCRUNTIME140.dll",
+      "base": "0x00007ff936ff0000",
+      "size": 180224
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\MSVCP140.dll",
+      "base": "0x00007ff937040000",
+      "size": 643072
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\VCRUNTIME140_1.dll",
+      "base": "0x00007ff9371e0000",
+      "size": 49152
+    },
+    {
+      "path": "C:\\Windows\\System32\\IMM32.DLL",
+      "base": "0x00007ff95a9f0000",
+      "size": 192512
+    },
+    {
+      "path": "C:\\Program Files (x86)\\Steam\\gameoverlayrenderer64.dll",
+      "base": "0x00007ff8da560000",
+      "size": 1900544
+    },
+    {
+      "path": "C:\\Windows\\System32\\OLEAUT32.dll",
+      "base": "0x00007ff95bc80000",
+      "size": 839680
+    },
+    {
+      "path": "C:\\Windows\\System32\\CFGMGR32.dll",
+      "base": "0x00007ff959e60000",
+      "size": 319488
+    },
+    {
+      "path": "C:\\Windows\\System32\\PSAPI.DLL",
+      "base": "0x00007ff95b130000",
+      "size": 32768
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\windows.storage.dll",
+      "base": "0x00007ff957570000",
+      "size": 8015872
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\Wldp.dll",
+      "base": "0x00007ff958e70000",
+      "size": 176128
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\profapi.dll",
+      "base": "0x00007ff959450000",
+      "size": 147456
+    },
+    {
+      "path": "C:\\Program Files (x86)\\Steam\\steamclient64.dll",
+      "base": "0x00007ff8f6120000",
+      "size": 26951680
+    },
+    {
+      "path": "C:\\Windows\\System32\\CRYPT32.dll",
+      "base": "0x00007ff959c70000",
+      "size": 1429504
+    },
+    {
+      "path": "C:\\Windows\\System32\\imagehlp.dll",
+      "base": "0x00007ff95af60000",
+      "size": 118784
+    },
+    {
+      "path": "C:\\Windows\\System32\\SETUPAPI.dll",
+      "base": "0x00007ff95a580000",
+      "size": 4653056
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\IPHLPAPI.DLL",
+      "base": "0x00007ff958900000",
+      "size": 241664
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\VERSION.dll",
+      "base": "0x00007ff9528d0000",
+      "size": 40960
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\MSWSOCK.dll",
+      "base": "0x00007ff958c50000",
+      "size": 434176
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\Secur32.dll",
+      "base": "0x00007ff952070000",
+      "size": 49152
+    },
+    {
+      "path": "C:\\Program Files (x86)\\Steam\\vstdlib_s64.dll",
+      "base": "0x00007ff910d50000",
+      "size": 798720
+    },
+    {
+      "path": "C:\\Program Files (x86)\\Steam\\tier0_s64.dll",
+      "base": "0x00007ff90d630000",
+      "size": 3190784
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\SSPICLI.DLL",
+      "base": "0x00007ff9593d0000",
+      "size": 204800
+    },
+    {
+      "path": "C:\\Windows\\System32\\bcryptprimitives.dll",
+      "base": "0x00007ff959dd0000",
+      "size": 532480
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\kernel.appcore.dll",
+      "base": "0x00007ff957370000",
+      "size": 73728
+    },
+    {
+      "path": "C:\\Windows\\system32\\uxtheme.dll",
+      "base": "0x00007ff956de0000",
+      "size": 647168
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\dinput8.dll",
+      "base": "0x00007ff8f5d90000",
+      "size": 282624
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\inputhost.dll",
+      "base": "0x00007ff94a8c0000",
+      "size": 1384448
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\CoreMessaging.dll",
+      "base": "0x00007ff954e70000",
+      "size": 991232
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\wintypes.dll",
+      "base": "0x00007ff955c50000",
+      "size": 1404928
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\PROPSYS.dll",
+      "base": "0x00007ff9566b0000",
+      "size": 999424
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\CoreUIComponents.dll",
+      "base": "0x00007ff9533a0000",
+      "size": 3518464
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\ntmarta.dll",
+      "base": "0x00007ff958770000",
+      "size": 208896
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\xinput1_4.dll",
+      "base": "0x00007ff929610000",
+      "size": 69632
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\DEVOBJ.dll",
+      "base": "0x00007ff9592b0000",
+      "size": 208896
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\dwmapi.dll",
+      "base": "0x00007ff957070000",
+      "size": 188416
+    },
+    {
+      "path": "C:\\Windows\\System32\\MSCTF.dll",
+      "base": "0x00007ff95a460000",
+      "size": 1134592
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\HID.DLL",
+      "base": "0x00007ff957d20000",
+      "size": 53248
+    },
+    {
+      "path": "C:\\Windows\\System32\\WINTRUST.dll",
+      "base": "0x00007ff959b20000",
+      "size": 471040
+    },
+    {
+      "path": "C:\\Windows\\System32\\MSASN1.dll",
+      "base": "0x00007ff9590e0000",
+      "size": 73728
+    },
+    {
+      "path": "C:\\Windows\\System32\\clbcatq.dll",
+      "base": "0x00007ff95af90000",
+      "size": 692224
+    },
+    {
+      "path": "C:\\Windows\\System32\\MMDevApi.dll",
+      "base": "0x00007ff955480000",
+      "size": 544768
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\AUDIOSES.DLL",
+      "base": "0x00007ff955650000",
+      "size": 1576960
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\powrprof.dll",
+      "base": "0x00007ff958a70000",
+      "size": 307200
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\UMPDC.dll",
+      "base": "0x00007ff9588e0000",
+      "size": 73728
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\resourcepolicyclient.dll",
+      "base": "0x00007ff956f70000",
+      "size": 81920
+    },
+    {
+      "path": "C:\\Windows\\System32\\AppXDeploymentClient.dll",
+      "base": "0x00007ff9523b0000",
+      "size": 1073152
+    },
+    {
+      "path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\atig6pxx.dll",
+      "base": "0x00007ff8f1a90000",
+      "size": 176128
+    },
+    {
+      "path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\amdogl.inf_amd64_0c58af8f08364541\\atio6axx.dll",
+      "base": "0x00007ff8b2a90000",
+      "size": 65232896
+    },
+    {
+      "path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdihk64.dll",
+      "base": "0x00007ff947a00000",
+      "size": 253952
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\dxgi.dll",
+      "base": "0x00007ff957d60000",
+      "size": 1007616
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\d3d11.dll",
+      "base": "0x00007ff954930000",
+      "size": 2506752
+    },
+    {
+      "path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxx64.dll",
+      "base": "0x00007ff94afa0000",
+      "size": 47005696
+    },
+    {
+      "path": "C:\\Windows\\system32\\atidxx64.dll",
+      "base": "0x00007ff947da0000",
+      "size": 143360
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\apphelp.dll",
+      "base": "0x00007ff9557e0000",
+      "size": 606208
+    },
+    {
+      "path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdenc64.dll",
+      "base": "0x000000005dd30000",
+      "size": 1392640
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\dxcore.dll",
+      "base": "0x00007ff9553a0000",
+      "size": 241664
+    },
+    {
+      "path": "C:\\Windows\\System32\\Windows.UI.dll",
+      "base": "0x00007ff94ae60000",
+      "size": 1306624
+    },
+    {
+      "path": "C:\\Windows\\System32\\TextInputFramework.dll",
+      "base": "0x00007ff94aa20000",
+      "size": 1019904
+    },
+    {
+      "path": "C:\\Windows\\System32\\WindowManagementAPI.dll",
+      "base": "0x00007ff9511e0000",
+      "size": 659456
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\twinapi.appcore.dll",
+      "base": "0x00007ff950c90000",
+      "size": 2109440
+    },
+    {
+      "path": "C:\\ProgramData\\FPSMonitor\\hooks\\fps-mon64.dll",
+      "base": "0x00007ff914cf0000",
+      "size": 618496
+    },
+    {
+      "path": "C:\\Program Files (x86)\\Steam\\crashhandler64.dll",
+      "base": "0x00007ff9118c0000",
+      "size": 1785856
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\WININET.dll",
+      "base": "0x00007ff9373b0000",
+      "size": 5070848
+    },
+    {
+      "path": "C:\\Windows\\system32\\d3d12.dll",
+      "base": "0x00007ff92d050000",
+      "size": 151552
+    },
+    {
+      "path": "C:\\Windows\\System32\\DriverStore\\FileRepository\\u0203304.inf_amd64_a6e5a337568ce3f0\\B026373\\amdxc64.dll",
+      "base": "0x00007ff896dd0000",
+      "size": 77639680
+    },
+    {
+      "path": "C:\\Windows\\system32\\D3D12Core.dll",
+      "base": "0x00007ff927cf0000",
+      "size": 1888256
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\D3DSCache.dll",
+      "base": "0x00007ff92bb10000",
+      "size": 176128
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\USERENV.dll",
+      "base": "0x00007ff959410000",
+      "size": 188416
+    },
+    {
+      "path": "C:\\Windows\\SYSTEM32\\dcomp.dll",
+      "base": "0x00007ff954c80000",
+      "size": 1982464
+    }
+  ],
+  "system": {
+    "processor_count": 12,
+    "memory_total_mb": 32634,
+    "memory_available_mb": 17806,
+    "memory_load_percent": 45,
+    "process_working_set_mb": 887,
+    "process_private_mb": 1604,
+    "os_version": "10.0.19045"
+  },
+  "notes": {
+    "cpu": "11th Gen Intel(R) Core(TM) i5-11400F @ 2.60GHz (x64)",
+    "gpu": "ATI Technologies Inc. AMD Radeon RX 7600",
+    "opengl": "4.6.0 Compatibility Profile Context 26.8.1.260810",
+    "ram": "32768MB RAM",
+    "os": "Windows 10 Pro 64bit",
+    "graphics": "1280x720 windowed view_distance 20000",
+    "state": "game"
+  },
+  "minidump": {
+    "is_written": true,
+    "file": "crash-2026-11-06-161013-18980.dmp"
+  }
+}
