@@ -1061,110 +1061,7 @@ def add_ballast_prism(builder, points, keep=None):
             builder.polygon(section, COLOR_BALLAST, (p[0], p[2]), outward)
 
 
-# Level crossings (unregulated): reinforced concrete panels between the rails and outside them,
-# their top a little below the rail heads, flangeways along the inner rail faces, asphalt ramps
-# down to the road on both sides. Collision for cars: panels and ramps, with a band left free
-# over each rail (train wheels ride the graph and touch nothing).
-CROSSING_PANEL_TOP = -0.012          # below the rail top
-CROSSING_PANEL_DEPTH = 0.16
-CROSSING_INNER_HALF = 0.74           # inner panel: up to the flangeway along the rail
-CROSSING_OUTER = (0.89, 1.79)        # outer panels: from the rail's outer face out to here
-CROSSING_RAMP_LENGTH = 2.5           # asphalt ramp beyond the outer panels ...
-CROSSING_RAMP_DROP = 0.26            # ... down to the vanilla road level (graph lift - rail drop)
-CROSSING_PANEL_LENGTH = 2.0
-CROSSING_FREE_BAND = (0.67, 1.03)    # no collision over the rails (wheel tread and flange)
-CROSSING_MARGIN = 1.0                # panels run on this far past the road on both sides
-COLOR_CROSSING = (128, 126, 120, 255)
-COLOR_CROSSING_SIDE = (100, 98, 94, 255)
-COLOR_ROAD = (62, 60, 62, 255)
-
-
-def _collision_quad(builder, quad, outward, anchor):
-    if dot(polygon_normal(quad), outward) < 0:
-        quad = [quad[0], quad[3], quad[2], quad[1]]
-    builder.collision.append(((quad[0], quad[2], quad[1]), anchor))
-    builder.collision.append(((quad[0], quad[3], quad[2]), anchor))
-
-
-def add_level_crossing(builder, points, keep):
-    """Crossing panels, ramps and collision along the stretches of a rail-top polyline where
-    keep(point) holds (extended by CROSSING_MARGIN)."""
-    points = densify(points, 0.5)
-    flags = [bool(keep(p)) for p in points]
-    margin = int(round(CROSSING_MARGIN / 0.5))
-    grown = list(flags)
-    for i, f in enumerate(flags):
-        if f:
-            for j in range(max(0, i - margin), min(len(flags), i + margin + 1)):
-                grown[j] = True
-    runs, current = [], []
-    for p, f in zip(points, grown):
-        if f:
-            current.append(p)
-        elif current:
-            runs.append(current)
-            current = []
-    if current:
-        runs.append(current)
-    count = 0
-    for run in runs:
-        if len(run) < 3:
-            continue
-        count += 1
-        offsets = miter_offsets(run)
-
-        def at(i, u, dy):
-            n, scale = offsets[i]
-            p = run[i]
-            q = add(p, mul(n, u * scale))
-            return (q[0], p[1] + dy, q[2])
-
-        top, bottom = CROSSING_PANEL_TOP, CROSSING_PANEL_TOP - CROSSING_PANEL_DEPTH
-        bands = [(-CROSSING_INNER_HALF, CROSSING_INNER_HALF), CROSSING_OUTER,
-                 (-CROSSING_OUTER[1], -CROSSING_OUTER[0])]
-        # panels every CROSSING_PANEL_LENGTH (0.5 m points): a block each, with a hairline joint
-        per = max(1, int(round(CROSSING_PANEL_LENGTH / 0.5)))
-        for start in range(0, len(run) - 1, per):
-            end = min(len(run) - 1, start + per)
-            for u0, u1 in bands:
-                for i in range(start, end):
-                    a, b = i, i + 1
-                    n = offsets[i][0]
-                    anchor = ((run[a][0] + run[b][0]) / 2, (run[a][2] + run[b][2]) / 2)
-                    builder.quad(at(a, u0, top), at(b, u0, top), at(b, u1, top), at(a, u1, top),
-                                 COLOR_CROSSING, anchor, (0.0, 1.0, 0.0))
-                    for u, side in ((u0, -1.0), (u1, 1.0)):
-                        builder.quad(at(a, u, top), at(b, u, top), at(b, u, bottom), at(a, u, bottom),
-                                     COLOR_CROSSING_SIDE, anchor, mul(n, side))
-                for i, back in ((start, 1), (end, -1)):
-                    t = horizontal_dir(run[i], run[i + back]) if 0 <= i + back < len(run) else (1.0, 0.0, 0.0)
-                    builder.quad(at(i, u0, top), at(i, u1, top), at(i, u1, bottom), at(i, u0, bottom),
-                                 COLOR_CROSSING_SIDE, (run[i][0], run[i][2]), mul(t, -1.0))
-        # asphalt ramps down to the road, both sides
-        for side in (1.0, -1.0):
-            u0, u1 = side * CROSSING_OUTER[1], side * (CROSSING_OUTER[1] + CROSSING_RAMP_LENGTH)
-            for i in range(len(run) - 1):
-                a, b = i, i + 1
-                anchor = ((run[a][0] + run[b][0]) / 2, (run[a][2] + run[b][2]) / 2)
-                quad = [at(a, u0, top), at(b, u0, top), at(b, u1, top - CROSSING_RAMP_DROP), at(a, u1, top - CROSSING_RAMP_DROP)]
-                builder.quad(*quad, COLOR_ROAD, anchor, (0.0, 1.0, 0.0))
-                _collision_quad(builder, quad, (0.0, 1.0, 0.0), anchor)
-        # collision for cars: inner and outer panel tops, clear of the bands over the rails
-        free0, free1 = CROSSING_FREE_BAND
-        for u0, u1 in ((-free0, free0), (free1, CROSSING_OUTER[1]), (-CROSSING_OUTER[1], -free1)):
-            for i in range(len(run) - 1):
-                a, b = i, i + 1
-                anchor = ((run[a][0] + run[b][0]) / 2, (run[a][2] + run[b][2]) / 2)
-                quad = [at(a, u0, top - 0.01), at(b, u0, top - 0.01), at(b, u1, top - 0.01), at(a, u1, top - 0.01)]
-                _collision_quad(builder, quad, (0.0, 1.0, 0.0), anchor)
-                n = offsets[i][0]
-                for u, sd in ((u0, -1.0), (u1, 1.0)):
-                    wall = [at(a, u, top - 0.01), at(b, u, top - 0.01), at(b, u, bottom), at(a, u, bottom)]
-                    _collision_quad(builder, wall, mul(n, sd), anchor)
-    return count
-
-
-def build_tile_v4(nodes, node_y, border_cuts, continuing, ballast_keep=None, crossing_keep=None):
+def build_tile_v4(nodes, node_y, border_cuts, continuing, ballast_keep=None):
     """One tile, fully baked: rails, standard sleepers and turnout bearers in the same meshes."""
     chains = build_chains(nodes)
     builder = Builder()
@@ -1181,8 +1078,6 @@ def build_tile_v4(nodes, node_y, border_cuts, continuing, ballast_keep=None, cro
                     start_dir=border_cuts.get(chain[0]), end_dir=border_cuts.get(chain[-1]))
         if ballast_keep is not None:
             add_ballast_prism(builder, pts, ballast_keep)
-        if crossing_keep is not None:
-            builder.crossings = getattr(builder, "crossings", 0) + add_level_crossing(builder, pts, crossing_keep)
     template = _sleeper_template()
     sleepers = place_sleepers(chains_points)
     for s in sleepers:

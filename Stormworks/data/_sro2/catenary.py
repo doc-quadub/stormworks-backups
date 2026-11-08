@@ -121,6 +121,17 @@ WIRE_RADIUS = 0.025              # 5 cm thick: thinner wires vanish at a distanc
 DROPPER_RADIUS = 0.010
 
 COLOR_CONCRETE = (150, 148, 142, 255)
+COLOR_POLE_BLACK = (30, 30, 30, 255)
+COLOR_POLE_WHITE = (226, 226, 220, 255)
+POLE_BLACK_FRACTION = 1.0 / 8.0   # the pole's foot is black for 1/8 of its visible height ...
+POLE_WHITE_FRACTION = 1.0 / 8.0   # ... the top 1/8 of that black band is a white stripe
+# Poles bounding an air gap (the transition poles 2 and 4 of a 4-span insulating overlap):
+# four black and three white horizontal stripes 200 mm each at 4-5 m above the ground; the pole
+# the train meets first also gets a vertical black stripe (signalling instruction, ch. VI,
+# "opory, ogranichivayushchie vozdushnye promezhutki").
+ZEBRA_STRIPE = 0.20
+ZEBRA_FROM = 3.80                 # above the ground at the pole
+AIR_GAP_NEIGHBOUR = 7.0           # a parallel track this close tells the running direction
 COLOR_STEEL = (118, 120, 122, 255)
 COLOR_INSULATOR = (112, 58, 36, 255)
 COLOR_MESSENGER = (70, 70, 72, 255)
@@ -879,6 +890,10 @@ def plan_catenary(rom_dir, tiles, prepare_graph, start=ROUTE_START, end=ROUTE_EN
     log("contact wire off the track axis: worst %.2f m, spans over %.2f m: %d" % (worst_wire, WIRE_DEVIATION_LIMIT, off_wire))
     for row in sorted(_wire_deviation.details, reverse=True)[:25]:
         log("  off %s" % (row,))
+    long_spans = sorted(((_plan_distance(supports[sp["from"]], supports[sp["to"]]), supports[sp["from"]]["track"])
+                         for sp in spans), reverse=True)
+    long_spans = [(round(d, 1), round(p[0]), round(p[2])) for d, p in long_spans if d > MAX_SPAN + 1.0]
+    log("spans longer than %.0f m: %d %s" % (MAX_SPAN, len(long_spans), long_spans[:10]))
     if FEEDERS:
         feeder_poles, feeder_spans = _plan_feeders(net, chain_data, supports, portals, ground)
     else:
@@ -983,6 +998,11 @@ def _share_poles(net, chain_data, runs, supports):
     return moved
 
 
+def _plan_distance(a, b):
+    """Distance in plan between the track points of two supports."""
+    return math.dist((a["track"][0], a["track"][2]), (b["track"][0], b["track"][2]))
+
+
 def _extend_over_turnouts(net, chain_data, runs, supports):
     """A wire run that ends at a turnout of another electrified track goes on over that track:
     one more support on the main track's pole (second cantilever), then the anchor on the next
@@ -1038,7 +1058,8 @@ def _extend_over_turnouts(net, chain_data, runs, supports):
                     # (on a pole of its own next to the main track), so it runs over the switch
                     for i in ordered:
                         if (supports[i]["portal"] is None and supports[i].get("bracket") is None
-                                and FALLBACK_ANCHOR_REACH[0] <= abs(supports[i]["s"] - s_node) <= FALLBACK_ANCHOR_REACH[1]):
+                                and FALLBACK_ANCHOR_REACH[0] <= abs(supports[i]["s"] - s_node) <= FALLBACK_ANCHOR_REACH[1]
+                                and _plan_distance(supports[i], end_support) <= MAX_SPAN):
                             fallback = (main_run, None, i, offset_side)
                             break
                 beyond = [i for i in ordered
@@ -1050,6 +1071,12 @@ def _extend_over_turnouts(net, chain_data, runs, supports):
                     why(end_support, "run %d: fewer than 2 free main supports beyond" % main_run)
                     continue
                 middle, anchor = beyond[0], beyond[1]
+                if _plan_distance(supports[middle], end_support) > MAX_SPAN:
+                    # the nearest free support is too far: the span onto it would hang in a long
+                    # arc (seen at 1442..1557, -3765 by North Harbour, a 116 m span)
+                    why(end_support, "run %d: first free main support %.0f m away" % (
+                        main_run, _plan_distance(supports[middle], end_support)))
+                    continue
                 if (supports[anchor]["portal"] is not None or supports[anchor].get("bracket") is not None
                         or supports[middle].get("bracket") is not None
                         or abs(supports[anchor]["s"] - s_node) > OVERLAP_MAX_REACH):
@@ -1086,7 +1113,7 @@ def _extend_over_turnouts(net, chain_data, runs, supports):
             reach = math.dist((neighbour["track"][0], neighbour["track"][2]),
                               (supports[added[0]]["track"][0], supports[added[0]]["track"][2]))
             if (middle is not None and len(indices) > 2 and from_turnout <= JUNCTION_DROP
-                    and reach <= MAX_SPAN * 1.25
+                    and reach <= MAX_SPAN
                     and end_support["portal"] is None
                     and not any(o.get("pole_owner") == end_index for o in supports)):
                 end_support["dropped"] = True
@@ -1151,6 +1178,40 @@ def _trim_bridge_ends(ground, runs, supports, portals, edge_ends=None):
             indices = []
         runs[k] = indices
     return trimmed
+
+
+def _travel_directions(net, sp):
+    """Which way trains run on the track of support sp (right-hand running): (along t, against t).
+    A track with a neighbour only on its left carries the trains along t, one with a neighbour
+    only on its right against t; a single track (or one in the middle of several) both ways."""
+    p = (sp["track"][0], sp["track"][2])
+    r = signs.right_of(tuple(sp["t"]))
+    found = {}
+    for side in (1.0, -1.0):
+        d = (r[0] * side, r[1] * side)
+        found[side] = any(signs._ray_hits_segment(p, d, AIR_GAP_NEIGHBOUR, sa, sb) is not None
+                          for sa, sb, _ in net.all_tracks.near(p[0], p[1], AIR_GAP_NEIGHBOUR))
+    if found[-1.0] and not found[1.0]:
+        return True, False
+    if found[1.0] and not found[-1.0]:
+        return False, True
+    return True, True
+
+
+def _mark_air_gap(net, supports, low, high):
+    """Air gap stripes on the two transition poles bounding an insulating overlap (supports `low`
+    and `high`, in the order of s); the vertical stripe on the first pole met by a train, on the
+    side facing it (and the track)."""
+    along, against = _travel_directions(net, supports[low])
+    for i, first in ((low, along), (high, against)):
+        sp = supports[i]
+        stripe = None
+        if first:
+            t = sp["t"]
+            facing = (-t[0], -t[1]) if i == low else (t[0], t[1])     # towards the coming train
+            to_track = _unit2((sp["track"][0] - sp["pole"][0], sp["track"][2] - sp["pole"][2]))
+            stripe = list(_unit2((facing[0] + 0.6 * to_track[0], facing[1] + 0.6 * to_track[1])))
+        sp["zebra"] = {"stripe": stripe}
 
 
 def _split_sections(ground, net, chain_data, runs, supports):
@@ -1256,6 +1317,8 @@ def _split_sections(ground, net, chain_data, runs, supports):
             ids = [R[q + k] for k in range(n)]
             keep = n - 2                       # supports of this window section A works at
             insulating = n == 5
+            if insulating:
+                _mark_air_gap(net, supports, ids[1], ids[3])
             a_part = prefix + R[start:q + keep]
             raised = OVERLAP_RAISE_INSULATING if insulating else OVERLAP_RAISE_PLAIN
             a_part.append(copy_of(ids[n - 2], insulate=insulating, own_console=True, overlap_raise=raised))
@@ -2335,7 +2398,7 @@ def _tube(builder, a, b, radius, sides, color, anchor, caps=False):
         builder.polygon([_add(b, o) for o in ring], color, anchor, axis)
 
 
-def _cone(builder, base, height, r0, r1, sides, color, anchor):
+def _cone(builder, base, height, r0, r1, sides, color, anchor, cap=True, side_colors=None):
     top = (base[0], base[1] + height, base[2])
     ring0, ring1 = [], []
     for i in range(sides):
@@ -2347,8 +2410,10 @@ def _cone(builder, base, height, r0, r1, sides, color, anchor):
         j = (i + 1) % sides
         ang = 2 * math.pi * (i + 1) / sides
         outward = (math.cos(ang), (r0 - r1) / height, math.sin(ang))
-        builder.polygon([ring0[i], ring0[j], ring1[j], ring1[i]], color, anchor, outward)
-    builder.polygon(ring1, color, anchor, (0.0, 1.0, 0.0))
+        c = side_colors.get(i, color) if side_colors else color
+        builder.polygon([ring0[i], ring0[j], ring1[j], ring1[i]], c, anchor, outward)
+    if cap:
+        builder.polygon(ring1, color, anchor, (0.0, 1.0, 0.0))
 
 
 def _wire(builder, a, b, sag, pieces, radius, color, anchor):
@@ -2370,9 +2435,28 @@ def pole_radius_at(sp_base_y, y, height=POLE_HEIGHT):
     return POLE_RADIUS_GROUND * (1 - f) + POLE_RADIUS_TOP * f
 
 
-def _concrete_pole(builder, pole, base_y, top_y, t, origin, anchor, buried=POLE_BURIED):
+def _pole_bands(bottom, top_y, zebra=None):
+    """Colour bands [(y0, y1, colour, black side)] of a concrete pole whose visible part runs from
+    `bottom` to top_y: black foot with a white stripe on top of it, plain concrete above; the
+    air gap stripes where `zebra` is given (zebra["stripe"]: horizontal direction of the side
+    that carries the vertical black stripe, or None)."""
+    height = top_y - bottom
+    black = bottom + height * POLE_BLACK_FRACTION
+    white = black - height * POLE_BLACK_FRACTION * POLE_WHITE_FRACTION
+    bands = [(white, black, COLOR_POLE_WHITE, None)]
+    if zebra is not None:
+        z0 = bottom + ZEBRA_FROM
+        stripe = zebra.get("stripe")
+        for k in range(7):
+            bands.append((z0 + k * ZEBRA_STRIPE, z0 + (k + 1) * ZEBRA_STRIPE,
+                          COLOR_POLE_BLACK if k % 2 == 0 else COLOR_POLE_WHITE, stripe))
+    return black, bands
+
+
+def _concrete_pole(builder, pole, base_y, top_y, t, origin, anchor, buried=POLE_BURIED, zebra=None):
     """Concrete pole from base_y (below the rail) up to top_y, on a square foundation block
-    where the ground is lower than the base, with a collider."""
+    where the ground is lower than the base, with a collider. Painted: a black foot (1/8 of the
+    visible height) topped by a white stripe; the air gap stripes where `zebra` is given."""
     ox, oz = origin
     ground_y = pole[1]
     frame = signs.Frame((pole[0] - ox, base_y, pole[2] - oz), tuple(t))
@@ -2382,11 +2466,37 @@ def _concrete_pole(builder, pole, base_y, top_y, t, origin, anchor, buried=POLE_
         signs._box(builder, frame, half, half, -drop, 0.0, [(-drop, 0.0, COLOR_FOUNDATION)], anchor)
         signs.add_box_collision(builder, frame, half, half, -drop, 0.0, anchor)
     height = top_y - base_y
-    taper = height * POLE_TAPER_FROM
-    _cone(builder, (pole[0] - ox, base_y - buried, pole[2] - oz), taper + buried,
-          POLE_RADIUS_GROUND, POLE_RADIUS_GROUND, POLE_SIDES, COLOR_CONCRETE, anchor)
-    _cone(builder, (pole[0] - ox, base_y + taper, pole[2] - oz), height - taper,
-          POLE_RADIUS_GROUND, POLE_RADIUS_TOP, POLE_SIDES, COLOR_CONCRETE, anchor)
+    taper = base_y + height * POLE_TAPER_FROM
+    bottom = max(base_y, ground_y)              # visible foot (higher ground hides the base)
+    black, bands = _pole_bands(bottom, top_y, zebra)
+    # pieces from the buried foot to the top: black, painted bands, concrete; a break at the
+    # start of the taper
+    cuts = [(base_y - buried, COLOR_POLE_BLACK, None)]
+    plain = black
+    for y0, y1, color, stripe in bands:
+        if y0 > plain + 1e-6:
+            cuts.append((plain, COLOR_CONCRETE, None))
+        cuts.append((y0, color, stripe))
+        plain = y1
+    cuts.append((plain, COLOR_CONCRETE, None))
+    ys = [c[0] for c in cuts] + [top_y]
+    pieces = []
+    for (y0, color, stripe), y1 in zip(cuts, ys[1:]):
+        if y0 < taper < y1:
+            pieces += [(y0, taper, color, stripe), (taper, y1, color, stripe)]
+        elif y1 > y0 + 1e-6:
+            pieces.append((y0, y1, color, stripe))
+    for k, (y0, y1, color, stripe) in enumerate(pieces):
+        side_colors = None
+        if stripe is not None and color != COLOR_POLE_BLACK:
+            # the octagon side facing `stripe` is black across the white stripes too
+            ang = math.atan2(stripe[1], stripe[0]) % (2 * math.pi)
+            side = int(round(ang / (2 * math.pi / POLE_SIDES))) - 1
+            side_colors = {side % POLE_SIDES: COLOR_POLE_BLACK}
+        r0 = pole_radius_at(base_y, y0, height)
+        r1 = pole_radius_at(base_y, y1, height)
+        _cone(builder, (pole[0] - ox, y0, pole[2] - oz), y1 - y0, r0, r1, POLE_SIDES, color, anchor,
+              cap=(k == len(pieces) - 1), side_colors=side_colors)
     signs.add_box_collision(builder, frame, POLE_RADIUS_GROUND, POLE_RADIUS_GROUND,
                             -buried, height, anchor)
 
@@ -3075,7 +3185,8 @@ def add_support(builder, sp, origin, supports=None):
             add_bracket(builder, sp, origin, anchor)
             _concrete_pole(builder, pole, base_y + 0.05, base_y + POLE_HEIGHT, sp["t"], origin, anchor, buried=0.0)
         else:
-            _concrete_pole(builder, pole, base_y, base_y + POLE_HEIGHT, sp["t"], origin, anchor)
+            _concrete_pole(builder, pole, base_y, base_y + POLE_HEIGHT, sp["t"], origin, anchor,
+                           zebra=sp.get("zebra"))
         if sp.get("traverse"):
             _draw_traverses(builder, sp, local, anchor)
     if sp.get("anchor") is not None:

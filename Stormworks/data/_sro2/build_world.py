@@ -56,19 +56,21 @@ MIN_COMPONENT_LENGTH = 50.0     # isolated bits of track graph shorter than this
 BORDER = 499.5
 BORDER_NEAR = 497.0             # border pairs may lie this far inside / outside their tile edge
 BORDER_PAIR_GAP = 1.0           # ... and this far apart (vanilla pairs that do not quite meet)
+BORDER_PAIR_RISE = 0.6          # an exact pair on the edge may differ this much in height ...
+BORDER_STEP = 0.10              # ... more than this: the joint height follows the grades either side
 BORDER_SLIDE_MAX = 3.0          # a border end slides at most this far along its track onto the edge
 SHALLOW_CROSSING_COS = 0.7     # track meets a tile edge at less than ~45 degrees
 
 MOD_NAME = "Stormworks Railway Overhaul (SRO)"
-MOD_VERSION = "1.1"
+MOD_VERSION = "1.1.3"
 # with an overhead line plan (step "catenary") the build is the Plus edition
 PLUS_NAME = "SRO Catenary+ (Sawyer)"
-PLUS_VERSION = "1.2"
+PLUS_VERSION = "1.2.3"
 MOD_AUTHOR = "quadub"
 MOD_XML = ('<?xml version="1.0" encoding="UTF-8"?>\n'
            '<mod name="{name}" author="{author}" '
            'desc="v{version}. 3D rails and concrete sleepers on every railway tile of the vanilla map, '
-           'smoothed curves, dark grey ballast, concrete level crossings, kilometre and picket posts on the mainland. '
+           'smoothed curves, dark grey ballast, kilometre and picket posts on Sawyer and Meier. '
            'Track graph raised by {raise_cm} cm so trains run on the rail heads."/>\n')
 PLUS_XML = ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<mod name="{name}" author="{author}" '
@@ -78,7 +80,7 @@ PLUS_XML = ('<?xml version="1.0" encoding="UTF-8"?>\n'
             'contact wire on droppers and spring stays, anchor sections with overlaps on traverses, tension '
             'weights, middle anchors, DPR line on the field side, portals with lattice girders, console posts '
             'and working ladders, wires through truss bridges. Includes the whole base SRO '
-            '(3D rails and sleepers on every railway tile, smoothed curves, level crossings, kilometre posts, track graph '
+            '(3D rails and sleepers on every railway tile, smoothed curves, kilometre posts, track graph '
             'raised by {raise_cm} cm): use it instead of SRO, not together with it."/>\n')
 
 
@@ -277,12 +279,14 @@ def find_stray_components(rom_dir, tiles):
             if e:
                 for c in (round(e[1]) - 1, round(e[1]), round(e[1]) + 1):
                     for tt, kk, along, y, across in by_edge.get((opposite[e[0]], c), ()):
-                        if abs(y - p[1]) >= 0.3:
+                        if abs(y - p[1]) >= BORDER_PAIR_RISE:
                             continue
                         adjacent = neighbours(t, e[0], tt)
                         on_edge = abs(e[2]) >= BORDER and abs(across) >= BORDER
                         # the old rule (any tiles): both right on the edge, at the same point
                         strict = on_edge and abs(along - e[1]) < 0.15
+                        if not strict and abs(y - p[1]) >= 0.3:
+                            continue
                         loose = False
                         if not strict and adjacent:
                             # neighbouring grid tiles, two track ends that do not quite meet on the
@@ -317,7 +321,7 @@ def find_stray_components(rom_dir, tiles):
         if length < 1e-6:
             continue
         partners.setdefault(t, {})[k] = [tt, kk, pp[1], (q[0] - pp[0]) / length, (q[2] - pp[2]) / length,
-                                         pp[0], pp[2]]
+                                         pp[0], pp[2], q[1], length]
 
     members = {}
     for t, nodes in nodes_by_tile.items():
@@ -485,7 +489,7 @@ def prepare_graph(rom_dir, tile, scan):
             border_tangents[k] = direction
 
     planned = {}
-    for k, (ptile, pnode, py, dx, dz, px, pz) in scan.get("partners", {}).get(tile, {}).items():
+    for k, (ptile, pnode, py, dx, dz, px, pz, *inner_partner) in scan.get("partners", {}).get(tile, {}).items():
         if k in border_tangents:
             continue          # snapped modular joint
         p, links = nodes[k]
@@ -519,7 +523,16 @@ def prepare_graph(rom_dir, tile, scan):
         olen = math.hypot(ox, oz)
         tx, tz = ox / olen + dx, oz / olen + dz     # + partner direction, heading on
         tlen = math.hypot(tx, tz)
-        planned[k] = (q, (p[1] + py) / 2 + rails.GRAPH_RAISE, (tx / tlen, tz / tlen) if tlen > 1e-6 else None)
+        y = (p[1] + py) / 2
+        if abs(p[1] - py) > BORDER_STEP and inner_partner:
+            # the two ends are at different heights (one tile's border nodes sit up to 0.4 m
+            # high, a ramp in the track): the joint goes where both sides' grades lead to
+            own_len = math.hypot(p[0] - q0[0], p[2] - q0[2])
+            qy, qlen = inner_partner
+            if own_len > 1.0 and qlen > 1.0:
+                y = q0[1] + (qy - q0[1]) * own_len / (own_len + qlen)
+        q = (q[0], y, q[2])                        # the joint height for the curve fitting too
+        planned[k] = (q, y + rails.GRAPH_RAISE, (tx / tlen, tz / tlen) if tlen > 1e-6 else None)
 
     # A pair moved onto the edge must not land next to another track's node there: two branches
     # of a turnout right at the border ended up 0.1 - 0.2 m apart and the game joined them (the
@@ -558,108 +571,6 @@ def prepare_graph(rom_dir, tile, scan):
 
 
 prepare_graph.kept = {}
-
-
-# Level crossings: a road (asphalt in the terrain colours) on both sides of a track for a short
-# stretch; plus crossings reported in game (roads drawn otherwise). World X / Y and a radius.
-ROAD_COLOURS = {(45, 41, 45)}
-CROSSING_SIDES = (4.5, 6.0)          # road colour looked for this far out on both sides
-CROSSING_RUN = (3.0, 30.0)           # ... over this length along the track (longer: a paved yard)
-CROSSINGS_EXTRA = ()                 # ((x, z, radius), ...)
-
-
-def tile_world_origin(tile):
-    m = re.fullmatch(r"(mega_island|arid_island)_(\d+)_(\d+)", tile)
-    if m:
-        ox, oz = {"mega_island": (-8000, -12000), "arid_island": (-24000, -40000)}[m.group(1)]
-        return 1000 * int(m.group(2)) + ox, 1000 * int(m.group(3)) + oz
-    return TILE_WORLD.get(tile)
-
-
-class TileColours:
-    """Colour of the topmost terrain triangle at a tile-local point."""
-
-    def __init__(self, rom_dir, tile):
-        self.cells = {}
-        text = read_text(tile_xml_path(rom_dir, tile))
-        for file_name, matrix in mesh_entries(text):
-            if "mainland/" not in file_name:
-                continue
-            path = os.path.join(rom_dir, *file_name.split("/"))
-            if not os.path.exists(path):
-                continue
-            data, v = read_vertex_array(path)
-            n = len(v)
-            count = struct.unpack_from("<I", data, FIRST_VERTEX_OFFSET + 28 * n)[0]
-            idx = np.frombuffer(data, dtype="<u2", count=count, offset=FIRST_VERTEX_OFFSET + 28 * n + 4).reshape(-1, 3)
-            road = np.zeros(n, dtype=bool)
-            for c in ROAD_COLOURS:
-                road |= (v["r"] == c[0]) & (v["g"] == c[1]) & (v["b"] == c[2])
-            pts = [transform_point((float(v["x"][i]), float(v["y"][i]), float(v["z"][i])), matrix) for i in range(n)]
-            for a, b, c in idx:
-                pa, pb, pc = pts[a], pts[b], pts[c]
-                for ix in range(int(min(pa[0], pb[0], pc[0]) // 8), int(max(pa[0], pb[0], pc[0]) // 8) + 1):
-                    for iz in range(int(min(pa[2], pb[2], pc[2]) // 8), int(max(pa[2], pb[2], pc[2]) // 8) + 1):
-                        self.cells.setdefault((ix, iz), []).append((pa, pb, pc, bool(road[a])))
-
-    def road(self, x, z):
-        best = None
-        for a, b, c, is_road in self.cells.get((int(x // 8), int(z // 8)), ()):
-            d = (b[0] - a[0]) * (c[2] - a[2]) - (c[0] - a[0]) * (b[2] - a[2])
-            if abs(d) < 1e-12:
-                continue
-            l1 = ((x - a[0]) * (c[2] - a[2]) - (c[0] - a[0]) * (z - a[2])) / d
-            l2 = ((b[0] - a[0]) * (z - a[2]) - (x - a[0]) * (b[2] - a[2])) / d
-            if l1 < 0 or l2 < 0 or l1 + l2 > 1:
-                continue
-            y = a[1] + l1 * (b[1] - a[1]) + l2 * (c[1] - a[1])
-            if best is None or y > best[0]:
-                best = (y, is_road)
-        return best is not None and best[1]
-
-
-def find_crossings(rom_dir, tile, drawn, node_y):
-    """Tile-local points (every metre) of the track where it crosses a road."""
-    origin = tile_world_origin(tile)
-    extra = []
-    if origin is not None:
-        extra = [(x - origin[0], z - origin[1], r) for x, z, r in CROSSINGS_EXTRA
-                 if abs(x - origin[0]) < 520 and abs(z - origin[1]) < 520]
-    colours = TileColours(rom_dir, tile)
-    if not colours.cells and not extra:
-        return []
-    found = []
-    for chain, _ in rails.build_chains(drawn):
-        pts = rails.densify(rails.chain_points(chain, drawn, node_y), 1.0)
-        flags = []
-        for i in range(len(pts)):
-            p = pts[i]
-            if any(math.hypot(p[0] - x, p[2] - z) < r for x, z, r in extra):
-                flags.append(2)
-                continue
-            if not colours.cells or i == 0 or i == len(pts) - 1:
-                flags.append(0)
-                continue
-            t = rails.horizontal_dir(pts[i - 1], pts[i + 1])
-            n = (-t[2], t[0])
-            both = all(any(colours.road(p[0] + n[0] * sd * d, p[2] + n[1] * sd * d) for d in CROSSING_SIDES)
-                       for sd in (1.0, -1.0))
-            flags.append(1 if both else 0)
-        i = 0
-        while i < len(flags):
-            if flags[i]:
-                j = i
-                while j < len(flags) and flags[j]:
-                    j += 1
-                if any(f == 2 for f in flags[i:j]) or CROSSING_RUN[0] <= j - i <= CROSSING_RUN[1]:
-                    found.extend(pts[i:j])
-                i = j
-            else:
-                i += 1
-    return found
-
-
-      # tile -> border pair nodes left at their vanilla place (see above)
 
 
 TILE_JOB = {}      # set once per worker process: rom_dir, scan, planned signs, output folders
@@ -727,20 +638,8 @@ def build_one_tile(tile):
 
         def ballast_keep(p, ox=origin[0], oz=origin[1]):
             return x0 <= p[0] + ox <= x1 and z0 <= p[2] + oz <= z1
-    crossing_points = find_crossings(rom_dir, tile, drawn, node_y)
-    crossing_keep = None
-    if crossing_points:
-        cgrid = {}
-        for q in crossing_points:
-            cgrid.setdefault((int(q[0] // 4), int(q[2] // 4)), []).append(q)
-
-        def crossing_keep(p):
-            cx, cz = int(p[0] // 4), int(p[2] // 4)
-            return any(math.hypot(q[0] - p[0], q[2] - p[2]) < 0.6
-                       for ix in (cx - 1, cx, cx + 1) for iz in (cz - 1, cz, cz + 1)
-                       for q in cgrid.get((ix, iz), ()))
     builder, sleeper_count, chains = rails.build_tile_v4(drawn, node_y, border_cuts,
-                                                         set(border_cuts), ballast_keep, crossing_keep)
+                                                         set(border_cuts), ballast_keep)
     tile_signs = planned_signs.get(tile, [])
     for sign in tile_signs:
         signs.add_sign(builder, sign)
@@ -769,9 +668,8 @@ def build_one_tile(tile):
                    "collision_triangles": len(builder.collision),
                    "graph": {k: [p[0], p[1], p[2], links] for k, (p, links) in nodes.items()}}, f)
     os.replace(state_path + ".tmp", state_path)
-    return ("%-45s chains %3d  added nodes %4d  sleepers %6d  posts %3d  vertices %8d  meshes %3d  crossings %d"
-            % (tile, len(chains), len(inserted), sleeper_count, len(tile_signs), vertices, len(files),
-               getattr(builder, "crossings", 0)))
+    return ("%-45s chains %3d  added nodes %4d  sleepers %6d  posts %3d  vertices %8d  meshes %3d"
+            % (tile, len(chains), len(inserted), sleeper_count, len(tile_signs), vertices, len(files)))
 
 
 def step_tiles(rom_dir, work):
