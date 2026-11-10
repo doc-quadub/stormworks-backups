@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scene version="4" script_ui_id_counter="219" dlc="7">
-	<game_data day_tick="54000" month="5" year="2032" total_playtime="664" currency="20000" is_create_character="true">
+	<game_data day_tick="58725" month="5" year="2032" weather="4728" total_playtime="419709" currency="20000" is_create_character="true">
 		<difficulty_settings vehicle_damage="true" player_damage="true" npc_damage="true" sharks="true" auto_refuel="true" lightning="true"/>
-		<game_mode_settings infinite_money="true" creative_menu="true" base_island="data/tiles/mega_island_9_8.xml" no_clip="true" dev_goto="true" cleanup_vehicle="true"/>
-		<player_pos y="8"/>
+		<game_mode_settings infinite_money="true" creative_menu="true" base_island="data/tiles/mega_island_9_8.xml" infinite_batteries="true" no_clip="true" dev_goto="true" cleanup_vehicle="true"/>
+		<player_pos x="1302.965203" y="7.866203" z="-3769.142124"/>
 		<active_playlists>
 			<playlist_name value="rom/data/missions/default_creatures"/>
 			<playlist_name value="rom/data/missions/default_mission_zones_delivery"/>
@@ -506,7 +506,102 @@
 		</purchased_tiles>
 		<addon_nodes/>
 		<workbench>
-			<inventories/>
+			<inventories>
+				<i c="100" d="500" j="200">
+					<c x="-19" y="-26"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="-18" y="-33"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="-17" y="-35"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="-16" y="-30"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="-16" y="-25"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="-13" y="-34"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="-13" y="-26"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="-12" y="-30"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="-6" y="-33"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="-5" y="-29"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="-5" y="-28"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c y="-37"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="2" y="-26"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="3" y="-30"/>
+				</i>
+				<i c="100" d="500" j="200"/>
+				<i c="100" d="500" j="200">
+					<c x="16" y="1"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="6" y="-13"/>
+				</i>
+				<i c="100" d="496.124969" j="196.125046">
+					<c x="5" y="-25"/>
+				</i>
+				<i c="100" d="492.249908" j="192.250107">
+					<c x="5" y="-22"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="13" y="-12"/>
+				</i>
+				<i c="100" d="492.249908" j="192.250107">
+					<c y="-2"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="-19" y="-5"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="-20" y="-5"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="-13" y="-3"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="-6" y="-6"/>
+				</i>
+				<i c="100" d="492.249908" j="192.250107">
+					<c x="1" y="-4"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="4" y="-6"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="7" y="-10"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="-29" y="90"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="-29" y="91"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="-31" y="91"/>
+				</i>
+				<i c="100" d="500" j="200">
+					<c x="-21" y="-32"/>
+				</i>
+			</inventories>
 		</workbench>
 		<moon>
 			<discovered_tiles>
@@ -713,7 +808,7 @@
 			</workbench>
 		</moon>
 	</tiles>
-	<vehicles vehicle_counter="864" group_counter="864">
+	<vehicles vehicle_counter="866" group_counter="866">
 		<vehicle_data>
 			<vehicle id="1" vehicle_group_id="1" is_mission="true" is_static="true" addon_tags="lift_airstrip" parent_mission_component_id="4294967295">
 				<transform 30="6005.304272" 31="23.229719" 32="-13004.625"/>
@@ -2914,8 +3009,8 @@
 			<vehicle id="245" vehicle_group_id="245" is_static="true" is_first_spawn="false" is_invulnerable="true" parent_mission_component_id="4294967295">
 				<transform 30="1208.541556" 31="8.049878" 32="-3744.724748"/>
 				<bounds>
-					<min x="-1.375" y="-1.875" z="-0.875"/>
-					<max x="0.625" y="0.125" z="-0.125"/>
+					<min x="-0.992718" y="-1.143204" z="-0.532767"/>
+					<max x="1.007282" y="0.856796" z="0.217233"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -3128,10 +3223,10 @@
 				<authors/>
 			</vehicle>
 			<vehicle id="269" vehicle_group_id="269" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="default_siren" parent_mission_component_id="4294967295">
-				<transform 00="0.999999" 02="-0.001318" 11="1" 20="0.001318" 22="0.999999" 30="5080.968717" 31="8.303054" 32="-25081.44406" 33="1"/>
+				<transform 00="0.999999" 02="-0.001318" 11="1" 20="0.001318" 22="0.999999" 30="5080.968717" 31="8.303054" 32="-25081.44406"/>
 				<bounds>
-					<min x="-0.625" y="-0.375" z="-0.625"/>
-					<max x="0.625" y="8.125" z="0.625"/>
+					<min x="-0.625" y="-3.305975" z="-0.628777"/>
+					<max x="0.625" y="5.194025" z="0.621223"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -3139,8 +3234,8 @@
 			<vehicle id="270" vehicle_group_id="270" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="default_siren" parent_mission_component_id="4294967295">
 				<transform 00="0.004372" 02="-0.99999" 20="0.99999" 22="0.004372" 30="4765.298181" 31="7.70931" 32="-21979.623942"/>
 				<bounds>
-					<min x="-0.625" y="-0.375" z="-0.625"/>
-					<max x="0.625" y="8.125" z="0.625"/>
+					<min x="-0.625" y="-3.305975" z="-0.628777"/>
+					<max x="0.625" y="5.194025" z="0.621223"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -3238,8 +3333,8 @@
 			<vehicle id="281" vehicle_group_id="281" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="default_siren" parent_mission_component_id="4294967295">
 				<transform 30="422.141693" 31="10.395518" 32="-2168.539207"/>
 				<bounds>
-					<min x="-0.625" y="-0.375" z="-0.625"/>
-					<max x="0.625" y="8.125" z="0.625"/>
+					<min x="-0.625" y="-3.305975" z="-0.628777"/>
+					<max x="0.625" y="5.194025" z="0.621223"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -3274,8 +3369,8 @@
 			<vehicle id="285" vehicle_group_id="285" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="default_siren" parent_mission_component_id="4294967295">
 				<transform 00="-0.73658" 02="-0.67635" 20="0.67635" 22="-0.73658" 30="1254.322288" 31="6.65121" 32="-3582.155431"/>
 				<bounds>
-					<min x="-0.625" y="-0.375" z="-0.625"/>
-					<max x="0.625" y="8.125" z="0.625"/>
+					<min x="-0.625" y="-3.305975" z="-0.628777"/>
+					<max x="0.625" y="5.194025" z="0.621223"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -3292,8 +3387,8 @@
 			<vehicle id="287" vehicle_group_id="287" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="default_siren" parent_mission_component_id="4294967295">
 				<transform 00="-0.256736" 02="-0.966482" 20="0.966482" 22="-0.256736" 30="4.837259" 31="11.658798" 32="-4796.939736"/>
 				<bounds>
-					<min x="-0.625" y="-0.375" z="-0.625"/>
-					<max x="0.625" y="8.125" z="0.625"/>
+					<min x="-0.625" y="-3.305975" z="-0.628777"/>
+					<max x="0.625" y="5.194025" z="0.621223"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -3400,8 +3495,8 @@
 			<vehicle id="299" vehicle_group_id="299" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="default_siren" parent_mission_component_id="4294967295">
 				<transform 00="0.994889" 02="-0.100974" 20="0.100974" 22="0.994889" 30="5014.970503" 31="23.096062" 32="-20964.749374"/>
 				<bounds>
-					<min x="-0.625" y="-0.375" z="-0.625"/>
-					<max x="0.625" y="8.125" z="0.625"/>
+					<min x="-0.625" y="-3.305975" z="-0.628777"/>
+					<max x="0.625" y="5.194025" z="0.621223"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -4255,8 +4350,8 @@
 			<vehicle id="394" vehicle_group_id="394" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
 				<transform 00="0" 02="-1" 20="1" 22="0" 30="1478.937177" 31="9.391803" 32="-3773.697898"/>
 				<bounds>
-					<min x="-0.875" y="-0.375" z="-0.625"/>
-					<max x="0.875" y="5.375" z="0.375"/>
+					<min x="-0.878074" y="-3.366803" z="-0.623975"/>
+					<max x="0.871926" y="2.383197" z="0.376025"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -4264,8 +4359,8 @@
 			<vehicle id="395" vehicle_group_id="395" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
 				<transform 00="0" 02="-1" 20="1" 22="0" 30="1478.937177" 31="9.391803" 32="-3762.189796"/>
 				<bounds>
-					<min x="-0.875" y="-0.375" z="-0.625"/>
-					<max x="0.875" y="5.375" z="0.375"/>
+					<min x="-0.878074" y="-3.366803" z="-0.623975"/>
+					<max x="0.871926" y="2.383197" z="0.376025"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -4291,8 +4386,8 @@
 			<vehicle id="398" vehicle_group_id="398" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
 				<transform 00="0" 02="-1" 20="1" 22="0" 30="1627.458021" 31="11.112997" 32="-3773.846488"/>
 				<bounds>
-					<min x="-0.875" y="-0.375" z="-0.625"/>
-					<max x="0.875" y="5.375" z="0.375"/>
+					<min x="-0.878074" y="-3.366803" z="-0.623975"/>
+					<max x="0.871926" y="2.383197" z="0.376025"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -4300,8 +4395,8 @@
 			<vehicle id="399" vehicle_group_id="399" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
 				<transform 00="0" 02="1" 20="-1" 22="0" 30="1545.31206" 31="11.112997" 32="-3762.396188"/>
 				<bounds>
-					<min x="-0.875" y="-0.375" z="-0.625"/>
-					<max x="0.875" y="5.375" z="0.375"/>
+					<min x="-0.878074" y="-3.366803" z="-0.623975"/>
+					<max x="0.871926" y="2.383197" z="0.376025"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -4309,8 +4404,8 @@
 			<vehicle id="400" vehicle_group_id="400" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
 				<transform 00="0.149498" 02="0.988762" 20="-0.988762" 22="0.149498" 30="2415.367501" 31="9.84221" 32="-3773.178408"/>
 				<bounds>
-					<min x="-0.875" y="-0.375" z="-0.625"/>
-					<max x="0.875" y="5.375" z="0.375"/>
+					<min x="-0.878074" y="-3.366803" z="-0.623975"/>
+					<max x="0.871926" y="2.383197" z="0.376025"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -4318,8 +4413,8 @@
 			<vehicle id="401" vehicle_group_id="401" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
 				<transform 00="0.134933" 02="0.990855" 20="-0.990855" 22="0.134933" 30="2413.078531" 31="9.989773" 32="-3786.145891"/>
 				<bounds>
-					<min x="-0.875" y="-0.375" z="-0.625"/>
-					<max x="0.875" y="5.375" z="0.375"/>
+					<min x="-0.878074" y="-3.366803" z="-0.623975"/>
+					<max x="0.871926" y="2.383197" z="0.376025"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -4327,8 +4422,8 @@
 			<vehicle id="402" vehicle_group_id="402" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
 				<transform 00="-0.848221" 02="0.529642" 20="-0.529642" 22="-0.848221" 30="2782.749754" 31="10.16414" 32="-4609.316147"/>
 				<bounds>
-					<min x="-0.875" y="-0.375" z="-0.625"/>
-					<max x="0.875" y="5.375" z="0.375"/>
+					<min x="-0.878074" y="-3.366803" z="-0.623975"/>
+					<max x="0.871926" y="2.383197" z="0.376025"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -4336,8 +4431,8 @@
 			<vehicle id="403" vehicle_group_id="403" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
 				<transform 00="-0.84798" 02="0.530029" 20="-0.530029" 22="-0.84798" 30="2793.639126" 31="10.377325" 32="-4616.052016"/>
 				<bounds>
-					<min x="-0.875" y="-0.375" z="-0.625"/>
-					<max x="0.875" y="5.375" z="0.375"/>
+					<min x="-0.878074" y="-3.366803" z="-0.623975"/>
+					<max x="0.871926" y="2.383197" z="0.376025"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -4345,17 +4440,17 @@
 			<vehicle id="404" vehicle_group_id="404" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
 				<transform 00="-0.776213" 02="0.630471" 20="-0.630471" 22="-0.776213" 30="2611.767474" 31="9.994885" 32="-4833.840814"/>
 				<bounds>
-					<min x="-0.875" y="-0.375" z="-0.625"/>
-					<max x="0.875" y="5.375" z="0.375"/>
+					<min x="-0.878074" y="-3.366803" z="-0.623975"/>
+					<max x="0.871926" y="2.383197" z="0.376025"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
 			</vehicle>
 			<vehicle id="405" vehicle_group_id="405" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="railroad_signal,railroad_signal_type=default" parent_mission_component_id="4294967295">
-				<transform 00="0.767529" 02="-0.641014" 11="1" 20="0.641014" 22="0.767529" 30="2671.44334" 31="9.995011" 32="-4780.457658" 33="1"/>
+				<transform 00="0.767529" 02="-0.641014" 11="1" 20="0.641014" 22="0.767529" 30="2671.44334" 31="9.995011" 32="-4780.457658"/>
 				<bounds>
-					<min x="-0.875" y="-0.375" z="-0.625"/>
-					<max x="0.875" y="5.375" z="0.375"/>
+					<min x="-0.878074" y="-3.366803" z="-0.623975"/>
+					<max x="0.871926" y="2.383197" z="0.376025"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -6424,17 +6519,17 @@
 			<vehicle id="635" vehicle_group_id="635" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="storage,storage_type=default" parent_mission_component_id="4294967295">
 				<transform 00="0.003222" 02="0.999995" 20="-0.999995" 22="0.003222" 30="5084.496906" 31="4.494975" 32="-25071.360522"/>
 				<bounds>
-					<min x="-7.125" y="-1.875" z="-1.375"/>
-					<max x="0.625" y="1.625" z="0.875"/>
+					<min x="-3.963827" y="-1.001475" z="-1.021253"/>
+					<max x="3.786173" y="2.498525" z="1.228747"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
 			</vehicle>
 			<vehicle id="636" vehicle_group_id="636" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="storage,storage_type=default" parent_mission_component_id="4294967295">
-				<transform 00="-0.999996" 02="-0.002675" 11="1" 20="0.002675" 22="-0.999996" 30="4735.536237" 31="3.911124" 32="-21924.559235" 33="1"/>
+				<transform 00="-0.999996" 02="-0.002675" 11="1" 20="0.002675" 22="-0.999996" 30="4735.536237" 31="3.911124" 32="-21924.559235"/>
 				<bounds>
-					<min x="-7.125" y="-1.875" z="-1.375"/>
-					<max x="0.625" y="1.625" z="0.875"/>
+					<min x="-3.963827" y="-1.001475" z="-1.021253"/>
+					<max x="3.786173" y="2.498525" z="1.228747"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -6442,8 +6537,8 @@
 			<vehicle id="637" vehicle_group_id="637" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="storage,storage_type=default" parent_mission_component_id="4294967295">
 				<transform 00="-0.00555" 02="0.999985" 20="-0.999985" 22="-0.00555" 30="4787.944127" 31="3.911124" 32="-22060.1247"/>
 				<bounds>
-					<min x="-7.125" y="-1.875" z="-1.375"/>
-					<max x="0.625" y="1.625" z="0.875"/>
+					<min x="-3.963827" y="-1.001475" z="-1.021253"/>
+					<max x="3.786173" y="2.498525" z="1.228747"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -6494,10 +6589,10 @@
 				<authors/>
 			</vehicle>
 			<vehicle id="643" vehicle_group_id="643" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="storage,storage_type=default" parent_mission_component_id="4294967295">
-				<transform 00="-0.999999" 02="0.001241" 11="1" 20="-0.001241" 22="-0.999999" 30="370.759182" 31="6.601475" 32="-2164.146097" 33="1"/>
+				<transform 00="-0.999999" 02="0.001241" 11="1" 20="-0.001241" 22="-0.999999" 30="370.759182" 31="6.601475" 32="-2164.146097"/>
 				<bounds>
-					<min x="-7.125" y="-1.875" z="-1.375"/>
-					<max x="0.625" y="1.625" z="0.875"/>
+					<min x="-3.963827" y="-1.001475" z="-1.021253"/>
+					<max x="3.786173" y="2.498525" z="1.228747"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -6505,8 +6600,8 @@
 			<vehicle id="644" vehicle_group_id="644" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="storage,storage_type=default" parent_mission_component_id="4294967295">
 				<transform 30="371.065084" 31="6.601475" 32="-2140.435092"/>
 				<bounds>
-					<min x="-7.125" y="-1.875" z="-1.375"/>
-					<max x="0.625" y="1.625" z="0.875"/>
+					<min x="-3.963827" y="-1.001475" z="-1.021253"/>
+					<max x="3.786173" y="2.498525" z="1.228747"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -6568,8 +6663,8 @@
 			<vehicle id="651" vehicle_group_id="651" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="storage,storage_type=default" parent_mission_component_id="4294967295">
 				<transform 00="-0.999725" 02="0.023465" 20="-0.023465" 22="-0.999725" 30="1309.314189" 31="6.176606" 32="-3764.870195"/>
 				<bounds>
-					<min x="-7.125" y="-1.875" z="-1.375"/>
-					<max x="0.625" y="1.625" z="0.875"/>
+					<min x="-3.963827" y="-1.001475" z="-1.021253"/>
+					<max x="3.786173" y="2.498525" z="1.228747"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -6577,8 +6672,8 @@
 			<vehicle id="652" vehicle_group_id="652" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="storage,storage_type=default" parent_mission_component_id="4294967295">
 				<transform 00="0.999682" 02="-0.02522" 20="0.02522" 22="0.999682" 30="1306.550989" 31="2.881497" 32="-3586.60073"/>
 				<bounds>
-					<min x="-7.125" y="-1.875" z="-1.375"/>
-					<max x="0.625" y="1.625" z="0.875"/>
+					<min x="-3.963827" y="-1.001475" z="-1.021253"/>
+					<max x="3.786173" y="2.498525" z="1.228747"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -6973,8 +7068,8 @@
 			<vehicle id="696" vehicle_group_id="696" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="type=trade,transaction=buy,business=retailer,resource=diesel" parent_mission_component_id="4294967295">
 				<transform 00="-0.839977" 02="0.542623" 20="-0.542623" 22="-0.839977" 30="234.848963" 31="6.422493" 32="-4904.920791"/>
 				<bounds>
-					<min x="-1.125" y="-0.375" z="-0.625"/>
-					<max x="1.125" y="1.875" z="0.875"/>
+					<min x="-1.118104" y="-1.025" z="-0.775"/>
+					<max x="1.131896" y="1.225" z="0.725"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -7117,8 +7212,8 @@
 			<vehicle id="712" vehicle_group_id="712" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="type=trade,transaction=sell,business=consumer,resource=fish" parent_mission_component_id="4294967295">
 				<transform 00="0.999809" 02="-0.019557" 20="0.019557" 22="0.999809" 30="1348.829431" 31="4.478846" 32="-3584.898509"/>
 				<bounds>
-					<min x="-2.625" y="-0.625" z="-3.875"/>
-					<max x="2.625" y="4.875" z="15.625"/>
+					<min x="-2.624258" y="-1.593824" z="-2.918646"/>
+					<max x="2.625742" y="8.977501" z="15.207399"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -7126,8 +7221,8 @@
 			<vehicle id="713" vehicle_group_id="713" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="type=trade,transaction=sell,business=consumer,resource=fish" parent_mission_component_id="4294967295">
 				<transform 00="-0.96388" 02="0.266338" 20="-0.266338" 22="-0.96388" 30="60.508114" 31="3.355774" 32="-4919.248248"/>
 				<bounds>
-					<min x="-2.625" y="-0.625" z="-3.875"/>
-					<max x="2.625" y="4.875" z="15.625"/>
+					<min x="-2.624258" y="-1.593824" z="-2.918646"/>
+					<max x="2.625742" y="8.97781" z="15.207441"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -7225,8 +7320,8 @@
 			<vehicle id="724" vehicle_group_id="724" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="type=cargo_kiosk_trailer,biome_lock=true" parent_mission_component_id="4294967295">
 				<transform 00="0.001771" 02="0.999999" 20="-0.999999" 22="0.001771" 30="1289.307134" 31="7.451351" 32="-3749.739438"/>
 				<bounds>
-					<min x="-0.625" y="-0.125" z="-0.625"/>
-					<max x="0.625" y="1.875" z="0.375"/>
+					<min x="-0.625" y="-0.834877" z="-0.449074"/>
+					<max x="0.625" y="1.165123" z="0.550926"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -7324,8 +7419,8 @@
 			<vehicle id="735" vehicle_group_id="735" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="type=cargo_kiosk_traincar" parent_mission_component_id="4294967295">
 				<transform 30="1334.869353" 31="7.482892" 32="-3744.849912"/>
 				<bounds>
-					<min x="-0.625" y="-0.125" z="-0.625"/>
-					<max x="0.625" y="1.875" z="0.375"/>
+					<min x="-0.625" y="-0.834877" z="-0.449074"/>
+					<max x="0.625" y="1.165123" z="0.550926"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -7441,8 +7536,8 @@
 			<vehicle id="748" vehicle_group_id="748" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="type=cargo_kiosk_passenger" parent_mission_component_id="4294967295">
 				<transform 00="0.004525" 02="-0.99999" 20="0.99999" 22="0.004525" 30="4764.157453" 31="5.386908" 32="-21981.38169"/>
 				<bounds>
-					<min x="-0.625" y="-0.375" z="-0.625"/>
-					<max x="0.625" y="1.875" z="0.375"/>
+					<min x="-0.625" y="-1.084877" z="-0.449074"/>
+					<max x="0.625" y="1.165123" z="0.550926"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -7450,8 +7545,8 @@
 			<vehicle id="749" vehicle_group_id="749" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="type=cargo_kiosk_passenger" parent_mission_component_id="4294967295">
 				<transform 30="4789.758586" 31="5.363604" 32="-22066.776332"/>
 				<bounds>
-					<min x="-0.625" y="-0.375" z="-0.625"/>
-					<max x="0.625" y="1.875" z="0.375"/>
+					<min x="-0.625" y="-1.084877" z="-0.449074"/>
+					<max x="0.625" y="1.165123" z="0.550926"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -7468,8 +7563,8 @@
 			<vehicle id="751" vehicle_group_id="751" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="type=cargo_kiosk_passenger" parent_mission_component_id="4294967295">
 				<transform 30="260.770839" 31="8.067903" 32="-2165.853686"/>
 				<bounds>
-					<min x="-0.625" y="-0.375" z="-0.625"/>
-					<max x="0.625" y="1.875" z="0.375"/>
+					<min x="-0.625" y="-1.084877" z="-0.449074"/>
+					<max x="0.625" y="1.165123" z="0.550926"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -7585,8 +7680,8 @@
 			<vehicle id="764" vehicle_group_id="764" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="type=cargo_kiosk_passenger" parent_mission_component_id="4294967295">
 				<transform 00="0.963506" 02="-0.267688" 20="0.267688" 22="0.963506" 30="58.540805" 31="5.211333" 32="-4908.508069"/>
 				<bounds>
-					<min x="-0.625" y="-0.375" z="-0.625"/>
-					<max x="0.625" y="1.875" z="0.375"/>
+					<min x="-0.625" y="-1.084877" z="-0.449074"/>
+					<max x="0.625" y="1.165123" z="0.550926"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -7594,8 +7689,8 @@
 			<vehicle id="765" vehicle_group_id="765" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="type=cargo_kiosk_passenger" parent_mission_component_id="4294967295">
 				<transform 00="0.000057" 02="1" 20="-1" 22="0.000057" 30="1283.193362" 31="7.537892" 32="-3779.412407"/>
 				<bounds>
-					<min x="-0.625" y="-0.375" z="-0.625"/>
-					<max x="0.625" y="1.875" z="0.375"/>
+					<min x="-0.625" y="-1.084877" z="-0.449074"/>
+					<max x="0.625" y="1.165123" z="0.550926"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -7828,8 +7923,8 @@
 			<vehicle id="791" vehicle_group_id="791" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="type=cargo_kiosk_pallet,biome_lock=true" parent_mission_component_id="4294967295">
 				<transform 30="4746.32398" 31="5.3146" 32="-21994.409441"/>
 				<bounds>
-					<min x="-0.625" y="-0.375" z="-0.625"/>
-					<max x="0.625" y="1.875" z="0.375"/>
+					<min x="-0.625" y="-1.056818" z="-0.4375"/>
+					<max x="0.625" y="1.193182" z="0.5625"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -7918,8 +8013,8 @@
 			<vehicle id="801" vehicle_group_id="801" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="type=cargo_kiosk_pallet,biome_lock=true" parent_mission_component_id="4294967295">
 				<transform 00="0.969197" 02="-0.246287" 20="0.246287" 22="0.969197" 30="67.616055" 31="5.084436" 32="-4910.995663"/>
 				<bounds>
-					<min x="-0.625" y="-0.375" z="-0.625"/>
-					<max x="0.625" y="1.875" z="0.375"/>
+					<min x="-0.625" y="-1.056818" z="-0.4375"/>
+					<max x="0.625" y="1.193182" z="0.5625"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -7927,8 +8022,8 @@
 			<vehicle id="802" vehicle_group_id="802" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="type=cargo_kiosk_pallet,biome_lock=true" parent_mission_component_id="4294967295">
 				<transform 00="0.000977" 02="-1" 20="1" 22="0.000977" 30="1223.261777" 31="7.472244" 32="-3719.013017"/>
 				<bounds>
-					<min x="-0.625" y="-0.375" z="-0.625"/>
-					<max x="0.625" y="1.875" z="0.375"/>
+					<min x="-0.625" y="-1.056818" z="-0.4375"/>
+					<max x="0.625" y="1.193182" z="0.5625"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -8134,8 +8229,8 @@
 			<vehicle id="825" vehicle_group_id="825" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="type=cargo_kiosk_container" parent_mission_component_id="4294967295">
 				<transform 00="-0.999999" 02="-0.001272" 20="0.001272" 22="-0.999999" 30="1304.926995" 31="7.374132" 32="-3668.614729"/>
 				<bounds>
-					<min x="-0.625" y="-0.375" z="-0.625"/>
-					<max x="0.625" y="1.875" z="0.375"/>
+					<min x="-0.625" y="-1.084877" z="-0.449074"/>
+					<max x="0.625" y="1.165123" z="0.550926"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -8194,11 +8289,34 @@
 				<active_transponders/>
 				<authors/>
 			</vehicle>
-			<vehicle id="832" vehicle_group_id="832" is_mission="true" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="id_10" parent_mission_component_id="4294967295">
+			<vehicle id="832" vehicle_group_id="832" is_mission="true" is_static="true" is_first_spawn="false" custom_tooltip="Addon Targets
++ + + +
+[21] -not installed-
+[20] -not installed-
+[19] -not installed-
+[18] -not installed-
+[17] -not installed-
+[16] -not installed-
+[15] -not installed-
+[14] -not installed-
+[13] -not installed-
+[12] -not installed-
+[11] -not installed-
+[10] -not installed-
+[09] -not installed-
+[08] -not installed-
+[07] -not installed-
+[06] -not installed-
+[05] -not installed-
+[04] -not installed-
+[03] -not installed-
+[02] -not installed-
+[01] -not installed-
+[ [00] -not installed- ]" is_invulnerable="true" addon_tags="id_10" parent_mission_component_id="4294967295">
 				<transform 00="-0.999996" 02="-0.002811" 20="0.002811" 22="-0.999996" 30="4789.424441" 31="4.591764" 32="-22041.762492"/>
 				<bounds>
-					<min x="-0.625" y="-3.125" z="-0.375"/>
-					<max x="0.625" y="0.875" z="0.625"/>
+					<min x="-0.605042" y="-2.39916" z="-0.463235"/>
+					<max x="0.644958" y="1.60084" z="0.536765"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -8206,8 +8324,8 @@
 			<vehicle id="833" vehicle_group_id="833" is_mission="true" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="id_14" parent_mission_component_id="4294967295">
 				<transform 00="-0.999999" 02="0.001733" 20="-0.001733" 22="-0.999999" 30="4754.879123" 31="4.506507" 32="-21921.448456"/>
 				<bounds>
-					<min x="-0.625" y="-2.375" z="-0.625"/>
-					<max x="0.375" y="0.375" z="0.375"/>
+					<min x="-0.5" y="-1.164062" z="-0.445312"/>
+					<max x="0.5" y="1.585938" z="0.554688"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -8215,8 +8333,8 @@
 			<vehicle id="834" vehicle_group_id="834" is_mission="true" is_static="true" is_first_spawn="false" is_invulnerable="true" addon_tags="id_23" parent_mission_component_id="4294967295">
 				<transform 00="0.004487" 02="-0.99999" 20="0.99999" 22="0.004487" 30="4789.756845" 31="4.327087" 32="-22044.808806"/>
 				<bounds>
-					<min x="-0.625" y="-2.125" z="-0.375"/>
-					<max x="0.125" y="0.375" z="0.375"/>
+					<min x="-0.5" y="-0.791667" z="-0.297619"/>
+					<max x="0.25" y="1.708333" z="0.452381"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -8224,8 +8342,8 @@
 			<vehicle id="835" vehicle_group_id="835" is_mission="true" is_static="true" is_first_spawn="false" is_no_sleep="true" is_invulnerable="true" parent_mission_component_id="4294967295">
 				<transform 30="4823.873348" 31="-9.487058" 32="-22062.730097"/>
 				<bounds>
-					<min x="-0.875" y="-3.375" z="-0.875"/>
-					<max x="0.875" y="0.375" z="0.875"/>
+					<min x="-0.875" y="-2.485294" z="-0.875"/>
+					<max x="0.875" y="1.264706" z="0.875"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -8233,8 +8351,8 @@
 			<vehicle id="836" vehicle_group_id="836" is_mission="true" is_static="true" is_first_spawn="false" is_no_sleep="true" is_invulnerable="true" parent_mission_component_id="4294967295">
 				<transform 30="4823.873348" 31="-67.962641" 32="-23562.730097"/>
 				<bounds>
-					<min x="-0.875" y="-3.375" z="-0.875"/>
-					<max x="0.875" y="0.375" z="0.875"/>
+					<min x="-0.875" y="-2.485294" z="-0.875"/>
+					<max x="0.875" y="1.264706" z="0.875"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -8242,8 +8360,8 @@
 			<vehicle id="837" vehicle_group_id="837" is_mission="true" is_static="true" is_first_spawn="false" is_no_sleep="true" is_invulnerable="true" parent_mission_component_id="4294967295">
 				<transform 30="4823.873348" 31="-10.759592" 32="-25062.730097"/>
 				<bounds>
-					<min x="-0.875" y="-3.375" z="-0.875"/>
-					<max x="0.875" y="0.375" z="0.875"/>
+					<min x="-0.875" y="-2.485294" z="-0.875"/>
+					<max x="0.875" y="1.264706" z="0.875"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -8251,8 +8369,8 @@
 			<vehicle id="838" vehicle_group_id="838" is_mission="true" is_static="true" is_first_spawn="false" is_no_sleep="true" is_invulnerable="true" parent_mission_component_id="4294967295">
 				<transform 30="4823.873348" 31="-19.507308" 32="-26562.730097"/>
 				<bounds>
-					<min x="-0.875" y="-3.375" z="-0.875"/>
-					<max x="0.875" y="0.375" z="0.875"/>
+					<min x="-0.875" y="-2.485294" z="-0.875"/>
+					<max x="0.875" y="1.264706" z="0.875"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -8260,8 +8378,8 @@
 			<vehicle id="839" vehicle_group_id="839" is_mission="true" is_static="true" is_first_spawn="false" is_no_sleep="true" is_invulnerable="true" parent_mission_component_id="4294967295">
 				<transform 30="4823.873348" 31="-10.067" 32="-28062.730097"/>
 				<bounds>
-					<min x="-0.875" y="-3.375" z="-0.875"/>
-					<max x="0.875" y="0.375" z="0.875"/>
+					<min x="-0.875" y="-2.485294" z="-0.875"/>
+					<max x="0.875" y="1.264706" z="0.875"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -8269,8 +8387,8 @@
 			<vehicle id="840" vehicle_group_id="840" is_mission="true" is_static="true" is_first_spawn="false" is_no_sleep="true" is_invulnerable="true" parent_mission_component_id="4294967295">
 				<transform 30="4823.873348" 31="-17.815594" 32="-29562.730097"/>
 				<bounds>
-					<min x="-0.875" y="-3.375" z="-0.875"/>
-					<max x="0.875" y="0.375" z="0.875"/>
+					<min x="-0.875" y="-2.485294" z="-0.875"/>
+					<max x="0.875" y="1.264706" z="0.875"/>
 				</bounds>
 				<active_transponders/>
 				<authors/>
@@ -8303,7 +8421,7 @@
 				<authors/>
 			</vehicle>
 			<vehicle id="844" vehicle_group_id="844" is_static="true" is_render_vehicle="false" is_first_spawn="false" parent_mission_component_id="4294967295">
-				<transform 00="0.55619" 02="0.831055" 11="1" 20="-0.831055" 22="0.55619" 30="123.766403" 31="9.132423" 32="-4784.803177" 33="1"/>
+				<transform 00="0.55619" 02="0.831055" 11="1" 20="-0.831055" 22="0.55619" 30="123.766403" 31="9.132423" 32="-4784.803177"/>
 				<bounds>
 					<min x="-0.375" y="-0.125" z="-0.875"/>
 					<max x="0.375" y="0.875" z="0.875"/>
@@ -8384,7 +8502,7 @@
 				<authors/>
 			</vehicle>
 			<vehicle id="853" vehicle_group_id="853" is_static="true" is_render_vehicle="false" is_first_spawn="false" parent_mission_component_id="4294967295">
-				<transform 00="-0.023139" 02="-0.999732" 11="1" 20="0.999732" 22="-0.023139" 30="1208.068726" 31="7.328556" 32="-3746.026611" 33="1"/>
+				<transform 00="-0.023139" 02="-0.999732" 11="1" 20="0.999732" 22="-0.023139" 30="1208.068726" 31="7.328556" 32="-3746.026611"/>
 				<bounds>
 					<min x="-0.375" y="-0.125" z="-0.875"/>
 					<max x="0.375" y="0.875" z="0.875"/>
@@ -8393,7 +8511,7 @@
 				<authors/>
 			</vehicle>
 			<vehicle id="854" vehicle_group_id="854" is_static="true" is_render_vehicle="false" is_first_spawn="false" parent_mission_component_id="4294967295">
-				<transform 00="-0.027547" 02="-0.99962" 11="1" 20="0.99962" 22="-0.027547" 30="1208.035706" 31="7.337198" 32="-3747.705139" 33="1"/>
+				<transform 00="-0.027547" 02="-0.99962" 11="1" 20="0.99962" 22="-0.027547" 30="1208.035706" 31="7.337198" 32="-3747.705139"/>
 				<bounds>
 					<min x="-0.375" y="-0.125" z="-0.875"/>
 					<max x="0.375" y="0.875" z="0.875"/>
@@ -8472,6 +8590,15 @@
 			</vehicle>
 			<vehicle id="864" vehicle_group_id="864" is_static="true" is_render_vehicle="false" parent_mission_component_id="4294967295">
 				<transform 00="-0.707107" 02="0.707107" 20="-0.707107" 22="-0.707107" 30="-117.697395" 31="14.355242" 32="-1868.124588"/>
+				<active_transponders/>
+				<authors/>
+			</vehicle>
+			<vehicle id="866" vehicle_group_id="866" player_created="true" on_map="true" is_first_spawn="false" is_editable="true" parent_mission_component_id="4294967295">
+				<transform 00="-0.017354" 01="-0.000007" 02="-0.999849" 10="-0.000004" 11="1" 12="-0.000007" 20="0.999849" 21="0.000004" 22="-0.017354" 30="1310.916046" 31="8.913679" 32="-3769.716928"/>
+				<bounds>
+					<min x="-1.875" y="-1.750717" z="-8.541662"/>
+					<max x="1.875" y="2.999283" z="8.958415"/>
+				</bounds>
 				<active_transponders/>
 				<authors/>
 			</vehicle>
@@ -13661,6 +13788,13 @@
 				</vehicles>
 				<initial_transform 00="-0.707107" 02="0.707107" 20="-0.707107" 22="-0.707107" 30="-117.697395" 31="14.355242" 32="-1868.124588"/>
 			</group>
+			<group id="866" edit_grid_id="train_edit">
+				<vehicles>
+					<v value="866"/>
+				</vehicles>
+				<edit_grid_pos x="1313.00705" y="10.022367" z="-3769.663834"/>
+				<initial_transform 00="-0.017877" 02="-0.99984" 20="0.99984" 22="-0.017877" 30="1307.799551" 31="10.022367" 32="-3769.570106"/>
+			</group>
 		</vehicle_group_data>
 	</vehicles>
 	<dynamics object_counter="4812">
@@ -14025,44 +14159,84 @@
 				<transform 00="0.909945" 02="0.41473" 20="-0.41473" 22="0.909945" 30="-852.015732" 31="31.431873" 32="-6010.500507"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="27" id="91" char_steam_id="-1">
-				<transform 00="0.896456" 02="-0.443133" 20="0.443133" 22="0.896456" 30="1869.688614" 31="8.110735" 32="-4799.258163"/>
+			<object type="27" id="91" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.7" y="-0.65" z="-0.75"/>
+					<max x="0.7" y="0.65" z="0.75"/>
+				</bounds>
+				<transform 00="0.896247" 01="-0.000571" 02="-0.443554" 10="0.000636" 11="1" 12="-0.000003" 20="0.443554" 21="-0.00028" 22="0.896247" 30="1869.686104" 31="8.066002" 32="-4799.258585"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="92" char_steam_id="-1">
-				<transform 30="1896.102631" 31="7.663581" 32="-4802.473709"/>
+			<object type="29" id="92" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="0.999985" 01="-0.00001" 02="-0.005443" 10="0.00001" 11="1" 12="-0.000024" 20="0.005443" 21="0.000023" 22="0.999985" 30="1896.099088" 31="7.590575" 32="-4802.469187"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="93" char_steam_id="-1">
-				<transform 00="0.738382" 01="0.113729" 02="-0.664724" 10="-0.15223" 11="0.988345" 20="0.656977" 21="0.101191" 22="0.747089" 30="1894.998573" 31="7.846806" 32="-4802.473709"/>
+			<object type="29" id="93" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="0.738138" 01="0.13631" 02="-0.660735" 10="-0.180766" 11="0.983526" 12="0.00096" 20="0.649981" 21="0.11873" 22="0.750618" 30="1895.007107" 31="7.788591" 32="-4802.4738"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="94" char_steam_id="-1">
-				<transform 30="1905.591454" 31="7.642242" 32="-4842.407715"/>
+			<object type="29" id="94" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="1" 01="-0.000087" 02="-0.000397" 10="0.000087" 11="1" 12="0.000037" 20="0.000397" 21="-0.000037" 22="1" 30="1905.59186" 31="7.590209" 32="-4842.407456"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="95" char_steam_id="-1">
-				<transform 00="-0.114872" 02="-0.99338" 20="0.99338" 22="-0.114872" 30="1905.591454" 31="7.890585" 32="-4842.407715"/>
+			<object type="29" id="95" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="-0.11486" 01="0.000153" 02="-0.993382" 10="0.000106" 11="1" 12="0.000142" 20="0.993382" 21="-0.000089" 22="-0.11486" 30="1905.591949" 31="7.840133" 32="-4842.407041"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="96" char_steam_id="-1">
-				<transform 00="0.984517" 02="0.175288" 20="-0.175288" 22="0.984517" 30="1905.591454" 31="8.122" 32="-4842.407715"/>
+			<object type="29" id="96" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="0.984488" 01="-0.000174" 02="0.175452" 10="0.000167" 11="1" 12="0.000056" 20="-0.175452" 21="-0.000026" 22="0.984488" 30="1905.591816" 31="8.089959" 32="-4842.407468"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="97" char_steam_id="-1">
-				<transform 30="1905.591454" 31="8.354338" 32="-4842.407715"/>
+			<object type="29" id="97" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="1" 01="-0.000147" 02="-0.000007" 10="0.000147" 11="1" 12="0.000124" 20="0.000007" 21="-0.000124" 22="1" 30="1905.591857" 31="8.33986" 32="-4842.407062"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="98" char_steam_id="-1">
-				<transform 00="0.190439" 02="0.981699" 20="-0.981699" 22="0.190439" 30="1905.591454" 31="8.625927" 32="-4842.407715"/>
+			<object type="29" id="98" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="0.190696" 01="-0.000091" 02="0.981649" 10="0.000126" 11="1" 12="0.000068" 20="-0.981649" 21="0.000111" 22="0.190696" 30="1905.592289" 31="8.589794" 32="-4842.406937"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="99" char_steam_id="-1">
-				<transform 00="0.953885" 02="0.300172" 20="-0.300172" 22="0.953885" 30="1905.591454" 31="8.862497" 32="-4842.407715"/>
+			<object type="29" id="99" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="0.953978" 01="-0.000159" 02="0.299876" 10="0.000137" 11="1" 12="0.000095" 20="-0.299876" 21="-0.00005" 22="0.953978" 30="1905.592001" 31="8.839759" 32="-4842.406474"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="100" char_steam_id="-1">
-				<transform 00="0.953954" 02="-0.299955" 20="0.299955" 22="0.953954" 30="1905.591454" 31="7.636103" 32="-4840.621414"/>
+			<object type="29" id="100" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="0.954118" 01="-0" 02="-0.299431" 10="0" 11="1" 12="0" 20="0.299431" 21="-0" 22="0.954118" 30="1905.59135" 31="7.590335" 32="-4840.621642"/>
 				<flare_color g="0" b="0"/>
 			</object>
 			<object type="4" id="101" char_steam_id="-1">
@@ -16133,344 +16307,684 @@
 				<transform 00="0.17538" 02="0.984501" 20="-0.984501" 22="0.17538" 30="-27108.206306" 31="6.053946" 32="83985.726143"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="9" id="618" char_steam_id="-1">
-				<transform 30="4772.962799" 31="5.434318" 32="-21896.453598"/>
+			<object type="9" id="618" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.25" y="-0.5" z="-0.25"/>
+					<max x="0.25" y="0.5" z="0.25"/>
+				</bounds>
+				<transform 00="1" 01="-0.000002" 02="0.000217" 10="0.000002" 11="1" 12="0.000003" 20="-0.000217" 21="-0.000003" 22="1" 30="4772.96279" 31="5.26" 32="-21896.453881"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="9" id="619" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.25" y="-0.5" z="-0.25"/>
+					<max x="0.25" y="0.5" z="0.25"/>
+				</bounds>
+				<transform 00="-1" 01="0.000003" 02="0.000491" 10="0.000003" 11="1" 12="0.000001" 20="-0.000491" 21="0.000001" 22="-1" 30="4774.819623" 31="5.26" 32="-21896.633081"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="14" id="620" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.2" y="-0.125" z="-0.175"/>
+					<max x="0.2" y="0.125" z="0.175"/>
+				</bounds>
+				<transform 00="0.999916" 01="-0" 02="0.012983" 10="0" 12="0" 20="-0.012983" 21="-0" 22="0.999916" 30="4773.865725" 31="5.741161" 32="-21896.28491"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="5" id="621" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.625" y="-0.5" z="-0.4"/>
+					<max x="0.625" y="0.5" z="0.4"/>
+				</bounds>
+				<transform 00="-0.011377" 01="0" 02="-0.999935" 10="0" 11="1" 12="0" 20="0.999935" 21="-0" 22="-0.011377" 30="4771.623132" 31="8.429998" 32="-21898.750601"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="19" id="622" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.35" y="-0.3" z="-0.3"/>
+					<max x="0.35" y="0.3" z="0.3"/>
+				</bounds>
+				<transform 00="0.999999" 01="0" 02="0.001376" 10="-0" 11="1" 12="-0" 20="-0.001376" 21="0" 22="0.999999" 30="4748.4596" 31="5.001935" 32="-22080.971429"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="30" id="623" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.4" y="-0.4" z="-0.75"/>
+					<max x="0.4" y="0.4" z="0.75"/>
+				</bounds>
+				<transform 00="0.000563" 01="0" 02="-1" 10="-0" 11="1" 12="0" 20="1" 21="0" 22="0.000563" 30="4771.58583" 31="5.16" 32="-21894.94296"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="29" id="624" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="1" 01="-0" 02="0.000197" 10="0" 11="1" 12="-0.000003" 20="-0.000197" 21="0.000003" 22="1" 30="4788.783504" 31="4.759645" 32="-22080.263667"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="28" id="625" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.375" y="-0.675" z="-0.575"/>
+					<max x="0.375" y="0.675" z="0.575"/>
+				</bounds>
+				<transform 00="0.974757" 01="0" 02="0.223269" 10="-0" 11="1" 12="0" 20="-0.223269" 21="-0" 22="0.974757" 30="4750.467901" 31="5.284649" 32="-22081.238589"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="27" id="626" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.7" y="-0.65" z="-0.75"/>
+					<max x="0.7" y="0.65" z="0.75"/>
+				</bounds>
+				<transform 00="1" 01="0" 02="-0.000088" 10="-0" 11="1" 12="0" 20="0.000088" 21="-0" 22="1" 30="4743.233989" 31="5.259649" 32="-21976.561947"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="26" id="627" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.5" y="-0.5" z="-0.15"/>
+					<max x="0.5" y="0.5" z="0.15"/>
+				</bounds>
+				<transform 00="0.999108" 01="0" 02="0.042237" 10="-0" 11="1" 12="0.000001" 20="-0.042237" 21="-0.000001" 22="0.999108" 30="4789.522906" 31="5.109649" 32="-22091.527614"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="25" id="628" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.375" y="-0.5" z="-0.4"/>
+					<max x="0.375" y="0.5" z="0.4"/>
+				</bounds>
+				<transform 00="1" 01="-0" 02="0.000042" 10="0" 11="1" 12="-0.000001" 20="-0.000042" 21="0.000001" 22="1" 30="4749.370837" 31="5.109649" 32="-22074.093929"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="26" id="629" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.5" y="-0.5" z="-0.15"/>
+					<max x="0.5" y="0.5" z="0.15"/>
+				</bounds>
+				<transform 00="0.999988" 01="-0" 02="-0.004952" 10="0" 11="1" 12="-0.000001" 20="0.004952" 21="0.000001" 22="0.999988" 30="4799.426228" 31="5.109649" 32="-22091.521612"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="26" id="630" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.5" y="-0.5" z="-0.15"/>
+					<max x="0.5" y="0.5" z="0.15"/>
+				</bounds>
+				<transform 00="1" 01="-0.000001" 02="0.000564" 10="0.000001" 11="1" 12="-0.000006" 20="-0.000564" 21="0.000006" 22="1" 30="4753.985772" 31="5.109649" 32="-22091.428198"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="9" id="619" char_steam_id="-1">
-				<transform 00="-1" 22="-1" 30="4774.812988" 31="5.434318" 32="-21896.633774"/>
+			<object type="26" id="631" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.5" y="-0.5" z="-0.15"/>
+					<max x="0.5" y="0.5" z="0.15"/>
+				</bounds>
+				<transform 00="0.999073" 01="0" 02="-0.043039" 10="-0" 11="1" 12="0.000001" 20="0.043039" 21="-0.000001" 22="0.999073" 30="4733.048119" 31="5.109649" 32="-22091.473725"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="14" id="620" char_steam_id="-1">
-				<transform 00="0.994653" 02="0.103278" 20="-0.103278" 22="0.994653" 30="4773.889465" 31="5.710898" 32="-21896.284775"/>
+			<object type="30" id="632" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.4" y="-0.4" z="-0.75"/>
+					<max x="0.4" y="0.4" z="0.75"/>
+				</bounds>
+				<transform 00="-0.000554" 01="0.000638" 02="-1" 10="0.000122" 11="1" 12="0.000638" 20="1" 21="-0.000121" 22="-0.000554" 30="4708.87398" 31="5.009335" 32="-22087.443061"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="5" id="621" char_steam_id="-1">
-				<transform 00="-0.017205" 02="-0.999852" 20="0.999852" 22="-0.017205" 30="4771.598206" 31="8.397026" 32="-21898.777664"/>
+			<object type="27" id="633" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.7" y="-0.65" z="-0.75"/>
+					<max x="0.7" y="0.65" z="0.75"/>
+				</bounds>
+				<transform 00="1" 01="0" 02="-0.000109" 10="-0" 11="1" 12="0" 20="0.000109" 21="-0" 22="1" 30="4744.809332" 31="5.259649" 32="-21976.561862"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="19" id="622" char_steam_id="-1">
-				<transform 30="4748.459229" 31="5.031028" 32="-22080.96833"/>
+			<object type="27" id="634" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.7" y="-0.65" z="-0.75"/>
+					<max x="0.7" y="0.65" z="0.75"/>
+				</bounds>
+				<transform 00="1" 01="0" 02="-0.000125" 10="-0" 11="1" 12="-0" 20="0.000125" 21="0" 22="1" 30="4746.44428" 31="5.259649" 32="-21976.561752"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="30" id="623" char_steam_id="-1">
-				<transform 00="0" 02="-1" 20="1" 22="0" 30="4771.586853" 31="5.201532" 32="-21894.943726"/>
+			<object type="28" id="635" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.375" y="-0.675" z="-0.575"/>
+					<max x="0.375" y="0.675" z="0.575"/>
+				</bounds>
+				<transform 00="0.999998" 01="-0" 02="0.002194" 10="0" 11="1" 12="0" 20="-0.002194" 21="-0" 22="0.999998" 30="4732.57229" 31="5.284649" 32="-21976.562973"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="624" char_steam_id="-1">
-				<transform 30="4788.783722" 31="4.807703" 32="-22080.262482"/>
+			<object type="28" id="636" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.375" y="-0.675" z="-0.575"/>
+					<max x="0.375" y="0.675" z="0.575"/>
+				</bounds>
+				<transform 00="1" 01="0" 02="0.000403" 10="-0" 11="1" 12="-0" 20="-0.000403" 21="0" 22="1" 30="4730.948966" 31="5.284649" 32="-21976.563754"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="28" id="625" char_steam_id="-1">
-				<transform 30="4750.390594" 31="5.595483" 32="-22081.297272"/>
+			<object type="25" id="637" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.375" y="-0.5" z="-0.4"/>
+					<max x="0.375" y="0.5" z="0.4"/>
+				</bounds>
+				<transform 00="0.999936" 01="-0" 02="0.011281" 10="0" 11="1" 12="-0" 20="-0.011281" 21="0" 22="0.999936" 30="4730.943983" 31="5.109649" 32="-21922.024705"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="27" id="626" char_steam_id="-1">
-				<transform 30="4743.234222" 31="5.395288" 32="-21976.561523"/>
+			<object type="25" id="638" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.375" y="-0.5" z="-0.4"/>
+					<max x="0.375" y="0.5" z="0.4"/>
+				</bounds>
+				<transform 00="0.999841" 01="-0" 02="0.017832" 10="0" 11="1" 12="-0" 20="-0.017832" 21="0" 22="0.999841" 30="4722.845535" 31="5.109649" 32="-21922.03356"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="26" id="627" char_steam_id="-1">
-				<transform 11="0.970659" 12="-0.240458" 21="0.240458" 22="0.970659" 30="4789.543671" 31="5.395288" 32="-22091.553619"/>
+			<object type="29" id="639" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="1" 01="0" 02="0.000025" 10="-0" 11="1" 12="0" 20="-0.000025" 21="-0" 22="1" 30="4748.931932" 31="4.759649" 32="-21921.554502"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="25" id="628" char_steam_id="-1">
-				<transform 30="4749.370575" 31="5.170618" 32="-22074.093994"/>
+			<object type="29" id="640" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="-0.043939" 01="-0.000078" 02="0.999034" 10="0.000271" 11="1" 12="0.00009" 20="-0.999034" 21="0.000274" 22="-0.043939" 30="4751.090011" 31="4.759495" 32="-21921.426127"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="26" id="629" char_steam_id="-1">
-				<transform 11="0.970659" 12="-0.240458" 21="0.240458" 22="0.970659" 30="4799.442566" 31="5.395288" 32="-22091.553619"/>
+			<object type="25" id="641" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.375" y="-0.5" z="-0.4"/>
+					<max x="0.375" y="0.5" z="0.4"/>
+				</bounds>
+				<transform 00="1" 01="0" 02="0.000036" 10="-0" 11="1" 12="-0" 20="-0.000036" 21="0" 22="1" 30="4748.311152" 31="5.109649" 32="-22074.093959"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="26" id="630" char_steam_id="-1">
-				<transform 11="0.970659" 12="-0.240458" 21="0.240458" 22="0.970659" 30="4754.007324" 31="5.395288" 32="-22091.532349"/>
+			<object type="38" id="642" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.425" y="-0.225" z="-0.275"/>
+					<max x="0.425" y="0.225" z="0.275"/>
+				</bounds>
+				<transform 00="1" 01="0" 02="-0.000041" 10="-0" 12="0" 20="0.000041" 21="-0" 22="1" 30="4775.534254" 31="11.135" 32="-21897.908161"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="26" id="631" char_steam_id="-1">
-				<transform 11="0.970659" 12="-0.240458" 21="0.240458" 22="0.970659" 30="4733.054352" 31="5.395288" 32="-22091.553619"/>
+			<object type="13" id="643" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.55" y="-0.725" z="-0.5"/>
+					<max x="0.55" y="0.725" z="0.5"/>
+				</bounds>
+				<transform 00="1" 01="-0" 02="-0.000292" 10="0" 11="1" 12="0" 20="0.000292" 21="-0" 22="1" 30="4773.531929" 31="11.635" 32="-21900.346743"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="30" id="632" char_steam_id="-1">
-				<transform 00="0" 02="-1" 20="1" 22="0" 30="4708.869934" 31="5.067978" 32="-22087.443054"/>
+			<object type="22" id="644" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.2" y="-0.25" z="-0.2"/>
+					<max x="0.2" y="0.25" z="0.2"/>
+				</bounds>
+				<transform 00="0.070209" 01="0" 02="0.997532" 10="0" 11="1" 12="-0" 20="-0.997532" 21="0" 22="0.070209" 30="4772.18078" 31="11.16" 32="-21901.198948"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="27" id="633" char_steam_id="-1">
-				<transform 30="4744.809479" 31="5.395288" 32="-21976.561523"/>
+			<object type="22" id="645" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.2" y="-0.25" z="-0.2"/>
+					<max x="0.2" y="0.25" z="0.2"/>
+				</bounds>
+				<transform 00="-0.999985" 01="-0.000001" 02="-0.005387" 10="-0.000001" 11="1" 12="0" 20="0.005387" 21="0" 22="-0.999985" 30="4773.463769" 31="8.179998" 32="-21896.048589"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="27" id="634" char_steam_id="-1">
-				<transform 30="4746.444366" 31="5.395288" 32="-21976.561523"/>
+			<object type="4" id="646" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.275" y="-0.275" z="-0.275"/>
+					<max x="0.275" y="0.275" z="0.275"/>
+				</bounds>
+				<transform 00="-1" 01="-0.000001" 02="0.000071" 10="-0.000001" 11="1" 12="-0" 20="-0.000071" 21="-0" 22="-1" 30="4770.569357" 31="10.372" 32="-21896.427915"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="28" id="635" char_steam_id="-1">
-				<transform 30="4732.572205" 31="5.395288" 32="-21976.561523"/>
+			<object type="22" id="647" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.2" y="-0.25" z="-0.2"/>
+					<max x="0.2" y="0.25" z="0.2"/>
+				</bounds>
+				<transform 00="0.999058" 01="0.000001" 02="-0.043406" 10="-0.000001" 11="1" 12="-0.000001" 20="0.043406" 21="0.000001" 22="0.999058" 30="4709.309343" 31="7.83965" 32="-21935.807432"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="28" id="636" char_steam_id="-1">
-				<transform 30="4730.949554" 31="5.395288" 32="-21976.561523"/>
+			<object type="13" id="648" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.55" y="-0.725" z="-0.5"/>
+					<max x="0.55" y="0.725" z="0.5"/>
+				</bounds>
+				<transform 00="-0.587755" 01="0.000137" 02="0.809039" 10="-0.000336" 11="1" 12="-0.000414" 20="-0.809039" 21="-0.000515" 22="-0.587755" 30="4712.119616" 31="8.314264" 32="-21934.738188"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="25" id="637" char_steam_id="-1">
-				<transform 30="4730.949554" 31="5.395288" 32="-21922.042847"/>
+			<object type="31" id="649" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.175" y="-0.425" z="-0.125"/>
+					<max x="0.175" y="0.425" z="0.125"/>
+				</bounds>
+				<transform 00="-0.639127" 01="-0.000185" 02="0.769101" 10="-0.000377" 11="1" 12="-0.000073" 20="-0.769101" 21="-0.000337" 22="-0.639127" 30="4712.995248" 31="8.014585" 32="-21937.653175"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="25" id="638" char_steam_id="-1">
-				<transform 30="4722.847321" 31="5.395288" 32="-21922.042847"/>
+			<object type="25" id="650" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.375" y="-0.5" z="-0.4"/>
+					<max x="0.375" y="0.5" z="0.4"/>
+				</bounds>
+				<transform 00="1" 01="0" 02="-0.000529" 10="-0" 11="1" 12="0.000001" 20="0.000529" 21="-0.000001" 22="1" 30="4713.079766" 31="5.109649" 32="-21937.589333"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="639" char_steam_id="-1">
-				<transform 30="4748.932251" 31="4.846796" 32="-21921.554199"/>
+			<object type="25" id="651" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.375" y="-0.5" z="-0.4"/>
+					<max x="0.375" y="0.5" z="0.4"/>
+				</bounds>
+				<transform 00="1" 01="0.000001" 02="-0.00045" 10="-0.000001" 11="1" 12="0" 20="0.00045" 21="-0" 22="1" 30="4710.085926" 31="5.109649" 32="-21940.54516"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="640" char_steam_id="-1">
-				<transform 00="0.007641" 01="0.87152" 02="0.4903" 10="-0.037484" 11="0.490219" 12="-0.870793" 20="-0.999268" 21="-0.011724" 22="0.036414" 30="4751.092529" 31="5.444818" 32="-21921.31131"/>
+			<object type="25" id="652" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.375" y="-0.5" z="-0.4"/>
+					<max x="0.375" y="0.5" z="0.4"/>
+				</bounds>
+				<transform 00="1" 01="0.000001" 02="-0.000116" 10="-0.000001" 11="1" 12="0.000001" 20="0.000116" 21="-0.000001" 22="1" 30="4713.055974" 31="5.109649" 32="-21938.439824"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="25" id="641" char_steam_id="-1">
-				<transform 30="4748.310944" 31="5.170618" 32="-22074.093994"/>
+			<object type="28" id="653" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.375" y="-0.675" z="-0.575"/>
+					<max x="0.375" y="0.675" z="0.575"/>
+				</bounds>
+				<transform 00="0.999999" 01="0" 02="0.001685" 10="-0" 11="1" 12="-0" 20="-0.001685" 21="0" 22="0.999999" 30="4712.221679" 31="5.284649" 32="-21939.519931"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="38" id="642" char_steam_id="-1">
-				<transform 30="4775.534027" 31="11.132895" 32="-21897.908127"/>
+			<object type="31" id="654" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.175" y="-0.425" z="-0.125"/>
+					<max x="0.175" y="0.425" z="0.125"/>
+				</bounds>
+				<transform 00="1" 01="-0.000003" 02="0.000571" 10="0.000003" 11="1" 12="-0.000004" 20="-0.000571" 21="0.000004" 22="1" 30="4713.27178" 31="5.034649" 32="-21934.544334"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="13" id="643" char_steam_id="-1">
-				<transform 30="4773.53244" 31="11.77407" 32="-21900.34877"/>
+			<object type="32" id="655" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-1.125" y="-0.525" z="-0.6"/>
+					<max x="1.125" y="0.525" z="0.6"/>
+				</bounds>
+				<transform 00="1" 01="0.000107" 02="-0.00001" 10="-0.000107" 11="1" 12="0.000067" 20="0.00001" 21="-0.000067" 22="1" 30="4712.274872" 31="5.134557" 32="-21933.475489"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="22" id="644" char_steam_id="-1">
-				<transform 00="0" 02="1" 20="-1" 22="0" 30="4772.158081" 31="11.190116" 32="-21901.192886"/>
+			<object type="17" id="656" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.125" y="-0.125" z="-0.125"/>
+					<max x="0.125" y="0.125" z="0.125"/>
+				</bounds>
+				<transform 00="-0.419689" 01="0" 02="-0.907668" 10="-0" 11="1" 12="0" 20="0.907668" 21="0" 22="-0.419689" 30="4773.170431" 31="11.8" 32="-21898.231683"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="22" id="645" char_steam_id="-1">
-				<transform 00="-1" 22="-1" 30="4773.461761" 31="8.201865" 32="-21896.048477"/>
+			<object type="40" id="657" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.15" y="-0.35" z="-0.225"/>
+					<max x="0.15" y="0.35" z="0.225"/>
+				</bounds>
+				<transform 00="-0.482386" 01="-0.000006" 02="-0.875959" 10="-0.000003" 11="1" 12="-0.000005" 20="0.875959" 21="-0" 22="-0.482386" 30="4775.002907" 31="12.059998" 32="-21901.267747"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="4" id="646" char_steam_id="-1">
-				<transform 00="-1" 22="-1" 30="4770.569061" 31="10.442557" 32="-21896.426926"/>
+			<object type="38" id="658" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.425" y="-0.225" z="-0.275"/>
+					<max x="0.425" y="0.225" z="0.275"/>
+				</bounds>
+				<transform 00="0.063063" 01="-0" 02="0.99801" 10="0" 11="1" 12="0" 20="-0.99801" 21="0" 22="0.063063" 30="4775.670759" 31="11.135" 32="-21896.781409"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="22" id="647" char_steam_id="-1">
-				<transform 00="0.999311" 02="-0.037104" 20="0.037104" 22="0.999311" 30="4709.310059" 31="7.889135" 32="-21935.806168"/>
+			<object type="46" id="659" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.175" y="-0.125" z="-0.2"/>
+					<max x="0.175" y="0.125" z="0.2"/>
+				</bounds>
+				<transform 00="0.988713" 01="0" 02="0.149822" 10="-0" 11="1" 12="0" 20="-0.149822" 21="-0" 22="0.988713" 30="4772.657895" 31="11.8" 32="-21898.133535"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="13" id="648" char_steam_id="-1">
-				<transform 00="-0.645498" 02="0.763762" 20="-0.763762" 22="-0.645498" 30="4712.090668" 31="8.481054" 32="-21934.789688"/>
+			<object type="37" id="660" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.2" y="-0.125" z="-0.225"/>
+					<max x="0.2" y="0.125" z="0.225"/>
+				</bounds>
+				<transform 00="0.987147" 01="0.000023" 02="0.159816" 10="-0.000024" 11="1" 12="0.000004" 20="-0.159816" 21="-0.000008" 22="0.987147" 30="4774.251007" 31="5.741156" 32="-21896.489301"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="31" id="649" char_steam_id="-1">
-				<transform 00="-0.645498" 02="0.763762" 20="-0.763762" 22="-0.645498" 30="4712.993774" 31="8.085333" 32="-21937.657913"/>
+			<object type="35" id="661" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.125" y="-0.125" z="-0.125"/>
+					<max x="0.125" y="0.125" z="0.125"/>
+				</bounds>
+				<transform 00="1" 01="0.000001" 02="-0.000288" 10="-0.000001" 11="1" 12="-0.000002" 20="0.000288" 21="0.000002" 22="1" 30="4773.932208" 31="5.741161" 32="-21896.627361"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="25" id="650" char_steam_id="-1">
-				<transform 30="4713.079315" 31="5.144922" 32="-21937.589233"/>
+			<object type="18" id="662" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.15" y="-0.125" z="-0.15"/>
+					<max x="0.15" y="0.125" z="0.15"/>
+				</bounds>
+				<transform 00="0.706543" 01="0" 02="-0.707671" 10="0.000001" 11="1" 12="0.000001" 20="0.707671" 21="-0.000001" 22="0.706543" 30="4770.79885" 31="5.854881" 32="-21898.890729"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="25" id="651" char_steam_id="-1">
-				<transform 30="4710.089966" 31="5.144922" 32="-21940.545959"/>
+			<object type="33" id="663" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.125" y="-0.15" z="-0.125"/>
+					<max x="0.125" y="0.15" z="0.125"/>
+				</bounds>
+				<transform 00="0.683274" 01="0.000719" 02="0.730162" 10="-0.001458" 11="0.999999" 12="0.00038" 20="-0.730161" 21="-0.001325" 22="0.683274" 30="4770.376174" 31="5.87965" 32="-21898.760244"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="25" id="652" char_steam_id="-1">
-				<transform 30="4713.055786" 31="5.144922" 32="-21938.439667"/>
+			<object type="16" id="664" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.4" y="-0.125" z="-0.3"/>
+					<max x="0.4" y="0.125" z="0.3"/>
+				</bounds>
+				<transform 00="0.975304" 01="-0" 02="-0.220867" 10="0" 12="0" 20="0.220867" 21="-0" 22="0.975304" 30="4770.760273" 31="5.854881" 32="-21898.38714"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="28" id="653" char_steam_id="-1">
-				<transform 30="4712.223694" 31="5.144922" 32="-21939.514893"/>
+			<object type="22" id="665" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.2" y="-0.25" z="-0.2"/>
+					<max x="0.2" y="0.25" z="0.2"/>
+				</bounds>
+				<transform 00="0.999952" 01="0" 02="0.009804" 10="-0" 11="1" 12="-0" 20="-0.009804" 21="0" 22="0.999952" 30="4770.943619" 31="5.01" 32="-21897.67937"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="31" id="654" char_steam_id="-1">
-				<transform 30="4713.271179" 31="5.053003" 32="-21934.544128"/>
+			<object type="34" id="666" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.35" y="-0.55" z="-0.425"/>
+					<max x="0.35" y="0.55" z="0.425"/>
+				</bounds>
+				<transform 00="-0.879906" 01="0.000001" 02="-0.475149" 10="0" 11="1" 12="0.000001" 20="0.475149" 21="0" 22="-0.879906" 30="4722.872394" 31="5.159649" 32="-21971.538471"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="32" id="655" char_steam_id="-1">
-				<transform 30="4712.272034" 31="5.144922" 32="-21933.475067"/>
+			<object type="32" id="667" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-1.125" y="-0.525" z="-0.6"/>
+					<max x="1.125" y="0.525" z="0.6"/>
+				</bounds>
+				<transform 00="-0.086564" 01="-0" 02="-0.996246" 10="-0" 12="-0" 20="0.996246" 21="0" 22="-0.086564" 30="4722.449756" 31="5.134649" 32="-21969.004905"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="17" id="656" char_steam_id="-1">
-				<transform 00="-0.154719" 02="-0.987959" 20="0.987959" 22="-0.154719" 30="4773.185745" 31="11.769251" 32="-21898.241539"/>
+			<object type="31" id="668" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.175" y="-0.425" z="-0.125"/>
+					<max x="0.175" y="0.425" z="0.125"/>
+				</bounds>
+				<transform 00="0.968627" 01="0.000003" 02="0.248519" 10="-0.000003" 11="1" 12="0.000001" 20="-0.248519" 21="-0.000002" 22="0.968627" 30="4713.272254" 31="5.034649" 32="-21934.852494"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="40" id="657" char_steam_id="-1">
-				<transform 00="-0.482496" 02="-0.875898" 20="0.875898" 22="-0.482496" 30="4775.004654" 31="12.131919" 32="-21901.267776"/>
+			<object type="38" id="669" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.425" y="-0.225" z="-0.275"/>
+					<max x="0.425" y="0.225" z="0.275"/>
+				</bounds>
+				<transform 00="0.999989" 01="0.000001" 02="0.004609" 10="-0.000001" 11="1" 12="-0.000008" 20="-0.004609" 21="0.000008" 22="0.999989" 30="4711.170704" 31="5.027646" 32="-21940.463998"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="38" id="658" char_steam_id="-1">
-				<transform 00="0.063069" 02="0.998009" 20="-0.998009" 22="0.063069" 30="4775.670624" 31="11.132743" 32="-21896.781296"/>
+			<object type="38" id="670" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.425" y="-0.225" z="-0.275"/>
+					<max x="0.425" y="0.225" z="0.275"/>
+				</bounds>
+				<transform 00="0.930441" 01="-0.000002" 02="0.366443" 10="0.000002" 11="1" 12="-0" 20="-0.366443" 21="0.000001" 22="0.930441" 30="4709.196514" 31="5.027649" 32="-21939.415973"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="46" id="659" char_steam_id="-1">
-				<transform 00="0.978289" 02="0.207246" 20="-0.207246" 22="0.978289" 30="4772.655029" 31="11.739829" 32="-21898.139725"/>
+			<object type="38" id="671" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.425" y="-0.225" z="-0.275"/>
+					<max x="0.425" y="0.225" z="0.275"/>
+				</bounds>
+				<transform 00="-0.070282" 01="0" 02="0.997527" 10="-0" 11="1" 12="-0" 20="-0.997527" 21="-0" 22="-0.070282" 30="4709.090053" 31="5.592936" 32="-21938.244901"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="37" id="660" char_steam_id="-1">
-				<transform 30="4774.256226" 31="5.692954" 32="-21896.53566"/>
+			<object type="38" id="672" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.425" y="-0.225" z="-0.275"/>
+					<max x="0.425" y="0.225" z="0.275"/>
+				</bounds>
+				<transform 00="0.059968" 01="-0.000033" 02="0.9982" 10="0.000131" 11="1" 12="0.000026" 20="-0.9982" 21="0.000129" 22="0.059968" 30="4709.090855" 31="5.592891" 32="-21937.359821"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="35" id="661" char_steam_id="-1">
-				<transform 30="4773.932404" 31="5.752769" 32="-21896.628189"/>
+			<object type="34" id="673" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.35" y="-0.55" z="-0.425"/>
+					<max x="0.35" y="0.55" z="0.425"/>
+				</bounds>
+				<transform 00="1" 01="0" 02="-0.000018" 10="-0" 11="1" 12="0" 20="0.000018" 21="-0" 22="1" 30="4713.014844" 31="5.159649" 32="-21935.671019"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="18" id="662" char_steam_id="-1">
-				<transform 30="4770.780151" 31="5.828055" 32="-21898.796951"/>
+			<object type="38" id="674" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.425" y="-0.225" z="-0.275"/>
+					<max x="0.425" y="0.225" z="0.275"/>
+				</bounds>
+				<transform 00="-0.068876" 01="0.000133" 02="0.997625" 10="-0.000182" 11="1" 12="-0.000146" 20="-0.997625" 21="-0.000192" 22="-0.068876" 30="4711.615593" 31="5.592906" 32="-21940.558767"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="33" id="663" char_steam_id="-1">
-				<transform 00="0.629351" 02="0.777121" 20="-0.777121" 22="0.629351" 30="4770.38028" 31="5.833213" 32="-21898.704971"/>
+			<object type="4" id="675" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.275" y="-0.275" z="-0.275"/>
+					<max x="0.275" y="0.275" z="0.275"/>
+				</bounds>
+				<transform 00="0.999153" 01="-0" 02="-0.041144" 10="0" 11="1" 12="-0" 20="0.041144" 21="0" 22="0.999153" 30="4713.063227" 31="7.86465" 32="-21935.802518"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="16" id="664" char_steam_id="-1">
-				<transform 00="0.860847" 02="-0.508865" 20="0.508865" 22="0.860847" 30="4770.670044" 31="5.841514" 32="-21898.290298"/>
+			<object type="17" id="676" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.125" y="-0.125" z="-0.125"/>
+					<max x="0.125" y="0.125" z="0.125"/>
+				</bounds>
+				<transform 00="0.997212" 01="-0" 02="-0.074615" 10="0" 11="1" 12="0" 20="0.074615" 21="-0" 22="0.997212" 30="4711.689707" 31="8.634649" 32="-21933.377601"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="22" id="665" char_steam_id="-1">
-				<transform 30="4770.945251" 31="5.033988" 32="-21897.677353"/>
+			<object type="40" id="677" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.15" y="-0.35" z="-0.225"/>
+					<max x="0.15" y="0.35" z="0.225"/>
+				</bounds>
+				<transform 00="0.825193" 01="0.000003" 02="-0.564851" 10="-0.000002" 11="1" 12="0.000001" 20="0.564851" 21="0.000001" 22="0.825193" 30="4713.067775" 31="8.859649" 32="-21933.35769"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="34" id="666" char_steam_id="-1">
-				<transform 00="-0.879864" 02="-0.475226" 20="0.475226" 22="-0.879864" 30="4722.870605" 31="5.178857" 32="-21971.538696"/>
+			<object type="31" id="678" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.175" y="-0.425" z="-0.125"/>
+					<max x="0.175" y="0.425" z="0.125"/>
+				</bounds>
+				<transform 00="-0.898654" 01="-0.000001" 02="-0.438659" 10="-0.000003" 11="1" 12="0.000002" 20="0.438659" 21="0.000003" 22="-0.898654" 30="4750.279335" 31="5.034649" 32="-22076.595113"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="32" id="667" char_steam_id="-1">
-				<transform 00="-0.086563" 02="-0.996246" 20="0.996246" 22="-0.086563" 30="4722.449738" 31="5.162836" 32="-21969.004913"/>
+			<object type="15" id="679" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.2" y="-0.125" z="-0.125"/>
+					<max x="0.2" y="0.125" z="0.125"/>
+				</bounds>
+				<transform 00="-0.000003" 01="-1" 02="-0.000003" 10="1" 11="-0.000003" 12="-0.000267" 20="0.000267" 21="-0.000003" 22="1" 30="4708.867781" 31="8.709649" 32="-21937.200586"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="31" id="668" char_steam_id="-1">
-				<transform 00="0.969415" 02="0.245428" 20="-0.245428" 22="0.969415" 30="4713.271179" 31="5.053003" 32="-21934.851135"/>
+			<object type="15" id="680" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.2" y="-0.125" z="-0.125"/>
+					<max x="0.2" y="0.125" z="0.125"/>
+				</bounds>
+				<transform 00="-0.000004" 01="-1" 02="-0.000008" 10="0.999999" 11="-0.000004" 12="0.001602" 20="-0.001602" 21="-0.000008" 22="0.999999" 30="4709.160481" 31="8.709648" 32="-21936.902167"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="38" id="669" char_steam_id="-1">
-				<transform 30="4711.184082" 31="5.020715" 32="-21940.464722"/>
+			<object type="33" id="681" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.125" y="-0.15" z="-0.125"/>
+					<max x="0.125" y="0.15" z="0.125"/>
+				</bounds>
+				<transform 00="0.28814" 01="0.000001" 02="-0.957588" 10="0.000002" 11="1" 12="0.000001" 20="0.957588" 21="-0.000002" 22="0.28814" 30="4709.043886" 31="8.659649" 32="-21936.044127"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="38" id="670" char_steam_id="-1">
-				<transform 00="0.992383" 02="0.123195" 20="-0.123195" 22="0.992383" 30="4709.090057" 31="5.020715" 32="-21939.236511"/>
+			<object type="35" id="682" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.125" y="-0.125" z="-0.125"/>
+					<max x="0.125" y="0.125" z="0.125"/>
+				</bounds>
+				<transform 00="-0.287162" 01="0" 02="-0.957882" 10="0" 11="-1" 12="-0" 20="-0.957882" 21="-0.000001" 22="0.287162" 30="4708.940346" 31="8.634649" 32="-21934.758198"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="38" id="671" char_steam_id="-1">
-				<transform 00="-0.070298" 02="0.997526" 20="-0.997526" 22="-0.070298" 30="4709.090057" 31="5.602991" 32="-21938.245239"/>
+			<object type="35" id="683" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.125" y="-0.125" z="-0.125"/>
+					<max x="0.125" y="0.125" z="0.125"/>
+				</bounds>
+				<transform 00="-0.287053" 01="0" 02="-0.957915" 10="-0" 11="-1" 12="-0" 20="-0.957915" 21="0" 22="0.287053" 30="4709.241045" 31="8.634649" 32="-21934.694912"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="38" id="672" char_steam_id="-1">
-				<transform 00="0.138728" 02="0.99033" 20="-0.99033" 22="0.138728" 30="4709.090057" 31="5.602991" 32="-21937.312469"/>
+			<object type="31" id="684" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.175" y="-0.425" z="-0.125"/>
+					<max x="0.175" y="0.425" z="0.125"/>
+				</bounds>
+				<transform 00="-0.980696" 01="-0.000002" 02="0.195539" 10="-0.000001" 11="1" 12="0.000003" 20="-0.195539" 21="0.000003" 22="-0.980696" 30="4750.27924" 31="5.034649" 32="-22076.894417"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="34" id="673" char_steam_id="-1">
-				<transform 30="4713.014496" 31="5.177942" 32="-21935.670837"/>
+			<object type="23" id="685" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.15" y="-0.125" z="-0.2"/>
+					<max x="0.15" y="0.125" z="0.2"/>
+				</bounds>
+				<transform 00="-0.021086" 01="0.000321" 02="0.999778" 10="-0.00077" 11="1" 12="-0.000338" 20="-0.999777" 21="-0.000777" 22="-0.021086" 30="4710.572583" 31="8.267547" 32="-21940.15587"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="38" id="674" char_steam_id="-1">
-				<transform 00="-0.070298" 02="0.997526" 20="-0.997526" 22="-0.070298" 30="4711.613739" 31="5.595514" 32="-21940.55957"/>
+			<object type="29" id="686" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="0.987443" 01="0.000001" 02="0.157976" 10="-0.000001" 11="1" 12="0.000002" 20="-0.157976" 21="-0.000002" 22="0.987443" 30="4748.93241" 31="5.009648" 32="-21921.554803"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="4" id="675" char_steam_id="-1">
-				<transform 30="4713.058838" 31="7.899389" 32="-21935.793625"/>
+			<object type="27" id="687" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.7" y="-0.65" z="-0.75"/>
+					<max x="0.7" y="0.65" z="0.75"/>
+				</bounds>
+				<transform 00="1" 01="-0" 02="-0.000224" 10="0" 11="1" 12="0" 20="0.000224" 21="-0" 22="1" 30="4746.444411" 31="5.259649" 32="-21979.351191"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="17" id="676" char_steam_id="-1">
-				<transform 30="4711.67691" 31="8.620642" 32="-21933.368607"/>
+			<object type="29" id="688" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="0.286356" 01="-0" 02="-0.958123" 10="0" 12="0" 20="0.958123" 21="-0" 22="0.286356" 30="4748.150642" 31="4.759649" 32="-21979.637987"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="40" id="677" char_steam_id="-1">
-				<transform 00="0.815076" 02="-0.579354" 20="0.579354" 22="0.815076" 30="4713.10141" 31="8.922613" 32="-21933.34819"/>
+			<object type="29" id="689" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="0.28754" 01="0" 02="-0.957769" 10="0" 12="0" 20="0.957769" 21="-0" 22="0.28754" 30="4751.029482" 31="4.759649" 32="-22074.779563"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="31" id="678" char_steam_id="-1">
-				<transform 00="-0.899273" 02="-0.437389" 20="0.437389" 22="-0.899273" 30="4750.279602" 31="5.065516" 32="-22076.595154"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="15" id="679" char_steam_id="-1">
-				<transform 00="0" 01="-1" 10="1" 11="0" 30="4708.867889" 31="8.758886" 32="-21937.200668"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="15" id="680" char_steam_id="-1">
-				<transform 00="0" 01="-1" 10="1" 11="0" 30="4709.159821" 31="8.727636" 32="-21936.901505"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="33" id="681" char_steam_id="-1">
-				<transform 00="0.287196" 02="-0.957872" 20="0.957872" 22="0.287196" 30="4709.04364" 31="8.740698" 32="-21936.044388"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="35" id="682" char_steam_id="-1">
-				<transform 00="-0.287196" 02="-0.957872" 11="-1" 20="-0.957872" 22="0.287196" 30="4708.940338" 31="8.693945" 32="-21934.758102"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="35" id="683" char_steam_id="-1">
-				<transform 00="-0.287196" 02="-0.957872" 11="-1" 20="-0.957872" 22="0.287196" 30="4709.240936" 31="8.693121" 32="-21934.69487"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="31" id="684" char_steam_id="-1">
-				<transform 00="-0.980047" 02="0.198765" 20="-0.198765" 22="-0.980047" 30="4750.279602" 31="5.065516" 32="-22076.894775"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="23" id="685" char_steam_id="-1">
-				<transform 00="0.191264" 02="0.981539" 20="-0.981539" 22="0.191264" 30="4710.604126" 31="8.234961" 32="-21940.06163"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="29" id="686" char_steam_id="-1">
-				<transform 00="0.987447" 02="0.15795" 20="-0.15795" 22="0.987447" 30="4748.932251" 31="5.11471" 32="-21921.554199"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="27" id="687" char_steam_id="-1">
-				<transform 30="4746.444366" 31="5.337488" 32="-21979.351318"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="29" id="688" char_steam_id="-1">
-				<transform 00="0.287423" 02="-0.957804" 20="0.957804" 22="0.287423" 30="4748.153992" 31="4.829554" 32="-21979.634857"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="29" id="689" char_steam_id="-1">
-				<transform 00="0.287423" 02="-0.957804" 20="0.957804" 22="0.287423" 30="4751.030548" 31="4.829554" 32="-22074.779114"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="29" id="690" char_steam_id="-1">
-				<transform 00="0.948934" 02="0.315474" 20="-0.315474" 22="0.948934" 30="4788.783722" 31="5.109369" 32="-22080.250732"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="22" id="691" char_steam_id="-1">
-				<transform 00="-0.999996" 02="-0.002938" 20="0.002938" 22="-0.999996" 30="4749.42511" 31="4.96749" 32="-22080.548195"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="38" id="692" char_steam_id="-1">
-				<transform 00="-0.013021" 02="-0.999915" 20="0.999915" 22="-0.013021" 30="4748.050995" 31="4.928336" 32="-22077.604225"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="40" id="693" char_steam_id="-1">
-				<transform 00="0.876872" 02="-0.480724" 20="0.480724" 22="0.876872" 30="4749.437927" 31="5.807548" 32="-22081.462868"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="42" id="694" char_steam_id="-1">
-				<transform 00="0.876872" 02="-0.480724" 20="0.480724" 22="0.876872" 30="4748.783936" 31="5.522758" 32="-22081.888466"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="30" id="695" char_steam_id="-1">
-				<transform 00="0" 02="-1" 20="1" 22="0" 30="4795.37616" 31="5.067978" 32="-22091.306122"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="25" id="696" char_steam_id="-1">
-				<transform 00="0.610571" 02="-0.791962" 20="0.791962" 22="0.610571" 30="4787.871399" 31="5.170618" 32="-22053.194214"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="25" id="697" char_steam_id="-1">
-				<transform 30="4787.60675" 31="5.405848" 32="-22055.386047"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="25" id="698" char_steam_id="-1">
-				<transform 00="0.492772" 02="0.870159" 20="-0.870159" 22="0.492772" 30="4787.000641" 31="5.170618" 32="-22053.722504"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="29" id="699" char_steam_id="-1">
-				<transform 00="0.994451" 02="0.1052" 20="-0.1052" 22="0.994451" 30="4787.489929" 31="4.807703" 32="-22055.47226"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="31" id="700" char_steam_id="-1">
-				<transform 00="0" 02="-1" 20="1" 22="0" 30="4708.869934" 31="5.094803" 32="-22088.295044"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="42" id="701" char_steam_id="-1">
-				<transform 00="0.937633" 02="-0.347626" 20="0.347626" 22="0.937633" 30="4709.719513" 31="5.645553" 32="-22088.295044"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="9" id="702" char_steam_id="-1">
-				<transform 00="0.937633" 02="-0.347626" 20="0.347626" 22="0.937633" 30="4708.465424" 31="5.275955" 32="-22089.583527"/>
+			<object type="29" id="690" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="0.948931" 01="0.000001" 02="0.315483" 10="-0.000001" 11="1" 12="-0" 20="-0.315483" 21="-0" 22="0.948931" 30="4788.784122" 31="5.009643" 32="-22080.251166"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="22" id="691" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.2" y="-0.25" z="-0.2"/>
+					<max x="0.2" y="0.25" z="0.2"/>
+				</bounds>
+				<transform 00="-0.999985" 01="0.000001" 02="0.005513" 10="0.000001" 11="1" 12="-0.000001" 20="-0.005513" 21="-0.000001" 22="-0.999985" 30="4749.424651" 31="4.951935" 32="-22080.548346"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="38" id="692" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.425" y="-0.225" z="-0.275"/>
+					<max x="0.425" y="0.225" z="0.275"/>
+				</bounds>
+				<transform 00="-0.012951" 01="-0.000014" 02="-0.999916" 10="-0.000024" 11="1" 12="-0.000014" 20="0.999916" 21="0.000024" 22="-0.012951" 30="4748.051178" 31="4.926935" 32="-22077.604478"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="40" id="693" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.15" y="-0.35" z="-0.225"/>
+					<max x="0.15" y="0.35" z="0.225"/>
+				</bounds>
+				<transform 00="0.876914" 01="-0.000001" 02="-0.480647" 10="0.000001" 11="1" 12="-0" 20="0.480647" 21="-0" 22="0.876914" 30="4749.437857" 31="5.790734" 32="-22081.462947"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="42" id="694" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.175" y="-0.125" z="-0.25"/>
+					<max x="0.175" y="0.125" z="0.25"/>
+				</bounds>
+				<transform 00="0.870861" 01="0" 02="-0.491529" 10="-0" 11="1" 12="-0" 20="0.491529" 21="0" 22="0.870861" 30="4748.79561" 31="5.565734" 32="-22081.901334"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="30" id="695" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.4" y="-0.4" z="-0.75"/>
+					<max x="0.4" y="0.4" z="0.75"/>
+				</bounds>
+				<transform 00="-0.001538" 01="0" 02="-0.999999" 10="-0" 11="1" 12="0" 20="0.999999" 21="0" 22="-0.001538" 30="4795.37381" 31="5.009649" 32="-22091.303447"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="25" id="696" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.375" y="-0.5" z="-0.4"/>
+					<max x="0.375" y="0.5" z="0.4"/>
+				</bounds>
+				<transform 00="0.610648" 01="0" 02="-0.791902" 10="-0.000001" 11="1" 12="0" 20="0.791902" 21="0" 22="0.610648" 30="4787.871427" 31="5.109649" 32="-22053.193373"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="25" id="697" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.375" y="-0.5" z="-0.4"/>
+					<max x="0.375" y="0.5" z="0.4"/>
+				</bounds>
+				<transform 00="1" 01="0.000007" 02="-0.000028" 10="-0.000007" 11="1" 12="-0.000005" 20="0.000028" 21="0.000005" 22="1" 30="4787.606028" 31="5.359643" 32="-22055.386686"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="25" id="698" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.375" y="-0.5" z="-0.4"/>
+					<max x="0.375" y="0.5" z="0.4"/>
+				</bounds>
+				<transform 00="0.492706" 01="-0" 02="0.870196" 10="-0" 11="1" 12="0" 20="-0.870196" 21="-0" 22="0.492706" 30="4787.000532" 31="5.109649" 32="-22053.721707"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="29" id="699" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="0.994425" 01="0.000005" 02="0.105447" 10="-0.000005" 11="1" 12="-0.000002" 20="-0.105447" 21="0.000002" 22="0.994425" 30="4787.489307" 31="4.759644" 32="-22055.472673"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="31" id="700" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.175" y="-0.425" z="-0.125"/>
+					<max x="0.175" y="0.425" z="0.125"/>
+				</bounds>
+				<transform 00="0.058654" 01="-0.000022" 02="-0.998278" 10="-0.000391" 11="1" 12="-0.000045" 20="0.998278" 21="0.000393" 22="0.058654" 30="4708.882422" 31="5.0346" 32="-22088.280579"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="42" id="701" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.175" y="-0.125" z="-0.25"/>
+					<max x="0.175" y="0.125" z="0.25"/>
+				</bounds>
+				<transform 00="0.496003" 01="-0.000002" 02="0.868321" 10="0.000001" 11="1" 12="0.000001" 20="-0.868321" 21="-0" 22="0.496003" 30="4709.44009" 31="5.696649" 32="-22088.526428"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="9" id="702" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.25" y="-0.5" z="-0.25"/>
+					<max x="0.25" y="0.5" z="0.25"/>
+				</bounds>
+				<transform 00="0.936661" 01="0" 02="-0.350238" 10="0" 11="1" 12="0" 20="0.350238" 21="-0" 22="0.936661" 30="4708.466692" 31="5.109649" 32="-22089.583606"/>
 				<flare_color g="0" b="0"/>
 			</object>
 			<object type="4" id="703" char_steam_id="-1">
@@ -17241,108 +17755,212 @@
 				<transform 00="0.963473" 02="-0.267803" 20="0.267803" 22="0.963473" 30="6006.045419" 31="5.994991" 32="-12997.280663"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="32" id="895" char_steam_id="-1">
-				<transform 30="5084.298126" 31="5.723389" 32="-25031.473389"/>
+			<object type="32" id="895" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-1.125" y="-0.525" z="-0.6"/>
+					<max x="1.125" y="0.525" z="0.6"/>
+				</bounds>
+				<transform 00="1" 01="-0" 02="-0.000152" 10="0" 12="0" 20="0.000152" 21="-0" 22="1" 30="5084.29774" 31="5.7185" 32="-25031.473991"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="32" id="896" char_steam_id="-1">
-				<transform 00="0.999827" 02="0.018607" 20="-0.018607" 22="0.999827" 30="5088.640045" 31="5.723389" 32="-25031.473389"/>
+			<object type="32" id="896" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-1.125" y="-0.525" z="-0.6"/>
+					<max x="1.125" y="0.525" z="0.6"/>
+				</bounds>
+				<transform 00="0.999826" 01="0" 02="0.018633" 10="-0" 11="1" 12="-0" 20="-0.018633" 21="0" 22="0.999826" 30="5088.640244" 31="5.7185" 32="-25031.4739"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="34" id="897" char_steam_id="-1">
-				<transform 00="0.966962" 02="0.254922" 20="-0.254922" 22="0.966962" 30="5093.596252" 31="5.75592" 32="-25031.450348"/>
+			<object type="34" id="897" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.35" y="-0.55" z="-0.425"/>
+					<max x="0.35" y="0.55" z="0.425"/>
+				</bounds>
+				<transform 00="0.966953" 01="0" 02="0.254956" 10="-0" 11="1" 12="0" 20="-0.254956" 21="-0" 22="0.966953" 30="5093.595753" 31="5.7435" 32="-25031.450446"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="26" id="898" char_steam_id="-1">
-				<transform 11="0.950923" 12="0.309428" 21="-0.309428" 22="0.950923" 30="5077.254639" 31="5.801117" 32="-25052.296692"/>
+			<object type="26" id="898" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.5" y="-0.5" z="-0.15"/>
+					<max x="0.5" y="0.5" z="0.15"/>
+				</bounds>
+				<transform 00="1" 01="0" 02="0" 10="-0" 11="0.926286" 12="0.376821" 20="-0" 21="-0.376821" 22="0.926286" 30="5077.254961" 31="5.708619" 32="-25052.270027"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="39" id="899" char_steam_id="-1">
-				<transform 00="-0.255387" 02="-0.966839" 20="0.966839" 22="-0.255387" 30="5093.551453" 31="5.416108" 32="-25044.854156"/>
+			<object type="39" id="899" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.5" y="-0.325" z="-0.375"/>
+					<max x="0.5" y="0.325" z="0.375"/>
+				</bounds>
+				<transform 00="-0.323616" 01="0" 02="-0.946188" 10="0" 11="1" 12="-0" 20="0.946188" 21="-0" 22="-0.323616" 30="5093.795313" 31="5.5185" 32="-25044.82491"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="5" id="900" char_steam_id="-1">
-				<transform 00="-0.999706" 02="0.024253" 20="-0.024253" 22="-0.999706" 30="5091.813141" 31="5.707794" 32="-25046.571533"/>
+			<object type="5" id="900" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.625" y="-0.5" z="-0.4"/>
+					<max x="0.625" y="0.5" z="0.4"/>
+				</bounds>
+				<transform 00="-0.999745" 01="-0" 02="0.022596" 10="-0" 11="1" 12="-0.000001" 20="-0.022596" 21="-0.000001" 22="-0.999745" 30="5091.811983" 31="5.6935" 32="-25046.571032"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="9" id="901" char_steam_id="-1">
-				<transform 00="-0.237393" 02="-0.971414" 20="0.971414" 22="-0.237393" 30="5088.689575" 31="5.721039" 32="-25047.3685"/>
+			<object type="9" id="901" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.25" y="-0.5" z="-0.25"/>
+					<max x="0.25" y="0.5" z="0.25"/>
+				</bounds>
+				<transform 00="-0.237558" 01="0" 02="-0.971373" 10="-0.000001" 11="1" 12="0.000001" 20="0.971373" 21="0.000001" 22="-0.237558" 30="5088.688342" 31="5.6935" 32="-25047.368188"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="9" id="902" char_steam_id="-1">
-				<transform 00="0.992137" 02="-0.12516" 20="0.12516" 22="0.992137" 30="5087.557861" 31="5.721039" 32="-25048.312225"/>
+			<object type="9" id="902" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.25" y="-0.5" z="-0.25"/>
+					<max x="0.25" y="0.5" z="0.25"/>
+				</bounds>
+				<transform 00="0.992114" 01="0.000003" 02="-0.12534" 10="-0.000003" 11="1" 12="0" 20="0.12534" 21="-0" 22="0.992114" 30="5087.556702" 31="5.6935" 32="-25048.31248"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="14" id="903" char_steam_id="-1">
-				<transform 00="-0.936493" 02="-0.350687" 20="0.350687" 22="-0.936493" 30="5093.920898" 31="5.295624" 32="-25050.368286"/>
+			<object type="14" id="903" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.2" y="-0.125" z="-0.175"/>
+					<max x="0.2" y="0.125" z="0.175"/>
+				</bounds>
+				<transform 00="-0.866731" 01="-0" 02="-0.498775" 10="0" 11="1" 12="-0" 20="0.498775" 21="-0" 22="-0.866731" 30="5093.953448" 31="5.3185" 32="-25050.365087"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="22" id="904" char_steam_id="-1">
-				<transform 00="0.028223" 02="-0.999602" 20="0.999602" 22="0.028223" 30="5088.246185" 31="5.437165" 32="-25046.556488"/>
+			<object type="22" id="904" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.2" y="-0.25" z="-0.2"/>
+					<max x="0.2" y="0.25" z="0.2"/>
+				</bounds>
+				<transform 00="0.014356" 01="0" 02="-0.999897" 10="0.000001" 11="1" 12="0" 20="0.999897" 21="-0.000001" 22="0.014356" 30="5088.24349" 31="5.4435" 32="-25046.557232"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="27" id="905" char_steam_id="-1">
-				<transform 00="0.028223" 02="-0.999602" 20="0.999602" 22="0.028223" 30="5097.299805" 31="5.903748" 32="-25073.168549"/>
+			<object type="27" id="905" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.7" y="-0.65" z="-0.75"/>
+					<max x="0.7" y="0.65" z="0.75"/>
+				</bounds>
+				<transform 00="0.028182" 01="-0" 02="-0.999603" 10="-0" 11="1" 12="-0" 20="0.999603" 21="0" 22="0.028182" 30="5097.300079" 31="5.8435" 32="-25073.167937"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="27" id="906" char_steam_id="-1">
-				<transform 00="0.967739" 02="0.251953" 20="-0.251953" 22="0.967739" 30="5096.903351" 31="5.903748" 32="-25074.948517"/>
+			<object type="27" id="906" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.7" y="-0.65" z="-0.75"/>
+					<max x="0.7" y="0.65" z="0.75"/>
+				</bounds>
+				<transform 00="0.966132" 01="-0" 02="0.258047" 10="0" 11="1" 12="0" 20="-0.258047" 21="-0" 22="0.966132" 30="5096.900583" 31="5.8435" 32="-25074.935934"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="27" id="907" char_steam_id="-1">
-				<transform 00="0.999516" 02="0.03112" 20="-0.03112" 22="0.999516" 30="5097.238983" 31="5.903748" 32="-25071.165314"/>
+			<object type="27" id="907" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.7" y="-0.65" z="-0.75"/>
+					<max x="0.7" y="0.65" z="0.75"/>
+				</bounds>
+				<transform 00="0.999519" 01="-0" 02="0.031023" 10="0" 12="-0" 20="-0.031023" 21="0" 22="0.999519" 30="5097.239341" 31="5.8435" 32="-25071.164364"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="908" char_steam_id="-1">
-				<transform 00="0.999516" 02="0.03112" 20="-0.03112" 22="0.999516" 30="5096.340363" 31="5.368927" 32="-25068.370087"/>
+			<object type="29" id="908" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="0.999562" 01="-0.000002" 02="0.029591" 10="0.000002" 11="1" 12="-0.000002" 20="-0.029591" 21="0.000002" 22="0.999562" 30="5096.340999" 31="5.343495" 32="-25068.369705"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="909" char_steam_id="-1">
-				<transform 00="0.999516" 02="0.03112" 20="-0.03112" 22="0.999516" 30="5056.007477" 31="5.903748" 32="-25015.055054"/>
+			<object type="29" id="909" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="0.998898" 01="0" 02="0.046932" 10="-0" 12="-0" 20="-0.046932" 21="0" 22="0.998898" 30="5055.99844" 31="5.3435" 32="-25015.067228"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="910" char_steam_id="-1">
-				<transform 00="0.990211" 02="0.139581" 20="-0.139581" 22="0.990211" 30="5096.340363" 31="5.687165" 32="-25068.370087"/>
+			<object type="29" id="910" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="0.990212" 01="0.000005" 02="0.13957" 10="-0.000005" 11="1" 12="-0.000004" 20="-0.13957" 21="0.000003" 22="0.990212" 30="5096.3401" 31="5.59349" 32="-25068.370314"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="911" char_steam_id="-1">
-				<transform 00="0.965215" 01="-0.032897" 02="0.25938" 10="0.256361" 11="0.314007" 12="-0.914155" 20="-0.051374" 21="0.948851" 22="0.311518" 30="5097.135986" 31="6.023072" 32="-25076.029236"/>
+			<object type="29" id="911" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="0.966132" 01="0" 02="0.258047" 10="0.200954" 11="0.627336" 12="-0.752374" 20="-0.161882" 21="0.778749" 22="0.60609" 30="5097.211287" 31="5.904508" 32="-25076.217855"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="29" id="912" char_steam_id="-1">
-				<transform 00="0.999516" 02="0.03112" 20="-0.03112" 22="0.999516" 30="5022.077606" 31="5.903748" 32="-24996.250793"/>
+			<object type="29" id="912" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.8" y="-0.15" z="-0.8"/>
+					<max x="0.8" y="0.15" z="0.8"/>
+				</bounds>
+				<transform 00="0.999516" 01="-0" 02="0.031111" 10="0" 12="-0" 20="-0.031111" 21="0" 22="0.999516" 30="5022.077619" 31="5.3435" 32="-24996.251069"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="30" id="913" char_steam_id="-1">
-				<transform 00="0.999987" 02="0.005026" 20="-0.005026" 22="0.999987" 30="5098.258148" 31="5.687165" 32="-25056.210693"/>
+			<object type="30" id="913" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.4" y="-0.4" z="-0.75"/>
+					<max x="0.4" y="0.4" z="0.75"/>
+				</bounds>
+				<transform 00="0.99999" 01="-0" 02="0.004495" 10="0" 11="1" 12="0" 20="-0.004495" 21="-0" 22="0.99999" 30="5098.25939" 31="5.5935" 32="-25056.209125"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="30" id="914" char_steam_id="-1">
-				<transform 00="0.999987" 02="0.005026" 20="-0.005026" 22="0.999987" 30="5098.258148" 31="5.687165" 32="-25058.022522"/>
+			<object type="30" id="914" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.4" y="-0.4" z="-0.75"/>
+					<max x="0.4" y="0.4" z="0.75"/>
+				</bounds>
+				<transform 00="0.99999" 01="0" 02="0.00454" 10="-0" 11="1" 12="-0" 20="-0.00454" 21="0" 22="0.99999" 30="5098.258904" 31="5.5935" 32="-25058.020775"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="25" id="915" char_steam_id="-1">
-				<transform 00="0.999987" 02="0.005026" 20="-0.005026" 22="0.999987" 30="5084.390228" 31="5.687165" 32="-25053.152832"/>
+			<object type="25" id="915" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.375" y="-0.5" z="-0.4"/>
+					<max x="0.375" y="0.5" z="0.4"/>
+				</bounds>
+				<transform 00="0.999925" 01="-0" 02="-0.012207" 10="0" 11="1" 12="-0" 20="0.012207" 21="0" 22="0.999925" 30="5084.383691" 31="5.6935" 32="-25053.155277"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="25" id="916" char_steam_id="-1">
-				<transform 00="0.528633" 02="-0.848851" 20="0.848851" 22="0.528633" 30="5083.383514" 31="5.687165" 32="-25053.919342"/>
+			<object type="25" id="916" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.375" y="-0.5" z="-0.4"/>
+					<max x="0.375" y="0.5" z="0.4"/>
+				</bounds>
+				<transform 00="0.508446" 01="-0" 02="-0.861094" 10="0" 11="1" 12="-0" 20="0.861094" 21="0" 22="0.508446" 30="5083.378515" 31="5.6935" 32="-25053.926738"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="25" id="917" char_steam_id="-1">
-				<transform 00="-0.956597" 02="-0.291416" 20="0.291416" 22="-0.956597" 30="5083.151947" 31="5.687165" 32="-25052.918701"/>
+			<object type="25" id="917" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.375" y="-0.5" z="-0.4"/>
+					<max x="0.375" y="0.5" z="0.4"/>
+				</bounds>
+				<transform 00="-0.956623" 01="0" 02="-0.291328" 10="0" 11="1" 12="-0.000001" 20="0.291328" 21="-0.000001" 22="-0.956623" 30="5083.151632" 31="5.6935" 32="-25052.919317"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="31" id="918" char_steam_id="-1">
-				<transform 00="0.02826" 02="-0.999601" 20="0.999601" 22="0.02826" 30="5085.146667" 31="5.687165" 32="-25050.082397"/>
+			<object type="31" id="918" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.175" y="-0.425" z="-0.125"/>
+					<max x="0.175" y="0.425" z="0.125"/>
+				</bounds>
+				<transform 00="-0.239421" 01="0" 02="-0.970916" 10="0.000003" 11="1" 12="-0" 20="0.970916" 21="-0.000003" 22="-0.239421" 30="5085.113861" 31="5.6185" 32="-25050.074813"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="38" id="919" char_steam_id="-1">
-				<transform 00="0.02826" 02="-0.999601" 20="0.999601" 22="0.02826" 30="5094.326721" 31="5.416108" 32="-25038.512878"/>
+			<object type="38" id="919" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.425" y="-0.225" z="-0.275"/>
+					<max x="0.425" y="0.225" z="0.275"/>
+				</bounds>
+				<transform 00="0.028527" 01="-0" 02="-0.999593" 10="-0" 11="1" 12="-0" 20="0.999593" 21="0" 22="0.028527" 30="5094.326684" 31="5.4185" 32="-25038.512792"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="38" id="920" char_steam_id="-1">
-				<transform 00="-0.255387" 02="-0.966839" 20="0.966839" 22="-0.255387" 30="5094.14267" 31="5.416108" 32="-25037.35907"/>
+			<object type="38" id="920" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.425" y="-0.225" z="-0.275"/>
+					<max x="0.425" y="0.225" z="0.275"/>
+				</bounds>
+				<transform 00="-0.255432" 01="0" 02="-0.966827" 10="0" 11="1" 12="-0" 20="0.966827" 21="-0" 22="-0.255432" 30="5094.142735" 31="5.4185" 32="-25037.359348"/>
 				<flare_color g="0" b="0"/>
 			</object>
 			<object type="20" id="921" char_steam_id="-1">
@@ -17577,24 +18195,44 @@
 				<transform 30="2956.055481" 31="4.989258" 32="-37.040012"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="9" id="979" char_steam_id="-1">
-				<transform 30="5031.851868" 31="8.324127" 32="-20955.791931"/>
+			<object type="9" id="979" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.25" y="-0.5" z="-0.25"/>
+					<max x="0.25" y="0.5" z="0.25"/>
+				</bounds>
+				<transform 00="1" 01="-0.000001" 02="0.000044" 10="0.000001" 11="1" 12="0" 20="-0.000044" 21="-0" 22="1" 30="5031.851939" 31="8.299243" 32="-20955.791934"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="9" id="980" char_steam_id="-1">
-				<transform 00="-0.649279" 02="-0.760551" 20="0.760551" 22="-0.649279" 30="5033.431763" 31="8.324127" 32="-20954.783966"/>
+			<object type="9" id="980" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.25" y="-0.5" z="-0.25"/>
+					<max x="0.25" y="0.5" z="0.25"/>
+				</bounds>
+				<transform 00="-0.649399" 01="-0.000001" 02="-0.760448" 10="-0.000001" 11="1" 12="-0.000001" 20="0.760448" 21="0" 22="-0.649399" 30="5033.431793" 31="8.299243" 32="-20954.783986"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="13" id="981" char_steam_id="-1">
-				<transform 00="0.709898" 02="0.704305" 20="-0.704305" 22="0.709898" 30="5039.076447" 31="8.588196" 32="-20964.387482"/>
+			<object type="13" id="981" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.55" y="-0.725" z="-0.5"/>
+					<max x="0.55" y="0.725" z="0.5"/>
+				</bounds>
+				<transform 00="0.709768" 01="0" 02="0.704435" 10="-0" 11="1" 12="-0" 20="-0.704435" 21="-0" 22="0.709768" 30="5039.076366" 31="8.524243" 32="-20964.387366"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="34" id="982" char_steam_id="-1">
-				<transform 00="0.709898" 02="0.704305" 20="-0.704305" 22="0.709898" 30="5039.869659" 31="8.377686" 32="-20960.561584"/>
+			<object type="34" id="982" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.35" y="-0.55" z="-0.425"/>
+					<max x="0.35" y="0.55" z="0.425"/>
+				</bounds>
+				<transform 00="0.710256" 01="-0" 02="0.703943" 10="0" 11="1" 12="0.000001" 20="-0.703943" 21="-0" 22="0.710256" 30="5039.870031" 31="8.349243" 32="-20960.561979"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="39" id="983" char_steam_id="-1">
-				<transform 00="-0.546872" 02="0.837216" 20="-0.837216" 22="-0.546872" 30="5030.8255" 31="8.140137" 32="-20958.740479"/>
+			<object type="39" id="983" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.5" y="-0.325" z="-0.375"/>
+					<max x="0.5" y="0.325" z="0.375"/>
+				</bounds>
+				<transform 00="-0.546873" 01="0" 02="0.837216" 10="-0" 11="1" 12="-0" 20="-0.837216" 21="-0" 22="-0.546873" 30="5030.82555" 31="8.124243" 32="-20958.740441"/>
 				<flare_color g="0" b="0"/>
 			</object>
 			<object type="13" id="984" char_steam_id="-1">
@@ -23453,20 +24091,36 @@
 				<transform 30="5420.940247" 32="-39041.927864"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="24" id="2448" char_steam_id="-1">
-				<transform 30="5086.141266" 31="6.764313" 32="-24990.924072"/>
+			<object type="24" id="2448" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.5" y="-0.5" z="-0.5"/>
+					<max x="0.5" y="0.5" z="0.5"/>
+				</bounds>
+				<transform 00="0.99915" 01="0" 02="0.041219" 10="0" 11="1" 12="-0" 20="-0.041219" 21="0" 22="0.99915" 30="5086.127131" 31="5.6935" 32="-24990.944061"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="24" id="2449" char_steam_id="-1">
-				<transform 30="5018.123627" 31="6.764313" 32="-24993.819183"/>
+			<object type="24" id="2449" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.5" y="-0.5" z="-0.5"/>
+					<max x="0.5" y="0.5" z="0.5"/>
+				</bounds>
+				<transform 00="0.999935" 01="0" 02="-0.011363" 10="-0" 11="1" 12="0" 20="0.011363" 21="-0" 22="0.999935" 30="5018.121379" 31="5.6935" 32="-24993.824219"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="24" id="2450" char_steam_id="-1">
-				<transform 30="4981.859241" 31="5.592957" 32="-21023.257027"/>
+			<object type="24" id="2450" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.5" y="-0.5" z="-0.5"/>
+					<max x="0.5" y="0.5" z="0.5"/>
+				</bounds>
+				<transform 00="0.999779" 01="0.010425" 02="0.018242" 10="-0.009979" 11="0.999652" 12="-0.0244" 20="-0.01849" 21="0.024213" 22="0.999536" 30="4981.854724" 31="5.011969" 32="-21023.305804"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="24" id="2451" char_steam_id="-1">
-				<transform 30="5033.430988" 31="9.109619" 32="-20966.592262"/>
+			<object type="24" id="2451" char_steam_id="-1" time_alive="4728">
+				<bounds>
+					<min x="-0.5" y="-0.5" z="-0.5"/>
+					<max x="0.5" y="0.5" z="0.5"/>
+				</bounds>
+				<transform 00="0.991149" 01="-0.125668" 02="-0.042802" 10="0.131783" 11="0.970314" 12="0.202791" 20="0.016047" 21="-0.206637" 22="0.978286" 30="5033.498825" 31="8.500178" 32="-20966.464024"/>
 				<flare_color g="0" b="0"/>
 			</object>
 			<object type="24" id="2452" char_steam_id="-1">
@@ -27982,12 +28636,12 @@
 				<transform 30="-29370.221771" 31="32.999264" 32="89751.429031"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="1" id="3529" is_mission="true" char_steam_id="-1" char_outfit="9" char_color_seed="25503" char_type="2" network_name="Doctor" fishing_float_movable_id="4294967295" fishing_hook_movable_id="4294967295">
+			<object type="1" id="3529" is_mission="true" char_steam_id="-1" pseudo_dryness="20.453407" pseudo_debuffs="4" char_outfit="9" char_color_seed="25503" char_type="2" network_name="Doctor" fishing_float_movable_id="4294967295" fishing_hook_movable_id="4294967295" time_alive="4728">
 				<bounds>
-					<min x="-0.11" y="-0.8" z="-0.11"/>
-					<max x="0.11" y="0.8" z="0.11"/>
+					<min x="-0.22" y="-0.8" z="-0.22"/>
+					<max x="0.22" y="0.8" z="0.22"/>
 				</bounds>
-				<char_tail_offset z="-1"/>
+				<char_tail_offset z="-0.5"/>
 				<visual_data is_male="true" hair_mesh="4" upper_mesh="4" mid_mesh="2" lower_mesh="3" is_generated="true">
 					<color_skin r="247" g="187" b="148"/>
 					<color_chest r="186" g="212"/>
@@ -28003,15 +28657,15 @@
 					<color_mesh_mask r="235" g="235" b="235"/>
 					<color_mesh_clothing r="235" g="235" b="235"/>
 				</visual_data>
-				<transform 30="1.535898" 31="9.413266" 32="-4767.629807"/>
+				<transform 30="1.535898" 31="9.393257" 32="-4767.629807"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="1" id="3530" is_mission="true" char_steam_id="-1" char_outfit="9" char_color_seed="31252" char_type="2" network_name="Doctor" fishing_float_movable_id="4294967295" fishing_hook_movable_id="4294967295">
+			<object type="1" id="3530" is_mission="true" char_steam_id="-1" pseudo_dryness="15.211843" pseudo_debuffs="4" char_outfit="9" char_color_seed="31252" char_type="2" network_name="Doctor" fishing_float_movable_id="4294967295" fishing_hook_movable_id="4294967295" time_alive="4728">
 				<bounds>
-					<min x="-0.11" y="-0.8" z="-0.11"/>
-					<max x="0.11" y="0.8" z="0.11"/>
+					<min x="-0.22" y="-0.8" z="-0.22"/>
+					<max x="0.22" y="0.8" z="0.22"/>
 				</bounds>
-				<char_tail_offset z="-1"/>
+				<char_tail_offset z="-0.5"/>
 				<visual_data is_male="true" hair_mesh="3" upper_mesh="1" clothing_mesh="3" is_generated="true">
 					<color_skin r="198" g="125" b="75"/>
 					<color_chest r="186" g="212"/>
@@ -28027,15 +28681,15 @@
 					<color_mesh_mask r="37" g="39" b="46"/>
 					<color_mesh_clothing r="235" g="235" b="235"/>
 				</visual_data>
-				<transform 30="2.107087" 31="9.413266" 32="-4768.347076"/>
+				<transform 30="2.107045" 31="9.393257" 32="-4768.347123"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="1" id="3531" is_mission="true" char_steam_id="-1" char_outfit="9" char_color_seed="6860" char_type="2" network_name="Doctor" fishing_float_movable_id="4294967295" fishing_hook_movable_id="4294967295">
+			<object type="1" id="3531" is_mission="true" char_steam_id="-1" char_outfit="9" char_color_seed="6860" char_type="2" network_name="Doctor" fishing_float_movable_id="4294967295" fishing_hook_movable_id="4294967295" time_alive="4728">
 				<bounds>
-					<min x="-0.11" y="-0.8" z="-0.11"/>
-					<max x="0.11" y="0.8" z="0.11"/>
+					<min x="-0.22" y="-0.8" z="-0.22"/>
+					<max x="0.22" y="0.8" z="0.22"/>
 				</bounds>
-				<char_tail_offset z="-1"/>
+				<char_tail_offset z="-0.5"/>
 				<visual_data hair_mesh="12" glasses_mesh="10" clothing_mesh="9" is_generated="true">
 					<color_skin r="141" g="85" b="36"/>
 					<color_chest r="186" g="212"/>
@@ -28051,7 +28705,7 @@
 					<color_mesh_mask r="235" g="235" b="235"/>
 					<color_mesh_clothing r="235" g="235" b="235"/>
 				</visual_data>
-				<transform 30="-2.330619" 31="9.413266" 32="-4758.991577"/>
+				<transform 30="-2.330619" 31="9.393257" 32="-4758.991577"/>
 				<flare_color g="0" b="0"/>
 			</object>
 			<object type="1" id="3532" is_mission="true" char_steam_id="-1" char_outfit="9" char_color_seed="28461" char_type="2" network_name="Doctor" fishing_float_movable_id="4294967295" fishing_hook_movable_id="4294967295">
@@ -28796,8 +29450,12 @@
 				<transform 30="15998.010293" 31="11.90002" 32="1005.920619"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3670" char_steam_id="-1" pseudo_health="44.952774" pseudo_max_health="44.952774" creature_type="36" creature_scale="1">
-				<transform 30="5268.423584" 31="55.051311" 32="-21866.660675"/>
+			<object type="72" id="3670" char_steam_id="-1" pseudo_health="44.952774" pseudo_max_health="44.952774" creature_type="36" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.987199" 02="-0.159494" 20="0.159494" 22="0.987199" 30="5270.831029" 31="50.232083" 32="-21867.177419"/>
 				<flare_color g="0" b="0"/>
 			</object>
 			<object type="72" id="3671" char_steam_id="-1" pseudo_health="21.337891" pseudo_max_health="21.337891" creature_type="44" creature_scale="0.853516">
@@ -29396,64 +30054,124 @@
 				<transform 30="-852.735611" 31="16.350489" 32="-3221.580719"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3820" char_steam_id="-1" pseudo_health="23.47641" pseudo_max_health="23.47641" creature_type="44" creature_scale="1">
-				<transform 30="-463.213135" 31="47.788597" 32="-3348.699249"/>
+			<object type="72" id="3820" char_steam_id="-1" pseudo_health="23.47641" pseudo_max_health="23.47641" creature_type="44" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.722537" 02="0.691332" 20="-0.691332" 22="0.722537" 30="-468.431664" 31="42.725548" 32="-3362.661987"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3821" char_steam_id="-1" pseudo_health="24.227524" pseudo_max_health="24.227524" creature_type="44" creature_scale="1">
-				<transform 30="-463.291626" 31="47.788597" 32="-3344.915436"/>
+			<object type="72" id="3821" char_steam_id="-1" pseudo_health="24.227524" pseudo_max_health="24.227524" creature_type="44" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.767947" 02="0.640513" 20="-0.640513" 22="0.767947" 30="-467.518666" 31="42.871055" 32="-3362.617247"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3822" char_steam_id="-1" pseudo_health="93.825531" pseudo_max_health="93.825531" creature_type="60" creature_scale="1">
-				<transform 30="-84.337349" 31="57.083576" 32="-3441.179932"/>
+			<object type="72" id="3822" char_steam_id="-1" pseudo_health="93.825531" pseudo_max_health="93.825531" creature_type="60" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.582653" 02="0.812721" 20="-0.812721" 22="0.582653" 30="-81.05801" 31="52.429495" 32="-3453.645844"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3823" char_steam_id="-1" pseudo_health="97.940826" pseudo_max_health="97.940826" creature_type="60" creature_scale="1">
-				<transform 30="-82.248726" 31="57.083576" 32="-3438.614014"/>
+			<object type="72" id="3823" char_steam_id="-1" pseudo_health="97.940826" pseudo_max_health="97.940826" creature_type="60" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="-0.832336" 02="-0.554271" 20="0.554271" 22="-0.832336" 30="-88.190478" 31="52.087912" 32="-3437.858019"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3824" char_steam_id="-1" pseudo_health="22.184563" pseudo_max_health="22.184563" creature_type="44" creature_scale="1">
-				<transform 30="-190.754715" 31="46.198868" 32="-3158.680359"/>
+			<object type="72" id="3824" char_steam_id="-1" pseudo_health="22.184563" pseudo_max_health="22.184563" creature_type="44" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="-0.653719" 02="-0.756737" 20="0.756737" 22="-0.653719" 30="-195.641011" 31="40.984496" 32="-3158.395193"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3825" char_steam_id="-1" pseudo_health="22.864532" pseudo_max_health="22.864532" creature_type="44" creature_scale="1">
-				<transform 30="-191.70723" 31="46.198868" 32="-3159.119812"/>
+			<object type="72" id="3825" char_steam_id="-1" pseudo_health="22.864532" pseudo_max_health="22.864532" creature_type="44" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="-0.733107" 02="-0.680114" 20="0.680114" 22="-0.733107" 30="-195.580179" 31="40.910358" 32="-3158.874214"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3826" char_steam_id="-1" pseudo_health="20.735359" pseudo_max_health="20.735359" creature_type="44" creature_scale="1">
-				<transform 30="-190.569412" 31="46.198868" 32="-3158.040833"/>
+			<object type="72" id="3826" char_steam_id="-1" pseudo_health="20.735359" pseudo_max_health="20.735359" creature_type="44" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="-0.062377" 02="-0.998053" 20="0.998053" 22="-0.062377" 30="-195.238472" 31="40.513387" 32="-3161.444782"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3827" char_steam_id="-1" pseudo_health="94.245911" pseudo_max_health="94.245911" creature_type="14" creature_scale="1">
-				<transform 30="-145.727646" 31="12.276059" 32="-2802.422058"/>
+			<object type="72" id="3827" char_steam_id="-1" pseudo_health="94.245911" pseudo_max_health="94.245911" creature_type="14" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.333022" 02="-0.942919" 20="0.942919" 22="0.333022" 30="-165.121508" 31="8.930355" 32="-2819.295132"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3828" char_steam_id="-1" pseudo_health="87.341309" pseudo_max_health="87.341309" creature_type="15" creature_scale="1">
-				<transform 30="-146.053696" 31="12.276059" 32="-2803.62262"/>
+			<object type="72" id="3828" char_steam_id="-1" pseudo_health="80.697021" pseudo_max_health="87.341309" creature_type="15" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.947239" 02="0.320529" 20="-0.320529" 22="0.947239" 30="-142.078459" 31="15.405644" 32="-2883.767015"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3829" char_steam_id="-1" pseudo_health="94.403839" pseudo_max_health="94.403839" creature_type="16" creature_scale="1">
-				<transform 30="413.255951" 31="11.467361" 32="-3015.409238"/>
+			<object type="72" id="3829" char_steam_id="-1" pseudo_health="94.403839" pseudo_max_health="94.403839" creature_type="16" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.891631" 02="0.452763" 20="-0.452763" 22="0.891631" 30="447.64667" 31="9.755596" 32="-3048.221615"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3830" char_steam_id="-1" pseudo_health="94.081879" pseudo_max_health="94.081879" creature_type="16" creature_scale="1">
-				<transform 30="411.882416" 31="11.467361" 32="-3016.391171"/>
+			<object type="72" id="3830" char_steam_id="-1" pseudo_health="94.081879" pseudo_max_health="94.081879" creature_type="16" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.236312" 02="-0.971677" 20="0.971677" 22="0.236312" 30="375.945844" 31="10.735406" 32="-3004.3083"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3831" char_steam_id="-1" pseudo_health="179.30603" pseudo_max_health="179.30603" creature_type="45" creature_scale="1">
-				<transform 30="353.730408" 31="32.726952" 32="-3294.815704"/>
+			<object type="72" id="3831" char_steam_id="-1" pseudo_health="179.30603" pseudo_max_health="179.30603" creature_type="45" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.108214" 02="0.994128" 20="-0.994128" 22="0.108214" 30="349.182812" 31="28.82338" 32="-3298.806378"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3832" char_steam_id="-1" pseudo_health="154.728699" pseudo_max_health="154.728699" creature_type="45" creature_scale="1">
-				<transform 30="351.398743" 31="32.726952" 32="-3292.910919"/>
+			<object type="72" id="3832" char_steam_id="-1" pseudo_health="154.728699" pseudo_max_health="154.728699" creature_type="45" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.057746" 02="-0.998331" 20="0.998331" 22="0.057746" 30="308.966204" 31="28.538354" 32="-3262.673549"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3833" char_steam_id="-1" pseudo_health="188.858032" pseudo_max_health="188.858032" creature_type="45" creature_scale="1">
-				<transform 30="424.003845" 31="22.780293" 32="-3419.184845"/>
+			<object type="72" id="3833" char_steam_id="-1" pseudo_health="188.858032" pseudo_max_health="188.858032" creature_type="45" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.514966" 02="-0.857211" 20="0.857211" 22="0.514966" 30="437.890739" 31="21.829568" 32="-3435.027489"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3834" char_steam_id="-1" pseudo_health="162.677002" pseudo_max_health="162.677002" creature_type="45" creature_scale="1">
-				<transform 30="427.055481" 31="22.780293" 32="-3419.68277"/>
+			<object type="72" id="3834" char_steam_id="-1" pseudo_health="162.677002" pseudo_max_health="162.677002" creature_type="45" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.506834" 02="0.862044" 20="-0.862044" 22="0.506834" 30="442.8269" 31="22.385028" 32="-3434.720053"/>
 				<flare_color g="0" b="0"/>
 			</object>
 			<object type="72" id="3835" char_steam_id="-1" pseudo_health="22.530365" pseudo_max_health="22.530365" creature_type="44" creature_scale="0.901215">
@@ -29484,28 +30202,52 @@
 				<transform 30="-1192.955352" 31="10.231836" 32="-4464.243331"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3842" char_steam_id="-1" pseudo_health="182.641602" pseudo_max_health="182.641602" creature_type="45" creature_scale="1">
-				<transform 30="-328.29895" 31="13.729801" 32="-4391.222595"/>
+			<object type="72" id="3842" char_steam_id="-1" pseudo_health="182.641602" pseudo_max_health="182.641602" creature_type="45" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.252328" 02="-0.967642" 20="0.967642" 22="0.252328" 30="-346.446766" 31="11.324955" 32="-4382.326362"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3843" char_steam_id="-1" pseudo_health="185.058594" pseudo_max_health="185.058594" creature_type="11" creature_scale="1">
-				<transform 30="395.037926" 31="16.172644" 32="-4407.656542"/>
+			<object type="72" id="3843" char_steam_id="-1" pseudo_health="185.058594" pseudo_max_health="185.058594" creature_type="11" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="-0.965463" 02="0.260539" 20="-0.260539" 22="-0.965463" 30="424.752866" 31="14.108779" 32="-4391.515853"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3844" char_steam_id="-1" pseudo_health="150.971985" pseudo_max_health="150.971985" creature_type="8" creature_scale="1">
-				<transform 30="411.578818" 31="16.172644" 32="-4436.011141"/>
+			<object type="72" id="3844" char_steam_id="-1" pseudo_health="150.971985" pseudo_max_health="150.971985" creature_type="8" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.980794" 02="0.195048" 20="-0.195048" 22="0.980794" 30="451.923221" 31="16.016637" 32="-4456.442"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3845" char_steam_id="-1" pseudo_health="196.47522" pseudo_max_health="196.47522" creature_type="11" creature_scale="1">
-				<transform 30="396.997127" 31="16.172644" 32="-4416.135901"/>
+			<object type="72" id="3845" char_steam_id="-1" pseudo_health="196.47522" pseudo_max_health="196.47522" creature_type="11" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="-0.690077" 02="0.723736" 20="-0.723736" 22="-0.690077" 30="437.496295" 31="14.215891" 32="-4407.04037"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3846" char_steam_id="-1" pseudo_health="199.014282" pseudo_max_health="199.014282" creature_type="11" creature_scale="1">
-				<transform 30="392.914644" 31="16.172644" 32="-4432.780826"/>
+			<object type="72" id="3846" char_steam_id="-1" pseudo_health="199.014282" pseudo_max_health="199.014282" creature_type="11" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="-0.61194" 02="-0.790905" 20="0.790905" 22="-0.61194" 30="390.511263" 31="11.930573" 32="-4467.129652"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3847" char_steam_id="-1" pseudo_health="171.57135" pseudo_max_health="171.57135" creature_type="11" creature_scale="1">
-				<transform 30="412.561349" 31="16.172644" 32="-4415.680902"/>
+			<object type="72" id="3847" char_steam_id="-1" pseudo_health="171.57135" pseudo_max_health="171.57135" creature_type="11" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.978128" 02="-0.208005" 20="0.208005" 22="0.978128" 30="355.434425" 31="10.672031" 32="-4459.411748"/>
 				<flare_color g="0" b="0"/>
 			</object>
 			<object type="72" id="3848" char_steam_id="-1" pseudo_health="173.28949" pseudo_max_health="173.28949" creature_type="45" creature_scale="0.866447">
@@ -29556,52 +30298,100 @@
 				<transform 30="-823.932243" 31="9.958899" 32="-4687.339034"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3860" char_steam_id="-1" pseudo_health="49.885559" pseudo_max_health="49.885559" creature_type="52" creature_scale="1">
-				<transform 30="274.041413" 31="11.128461" 32="-4688.818255"/>
+			<object type="72" id="3860" char_steam_id="-1" pseudo_health="49.885559" pseudo_max_health="49.885559" creature_type="52" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.365576" 02="-0.930781" 20="0.930781" 22="0.365576" 30="269.861181" 31="6.400986" 32="-4702.21554"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3861" char_steam_id="-1" pseudo_health="46.479797" pseudo_max_health="46.479797" creature_type="52" creature_scale="1">
-				<transform 30="271.865906" 31="11.128461" 32="-4673.02695"/>
+			<object type="72" id="3861" char_steam_id="-1" pseudo_health="46.479797" pseudo_max_health="46.479797" creature_type="52" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="-0.243049" 02="0.970014" 20="-0.970014" 22="-0.243049" 30="284.161342" 31="6.350541" 32="-4681.427419"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3862" char_steam_id="-1" pseudo_health="47.751236" pseudo_max_health="47.751236" creature_type="53" creature_scale="1">
-				<transform 30="290.226576" 31="11.128461" 32="-4660.454325"/>
+			<object type="72" id="3862" char_steam_id="-1" pseudo_health="47.751236" pseudo_max_health="47.751236" creature_type="53" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.839875" 02="0.542779" 20="-0.542779" 22="0.839875" 30="312.539835" 31="7.667978" 32="-4661.941021"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3863" char_steam_id="-1" pseudo_health="40.546417" pseudo_max_health="40.546417" creature_type="55" creature_scale="1">
-				<transform 30="312.366775" 31="11.128461" 32="-4696.944599"/>
+			<object type="72" id="3863" char_steam_id="-1" pseudo_health="40.546417" pseudo_max_health="40.546417" creature_type="55" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.332626" 02="0.943059" 20="-0.943059" 22="0.332626" 30="319.808935" 31="8.461216" 32="-4720.364798"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3864" char_steam_id="-1" pseudo_health="43.481445" pseudo_max_health="43.481445" creature_type="54" creature_scale="1">
-				<transform 30="296.213361" 31="11.128461" 32="-4682.146086"/>
+			<object type="72" id="3864" char_steam_id="-1" pseudo_health="43.481445" pseudo_max_health="43.481445" creature_type="54" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.612481" 02="0.790485" 20="-0.790485" 22="0.612481" 30="306.968701" 31="7.327266" 32="-4691.824123"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3865" char_steam_id="-1" pseudo_health="191.456604" pseudo_max_health="191.456604" creature_type="11" creature_scale="1">
-				<transform 30="473.951144" 31="11.484597" 32="-4963.765132"/>
+			<object type="72" id="3865" char_steam_id="-1" pseudo_health="191.456604" pseudo_max_health="191.456604" creature_type="11" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="-0.980958" 02="-0.194222" 20="0.194222" 22="-0.980958" 30="480.507792" 31="7.875012" 32="-4917.489436"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3866" char_steam_id="-1" pseudo_health="193.70575" pseudo_max_health="193.70575" creature_type="11" creature_scale="1">
-				<transform 30="482.375835" 31="11.484597" 32="-4917.377592"/>
+			<object type="72" id="3866" char_steam_id="-1" pseudo_health="193.70575" pseudo_max_health="193.70575" creature_type="11" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.822409" 02="-0.568896" 20="0.568896" 22="0.822409" 30="465.892202" 31="6.931133" 32="-4945.364647"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3867" char_steam_id="-1" pseudo_health="155.459595" pseudo_max_health="155.459595" creature_type="8" creature_scale="1">
-				<transform 30="460.423597" 31="11.484597" 32="-4941.403216"/>
+			<object type="72" id="3867" char_steam_id="-1" pseudo_health="155.459595" pseudo_max_health="155.459595" creature_type="8" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.996374" 02="-0.085078" 20="0.085078" 22="0.996374" 30="445.96377" 31="6.22977" 32="-4951.014519"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3868" char_steam_id="-1" pseudo_health="40.227509" pseudo_max_health="40.227509" creature_type="36" creature_scale="1">
-				<transform 30="-261.436127" 31="16.803841" 32="-4771.061737"/>
+			<object type="72" id="3868" char_steam_id="-1" pseudo_health="40.227509" pseudo_max_health="40.227509" creature_type="36" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.107988" 02="0.994152" 20="-0.994152" 22="0.107988" 30="-266.744285" 31="11.638108" 32="-4808.774544"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3869" char_steam_id="-1" pseudo_health="40.188217" pseudo_max_health="40.188217" creature_type="36" creature_scale="1">
-				<transform 30="-259.779877" 31="16.803841" 32="-4771.14682"/>
+			<object type="72" id="3869" char_steam_id="-1" pseudo_health="40.188217" pseudo_max_health="40.188217" creature_type="36" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.660028" 02="0.751241" 20="-0.751241" 22="0.660028" 30="-234.914185" 31="12.559855" 32="-4776.094606"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3870" char_steam_id="-1" pseudo_health="42.61055" pseudo_max_health="42.61055" creature_type="36" creature_scale="1">
-				<transform 30="299.274933" 31="11.718545" 32="-4874.554588"/>
+			<object type="72" id="3870" char_steam_id="-1" pseudo_health="42.61055" pseudo_max_health="42.61055" creature_type="36" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="-0.278959" 02="0.960303" 20="-0.960303" 22="-0.278959" 30="301.469476" 31="7.377721" 32="-4881.610913"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3871" char_steam_id="-1" pseudo_health="47.729874" pseudo_max_health="47.729874" creature_type="36" creature_scale="1">
-				<transform 30="296.785675" 31="11.718545" 32="-4871.889183"/>
+			<object type="72" id="3871" char_steam_id="-1" pseudo_health="47.729874" pseudo_max_health="47.729874" creature_type="36" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.980324" 02="0.197394" 20="-0.197394" 22="0.980324" 30="326.475787" 31="6.564006" 32="-4854.159028"/>
 				<flare_color g="0" b="0"/>
 			</object>
 			<object type="72" id="3872" char_steam_id="-1" pseudo_health="24.642944" pseudo_max_health="24.642944" creature_type="44" creature_scale="0.985718">
@@ -29768,72 +30558,140 @@
 				<transform 30="-552.813368" 31="9.237782" 32="-11602.2995"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3913" char_steam_id="-1" pseudo_health="87.032318" pseudo_max_health="87.032318" creature_type="16" creature_scale="1">
-				<transform 30="1007.860228" 31="14.531356" 32="-3438.329681"/>
+			<object type="72" id="3913" char_steam_id="-1" pseudo_health="87.032318" pseudo_max_health="87.032318" creature_type="16" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.951999" 02="-0.306101" 20="0.306101" 22="0.951999" 30="988.557732" 31="9.051067" 32="-3415.550904"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3914" char_steam_id="-1" pseudo_health="85.452271" pseudo_max_health="85.452271" creature_type="17" creature_scale="1">
-				<transform 30="1009.953733" 31="14.531356" 32="-3438.275482"/>
+			<object type="72" id="3914" char_steam_id="-1" pseudo_health="85.452271" pseudo_max_health="85.452271" creature_type="17" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.8377" 02="-0.54613" 20="0.54613" 22="0.8377" 30="1007.382629" 31="9.33516" 32="-3432.12028"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3915" char_steam_id="-1" pseudo_health="84.716034" pseudo_max_health="84.716034" creature_type="16" creature_scale="1">
-				<transform 30="751.000153" 31="23.307117" 32="-3601.255981"/>
+			<object type="72" id="3915" char_steam_id="-1" pseudo_health="84.716034" pseudo_max_health="84.716034" creature_type="16" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="-0.950504" 02="0.310713" 20="-0.310713" 22="-0.950504" 30="751.096521" 31="23.066364" 32="-3575.23914"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3916" char_steam_id="-1" pseudo_health="91.949463" pseudo_max_health="91.949463" creature_type="16" creature_scale="1">
-				<transform 30="751.212921" 31="23.307117" 32="-3602.969971"/>
+			<object type="72" id="3916" char_steam_id="-1" pseudo_health="91.949463" pseudo_max_health="91.949463" creature_type="16" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.295022" 02="-0.955491" 20="0.955491" 22="0.295022" 30="722.599709" 31="21.682556" 32="-3602.606411"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3917" char_steam_id="-1" pseudo_health="41.321182" pseudo_max_health="41.321182" creature_type="36" creature_scale="1">
-				<transform 30="1067.001976" 31="22.303333" 32="-4394.1875"/>
+			<object type="72" id="3917" char_steam_id="-1" pseudo_health="41.321182" pseudo_max_health="41.321182" creature_type="36" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.312411" 02="-0.949947" 20="0.949947" 22="0.312411" 30="1077.158018" 31="14.330478" 32="-4386.525422"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3918" char_steam_id="-1" pseudo_health="21.797943" pseudo_max_health="21.797943" creature_type="43" creature_scale="1">
-				<transform 30="1713.958374" 31="11.895409" 32="-4091.857635"/>
+			<object type="72" id="3918" char_steam_id="-1" pseudo_health="21.797943" pseudo_max_health="21.797943" creature_type="43" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.867829" 02="-0.496863" 20="0.496863" 22="0.867829" 30="1706.787768" 31="8.251182" 32="-4121.197426"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3919" char_steam_id="-1" pseudo_health="20.638084" pseudo_max_health="20.638084" creature_type="43" creature_scale="1">
-				<transform 30="1714.593628" 31="11.895409" 32="-4092.070892"/>
+			<object type="72" id="3919" char_steam_id="-1" pseudo_health="20.638084" pseudo_max_health="20.638084" creature_type="43" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.924353" 02="0.381539" 20="-0.381539" 22="0.924353" 30="1739.860907" 31="7.769448" 32="-4104.308919"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3920" char_steam_id="-1" pseudo_health="22.660255" pseudo_max_health="22.660255" creature_type="43" creature_scale="1">
-				<transform 30="1714.809448" 31="11.895409" 32="-4094.723602"/>
+			<object type="72" id="3920" char_steam_id="-1" pseudo_health="22.660255" pseudo_max_health="22.660255" creature_type="43" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.978526" 02="0.206122" 20="-0.206122" 22="0.978526" 30="1742.83308" 31="7.909041" 32="-4107.272089"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3921" char_steam_id="-1" pseudo_health="79.618073" pseudo_max_health="79.618073" creature_type="16" creature_scale="1">
-				<transform 30="1979.259817" 31="9.309479" 32="-3976.030842"/>
+			<object type="72" id="3921" char_steam_id="-1" pseudo_health="79.618073" pseudo_max_health="79.618073" creature_type="16" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="-0.871546" 02="-0.490315" 20="0.490315" 22="-0.871546" 30="1934.717082" 31="5.439686" 32="-3973.873748"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3922" char_steam_id="-1" pseudo_health="92.10968" pseudo_max_health="92.10968" creature_type="16" creature_scale="1">
-				<transform 30="1978.637869" 31="9.309479" 32="-3975.309895"/>
+			<object type="72" id="3922" char_steam_id="-1" pseudo_health="92.10968" pseudo_max_health="92.10968" creature_type="16" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="-0.322224" 02="-0.946664" 20="0.946664" 22="-0.322224" 30="1940.987073" 31="5.304171" 32="-3979.397362"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3923" char_steam_id="-1" pseudo_health="83.815002" pseudo_max_health="83.815002" creature_type="17" creature_scale="1">
-				<transform 30="1979.146414" 31="9.309479" 32="-3976.043049"/>
+			<object type="72" id="3923" char_steam_id="-1" pseudo_health="64.815002" pseudo_max_health="83.815002" creature_type="17" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.97836" 02="0.206909" 20="-0.206909" 22="0.97836" 30="2000.232383" 31="5.54888" 32="-4089.820163"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3924" char_steam_id="-1" pseudo_health="81.773376" pseudo_max_health="81.773376" creature_type="16" creature_scale="1">
-				<transform 30="1976.717215" 31="9.309479" 32="-3976.515339"/>
+			<object type="72" id="3924" char_steam_id="-1" pseudo_health="81.773376" pseudo_max_health="81.773376" creature_type="16" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.73475" 02="0.678338" 20="-0.678338" 22="0.73475" 30="2005.383056" 31="5.17764" 32="-4012.407995"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3925" char_steam_id="-1" pseudo_health="39.629745" pseudo_max_health="39.629745" creature_type="36" creature_scale="1">
-				<transform 30="2813.398834" 31="12.55653" 32="-4087.635071"/>
+			<object type="72" id="3925" char_steam_id="-1" pseudo_health="39.629745" pseudo_max_health="39.629745" creature_type="36" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.779178" 02="0.626803" 20="-0.626803" 22="0.779178" 30="2846.559393" 31="9.05631" 32="-4105.983035"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3926" char_steam_id="-1" pseudo_health="49.132919" pseudo_max_health="49.132919" creature_type="36" creature_scale="1">
-				<transform 30="2814.921173" 31="12.55653" 32="-4088.731384"/>
+			<object type="72" id="3926" char_steam_id="-1" pseudo_health="49.132919" pseudo_max_health="49.132919" creature_type="36" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="-0.930541" 02="0.366188" 20="-0.366188" 22="-0.930541" 30="2838.113413" 31="8.879886" 32="-4092.160163"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3927" char_steam_id="-1" pseudo_health="46.23642" pseudo_max_health="46.23642" creature_type="50" creature_scale="1">
-				<transform 30="618.935181" 31="22.757257" 32="-4770.446518"/>
+			<object type="72" id="3927" char_steam_id="-1" pseudo_health="46.23642" pseudo_max_health="46.23642" creature_type="50" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.601334" 02="0.798997" 20="-0.798997" 22="0.601334" 30="612.432714" 31="16.776214" 32="-4762.983522"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3928" char_steam_id="-1" pseudo_health="41.162491" pseudo_max_health="41.162491" creature_type="50" creature_scale="1">
-				<transform 30="618.476318" 31="22.757257" 32="-4771.668442"/>
+			<object type="72" id="3928" char_steam_id="-1" pseudo_health="41.162491" pseudo_max_health="41.162491" creature_type="50" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.233503" 02="0.972356" 20="-0.972356" 22="0.233503" 30="608.355539" 31="15.985753" 32="-4760.939489"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="3929" char_steam_id="-1" pseudo_health="38.365173" pseudo_max_health="38.365173" creature_type="50" creature_scale="1">
-				<transform 30="619.33374" 31="22.757257" 32="-4771.465683"/>
+			<object type="72" id="3929" char_steam_id="-1" pseudo_health="38.365173" pseudo_max_health="38.365173" creature_type="50" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.523605" 02="-0.851961" 20="0.851961" 22="0.523605" 30="600.89865" 31="16.625281" 32="-4780.947441"/>
 				<flare_color g="0" b="0"/>
 			</object>
 			<object type="72" id="3930" char_steam_id="-1" pseudo_health="42.058182" pseudo_max_health="42.058182" creature_type="50" creature_scale="0.841164">
@@ -33232,24 +34090,44 @@
 				<transform 30="1756.892044" 31="13.634715" 32="-26378.295593"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="4779" char_steam_id="-1" pseudo_health="183.091736" pseudo_max_health="183.091736" creature_type="101" creature_scale="1">
-				<transform 30="3369.292419" 31="10.917304" 32="-25794.437988"/>
+			<object type="72" id="4779" char_steam_id="-1" pseudo_health="183.091736" pseudo_max_health="183.091736" creature_type="101" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.999943" 02="0.010675" 20="-0.010675" 22="0.999943" 30="3370.280773" 31="6.909949" 32="-25814.314778"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="4780" char_steam_id="-1" pseudo_health="191.995239" pseudo_max_health="191.995239" creature_type="101" creature_scale="1">
-				<transform 30="4161.940872" 31="7.68786" 32="-26271.41391"/>
+			<object type="72" id="4780" char_steam_id="-1" pseudo_health="191.995239" pseudo_max_health="191.995239" creature_type="101" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="-0.987891" 02="0.155151" 20="-0.155151" 22="-0.987891" 30="4166.435028" 31="3.919969" 32="-26247.150524"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="4781" char_steam_id="-1" pseudo_health="173.26355" pseudo_max_health="173.26355" creature_type="101" creature_scale="1">
-				<transform 30="4163.800369" 31="7.68786" 32="-26272.561493"/>
+			<object type="72" id="4781" char_steam_id="-1" pseudo_health="173.26355" pseudo_max_health="173.26355" creature_type="101" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="-0.923016" 02="0.384761" 20="-0.384761" 22="-0.923016" 30="4167.802158" 31="3.491014" 32="-26267.172112"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="4782" char_steam_id="-1" pseudo_health="19.869804" pseudo_max_health="19.869804" creature_type="43" creature_scale="1">
-				<transform 30="3802.342667" 31="7.119271" 32="-25928.475594"/>
+			<object type="72" id="4782" char_steam_id="-1" pseudo_health="19.869804" pseudo_max_health="19.869804" creature_type="43" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="-0.33939" 01="-0.000194" 02="0.940646" 10="0.000203" 11="1" 12="0.000279" 20="-0.940646" 21="0.000286" 22="-0.33939" 30="3805.054769" 31="-0.059902" 32="-25966.25139"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="4783" char_steam_id="-1" pseudo_health="24.115181" pseudo_max_health="24.115181" creature_type="43" creature_scale="1">
-				<transform 30="4483.619507" 31="6.623228" 32="-26314.079376"/>
+			<object type="72" id="4783" char_steam_id="-1" pseudo_health="24.115181" pseudo_max_health="24.115181" creature_type="43" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="-0.58809" 02="-0.808796" 20="0.808796" 22="-0.58809" 30="4498.966263" 31="1.42987" 32="-26315.401689"/>
 				<flare_color g="0" b="0"/>
 			</object>
 			<object type="72" id="4784" char_steam_id="-1" pseudo_health="64.359283" pseudo_max_health="64.359283" creature_type="102" creature_scale="0.919418">
@@ -33284,8 +34162,12 @@
 				<transform 30="2727.985353" 31="20.319767" 32="-30726.738694"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="4792" char_steam_id="-1" pseudo_health="53.843689" pseudo_max_health="53.843689" creature_type="102" creature_scale="1">
-				<transform 30="4276.999967" 31="37.400105" 32="-31076.325969"/>
+			<object type="72" id="4792" char_steam_id="-1" pseudo_health="53.843689" pseudo_max_health="53.843689" creature_type="102" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.825894" 02="0.563826" 20="-0.563826" 22="0.825894" 30="4314.681115" 31="33.691128" 32="-31113.395846"/>
 				<flare_color g="0" b="0"/>
 			</object>
 			<object type="72" id="4793" char_steam_id="-1" pseudo_health="19.850159" pseudo_max_health="19.850159" creature_type="43" creature_scale="0.794006">
@@ -33332,40 +34214,68 @@
 				<transform 30="1642.722166" 31="64.420616" 32="-36143.436894"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="72" id="4804" char_steam_id="-1" pseudo_health="168.737793" pseudo_max_health="168.737793" creature_type="101" creature_scale="1">
-				<transform 30="4910.804863" 31="6.69837" 32="-26308.154266"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="72" id="4805" char_steam_id="-1" pseudo_health="20.64743" pseudo_max_health="20.64743" creature_type="43" creature_scale="1">
-				<transform 30="4561.133698" 31="6.419827" 32="-27147.272156"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="72" id="4806" char_steam_id="-1" pseudo_health="20.174599" pseudo_max_health="20.174599" creature_type="43" creature_scale="1">
-				<transform 30="4562.646149" 31="6.419827" 32="-27146.447327"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="72" id="4807" char_steam_id="-1" pseudo_health="177.072144" pseudo_max_health="177.072144" creature_type="101" creature_scale="1">
-				<transform 30="4789.294296" 31="6.837637" 32="-27526.153839"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="72" id="4808" char_steam_id="-1" pseudo_health="171.966553" pseudo_max_health="171.966553" creature_type="101" creature_scale="1">
-				<transform 30="4787.896103" 31="6.837637" 32="-27524.643463"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="72" id="4809" char_steam_id="-1" pseudo_health="19.497871" pseudo_max_health="19.497871" creature_type="43" creature_scale="1">
-				<transform 30="4524.94455" 31="10.202064" 32="-28963.522602"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="72" id="4810" char_steam_id="-1" pseudo_health="22.595596" pseudo_max_health="22.595596" creature_type="43" creature_scale="1">
-				<transform 30="4525.551605" 31="10.202064" 32="-28963.001728"/>
-				<flare_color g="0" b="0"/>
-			</object>
-			<object type="1" id="4811" is_mission="true" char_steam_id="-1" char_outfit="5" char_color_seed="24129" char_type="1" network_name="Weapon Tester" fishing_float_movable_id="4294967295" fishing_hook_movable_id="4294967295">
+			<object type="72" id="4804" char_steam_id="-1" pseudo_health="168.737793" pseudo_max_health="168.737793" creature_type="101" creature_scale="1" time_alive="4728">
 				<bounds>
-					<min x="-0.11" y="-0.8" z="-0.11"/>
-					<max x="0.11" y="0.8" z="0.11"/>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
 				</bounds>
-				<char_tail_offset z="-1"/>
+				<transform 00="-0.655087" 02="-0.755554" 20="0.755554" 22="-0.655087" 30="4901.933001" 31="2.689649" 32="-26316.098784"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="72" id="4805" char_steam_id="-1" pseudo_health="20.64743" pseudo_max_health="20.64743" creature_type="43" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.851034" 01="-0.004116" 02="-0.525095" 10="0.003758" 11="0.999991" 12="-0.001747" 20="0.525097" 21="-0.000487" 22="0.851042" 30="4576.559919" 31="-0.088369" 32="-27107.207209"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="72" id="4806" char_steam_id="-1" pseudo_health="20.174599" pseudo_max_health="20.174599" creature_type="43" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="-0.118798" 02="-0.992918" 20="0.992918" 22="-0.118798" 30="4569.43426" 31="2.209438" 32="-27158.275892"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="72" id="4807" char_steam_id="-1" pseudo_health="177.072144" pseudo_max_health="177.072144" creature_type="101" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.337373" 02="-0.941371" 20="0.941371" 22="0.337373" 30="4792.253646" 31="1.898353" 32="-27535.891477"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="72" id="4808" char_steam_id="-1" pseudo_health="171.966553" pseudo_max_health="171.966553" creature_type="101" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="-0.566882" 01="-0.000233" 02="0.823799" 10="0.000008" 11="1" 12="0.000288" 20="-0.823799" 21="0.00017" 22="-0.566882" 30="4786.26702" 31="-0.384789" 32="-27582.278938"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="72" id="4809" char_steam_id="-1" pseudo_health="19.497871" pseudo_max_health="19.497871" creature_type="43" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.873374" 02="-0.487051" 20="0.487051" 22="0.873374" 30="4519.778961" 31="1.598777" 32="-28937.655283"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="72" id="4810" char_steam_id="-1" pseudo_health="22.595596" pseudo_max_health="22.595596" creature_type="43" creature_scale="1" time_alive="4728">
+				<bounds>
+					<min x="-2.5" y="-2.5" z="-2.5"/>
+					<max x="2.5" y="2.5" z="2.5"/>
+				</bounds>
+				<transform 00="0.951567" 01="0.000266" 02="0.30744" 10="-0.000204" 11="1" 12="-0.000236" 20="-0.30744" 21="0.000162" 22="0.951567" 30="4558.977936" 31="0.230272" 32="-28955.598908"/>
+				<flare_color g="0" b="0"/>
+			</object>
+			<object type="1" id="4811" is_mission="true" char_steam_id="-1" pseudo_debuffs="64" char_outfit="5" char_color_seed="24129" char_type="1" network_name="Weapon Tester" is_ai="true" fishing_float_movable_id="4294967295" fishing_hook_movable_id="4294967295" time_alive="4728">
+				<bounds>
+					<min x="-0.22" y="-0.8" z="-0.22"/>
+					<max x="0.22" y="0.8" z="0.22"/>
+				</bounds>
+				<char_tail_offset z="-0.5"/>
 				<visual_data is_male="true" hair_mesh="4" upper_mesh="4" lower_mesh="1" hat_mesh="1" glasses_mesh="1" is_generated="true">
 					<color_skin r="141" g="85" b="36"/>
 					<color_chest r="193" g="171" b="148"/>
@@ -33381,11 +34291,18 @@
 					<color_mesh_mask r="193" g="171" b="148"/>
 					<color_mesh_clothing r="120" g="100" b="67"/>
 				</visual_data>
-				<transform 30="4787.715378" 31="5.459649" 32="-22041.612682"/>
+				<transform 30="4787.715378" 31="5.43964" 32="-22041.612682"/>
 				<flare_color g="0" b="0"/>
 			</object>
-			<object type="1" id="4812" char_network_peer_id="0" char_steam_id="76561198195609338" char_outfit="2" network_name="Капитан Дик Чижик" fishing_float_movable_id="4294967295" fishing_hook_movable_id="4294967295">
-				<char_tail_offset z="-1"/>
+			<object type="1" id="4812" char_network_peer_id="0" char_steam_id="76561198195609338" pseudo_dryness="98.624092" char_outfit="2" network_name="Капитан Дик Чижик" fishing_float_movable_id="4294967295" fishing_hook_movable_id="4294967295" time_alive="453">
+				<bounds>
+					<min x="-0.22" y="-0.8" z="-0.22"/>
+					<max x="0.22" y="0.8" z="0.22"/>
+				</bounds>
+				<attach_state>
+					<attachment_vehicle_handle_right is_attached="true"/>
+				</attach_state>
+				<char_tail_offset x="-0.428885" z="0.257017"/>
 				<visual_data is_male="true" hair_mesh="6" upper_mesh="3" mid_mesh="3" lower_mesh="3" hat_mesh="49" clothing_mesh="42" chest_style="4" leg_style="1" feet_style="1" is_generated="true">
 					<color_skin r="247" g="187" b="148"/>
 					<color_legs_upper r="20" g="20" b="20"/>
@@ -33397,11 +34314,12 @@
 					<color_mesh_mask r="68" g="69" b="69"/>
 					<color_mesh_clothing r="0" g="0" b="0"/>
 				</visual_data>
+				<char_orientation x="2.953155" y="0.860013"/>
 				<inventory_data>
 					<character_item_2 item="15" oxygen="100"/>
 					<character_item_3 item="6"/>
 				</inventory_data>
-				<transform 30="1210.203339" 31="8.205042" 32="-3746.853317"/>
+				<transform 30="1302.965203" 31="7.866203" 32="-3769.142124"/>
 				<flare_color g="0" b="0"/>
 			</object>
 		</pseudo_data>
@@ -33412,6 +34330,7 @@
 	<missions_global>
 		<tracked_fires/>
 	</missions_global>
+	<ocean ocean_time="4728"/>
 	<tech_tree>
 		<active_research/>
 	</tech_tree>
@@ -111333,8 +112252,129 @@
 			</r>
 		</minerals>
 	</mineral_manager>
-	<wildlife>
-		<fish/>
+	<wildlife fish_uid="30">
+		<fish>
+			<f fish_type="18" state_ticks="4727" jump_timer="180" out_of_water_timer="2000" scale="1" turn_factor="-0" despawn_ticks="184">
+				<transform 00="-0.224783" 01="0.007847" 02="0.974377" 10="0.889433" 11="0.410062" 12="0.201885" 20="-0.397971" 21="0.912024" 22="-0.099154" 30="1230.87836" 31="-8.426915" 32="-3657.505636"/>
+				<target_heading x="0.974022" z="0.226463"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="20" uid="1" state_ticks="4726" jump_timer="180" out_of_water_timer="2000" scale="1" despawn_ticks="295">
+				<transform 00="0.583344" 01="-0.010051" 02="0.812163" 10="0.736279" 11="0.428725" 12="-0.523534" 20="-0.342933" 21="0.903379" 22="0.257495" 30="1190.703208" 31="-5.001278" 32="-3795.942216"/>
+				<target_heading x="0.812298" z="-0.583243"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="33" uid="3" state_ticks="4724" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="-0.254758" 01="0.005278" 02="-0.96699" 10="-0.878668" 11="0.416291" 12="0.233761" 20="0.403783" 21="0.909216" 22="-0.101416" 30="1230.08066" 31="-5.641978" 32="-3691.794899"/>
+				<target_heading x="-0.967771" z="0.251832"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="30" uid="5" state_ticks="4722" jump_timer="180" out_of_water_timer="2000" scale="1" turn_factor="0.0012">
+				<transform 00="0.921133" 01="-0.038022" 02="-0.387387" 10="-0.332296" 11="0.441489" 12="-0.833467" 20="0.202717" 21="0.896461" 22="0.394036" 30="1199.753445" 31="-4.814586" 32="-3761.05451"/>
+				<target_heading x="-0.353762" z="-0.935334"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="37" uid="6" state_ticks="4721" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="0.439723" 01="-0.253368" 02="0.861654" 10="0.516344" 11="0.856301" 12="-0.011709" 20="-0.734869" 21="0.450059" 22="0.50736" 30="1246.433415" 31="-9.109512" 32="-3787.803757"/>
+				<target_heading x="-0.26516" z="-0.964205"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="27" uid="7" state_ticks="4720" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="-0.929846" 01="0.056895" 02="-0.363523" 10="-0.306472" 11="0.42698" 12="0.850743" 20="0.20362" 21="0.902469" 22="-0.379589" 30="1316.055835" 31="-5.064594" 32="-3715.196026"/>
+				<target_heading x="-0.374236" z="0.927334"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="30" uid="8" state_ticks="4719" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="0.067152" 01="-0.014301" 02="-0.99764" 10="-0.890446" 11="0.45022" 12="-0.06639" 20="0.450107" 21="0.892803" 22="0.017499" 30="1242.344397" 31="-5.84705" 32="-3758.935094"/>
+				<target_heading x="-0.998996" z="-0.044808"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="24" uid="9" state_ticks="4718" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="0.682325" 01="0.003324" 02="-0.731041" 10="-0.667464" 11="0.410736" 12="-0.621118" 20="0.2982" 21="0.911748" 22="0.282474" 30="1234.463551" 31="-6.351809" 32="-3708.30043"/>
+				<target_heading x="-0.743813" z="-0.668388"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="28" uid="10" state_ticks="4717" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="0.794477" 01="0.000369" 02="-0.607294" 10="-0.583386" 11="0.278288" 12="-0.763031" 20="0.168721" 21="0.960498" 22="0.221309" 30="1310.11398" 31="-9.722508" 32="-3711.723134"/>
+				<target_heading x="-0.607402" z="-0.794395"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="27" uid="11" state_ticks="4716" jump_timer="180" out_of_water_timer="2000" scale="1" turn_factor="-0">
+				<transform 00="-0.840292" 01="-0.004205" 02="-0.542118" 10="-0.489527" 11="0.435588" 12="0.755398" 20="0.232964" 21="0.900136" 22="-0.368079" 30="1193.073954" 31="-4.986013" 32="-3730.828447"/>
+				<target_heading x="-0.53491" z="0.844909"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="24" uid="12" state_ticks="4715" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="-0.661423" 01="-0.045037" 02="-0.748659" 10="-0.703912" 11="0.38184" 12="0.59892" 20="0.258895" 21="0.92313" 22="-0.28426" 30="1276.048807" 31="-5.094792" 32="-3727.559994"/>
+				<target_heading x="-0.743737" z="0.668473"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="18" uid="13" state_ticks="4714" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="-0.678813" 01="0.005356" 02="-0.734291" 10="-0.665289" 11="0.41877" 12="0.618079" 20="0.31081" 21="0.908076" 22="-0.280704" 30="1268.463274" 31="-7.004508" 32="-3745.374544"/>
+				<target_heading x="-0.73485" z="0.678229"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="30" uid="14" state_ticks="4713" jump_timer="180" out_of_water_timer="2000" scale="1" turn_factor="0">
+				<transform 00="0.956933" 01="-0.057562" 02="-0.284546" 10="-0.234969" 11="0.422065" 12="-0.875586" 20="0.170497" 21="0.904736" 22="0.390362" 30="1199.069146" 31="-5.272767" 32="-3730.717382"/>
+				<target_heading x="-0.287239" z="-0.957861"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="31" uid="15" state_ticks="4712" jump_timer="180" out_of_water_timer="2000" scale="1" turn_factor="-0">
+				<transform 00="0.58244" 01="-0.013925" 02="-0.812755" 10="-0.746469" 11="0.386644" 12="-0.541563" 20="0.321788" 21="0.922124" 22="0.214802" 30="1187.061026" 31="-5.081595" 32="-3821.011167"/>
+				<target_heading x="-0.816246" z="-0.577704"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="8" uid="17" state_ticks="4710" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="-0.962971" 01="-0.115721" 02="0.243507" 10="0.157157" 11="0.492943" 12="0.855751" 20="-0.219063" 21="0.862332" 22="-0.456503" 30="1242.184344" 31="-4.888045" 32="-3808.638825"/>
+				<target_heading x="0.299815" z="0.953997"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="20" uid="18" state_ticks="4709" jump_timer="180" out_of_water_timer="2000" scale="1" turn_factor="0">
+				<transform 00="0.443921" 01="-0.075663" 02="0.892866" 10="0.821014" 11="0.433536" 12="-0.371459" 20="-0.358984" 21="0.897954" 22="0.254576" 30="1283.216814" 31="-5.316503" 32="-3810.525479"/>
+				<target_heading x="0.887605" z="-0.460606"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="28" uid="19" state_ticks="4708" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="0.141219" 01="-0.051355" 02="-0.988646" 10="-0.899983" 11="0.409371" 12="-0.149819" 20="0.412416" 21="0.910922" 22="0.011592" 30="1304.256086" 31="-5.208829" 32="-3806.185143"/>
+				<target_heading x="-0.983389" z="-0.18151"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="2" uid="22" state_ticks="4705" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="0.816321" 01="-0.15571" 02="-0.556215" 10="-0.444784" 11="0.444894" 12="-0.777327" 20="0.368494" 21="0.881943" 22="0.293919" 30="1203.469583" 31="-5.434566" 32="-3738.405955"/>
+				<target_heading x="-0.535927" z="-0.844264"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="21" uid="24" state_ticks="2224" jump_timer="180" out_of_water_timer="2000" scale="1" turn_factor="-0">
+				<transform 00="0.735296" 01="-0.027047" 02="-0.677206" 10="-0.606982" 11="0.418247" 12="-0.675753" 20="0.301517" 21="0.90793" 22="0.291119" 30="1306.314211" 31="-5.337176" 32="-3817.550043"/>
+				<target_heading x="-0.670615" z="-0.741805"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="21" uid="25" state_ticks="2201" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="-0.442744" 01="0.028299" 02="0.896201" 10="0.81027" 11="0.440652" 12="0.386378" 20="-0.383979" 21="0.897232" 22="-0.218025" 30="1289.677646" 31="-5.364459" 32="-3848.019306"/>
+				<target_heading x="0.889714" z="0.456519"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="20" uid="26" state_ticks="2002" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="-0.90901" 01="0.004051" 02="-0.416754" 10="-0.372958" 11="0.438401" 12="0.817745" 20="0.186018" 21="0.898771" 22="-0.397" 30="1402.16025" 31="-7.044227" 32="-3811.108685"/>
+				<target_heading x="-0.421516" z="0.906821"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="33" uid="27" state_ticks="1992" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="0.579103" 01="-0.003245" 02="0.815248" 10="0.743316" 11="0.412822" 12="-0.526364" 20="-0.334844" 21="0.910806" 22="0.241478" 30="1294.917083" 31="-7.025734" 32="-3737.609263"/>
+				<target_heading x="0.814261" z="-0.580499"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="15" uid="28" state_ticks="1902" jump_timer="180" out_of_water_timer="2000" scale="1" turn_factor="0">
+				<transform 00="-0.953174" 01="0.000121" 02="0.302421" 10="0.272431" 11="0.43451" 12="0.858477" 20="-0.131301" 21="0.900667" 22="-0.414197" 30="1378.126978" 31="-9.08492" 32="-3697.2287"/>
+				<target_heading x="0.302237" z="0.953233"/>
+				<flee_heading z="1"/>
+			</f>
+			<f fish_type="21" uid="29" state_ticks="1836" jump_timer="180" out_of_water_timer="2000" scale="1">
+				<transform 00="-0.814867" 01="-0.057191" 02="-0.576819" 10="-0.539724" 11="0.437785" 12="0.719057" 20="0.211399" 21="0.897259" 22="-0.387604" 30="1369.330326" 31="-5.307357" 32="-3819.740478"/>
+				<target_heading x="-0.574913" z="0.818214"/>
+				<flee_heading z="1"/>
+			</f>
+		</fish>
 		<fishing_hotspots>
 			<fishing_hotspot multiplier="4" radius="2000" half_height="60" fish_type="1">
 				<pos x="-51623.126953" y="-300" z="74690.390625"/>
@@ -111527,6 +112567,7 @@
 			</fishing_hotspot>
 		</fishing_hotspots>
 	</wildlife>
+	<oil_spill oil_chunk_index="632" oil_texture_src="1" oil_texture_dst="2" oil_texture_upl="0"/>
 	<test_location>
 		<test_location/>
 		<test_location/>
