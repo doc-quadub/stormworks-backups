@@ -13,6 +13,9 @@
 		<mesh id="mesh3" file_name="meshes/arid_mainland_assets/railway_crossing.mesh">
 			<transform 00="0.766044" 02="-0.642788" 20="0.642788" 22="0.766044" 30="353.902283" 31="36.220158" 32="28.692484"/>
 		</mesh>
+		<mesh id="real_track_cm3_p0_0" file_name="meshes/real_track/arid_island_12_6_cm3_p0_0.mesh">
+			<transform/>
+		</mesh>
 		<mesh id="real_track_cm2_p0_0" file_name="meshes/real_track/arid_island_12_6_cm2_p0_0.mesh">
 			<transform/>
 		</mesh>
@@ -79,6 +82,9 @@
 		<physics_mesh id="real_track_phys_cp1_p0" file_name="meshes/real_track/arid_island_12_6_cp1_p0.phys">
 			<transform/>
 		</physics_mesh>
+		<physics_mesh id="real_track_phys_cp2_m1" file_name="meshes/real_track/arid_island_12_6_cp2_m1.phys">
+			<transform/>
+		</physics_mesh>
 	</physics_meshes>
 	<physics_dynamics/>
 	<lights_omni/>
@@ -97,16 +103,19 @@
 	<dynamic_markers/>
 	<ladders>
 		<ladder id="real_track_ladder_0" height="11.390">
-			<transform 00="-0.161809" 02="-0.986822" 20="0.986822" 22="-0.161809" 30="-263.112783" 31="49.510650" 32="243.946796"/>
+			<transform 00="-0.161809" 02="-0.986822" 20="0.986822" 22="-0.161809" 30="-264.152589" 31="49.510724" 32="244.119602"/>
 		</ladder>
-		<ladder id="real_track_ladder_1" height="11.370">
-			<transform 00="-0.159781" 02="-0.987153" 20="0.987153" 22="-0.159781" 30="-299.928085" 31="49.530000" 32="249.966590"/>
+		<ladder id="real_track_ladder_1" height="11.369">
+			<transform 00="-0.159781" 02="-0.987153" 20="0.987153" 22="-0.159781" 30="-301.131240" 31="49.531011" 32="250.161039"/>
 		</ladder>
-		<ladder id="real_track_ladder_2" height="11.331">
-			<transform 00="-0.162008" 02="-0.986789" 20="0.986789" 22="-0.162008" 30="-324.446322" 31="49.569401" 32="253.962319"/>
+		<ladder id="real_track_ladder_2" height="11.323">
+			<transform 00="-0.162008" 02="-0.986789" 20="0.986789" 22="-0.162008" 30="-325.497241" 31="49.577348" 32="254.137042"/>
 		</ladder>
-		<ladder id="real_track_ladder_3" height="11.480">
-			<transform 00="-0.999937" 02="-0.011187" 20="0.011187" 22="-0.999937" 30="-442.454581" 31="49.420649" 32="492.418463"/>
+		<ladder id="real_track_ladder_3" height="11.434">
+			<transform 00="-0.999937" 02="-0.011187" 20="0.011187" 22="-0.999937" 30="-442.459618" 31="49.466169" 32="493.184512"/>
+		</ladder>
+		<ladder id="real_track_ladder_4" height="11.582">
+			<transform 00="-0.998904" 02="0.046810" 20="-0.046810" 22="-0.998904" 30="-442.293168" 31="49.318455" 32="477.516862"/>
 		</ladder>
 	</ladders>
 	<perches/>
