@@ -40,29 +40,29 @@
 	<fires/>
 	<train_tracks>
 		<track id="train_track_0">
-			<transform 30="-424.474976" 31="16.282726" 32="-500.000427"/>
+			<transform 30="-424.349455" 31="16.282729" 32="-500.000000"/>
 			<links>
-				<link id="train_track_1"/>
+				<link id="train_rt_1"/>
 			</links>
 		</track>
 		<track id="train_track_1">
-			<transform 30="-432.791805" 31="16.282726" 32="-492.358446"/>
-			<links>
-				<link id="train_track_0"/>
-				<link id="train_rt_1"/>
-			</links>
-		</track>
-		<track id="train_track_2">
-			<transform 30="-442.503552" 31="16.282726" 32="-483.467888"/>
+			<transform 30="-432.698970" 31="16.282727" 32="-492.256225"/>
 			<links>
 				<link id="train_rt_1"/>
 				<link id="train_rt_2"/>
+			</links>
+		</track>
+		<track id="train_track_2">
+			<transform 30="-442.481666" 31="16.282726" 32="-483.443748"/>
+			<links>
+				<link id="train_rt_2"/>
+				<link id="train_rt_3"/>
 			</links>
 		</track>
 		<track id="train_track_3">
 			<transform 30="-454.879364" 31="16.282726" 32="-472.287048"/>
 			<links>
-				<link id="train_rt_2"/>
+				<link id="train_rt_3"/>
 				<link id="train_track_11"/>
 			</links>
 		</track>
@@ -90,27 +90,27 @@
 			<transform 30="-445.151061" 31="16.282726" 32="-486.962225"/>
 			<links>
 				<link id="train_track_6"/>
-				<link id="train_rt_3"/>
+				<link id="train_rt_4"/>
 			</links>
 		</track>
 		<track id="train_track_8">
 			<transform 30="-457.400169" 31="16.282736" 32="-476.001269"/>
 			<links>
-				<link id="train_rt_3"/>
 				<link id="train_rt_4"/>
+				<link id="train_rt_5"/>
 			</links>
 		</track>
 		<track id="train_track_9">
 			<transform 30="-500.000000" 31="16.282119" 32="-439.118214"/>
 			<links>
-				<link id="train_rt_5"/>
+				<link id="train_rt_6"/>
 			</links>
 		</track>
 		<track id="train_track_10">
 			<transform 30="-473.853405" 31="16.282674" 32="-461.526763"/>
 			<links>
-				<link id="train_rt_4"/>
 				<link id="train_rt_5"/>
+				<link id="train_rt_6"/>
 			</links>
 		</track>
 		<track id="train_track_11">
@@ -132,62 +132,69 @@
 			<transform 30="-451.239872" 31="16.282726" 32="-478.284986"/>
 			<links>
 				<link id="train_track_12"/>
-				<link id="train_rt_6"/>
+				<link id="train_rt_7"/>
 			</links>
 		</track>
 		<track id="train_track_14">
 			<transform 30="-440.235199" 31="16.282726" 32="-489.614075"/>
 			<links>
-				<link id="train_rt_7"/>
+				<link id="train_rt_8"/>
 				<link id="train_track_5"/>
 			</links>
 		</track>
 		<track id="train_rt_1">
-			<transform 30="-437.643470" 31="16.282726" 32="-487.908527"/>
+			<transform 30="-428.501479" 31="16.282727" 32="-496.104323"/>
+			<links>
+				<link id="train_track_0"/>
+				<link id="train_track_1"/>
+			</links>
+		</track>
+		<track id="train_rt_2">
+			<transform 30="-437.583923" 31="16.282726" 32="-487.842924"/>
 			<links>
 				<link id="train_track_1"/>
 				<link id="train_track_2"/>
 			</links>
 		</track>
-		<track id="train_rt_2">
-			<transform 30="-448.677999" 31="16.282726" 32="-477.862284"/>
+		<track id="train_rt_3">
+			<transform 30="-448.678866" 31="16.282726" 32="-477.863237"/>
 			<links>
 				<link id="train_track_2"/>
 				<link id="train_track_3"/>
 			</links>
 		</track>
-		<track id="train_rt_3">
+		<track id="train_rt_4">
 			<transform 30="-451.266835" 31="16.282730" 32="-481.471962"/>
 			<links>
 				<link id="train_track_7"/>
 				<link id="train_track_8"/>
 			</links>
 		</track>
-		<track id="train_rt_4">
+		<track id="train_rt_5">
 			<transform 30="-465.606956" 31="16.282732" 32="-468.741227"/>
 			<links>
 				<link id="train_track_8"/>
 				<link id="train_track_10"/>
 			</links>
 		</track>
-		<track id="train_rt_5">
-			<transform 30="-486.896622" 31="16.282434" 32="-450.287633"/>
+		<track id="train_rt_6">
+			<transform 30="-486.899355" 31="16.282434" 32="-450.290821"/>
 			<links>
 				<link id="train_track_9"/>
 				<link id="train_track_10"/>
 			</links>
 		</track>
-		<track id="train_rt_6">
+		<track id="train_rt_7">
 			<transform 30="-447.543636" 31="16.282726" 32="-482.035034"/>
 			<links>
 				<link id="train_track_13"/>
-				<link id="train_rt_7"/>
+				<link id="train_rt_8"/>
 			</links>
 		</track>
-		<track id="train_rt_7">
+		<track id="train_rt_8">
 			<transform 30="-443.868999" 31="16.282726" 32="-485.805962"/>
 			<links>
-				<link id="train_rt_6"/>
+				<link id="train_rt_7"/>
 				<link id="train_track_14"/>
 			</links>
 		</track>
